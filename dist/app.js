@@ -3,7 +3,7 @@ import {bindPhoneTouch} from './phone-touch.js';
 import {advancePhoneClock} from './phone-playback-clock.js';
 import {reorderPhoneClip,trimPhoneClip,movePhoneLayer} from './iphone-edit.js';
 import {PlaybackSession} from './playback-session.js';
-import {bindPhoneUI} from './iphone-ui.js?v=2.2.24';
+import {bindPhoneUI} from './iphone-ui.js?v=2.2.26';
 import {bindTimelineDropGuide} from './timeline-drop-guide.js';
 import {bindTimelineDragScroll} from './timeline-drag-scroll.js';
 import {pasteAttributes,pasteTextAttributes} from './attributes.js';

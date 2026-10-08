@@ -264,3 +264,11 @@ body[data-ui=phone] #playheadHandle::before{left:calc(50% - var(--phone-head-shi
 body[data-ui=phone] .phone-menu-grid h3{grid-column:1/-1;font-size:13px;line-height:20px;margin:8px 0 0;color:#d3dfc7}
 body[data-ui=phone] .phone-aspect-group>strong{padding-bottom:4px}
 body[data-ui=phone] #playheadHandle{transition:none}
+
+/* Overlay buttons use lane geometry, not the 44px toolbar minimum.
+   FX and text share two separate rows only when both exist on the same lane. */
+body[data-ui=phone] .overlay-track>.fx-chip{box-sizing:border-box;top:2px;height:calc((var(--timeline-overlay-lane) - 6px) / 2);min-height:0;margin:0;padding:0 10px;font-size:11px;line-height:normal;display:flex;align-items:center;text-align:left}
+body[data-ui=phone] .overlay-track>.fx-chip.text-chip{top:calc(var(--timeline-overlay-lane) / 2 + 1px)}
+body[data-ui=phone] .overlay-track:not(:has(>.text-chip))>.fx-chip,
+body[data-ui=phone] .overlay-track:not(:has(>[data-fx]))>.text-chip{top:2px;height:calc(var(--timeline-overlay-lane) - 4px)}
+body[data-ui=phone] .phone-overlay-mixed{--timeline-overlay-lane:76px}

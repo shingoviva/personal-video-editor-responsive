@@ -25,3 +25,5 @@
 ブラウザ版は `dist/index.html` を入口に、JavaScript・CSS・同梱ライブラリをすべて相対パスで参照する静的Webアプリです。GitHub Pagesではサーバー処理を使わず、素材と編集データを利用端末のブラウザ内に保持します。
 
 通常のpushとPull Requestでは `Validate editor` がJavaScriptテスト、静的ビルド、Python動画処理テスト、Mac ZIP生成を実行します。FFmpegの任意機能がランナーにない場合、その機能はスキップとして記録し、不足機能を処理前に検出できることを確認します。Pages公開はこの検証とは別の手動操作です。
+
+iPhone別版2.2.26は既存の本人限定Sitesへ反映します。元のGitHub・元のSite・Mac開発ディレクトリには上書きしません。
