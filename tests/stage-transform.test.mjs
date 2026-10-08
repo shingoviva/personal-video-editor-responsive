@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {centeredTransform,scaleFromWheel,scaleFromDrag} from '../dist/stage-transform.js';
+assert.deepEqual(centeredTransform({x:.45,y:.55},-5,5,100,100),{x:.5,y:.5,snapX:true,snapY:true});
+assert.deepEqual(centeredTransform({x:.5,y:.5},20,-10,100,100,8,1),{x:.7,y:.4,snapX:false,snapY:false});
+assert.equal(scaleFromWheel(1,-100)>1,true);
+assert.equal(scaleFromWheel(3,-100),3);
+assert.equal(scaleFromWheel(.1,100),.1);
+assert.equal(scaleFromWheel(1,100)<1,true);
+assert.ok(scaleFromDrag(1,40,-20)>1);
+assert.equal(scaleFromDrag(3,40,-20),3);
+assert.equal(scaleFromDrag(.1,-40,20),.1);
+console.log('Stage transform: position, center snapping and 0.1–3× scale limits PASS');

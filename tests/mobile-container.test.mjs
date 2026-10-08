@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {execFileSync}from'node:child_process';
+import{Input,ALL_FORMATS,BlobSource,Output,Mp4OutputFormat,StreamTarget,EncodedPacketSink,EncodedVideoPacketSource,EncodedAudioPacketSource}from'../dist/vendor/mediabunny.mjs';
+import{probeFile}from'../dist/media-probe.js';
+const dir=fs.mkdtempSync(path.join(os.tmpdir(),'pve-mobile-mux-'));let input;
+try{
+const source=path.join(dir,'source.mp4');execFileSync('ffmpeg',['-v','error','-f','lavfi','-i','testsrc2=size=160x90:rate=30:duration=1','-f','lavfi','-i','sine=frequency=440:duration=1','-map','1:a','-map','0:v','-c:v','libx264','-threads','2','-c:a','aac','-shortest',source]);
+const blob=await fs.openAsBlob(source);input=new Input({formats:ALL_FORMATS,source:new BlobSource(blob)});const v=await input.getPrimaryVideoTrack(),a=await input.getPrimaryAudioTrack();const metadata=await probeFile(blob);assert.equal(metadata.width,160);assert.equal(metadata.codec,'AVC');assert.ok(metadata.fps>29&&metadata.fps<31);
+const target=path.join(dir,'device-output.mp4'),fd=fs.openSync(target,'w');let bytes=0,writes=0;const stream=new WritableStream({write({data,position}){assert.equal(fs.writeSync(fd,data,0,data.length,position),data.length);bytes+=data.length;writes++;}});
+const output=new Output({format:new Mp4OutputFormat({fastStart:'reserve'}),target:new StreamTarget(stream,{chunked:true,chunkSize:1024})}),vs=new EncodedVideoPacketSource('avc'),as=new EncodedAudioPacketSource('aac');output.addVideoTrack(vs,{frameRate:30,maximumPacketCount:40});output.addAudioTrack(as,{maximumPacketCount:100});await output.start();
+// Keep decode order within each track. Alternate tracks to exercise position-aware streaming.
+const vi=new EncodedPacketSink(v).packets()[Symbol.asyncIterator](),ai=new EncodedPacketSink(a).packets()[Symbol.asyncIterator]();const vc=await v.getDecoderConfig(),ac=await a.getDecoderConfig();let vn=await vi.next(),an=await ai.next();
+while(!vn.done||!an.done){if(!vn.done){await vs.add(vn.value,{decoderConfig:vc});vn=await vi.next()}if(!an.done){await as.add(an.value,{decoderConfig:ac});an=await ai.next()}}
+await output.finalize();fs.closeSync(fd);const info=JSON.parse(execFileSync('ffprobe',['-v','error','-show_streams','-show_format','-of','json',target]));assert.equal(info.streams.find(s=>s.codec_type==='video').codec_name,'h264');assert.equal(info.streams.find(s=>s.codec_type==='audio').codec_name,'aac');assert.ok(Math.abs(Number(info.format.duration)-1)<.15);execFileSync('ffmpeg',['-v','error','-xerror','-i',target,'-f','null','-']);assert.ok(writes>1&&bytes>1000);console.log('Mobile MP4 container: streamed fast-start H.264/AAC, audio-first input, bounded writes, metadata and full FFmpeg decode PASS');
+}finally{input?.dispose();fs.rmSync(dir,{recursive:true,force:true})}

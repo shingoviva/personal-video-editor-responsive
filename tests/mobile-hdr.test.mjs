@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+globalThis.onmessage=null;
+const {isHDRColor}=await import('../dist/mobile-render-worker.js');
+assert.equal(isHDRColor(true,{transfer:'unknown'}),true);
+assert.equal(isHDRColor(false,{transfer:'pq'}),true);
+assert.equal(isHDRColor(false,{transfer:'hlg'}),true);
+assert.equal(isHDRColor(false,{transfer:'bt709'}),false);
+const source=await (await import('node:fs/promises')).readFile(new URL('../dist/mobile-render-worker.js',import.meta.url),'utf8');
+assert.equal(source.includes('端末版の正確なトーンマッピングは未対応のため停止しました'),false);
+assert.ok(source.includes("colorSpace:'srgb'"));
+console.log('Device HDR: detect PQ/HLG and convert through the SDR sRGB render canvas PASS');

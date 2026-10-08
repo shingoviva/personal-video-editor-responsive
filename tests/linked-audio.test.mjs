@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {project,clip,sequence,timing,sanitize} from '../dist/model.js';
+import {detachAudio} from '../dist/audio-timeline.js';
+import {linkedAudio,syncLinkedAudio,setAudioLinked,splitLinkedPair,removeLinkedAudio} from '../dist/linked-audio.js';
+const media={id:'source',name:'source.mov',kind:'video',duration:12,width:1920,height:1080,audio:true};
+const p=project();p.media=[media];const video=clip(media);video.start=1;video.in=2;video.out=10;p.clips=[video];
+const audio=detachAudio(p,video.id,1);assert(audio?.linked);assert.equal(audio.sourceClip,video.id);assert.equal(video.audioDetached,audio.id);
+video.start=3;video.in=3;video.out=9;video.speed=.5;video.endSpeed=2;video.curve='ease-in-out';syncLinkedAudio(p,video);
+assert.deepEqual([audio.start,audio.in,audio.out,audio.speed,audio.endSpeed,audio.curve],[3,3,9,.5,2,'ease-in-out']);
+assert.equal(setAudioLinked(p,audio,false),true);video.start=7;syncLinkedAudio(p,video);assert.equal(audio.start,3);
+setAudioLinked(p,audio,true);assert.equal(audio.start,7);
+const beforeEnd=sequence(p).find(r=>r.clip===video).end,right=splitLinkedPair(p,video,6);assert(right);assert.equal(p.clips.length,2);assert.equal(p.audioClips.length,2);assert.equal(linkedAudio(p,right.id).sourceClip,right.id);assert(Math.abs(sequence(p).find(r=>r.clip===right).start-(beforeEnd-timing(right).duration))<1e-7);
+assert.equal(removeLinkedAudio(p,right.id),1);assert.equal(p.audioClips.length,1);
+const restored=sanitize(JSON.parse(JSON.stringify(p)));assert.equal(restored.audioClips[0].linked,true);
+console.log('Linked detached audio: default link, structural sync, unlink/relink, pair split, delete and restore PASS');

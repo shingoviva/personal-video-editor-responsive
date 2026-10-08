@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {speedToSliderPosition,sliderPositionToSpeed} from '../dist/model.js';
+const app=await readFile(new URL('../dist/app.js',import.meta.url),'utf8');
+assert.match(app,/id="speedRange" type="range" min="0" max="2000" step="1"/);
+assert.match(app,/aria-valuetext="\$\{c\.speed\}倍"/);
+assert.match(app,/id="speedReset"[^>]*>1×に戻す/);
+assert.match(app,/bind\('speedReset',[\s\S]*?c\.speed=1;c\.endSpeed=1;c\.curve='constant';delete c\.timingBase;[\s\S]*?syncLinkedAudio\(P,c\)/);
+assert.match(app,/range\.addEventListener\('input'/);
+assert.match(app,/range\.addEventListener\('change'/);
+assert.doesNotMatch(app,/data-speed=/);
+for(const speed of [.05,.1,.25,.5,1,2,4,8,10,20])assert.ok(Math.abs(sliderPositionToSpeed(speedToSliderPosition(speed))-speed)<speed*.004);
+console.log('Motion speed slider: full range, logarithmic landmarks, input binding and direct-value access PASS');

@@ -1,0 +1,40 @@
+Mac capability preflight: H.264, refined stabilization sampling, high-accuracy slow motion, HDR, text and ProRes requirements PASS
+Native PNG still with push-in + video + WAV BGM: changed motion frames, H.264/AAC, full decode, originals unchanged PASS
+Native H.264/AAC layers: visibility switch, red → blue → red, fractional boundaries, full decode, originals unchanged: PASS
+Native transitions: four rendered effects, direction geometry, exact duration and continuous audio PASS
+Native layers, four tracks, clip gain dB envelope/step de-click, legacy automation and H264/AAC full decode PASS
+ProRes 422 MOV: 10-bit 4:2:2, >256 gradient levels, PCM audio, effect, raster text and full decode PASS
+test_audio_first_order_and_full_decode (__main__.Reliability) ... ok
+test_bad_input_is_not_retried (__main__.Reliability) ... ok
+test_cancel_before_publish_leaves_no_new_output (__main__.Reliability) ... ok
+test_corrupt_proxy_is_regenerated (__main__.Reliability) ... ok
+test_invalid_twice_preserves_previous_good_output (__main__.Reliability) ... ok
+test_retry_only_invalid_generated_output (__main__.Reliability) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.820s
+
+OK
+prepare_proxy_and_metadata PASS
+cut_crop_audio PASS
+high_quality_audio_delay PASS
+speed_0.05 PASS
+speed_20 PASS
+speed_custom_decimal PASS
+ramp_audio_sync PASS
+blend_color_hold_text PASS
+motion_compensated_slow PASS
+motion_compensated_slow_maximum PASS
+multi_clip_gap_bgm PASS
+analyze_HIGH FASHION PASS
+analyze_CLUB PASS
+120fps_no_audio PASS
+REPORT /tmp/pve-validation/results.json
+variable_frame_rate PASS
+240fps_input PASS
+cancellation PASS
+REPORT /tmp/pve-formats/results.json
+Native V2 alpha, effects, freeze, RGB LUT and browser-rasterized Japanese text: full MP4 decode PASS
+YouTube 16:9: 1080p H.264/AAC, 1440p/4K sizing and three-caption single-pass render PASS
+YouTube program export: held black title, exact caption swaps, picture fade-in/out, size/position and full decode PASS
+Overlay-only timeline: black canvas, raster caption, FX, H.264/AAC and full-duration decode PASS

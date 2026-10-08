@@ -1,0 +1,48 @@
+{
+  "4k60_hlg_hevc_to_1080_sdr": {
+    "pass": true,
+    "result": {
+      "duration": "0.600000",
+      "fps": "60/1",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    "seconds": 17.16
+  },
+  "variable_frame_rate": {
+    "pass": true,
+    "result": {
+      "detected": "VFR",
+      "export": {
+        "duration": "1.966667",
+        "fps": "60/1",
+        "size": [
+          1920,
+          1080
+        ]
+      }
+    },
+    "seconds": 9.45
+  },
+  "240fps_input": {
+    "pass": true,
+    "result": {
+      "duration": "1.000000",
+      "fps": "60/1",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    "seconds": 18.86
+  },
+  "cancellation": {
+    "pass": true,
+    "result": {
+      "cancelled": true
+    },
+    "seconds": 0.1
+  }
+}

@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {createWaveformJobs} from '../dist/waveform-jobs.js';
+import {dropFamilies} from '../dist/timeline-drop-guide.js';
+assert.deepEqual(dropFamilies(['application/x-pve-media'],['audio']),['audio']);
+assert.deepEqual(dropFamilies(['application/x-pve-media'],['video','audio']),['video','audio']);
+assert.deepEqual(dropFamilies(['application/x-pve-text']),['overlay']);
+assert.deepEqual(dropFamilies(['Files'],['audio']),[]);
+let calls=0,aborts=0;const states=[];
+const request=createWaveformJobs(async(key,signal,notify)=>{calls++;notify({phase:'loading',progress:.5});return new Promise(resolve=>{const timer=setTimeout(()=>resolve({peaks:[1]}),30);signal.addEventListener('abort',()=>{aborts++;clearTimeout(timer);resolve(null)},{once:true})})});
+const key={},a=new AbortController(),b=new AbortController();const first=request(key,{signal:a.signal,onProgress:s=>states.push(s)}),second=request(key,{signal:b.signal});a.abort();assert.equal(await first,null);assert.deepEqual(await second,{peaks:[1]});assert.equal(calls,1);assert.equal(aborts,0);assert(states.some(s=>s.phase==='queued'));
+assert.deepEqual(await request(key),{peaks:[1]});assert.equal(calls,1);
+const cancelled={},c=new AbortController();const pending=request(cancelled,{signal:c.signal});await new Promise(r=>setTimeout(r,5));c.abort();assert.equal(await pending,null);await new Promise(r=>setTimeout(r,5));assert.equal(aborts,1);assert.deepEqual(await request(cancelled),{peaks:[1]});
+const redraw={},d=new AbortController();const old=request(redraw,{signal:d.signal});d.abort();const replacement=request(redraw);assert.equal(await old,null);assert.deepEqual(await replacement,{peaks:[1]});assert.equal(aborts,1);
+console.log('Waveform progress, shared consumers, cancellation/retry, redraw reuse and drag destinations PASS');

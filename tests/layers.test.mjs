@@ -1,0 +1,38 @@
+import assert from 'node:assert/strict';
+import {project,clip,total,sequence,visibleSequence,compileTimeline,anchor,pasteClip,deleteClip,timing,trimClip,sanitize,splitClip,sourceOffset} from '../dist/model.js';
+import {sourceTime} from '../dist/mobile-model.js';
+const m={id:'source',duration:20,width:160,height:90};
+const p=project();p.media=[m];const base={...clip(m),out:4,start:0,layer:0};
+const upper={...clip(m),in:5,out:6,start:1,layer:1};
+p.clips=[base,upper];
+assert.equal(total(p),4);
+assert.deepEqual(visibleSequence(p).map(r=>[r.start,r.end,r.clip.id]),[[0,1,base.id],[1,2,upper.id],[2,4,base.id]]);
+const plan=compileTimeline(p);
+assert.equal(plan.locate(1.5).clip.id,upper.id);
+assert.equal(plan.locate(2.5).start,0);
+assert.equal(sourceTime(visibleSequence(p)[2],2.5),2.5);
+const state=JSON.stringify(p);
+const pasted=pasteClip(p,upper,2.5,1);assert.notEqual(pasted.id,upper.id);
+pasted.audio.volume=0;assert.equal(upper.audio.volume,1);
+deleteClip(p,pasted.id);assert.equal(total(p),4);
+deleteClip(p,upper.id);assert.equal(compileTimeline(p).locate(1.5).clip.id,base.id);
+const restored=sanitize(JSON.parse(state));assert.equal(compileTimeline(restored).locate(1.5).clip.id,upper.id);
+const later=pasteClip(restored,upper,3,1);deleteClip(restored,upper.id,true);
+assert.equal(later.start,2);assert.equal(restored.clips[0].start,0);
+const old=project();old.media=[m];old.clips=[{...clip(m),out:2},{...clip(m),out:3}];anchor(old);
+assert.deepEqual(sequence(old).map(r=>r.start),[0,2]);
+trimClip(old.clips[0],'out',1,m.duration);assert.equal(old.clips[1].start,2);
+assert.ok(compileTimeline(old).locate(1.5).clip.gap);
+trimClip(old.clips[0],'in',8,m.duration);assert.ok(old.clips[0].in<old.clips[0].out);
+const crowded=project();crowded.media=[m];
+for(const curve of ['linear','ease-in','ease-out','ease-in-out']){
+ const c={...clip(m),in:2,out:12,start:0,speed:.05,endSpeed:20,curve},before=structuredClone(c),d=timing(c).duration;
+ const right=splitClip(c,6.13),leftD=timing(c).duration;
+ assert.ok(Math.abs(leftD+timing(right).duration-d)<1e-8);
+ for(let t=leftD;t<d;t+=.1)assert.ok(Math.abs(right.in+sourceOffset(t-leftD,right)-before.in-sourceOffset(t,before))<1e-7);
+}
+crowded.clips=Array.from({length:200},(_,i)=>({...clip(m),start:i*.1,layer:i%2,speed:.05,endSpeed:20,curve:'ease-in-out'}));
+const cached=compileTimeline(crowded);const before=performance.now();
+for(let i=0;i<100000;i++)cached.locate(i%200/10);
+console.log('Two-layer visibility, legacy anchoring, clipboard independence, delete/ripple, trim, restore: PASS');
+console.log('Compiled preview lookup / 100,000 calls:',(performance.now()-before).toFixed(2),'ms (Node; not device FPS)');

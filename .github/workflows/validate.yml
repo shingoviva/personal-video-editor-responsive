@@ -1,0 +1,42 @@
+name: Validate editor
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - name: Validate native video pipeline
+        run: |
+          python tests/capabilities.test.py
+          python tests/images.test.py
+          python tests/layers.test.py
+          python tests/clip-boundary.test.py
+          python tests/transitions.test.py
+          python tests/multitrack.test.py
+          python tests/prores.test.py
+          python tests/reliability.test.py
+          python tests/server.test.py
+          python tests/validate_pipeline.py
+          python tests/validate_formats.py
+          python tests/creative.test.py
+          python tests/youtube.test.py
+          python tests/program-workflow.test.py
+          python tests/overlay-only.test.py
+      - run: python scripts/package-mac.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: personal-video-editor-mac
+          path: dist/personal-video-editor-mac.zip

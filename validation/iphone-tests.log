@@ -1,0 +1,57 @@
+
+> personal-video-editor@2.2.13 test
+> node tests/timeline-feedback.test.mjs && node tests/clip-gain-envelope.test.mjs && node tests/transition.test.mjs && node tests/timeline-shortcuts.test.mjs && node tests/project-storage.test.mjs && node tests/audio-boundary.test.mjs && node tests/workspace-ui.test.mjs && node tests/ui-polish.test.mjs && node tests/attributes.test.mjs && node tests/font-library.test.mjs && node tests/relink.test.mjs && node tests/multitrack.test.mjs && node tests/linked-audio.test.mjs && node tests/mobile-multitrack.test.mjs && node tests/creative.test.mjs && node tests/tone-curve.test.mjs && node tests/program-workflow.test.mjs && node tests/model.test.mjs && node tests/speed-slider.test.mjs && node tests/project-roundtrip.test.mjs && node tests/i18n.test.mjs && node tests/asset-preview.test.mjs && node tests/assets.test.mjs && node tests/layers.test.mjs && node tests/gestures.test.mjs && node tests/timeline-selection.test.mjs && node tests/timeline-paste.test.mjs && node tests/timeline-zoom.test.mjs && node tests/timeline-time.test.mjs && node tests/timeline-scroll.test.mjs && node tests/native-shell.test.mjs && node tests/stage-transform.test.mjs && node tests/timeline-context.test.mjs && node tests/overlay-timeline.test.mjs && node tests/panel-splitter.test.mjs && node tests/media-state.test.mjs && node tests/text-render.test.mjs && node tests/motion-transform.test.mjs && node tests/preview-source.test.mjs && node tests/preview-performance.test.mjs && node tests/stabilization-preview.test.mjs && node tests/mobile.test.mjs && node tests/mobile-container.test.mjs && node tests/mobile-audio.test.mjs && node tests/mobile-frame-source.test.mjs && node tests/mobile-hdr.test.mjs && node tests/iphone-ui.test.mjs
+
+Waveform progress, shared consumers, cancellation/retry, redraw reuse and drag destinations PASS
+Clip Gain Envelope: dB/linear/step, 0 dB snap/reset, fade, split/trim/duplicate/move, retime, migration, load and audio-only preview PASS
+Source-anchored speed ramps, readable dB scale and scheduled preview/export gain samples PASS
+Pixel-based 0 dB snap, hysteresis and fine dragging PASS
+Transitions: model, adjacency, easing, canvas composition and project restore PASS
+Timeline shortcuts: edit navigation, frame nudge and ripple trim PASS
+Project folder naming, manifest save, streamed media copy and restore PASS
+Sequential clip audio: bounded drift, de-click edges and no exported silent gap PASS
+V2 workspace: object routing, video submodes and inspector headings PASS
+UI polish: aligned lanes, contextual resize affordance and structured help PASS
+Attributes: isolated category paste preserves media, cuts, position and layers PASS
+Font library: bundled web choices and persisted font metadata PASS
+Relink candidates: normalized name, size and media type ranking PASS
+V3 priority, independent audio split/move, four lanes/solo, audio tail, protected assets, project restore, BGM migration PASS
+Linked detached audio: default link, structural sync, unlink/relink, pair split, delete and restore PASS
+Device mixer: 4 audio lanes and simultaneous source audio from stacked video layers PASS
+Creative: freeze/source invariance, fade/text timing, iPhone controls, curves, 3-way balance and native/browser RGB matches PASS
+Tone curve: arbitrary points, smooth interpolation, LUT, clamping and legacy migration PASS
+YouTube program flow: black hold/fades, sequential variety captions and workspace splitter PASS
+Timing inverse, arbitrary decimal speeds, ramp curves, gaps, overlay-only duration, track visibility and serialization: PASS
+Motion speed slider: full range, logarithmic landmarks, input binding and direct-value access PASS
+Complex project save/reload round-trip: video, audio, FX, captions, tracks and export state PASS
+JA/EN translation, dynamic phrases and language persistence: PASS
+Media library video preview: muted hover/focus playback and cleanup PASS
+Assets: type filters/search, rename without relink damage, protected cleanup/restore, still duration, stale bitmap disposal: PASS
+Two-layer visibility, legacy anchoring, clipboard independence, delete/ripple, trim, restore: PASS
+Compiled preview lookup / 100,000 calls: 3.63 ms (Node; not device FPS)
+Pointer unit checks: both trim handles, one checkpoint/drag, layer move, cancellation cleanup: PASS
+Shift-selected clip group preserves spacing while moving: PASS
+Timeline marquee: rectangle geometry, cross-layer hit testing and visual lifecycle PASS
+Timeline paste: capacity limits, valid selection results and linked audio duplication PASS
+Timeline pinch zoom: limits, pointer binding and focal-point scroll anchoring PASS
+Timeline ruler, clip and playhead use the same editable extent: PASS
+Timeline vertical scroll: continuous labels without scroll snapping PASS
+Drag scrolling: edge direction, gradual speed and outside bounds PASS
+Native shell: page zoom suppression, timeline gesture pass-through and shortcut guards PASS
+Stage transform: position, center snapping and 0.1–3× scale limits PASS
+Timeline context menu: exact time, split eligibility and viewport positioning PASS
+FX/Text timeline drag: placement, vertical layer move, group move, edge trim, duration preservation and magnetic placement PASS
+Workspace column splitters: desktop width constraints PASS
+Media events: load, cached load, immediate seek, cancellation, timeout, decode error: PASS
+Text layers: 300 captions, decoration, presets, validation and persisted raster exclusion PASS
+Motion transform: video/image pan and push/pull interpolation PASS
+Preview source: mutable export canvases refresh every frame PASS
+Preview performance: selectable FPS budget and safe memory snapshot PASS
+Short-cut playback: bounded drift correction and matching fade timing PASS
+Stabilization preview: cache identity, worker lifecycle and interpolated correction PASS
+Mobile: output sizes/FPS, speed/holds, audio, translation/rotation stabilization, crop and filenames PASS
+Mobile MP4 container: streamed fast-start H.264/AAC, audio-first input, bounded writes, metadata and full FFmpeg decode PASS
+Mobile audio: actual streamed PCM decode, fractional windows, ramp mix, hold/mute, BGM loop crossing PASS
+Device export requests each changing source timestamp and caches only an identical hold: PASS
+Device HDR: detect PQ/HLG and convert through the SDR sRGB render canvas PASS
+Phone portrait/landscape routing, desktop/tablet preservation and scroll vs move PASS

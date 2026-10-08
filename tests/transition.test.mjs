@@ -1,0 +1,50 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {clip,project,sequence,sanitize} from '../dist/model.js';
+import {normalizeTransition,transitionState,transitionStyles,drawTransitionLayer,outgoingTransitionRow} from '../dist/transition.js';
+
+assert.deepEqual(normalizeTransition({type:'bogus',duration:20,direction:'diagonal'}),{type:'none',duration:2,direction:'left'});
+const p=project(),media={id:'movie',kind:'video',duration:8,width:1920,height:1080};
+p.media=[media];
+const first={...clip(media),id:'first',start:0,layer:1,in:0,out:2};
+const second={...clip(media),id:'second',start:2,layer:1,in:2,out:5,transition:{type:'slide',duration:1,direction:'left'}};
+p.clips=[first,second];
+let rows=sequence(p),incoming=rows.find(row=>row.clip.id==='second');
+assert.equal(transitionState(incoming,rows,1.99),null);
+assert.equal(transitionState(incoming,rows,2).progress,0);
+assert(Math.abs(transitionState(incoming,rows,2.5).progress-.5)<1e-9);
+assert.equal(transitionState(incoming,rows,3),null);
+const movingOutgoing=outgoingTransitionRow(transitionState(incoming,rows,2.25),incoming,media.duration);
+assert.equal(movingOutgoing.moving,true);assert.equal(movingOutgoing.row.clip.in,2);assert.equal(movingOutgoing.row.clip.out,3);assert.equal(movingOutgoing.row.clip.freezeDuration,undefined);
+const frozenOutgoing=outgoingTransitionRow(transitionState(incoming,rows,2.25),incoming,2);
+assert.equal(frozenOutgoing.moving,false);assert.equal(frozenOutgoing.row.clip.freezeDuration,1);
+second.start=2.1;rows=sequence(p);incoming=rows.find(row=>row.clip.id==='second');assert.equal(transitionState(incoming,rows,2.1),null);second.start=2;rows=sequence(p);incoming=rows.find(row=>row.clip.id==='second');
+
+let styles=transitionStyles({...transitionState(incoming,rows,2.5),type:'slide'});
+assert.equal(styles.incoming.transform,'translateX(50%)');
+assert.equal(styles.outgoing.transform,'translateX(-50%)');
+styles=transitionStyles({...transitionState(incoming,rows,2.5),type:'wipe',direction:'right'});
+assert.equal(styles.incoming.clipPath,'inset(0 0 0 50%)');
+styles=transitionStyles({...transitionState(incoming,rows,2.5),type:'wipe',direction:'left'});
+assert.equal(styles.incoming.clipPath,'inset(0 50% 0 0)');
+styles=transitionStyles({...transitionState(incoming,rows,2.5),type:'wipe',direction:'up'});
+assert.equal(styles.incoming.clipPath,'inset(0 0 50% 0)');
+styles=transitionStyles({...transitionState(incoming,rows,2.5),type:'wipe',direction:'down'});
+assert.equal(styles.incoming.clipPath,'inset(50% 0 0 0)');
+styles=transitionStyles({...transitionState(incoming,rows,2.5),type:'slide',direction:'right'});
+assert.equal(styles.incoming.transform,'translateX(-50%)');
+styles=transitionStyles({...transitionState(incoming,rows,2.5),type:'slide',direction:'up'});
+assert.equal(styles.incoming.transform,'translateY(50%)');
+styles=transitionStyles({...transitionState(incoming,rows,2.5),type:'slide',direction:'down'});
+assert.equal(styles.incoming.transform,'translateY(-50%)');
+styles=transitionStyles({...transitionState(incoming,rows,2.5),type:'circle'});
+assert.equal(styles.incoming.clipPath,'circle(35.5% at 50% 50%)');
+
+const calls=[],ctx={globalAlpha:.8,save(){calls.push('save')},restore(){calls.push('restore')},drawImage(...v){calls.push(['draw',...v])},beginPath(){calls.push('begin')},rect(...v){calls.push(['rect',...v])},arc(...v){calls.push(['arc',...v])},clip(){calls.push('clip')}};
+drawTransitionLayer(ctx,{}, {type:'dissolve',progress:.5,direction:'left'},1920,1080);
+assert.equal(ctx.globalAlpha,.4);assert.equal(calls.filter(v=>Array.isArray(v)&&v[0]==='draw').length,1);
+
+const restored=sanitize(JSON.parse(JSON.stringify(p)));
+assert.deepEqual(restored.clips[1].transition,{type:'slide',duration:1,direction:'left'});
+assert.match(await readFile(new URL('../dist/mobile-render-worker.js',import.meta.url),'utf8'),/drawTransitionLayer/);
+console.log('Transitions: model, adjacency, easing, canvas composition and project restore PASS');

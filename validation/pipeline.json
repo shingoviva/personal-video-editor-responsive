@@ -1,0 +1,169 @@
+{
+  "prepare_proxy_and_metadata": {
+    "pass": true,
+    "seconds": 2.04,
+    "result": {
+      "id": "source",
+      "name": "source.mp4",
+      "width": 640,
+      "height": 360,
+      "duration": 1.6,
+      "fps": 60.0,
+      "rateMode": "CFR",
+      "codec": "h264",
+      "container": "mov,mp4,m4a,3gp,3g2,mj2",
+      "size": 695238,
+      "audio": true,
+      "hdr": false,
+      "transfer": "unknown",
+      "primaries": "unknown",
+      "matrix": "unknown",
+      "dolby": null,
+      "rotation": 0,
+      "proxy": "source-proxy.mp4"
+    }
+  },
+  "cut_crop_audio": {
+    "pass": true,
+    "seconds": 4.21,
+    "result": {
+      "duration": 1.521,
+      "expected": 1.5,
+      "size": [
+        540,
+        960
+      ],
+      "audio": "aac"
+    }
+  },
+  "speed_0.05": {
+    "pass": true,
+    "seconds": 3.79,
+    "result": {
+      "duration": 10.021,
+      "expected": 10.0,
+      "size": [
+        540,
+        960
+      ],
+      "audio": "aac"
+    }
+  },
+  "speed_20": {
+    "pass": true,
+    "seconds": 3.88,
+    "result": {
+      "duration": 0.085333,
+      "expected": 0.075,
+      "size": [
+        540,
+        960
+      ],
+      "audio": "aac"
+    }
+  },
+  "ramp_audio_sync": {
+    "pass": true,
+    "seconds": 10.09,
+    "result": {
+      "duration": 1.621333,
+      "expected": 1.6019053821803435,
+      "size": [
+        540,
+        960
+      ],
+      "audio": "aac"
+    }
+  },
+  "blend_color_text_hold": {
+    "pass": true,
+    "seconds": 4.49,
+    "result": {
+      "duration": 5.504,
+      "expected": 5.5,
+      "size": [
+        540,
+        960
+      ],
+      "audio": "aac"
+    }
+  },
+  "stabilizer": {
+    "pass": true,
+    "seconds": 6.36,
+    "result": {
+      "duration": 1.521,
+      "expected": 1.5,
+      "size": [
+        540,
+        960
+      ],
+      "audio": "aac"
+    }
+  },
+  "multi_clip_gap_bgm": {
+    "pass": true,
+    "seconds": 5.84,
+    "result": {
+      "duration": 1.421,
+      "expected": 1.4,
+      "size": [
+        540,
+        960
+      ],
+      "audio": "aac"
+    }
+  },
+  "analyze_HIGH FASHION": {
+    "pass": true,
+    "seconds": 0.17,
+    "result": {
+      "media": "source",
+      "intent": "HIGH FASHION",
+      "sampleFps": 4,
+      "method": "\u4f4e\u89e3\u50cf\u5ea6\u30d5\u30ec\u30fc\u30e0\u306e\u9bae\u92ed\u5ea6\u30fb\u8f1d\u5ea6\u30fb\u5dee\u5206\u89e3\u6790\u3002\u9854\u30fb\u8996\u7dda\u30fb\u30dd\u30fc\u30ba\u306e\u8a8d\u8b58\u306f\u672a\u5b9f\u88c5\u3002",
+      "markers": [
+        {
+          "time": 0.0,
+          "type": "best",
+          "label": "BEST MOMENT",
+          "detail": "\u9bae\u92ed\u5ea6\u30fb\u52d5\u304d\u30fb\u767d\u9ed2\u306e\u98fd\u548c\u7387\u304b\u3089\u5019\u88dc\u5316"
+        }
+      ]
+    }
+  },
+  "analyze_CLUB": {
+    "pass": true,
+    "seconds": 0.18,
+    "result": {
+      "media": "source",
+      "intent": "CLUB",
+      "sampleFps": 4,
+      "method": "\u4f4e\u89e3\u50cf\u5ea6\u30d5\u30ec\u30fc\u30e0\u306e\u9bae\u92ed\u5ea6\u30fb\u8f1d\u5ea6\u30fb\u5dee\u5206\u89e3\u6790\u3002\u9854\u30fb\u8996\u7dda\u30fb\u30dd\u30fc\u30ba\u306e\u8a8d\u8b58\u306f\u672a\u5b9f\u88c5\u3002",
+      "markers": [
+        {
+          "time": 0.25,
+          "type": "best",
+          "label": "BEST MOMENT",
+          "detail": "\u9bae\u92ed\u5ea6\u30fb\u52d5\u304d\u30fb\u767d\u9ed2\u306e\u98fd\u548c\u7387\u304b\u3089\u5019\u88dc\u5316"
+        }
+      ]
+    }
+  },
+  "120fps_no_audio": {
+    "pass": true,
+    "seconds": 4.44,
+    "result": {
+      "duration": 1.521,
+      "expected": 1.5,
+      "size": [
+        540,
+        960
+      ],
+      "audio": "aac"
+    }
+  },
+  "source_unchanged": {
+    "pass": true
+  }
+}
