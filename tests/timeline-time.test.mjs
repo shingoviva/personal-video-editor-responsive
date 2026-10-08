@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {timelineXAtTime,timelineTimeAtX,locatePreviewRow} from '../dist/timeline-time.js';
+import {timelineXAtTime,timelineTimeAtX,timelineLabelShift,locatePreviewRow} from '../dist/timeline-time.js';
 
 const duration=9,extent=duration+10,width=1360,clipStart=3,clipEnd=9;
 assert.equal(timelineXAtTime(clipStart,extent,width),width*clipStart/extent);
@@ -17,3 +17,5 @@ assert.equal(locatePreviewRow([video],4,9),video,'inside the clip shows the vide
 assert.ok(locatePreviewRow([video],9,9).clip.gap,'the exact end is black');
 assert.ok(locatePreviewRow([video],10,12).clip.gap,'the editable tail stays black even when overlays extend the project');
 console.log('Timeline ruler, clip and playhead use the same editable extent: PASS');
+
+assert.equal(timelineLabelShift(0,0,349,72),36);assert.equal(timelineLabelShift(349,0,349,72),-36);assert.equal(timelineLabelShift(160,0,349,72),0);assert.equal(timelineLabelShift(120,100,349,72),16);

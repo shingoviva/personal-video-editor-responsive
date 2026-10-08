@@ -258,3 +258,9 @@ body[data-ui=phone][data-phone-panel=sound]:has([data-phone-original]) #inspecto
 
 body[data-ui=phone] .export-aspect-confirm{display:flex;align-items:center;gap:8px;padding:12px;border:1px solid #9b8956;font-size:13px;line-height:1.5}
 body[data-ui=phone] .export-aspect-confirm input{width:22px;height:22px;flex:none}
+
+body[data-ui=phone] #playheadHandle{transform:translateX(calc(-50% + var(--phone-head-shift,0px)))}
+body[data-ui=phone] #playheadHandle::before{left:calc(50% - var(--phone-head-shift,0px))}
+body[data-ui=phone] .phone-menu-grid h3{grid-column:1/-1;font-size:13px;line-height:20px;margin:8px 0 0;color:#d3dfc7}
+body[data-ui=phone] .phone-aspect-group>strong{padding-bottom:4px}
+body[data-ui=phone] #playheadHandle{transition:none}

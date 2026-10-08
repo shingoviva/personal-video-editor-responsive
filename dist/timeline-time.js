@@ -15,3 +15,5 @@ export function locatePreviewRow(rows,time,end){
   }
   return found||{clip:{gap:Math.max(end,.01)},start:0,end,duration:end,layer:0};
 }
+
+export function timelineLabelShift(x,scrollLeft,viewportWidth,labelWidth){const half=Math.min(labelWidth,viewportWidth)/2;return Math.max(scrollLeft+half,Math.min(scrollLeft+viewportWidth-half,x))-x}
