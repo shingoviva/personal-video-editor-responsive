@@ -6,7 +6,7 @@ const phonePreviewBudget=new PhonePreviewBudget(),phonePlaybackScheduler=new Pho
 const previewLongEdge=()=>document.body.dataset.ui==='phone'&&playing?phonePreviewBudget.longEdge:960;
 import {reorderPhoneClip,trimPhoneClip,movePhoneLayer} from './iphone-edit.js';
 import {PlaybackSession} from './playback-session.js';
-import {bindPhoneUI} from './iphone-ui.js?v=2.2.27';
+import {bindPhoneUI} from './iphone-ui.js?v=2.2.29';
 import {bindTimelineDropGuide} from './timeline-drop-guide.js';
 import {bindTimelineDragScroll} from './timeline-drag-scroll.js';
 import {pasteAttributes,pasteTextAttributes} from './attributes.js';

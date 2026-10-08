@@ -31,3 +31,5 @@ iPhone別版2.2.26は既存の本人限定Sitesへ反映します。元のGitHub
 iPhone別版2.2.27は本人限定Sitesのみ更新。表示点検記録はVALIDATION.mdとvalidation/iphone-2.2.27-geometry.json。
 
 iPhone別版2.2.28のプレビュー改善は本人限定Sitesへ反映。書き出し高速化は保留、元のGitHub／Site／Mac開発版は保全します。
+
+iPhone別版2.2.29の表示微調整も本人限定Sitesのみへ反映。元のGitHub／Site／Mac開発版の公開先は変更しません。

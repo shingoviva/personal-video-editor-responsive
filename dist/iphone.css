@@ -283,3 +283,27 @@ body[data-ui=phone] .clip-block>span:not(.trim-handle),body[data-ui=phone] .clip
  body[data-ui=phone] #outputDuration{grid-row:1;grid-column:2;justify-self:end;white-space:nowrap}
  body[data-ui=phone] .transport{grid-row:2;grid-column:1/-1;justify-self:center}
 }
+
+/* A quieter phone chrome leaves the two editing surfaces in focus. */
+body[data-ui=phone] .stage{margin-inline:2px}
+body[data-ui=phone] .timeline-toolbar{flex-basis:32px;height:32px;min-height:32px;background:#151d17}
+body[data-ui=phone] .timeline-toolbar button{height:30px;min-height:30px;border-radius:5px}
+body[data-ui=phone] #phoneView{height:28px;min-height:28px;border-radius:5px;background:#202a20;color:#e2e8dc}
+body[data-ui=phone] .phone-edit-context{height:20px;min-height:20px;flex-basis:20px;background:#171f18}
+body[data-ui=phone] .phone-clip-actions{height:34px;min-height:34px;flex-basis:34px;background:#182019;padding-inline:3px}
+body[data-ui=phone] .phone-clip-actions button{height:34px;min-height:34px;font-size:11px;border-radius:5px;color:#e0e7da}
+body[data-ui=phone] .phone-tools{background:#101712;border-top-color:#354231}
+body[data-ui=phone] .phone-tools button{border:0;border-radius:6px;font-weight:500;color:#d7e0d0}
+body[data-ui=phone] .phone-tools button span{display:flex;align-items:center;justify-content:center;height:22px;line-height:22px}
+body[data-ui=phone] .phone-tools svg{display:block;width:20px;height:20px}
+body[data-ui=phone] .phone-tools button[aria-expanded=true]{background:#293521;color:var(--accent)}
+body[data-ui=phone] .phone-clip-actions button:disabled{opacity:.4}
+body[data-ui=phone] .phone-tools button:active,body[data-ui=phone] .phone-clip-actions button:not(:disabled):active{background:#2c3826}
+body[data-ui=phone] .viewer-controls .mono,body[data-ui=phone] .phone-scrubber output{font-style:normal;font-variant-numeric:tabular-nums;letter-spacing:0;color:#c9d5bf}
+body[data-ui=phone] .viewer-controls .mono{font-size:11px}
+body[data-ui=phone] .ruler span{color:#b7c6a9;font-style:normal;font-variant-numeric:tabular-nums}
+body[data-ui=phone] .track-labels-inner>.track-head strong{color:#c3d0b6;font-weight:600}
+body[data-ui=phone] .phone-sheet-header{border-bottom:1px solid #3a4733;background:#202a20}
+body[data-ui=phone] .inspector-tabs button{border-radius:6px}
+body[data-ui=phone] .inspector-tabs button.selected{background:#303d27;color:#e4efb8;border-color:#8d9d68}
+@media(max-width:360px){body[data-ui=phone] .viewer-controls .mono{font-size:10px}}
