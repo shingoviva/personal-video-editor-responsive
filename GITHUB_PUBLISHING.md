@@ -47,3 +47,5 @@ iPhone別版2.2.29の表示微調整も本人限定Sitesのみへ反映。元の
 2.2.35はiPhoneの操作段整列・余白圧縮・配分範囲を調整。同じ本人限定Sitesのみへ反映し、元のMac開発版・GitHub・Siteは保全。
 
 2.2.36はスマホヘッダーを4px圧縮。同じ本人限定Sitesのみへ反映、元のMac版／GitHub／Siteを保全。
+
+2.2.37は端末切替版Mac上部のみ6px圧縮。同じ本人限定Siteへ反映し、元のMac版／GitHub／Siteは維持。

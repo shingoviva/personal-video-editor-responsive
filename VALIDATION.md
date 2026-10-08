@@ -1,3 +1,10 @@
+## 2.2.37 — Macタイトルバー圧縮（2026-10-09）
+
+- Mac幅801px以上のみタイトルバー62→56px、上下padding6pxへ。ロゴ34px・コンテキスト35px・履歴32px・書き出し34px・操作タブのサイズを維持。
+- 1440×900／1024×768／1920×1080でheader56px、表示中のタイトル・ロゴ・選択情報・履歴・書き出しは枠内、横超過0。393×650はphone header40pxで変更なし。validation/2.2.37-ui-geometry.json、mac-2.2.37-header.jpg。
+- localhostサーバー試験成功。npm test・build・Python動画処理・Mac ZIPは反映前に確認。元のMac版161ファイル変更なし。実機Safari／HDR／長時間操作は未確認。
+- iPhoneの読み込みはimportFilesのphoneImport条件で自動配置し、appendMediaは選択映像レイヤー末尾、useAudioは再生ヘッドに配置することをコードで確認。今回は提案のみで挙動変更なし。
+
 ## 2.2.36 — タイトルバー圧縮（2026-10-09）
 
 - スマホヘッダー44→40px。履歴ボタン38px、書き出し32→30px、ロゴ17→16px。タイトル文字12px・SVG20px・横幅を維持。Macは変更なし。

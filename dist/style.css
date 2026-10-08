@@ -481,3 +481,6 @@ body:not([data-ui=phone]) .workflow button:focus-visible{outline:2px solid var(-
 @media(min-width:1201px){body:not([data-ui=phone]) .workflow-group{padding:11px 5px 2px}body:not([data-ui=phone]) .workflow-label{top:3px;font-size:8px;line-height:8px;letter-spacing:.09em;color:#99a69d}body:not([data-ui=phone]) .workflow button{height:28px}}
 @media(min-width:801px) and (max-width:1200px){body:not([data-ui=phone]) .workflow-group{padding:2px 5px}body:not([data-ui=phone]) .workflow button{height:31px}}
 @media(max-width:800px){body:not([data-ui=phone]) .workflow button{height:35px}}
+
+/* Give the desktop editing surfaces a little more room without shrinking tools. */
+@media(min-width:801px){body:not([data-ui=phone]) .topbar{height:56px;min-height:56px;padding-block:6px}}

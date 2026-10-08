@@ -1,0 +1,144 @@
+[
+  {
+    "header": 56,
+    "items": [
+      {
+        "height": 34,
+        "id": "brand",
+        "within": true
+      },
+      {
+        "height": 35,
+        "id": "selectionContext",
+        "within": true
+      },
+      {
+        "height": 29.5,
+        "id": "project-heading",
+        "within": true
+      },
+      {
+        "height": 32,
+        "id": "topUndo",
+        "within": true
+      },
+      {
+        "height": 32,
+        "id": "topRedo",
+        "within": true
+      },
+      {
+        "height": 34,
+        "id": "exportButton",
+        "within": true
+      }
+    ],
+    "overflow": 0,
+    "ui": "desktop",
+    "width": 1440
+  },
+  {
+    "header": 56,
+    "items": [
+      {
+        "height": 34,
+        "id": "brand",
+        "within": true
+      },
+      {
+        "height": 33.5,
+        "id": "selectionContext",
+        "within": true
+      },
+      {
+        "height": 32,
+        "id": "topUndo",
+        "within": true
+      },
+      {
+        "height": 32,
+        "id": "topRedo",
+        "within": true
+      },
+      {
+        "height": 34,
+        "id": "exportButton",
+        "within": true
+      }
+    ],
+    "overflow": 0,
+    "ui": "desktop",
+    "width": 1024
+  },
+  {
+    "header": 56,
+    "items": [
+      {
+        "height": 34,
+        "id": "brand",
+        "within": true
+      },
+      {
+        "height": 35,
+        "id": "selectionContext",
+        "within": true
+      },
+      {
+        "height": 29.5,
+        "id": "project-heading",
+        "within": true
+      },
+      {
+        "height": 32,
+        "id": "topUndo",
+        "within": true
+      },
+      {
+        "height": 32,
+        "id": "topRedo",
+        "within": true
+      },
+      {
+        "height": 34,
+        "id": "exportButton",
+        "within": true
+      }
+    ],
+    "overflow": 0,
+    "ui": "desktop",
+    "width": 1920
+  },
+  {
+    "header": 40,
+    "items": [
+      {
+        "height": 31,
+        "id": "brand",
+        "within": true
+      },
+      {
+        "height": 14,
+        "id": "project-heading",
+        "within": true
+      },
+      {
+        "height": 38,
+        "id": "topUndo",
+        "within": true
+      },
+      {
+        "height": 38,
+        "id": "topRedo",
+        "within": true
+      },
+      {
+        "height": 30,
+        "id": "exportButton",
+        "within": true
+      }
+    ],
+    "overflow": 0,
+    "ui": "phone",
+    "width": 393
+  }
+]
