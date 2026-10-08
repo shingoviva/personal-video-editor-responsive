@@ -1,3 +1,4 @@
+import {clipEnvelopeOwnsPointer} from './clip-envelope-ui.js';
 import {bindPhoneTouch} from './phone-touch.js';
 import {advancePhoneClock} from './phone-playback-clock.js';
 import {reorderPhoneClip,trimPhoneClip,movePhoneLayer} from './iphone-edit.js';
@@ -115,7 +116,7 @@ function stabilizationFor(row,m){
  return stabilizationPreview.correction(row.clip,m,file,sourcePositionFor(row));
 }
 async function seek(t){pause();time=clamp(t,0,timelineExtent());await syncVideo(true);draw();updateClock()}
-async function jumpToProjectEdge(edge){const target=edge==='end'?duration():0;await seek(target);status(edge==='end'?'プロジェクトの最後へ移動しました。':'プロジェクトの先頭へ移動しました。')}
+async function jumpToProjectEdge(edge){const target=edge==='end'?duration():0;if(edge==='start')$('#timelineScroll').scrollLeft=0;await seek(target);status(edge==='end'?'プロジェクトの最後へ移動しました。':'プロジェクトの先頭へ移動しました。')}
 async function jumpToEditPoint(direction){const target=adjacentEditPoint(timelineEditPoints(P),time,direction);await seek(target);status(`${direction<0?'前':'次'}の編集点 ${format(target)}`)}
 function changeTimelineZoom(delta){const scroll=$('#timelineScroll'),oldWidth=$('#timelineContent').clientWidth||scroll.clientWidth,anchorX=time/Math.max(timelineExtent(),.001)*oldWidth-scroll.scrollLeft;zoom=clamp(zoom+delta,1,10);$('#timelineZoom').value=zoom;renderTimeline();scroll.scrollLeft=Math.max(0,time/Math.max(timelineExtent(),.001)*$('#timelineContent').clientWidth-anchorX);status(`タイムライン ${Math.round(zoom*100)}%`)}
 function toggleSnapping(){snapping=!snapping;renderTimeline();status(`吸着 ${snapping?'ON':'OFF'} · Nで切り替え`)}
@@ -597,7 +598,7 @@ function openGainEnvelopeContext(event,clip,point){
 function renderAudioTimeline(dur,width){
  const rows=audioSequence(P);let transaction,oldFuture;
  for(const layer of [0,1,2,3]){
- const track=$('#audioTrack'+layer),head=$('#audioLabel'+layer),trackState=P.audioTracks[layer];track.classList.toggle('active-layer',activeAudioLayer===layer);head.title=`A${layer+1} · ${trackState.name} · ${Math.round(trackState.volume*100)}%`;head.classList.toggle('is-muted',!!trackState.mute);const mute=head.querySelector('[data-trackmute]'),volume=head.querySelector('[data-trackvolume]');mute?.classList.toggle('selected',!!trackState.mute);mute?.setAttribute('aria-pressed',String(!!trackState.mute));if(volume&&document.activeElement!==volume)volume.value=trackState.volume;
+ const track=$('#audioTrack'+layer),head=$('#audioLabel'+layer),trackState=P.audioTracks[layer];track.classList.toggle('active-layer',activeAudioLayer===layer);head.title=`A${layer+1} · ${trackState.name} · ${Math.round(trackState.volume*100)}%`;head.classList.toggle('is-muted',!!trackState.mute);const mute=head.querySelector('[data-trackmute]'),volume=head.querySelector('[data-trackvolume]');mute?.classList.toggle('selected',!!trackState.mute);mute?.setAttribute('aria-pressed',String(!!trackState.mute));if(mute){mute.textContent=document.body.dataset.ui==='phone'?(trackState.mute?'消音':'音声'):'M';mute.setAttribute('aria-label',`A${layer+1}の音声を${trackState.mute?'再生':'消音'}`)}if(volume&&document.activeElement!==volume)volume.value=trackState.volume;
  track.innerHTML=rows.filter(r=>r.layer===layer).map(r=>`<div class="clip-block audio-clip ${selectedTimeline.has(r.clip.id)||selectedAudio===r.clip.id?'selected':''}" data-clip="${r.clip.id}" role="button" tabindex="0" aria-label="A${layer+1} ${esc(assetName(mediaOf(r.clip)))}" style="left:${r.start/Math.max(dur,.001)*100}%;width:${r.duration/Math.max(dur,.001)*100}%"><canvas class="gain-envelope-canvas" aria-hidden="true"></canvas><span>${r.clip.linked?`🔗 `:""}${esc(assetName(mediaOf(r.clip)))}</span><small>${r.duration.toFixed(2)}s · ${r.clip.audio.mute?'MUTE':Math.round(r.clip.audio.volume*100)+'%'}</small><span data-edge="in" class="trim-handle trim-in"></span><span data-edge="out" class="trim-handle trim-out"></span></div>`).join('');
  track.onpointerdown=e=>{if(!e.target.closest('[data-clip]')){activeAudioLayer=layer;selected=null;selectedAudio=null;tab='sound';seek((e.clientX-track.getBoundingClientRect().left)/width*(dur||30));render()}};
  bindTimeline({root:track,rows,duration:dur,media:c=>c.loop?{...mediaOf(c),duration:86400}:mediaOf(c),snap:()=>snapping,snapTargets:()=>[time],
@@ -652,4 +653,4 @@ bindPhoneUI({
  }catch(e){toast(e.message);return false}},
 });
 
-bindPhoneTouch({root:$('#timelineContent'),scroll:$('#timelineScroll'),isPhone:()=>document.body.dataset.ui==='phone',onMenu:(target,x,y)=>openTimelineContext({target,clientX:x,clientY:y,preventDefault(){},stopPropagation(){}}),onHideMenu:hideTimelineContext,getZoom:()=>zoom,setZoom:value=>{zoom=clamp(value,1,10);$('#timelineZoom').value=zoom;renderTimeline()},onDrag:clip=>{const before=clip.getBoundingClientRect().top;document.body.classList.add('phone-moving',clip.dataset.textChip||clip.dataset.fx?'phone-drag-overlay':clip.closest('.editable-audio')?'phone-drag-audio':'phone-drag-video');$('#timelineScroll').scrollTop+=clip.getBoundingClientRect().top-before;pause()}});
+bindPhoneTouch({root:$('#timelineContent'),scroll:$('#timelineScroll'),isPhone:()=>document.body.dataset.ui==='phone',delegatePointer:clipEnvelopeOwnsPointer,onMenu:(target,x,y)=>openTimelineContext({target,clientX:x,clientY:y,preventDefault(){},stopPropagation(){}}),onHideMenu:hideTimelineContext,getZoom:()=>zoom,setZoom:value=>{zoom=clamp(value,1,10);$('#timelineZoom').value=zoom;renderTimeline()},onDrag:clip=>{const before=clip.getBoundingClientRect().top;document.body.classList.add('phone-moving',clip.dataset.textChip||clip.dataset.fx?'phone-drag-overlay':clip.closest('.editable-audio')?'phone-drag-audio':'phone-drag-video');$('#timelineScroll').scrollTop+=clip.getBoundingClientRect().top-before;pause()}});

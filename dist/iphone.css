@@ -207,3 +207,15 @@ body[data-ui=phone][data-phone-panel=adjust] #inspectorBody{padding-top:4px}
 body[data-ui=phone][data-phone-panel=adjust] .control-section{padding:8px 0;margin:0}
 body[data-ui=phone][data-phone-panel=adjust] .control-section:has(#resetAdjust)>.eyebrow,body[data-ui=phone][data-phone-panel=adjust] .control-section:has(#resetAdjust)>p{display:none}
 body[data-ui=phone][data-phone-panel=adjust] #resetAdjust,body[data-ui=phone][data-phone-panel=adjust] #lookBypass{min-height:34px;font-size:12px;padding:4px 8px}
+
+/* Selected clips move horizontally immediately; envelope points keep their own gesture. */
+body[data-ui=phone] .clip-block{padding:0;min-width:2px}
+body[data-ui=phone] #playheadHandle{transform:translateX(-50%);width:max-content}
+body[data-ui=phone] #playheadHandle::before{left:50%;transform:translateX(-50%)}
+body[data-ui=phone] #jumpStart{display:flex;align-items:center;justify-content:center;width:32px;min-width:32px}
+body[data-ui=phone] .track-labels{width:44px}
+body[data-ui=phone] .track-labels-inner>.track-head{flex-direction:column;gap:0!important}
+body[data-ui=phone] .video-head>[data-video-visible],body[data-ui=phone] .overlay-head>[data-overlay-visible],body[data-ui=phone] .audio-head [data-trackmute]{display:flex!important;align-items:center;justify-content:center;min-height:24px;height:24px;width:38px;min-width:38px;padding:0;font-size:10px;border:1px solid #55624b;border-radius:4px}
+body[data-ui=phone] .audio-head>button[data-audiofocus]{min-height:20px;height:20px}
+body[data-ui=phone] .audio-head [data-trackmute][aria-pressed=true]{background:#604530;color:#ffe0b6}
+body[data-ui=phone] .video-head>[aria-pressed=false],body[data-ui=phone] .overlay-head>[aria-pressed=false]{background:#45382e;color:#dfbba3}
