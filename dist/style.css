@@ -459,3 +459,16 @@ body:not([data-ui=phone]) #inspectorBody:has(>.inspector-tabs){padding-top:0;scr
 body:not([data-ui=phone]) .inspector-tabs{top:0;margin:0 calc(-1 * var(--inspector-inset)) 18px}
 @media(max-width:800px){body:not([data-ui=phone]) #inspectorBody{--inspector-inset:14px}}
 .audio-clip.clip-block{border-width:1px} /* Selection uses the existing outline/shadow without changing the time grid. */
+
+/* Shared editor artwork and compact, explicit reset affordances. */
+.pve-icon{width:18px;height:18px;display:inline-block;vertical-align:middle;flex-shrink:0;pointer-events:none}
+.track-head button .pve-icon{width:16px;height:16px}
+.control-label{gap:6px}.control-number{margin-left:auto}.setting-reset{padding:4px;min-width:28px;min-height:28px;border:1px solid var(--border);border-radius:5px;color:var(--muted)}
+.setting-reset:hover,.setting-reset:focus-visible{color:var(--accent);border-color:var(--accent)}
+.control-label input[type=number]{font-size:12px}.control-number i{font-size:10px}.reset-scope .small-note{line-height:1.6}
+#selectionLabel{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;letter-spacing:0;text-transform:none}
+body.inspector-expanded #selectionLabel{white-space:normal;overflow-wrap:anywhere}
+.track-head.is-hidden [data-video-visible],.track-head.is-hidden [data-overlay-visible],.track-head.is-muted [data-trackmute]{border-color:#827568;color:#cbbcaf;background:#44352a55}
+body[data-ui=phone] .setting-reset{min-width:36px;min-height:36px}body[data-ui=phone] .track-head button .pve-icon{width:18px;height:18px}
+
+.audio-clip>span .pve-icon{width:10px;height:10px}

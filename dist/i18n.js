@@ -1,4 +1,18 @@
 const translations=[
+ ["クリップの音量ポイント", "Clip gain points"],
+ ["カラー・ルックを初期値に戻す", "Reset color and look"],
+ ["位置・サイズを初期値に戻す", "Reset position and size"],
+ ["速度を1×に戻す", "Reset speed to 1×"],
+ ["動き・位置・透明度を初期値に戻す", "Reset motion, position and opacity"],
+ ["クリップ音量・効果を初期値に戻す", "Reset clip volume and effects"],
+ ["音量ポイントをすべて解除", "Clear all gain points"],
+ ["音量ポイントを削除", "Delete gain point"],
+ ["再生ヘッド位置へ音量ポイントを追加", "Add gain point at playhead"],
+ ["直線", "Linear"],
+ ["一定（次の点まで）", "Hold until next point"],
+ ["単独", "Solo"],
+ ["レイヤー移動", "Move layer"],
+ ["音声 · 4レイヤー", "Audio · 4 layers"],
  ['位置・大きさ・不透明度を調整','Adjust position, size and opacity'],['映像 3段','Video: 3 layers'],['音声 4段','Audio: 4 layers'],['文字・FX 3段','Text/FX: 3 layers'],
 
  ['編集へ戻る','Back to editor'],['配置時刻・長さを調整','Adjust position and duration'],['空の段もタイムラインに表示','Show empty timeline layers'],['段は用意済みです。「＋素材」でその段に追加します。映像は上の段が手前、音声は同時に再生されます。','Layers are ready. Tap + Media to add to a layer. Upper video layers appear in front; audio layers play together.'],['移動先を選ぶと編集画面へ戻ります。時刻は変わりません。','Choose a destination to return to the editor. Timing stays unchanged.'],['書き出しが終わるまで、この画面を開いたままにしてください。アプリを閉じる・別のタブへ移る・画面をロックすると、処理が中断される場合があります。','Keep this screen open until export finishes. Closing the app, switching tabs, or locking the screen may interrupt processing.'],['ドラッグで段を移動','Drag between layers'],['レイヤー','Layers'],['段を移動','Move to layer'],['レイヤー編集','Layer editing'],['先頭にそろえる','Align to start'],['再生位置にそろえる','Align to playhead'],['配置時刻を数値で指定','Set position numerically'],['全レイヤーをタイムラインに表示','Show all timeline layers'],['同じ時刻に置くと重なります。映像は上の段が手前に表示され、音声は同時に鳴ります。','Items at the same time overlap. Upper video layers appear in front; audio layers play together.'],
