@@ -1,3 +1,13 @@
+## 2.2.31 — Mac向けUIの段内配置と幅の修正（2026-10-09）
+
+- DesktopでFXのtop0/high25と文字のtop15/high12が同じ段内で10px重なることを再現。52px段を維持してtop2/high23とtop27/high23へ分離。単独ならtop2/high48。文字の削除→FX単独48px、Undo→上下23pxへの切替をUIで確認。
+- 0.16秒FXは1300px・26秒の時間軸で期待8pxに対しpaddingで22pxへ拡大していた。Desktopのみpadding0・min-width2px・text-indent10pxで時間軸の幅を保全。映像／音声にもpadding0とtop2pxを適用し、48px／40px高の上下余白を各2pxに統一。
+- 1024×768・1440×900・1920×1080で全10段の見出し／レーンの上端差・高さ差は0px。FX・文字・映像3・音声1の6クリップに上下はみ出しなし、期待横位置・幅との差は最大0.008px未満。ページ横はみ出しなし。測定結果はvalidation/mac-2.2.31-geometry.json。
+- Colorのスライダーは幅261pxの親へ標準margin2pxが加わり左右位置が2pxずれることを再現。Desktopのcontrol-section rangeのみmargin-inline0で修正。
+- Macの設定タブは20pxのスクロールパディングと-20pxのsticky offsetが組で正しく機能。scrollTop900でもタブ上端は設定本文の上端168pxに一致し見切れなし。iPhoneのsticky指定をそのまま移植する変更は不要。
+- 修正後の調整rangeは親の左右端との差0px。393×650でiPhoneの混在段76px・クリップtop2/39px・各35px高を維持。ブラウザエラーログ0件。npm test、静的ビルド、Python動画処理、localhostサーバーを通過。Mac ZIPは反映時に再生成。
+- 元のMac開発版161ファイルのハッシュ一致。端末切替試験版のDesktopに適用。実機Safariの指操作・長時間編集・全機能の全組合せは未確認。
+
 ## 2.2.30 — iPhoneの改善をMac向けUIへ移植（2026-10-09）
 
 - PreviewPlaybackSchedulerを共通モジュールへ分離。端末を問わず映像pending中も音声同期を50ms間隔で継続し、古い世代の完了・エラー・未開始処理を破棄。PhonePlaybackScheduler名は互換exportで維持。

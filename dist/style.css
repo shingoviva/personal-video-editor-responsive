@@ -442,3 +442,11 @@ dialog:has(.help-intro){width:min(820px,94vw)}
 #playheadHandle::before,#playhead.near-end #playheadHandle::before{top:100%;left:calc(50% - var(--timeline-head-shift,0px));right:auto;width:8px;height:5px;transform:translateX(-50%);clip-path:polygon(0 0,100% 0,50% 100%);background:#eaf3cf}
 .clip-block .trim-handle,.fx-trim-handle{max-width:25%;min-width:0}
 .clip-block .trim-handle::after{left:50%;transform:translateX(-50%)}
+
+/* Desktop uses the same exact clip bounds and separate FX/text rows as phone. */
+body:not([data-ui=phone]) .clip-block{padding:0;min-width:2px;top:2px}
+body:not([data-ui=phone]) .overlay-track>.fx-chip{top:2px;height:calc((var(--timeline-overlay-lane) - 6px) / 2);min-height:0;min-width:2px;padding:0;text-indent:10px;line-height:23px;font-size:10px;text-align:left}
+body:not([data-ui=phone]) .overlay-track>.fx-chip.text-chip{top:calc(var(--timeline-overlay-lane) / 2 + 1px)}
+body:not([data-ui=phone]) .overlay-track:not(:has(>.text-chip))>.fx-chip,
+body:not([data-ui=phone]) .overlay-track:not(:has(>[data-fx]))>.text-chip{top:2px;height:calc(var(--timeline-overlay-lane) - 4px);line-height:48px}
+body:not([data-ui=phone]) .control-section input[type=range]{margin-inline:0;box-sizing:border-box}

@@ -1,0 +1,281 @@
+[
+  {
+    "clips": [
+      {
+        "bottom": 27,
+        "kind": "fx",
+        "top": 2,
+        "widthError": -0.007214999999999527,
+        "xError": 0
+      },
+      {
+        "bottom": 2,
+        "kind": "text",
+        "top": 27,
+        "widthError": -0.0027500000000202363,
+        "xError": 0
+      },
+      {
+        "bottom": 2,
+        "kind": "video",
+        "top": 2,
+        "widthError": -0.006887499999976399,
+        "xError": -0.0036749999999869942
+      },
+      {
+        "bottom": 2,
+        "kind": "video",
+        "top": 2,
+        "widthError": -0.0009249999999951796,
+        "xError": 0
+      },
+      {
+        "bottom": 2,
+        "kind": "video",
+        "top": 2,
+        "widthError": -0.0027500000000202363,
+        "xError": -0.0009249999999951796
+      },
+      {
+        "bottom": 2,
+        "kind": "audio",
+        "top": 2,
+        "widthError": -0.0009249999999951796,
+        "xError": 0
+      }
+    ],
+    "laneDeltas": [
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      }
+    ],
+    "overflow": false,
+    "size": [
+      1024,
+      768
+    ]
+  },
+  {
+    "clips": [
+      {
+        "bottom": 27,
+        "kind": "fx",
+        "top": 2,
+        "widthError": -0.000004999999999810711,
+        "xError": 0
+      },
+      {
+        "bottom": 2,
+        "kind": "text",
+        "top": 27,
+        "widthError": -0.0005000000000165983,
+        "xError": 0
+      },
+      {
+        "bottom": 2,
+        "kind": "video",
+        "top": 2,
+        "widthError": -0.0003999999999848569,
+        "xError": -0.00009999999997489796
+      },
+      {
+        "bottom": 2,
+        "kind": "video",
+        "top": 2,
+        "widthError": 0.0003999999999564352,
+        "xError": 0
+      },
+      {
+        "bottom": 2,
+        "kind": "video",
+        "top": 2,
+        "widthError": -0.0005000000000165983,
+        "xError": 0.0003999999999564352
+      },
+      {
+        "bottom": 2,
+        "kind": "audio",
+        "top": 2,
+        "widthError": 0.0003999999999564352,
+        "xError": 0
+      }
+    ],
+    "laneDeltas": [
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      }
+    ],
+    "overflow": false,
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "clips": [
+      {
+        "bottom": 27,
+        "kind": "fx",
+        "top": 2,
+        "widthError": -0.0007279999999987297,
+        "xError": 0
+      },
+      {
+        "bottom": 2,
+        "kind": "text",
+        "top": 27,
+        "widthError": -0.0024875000000292857,
+        "xError": 0
+      },
+      {
+        "bottom": 2,
+        "kind": "video",
+        "top": 2,
+        "widthError": -0.0035524999999552165,
+        "xError": -0.006747499999960382
+      },
+      {
+        "bottom": 2,
+        "kind": "video",
+        "top": 2,
+        "widthError": -0.0042600000000447835,
+        "xError": 0
+      },
+      {
+        "bottom": 2,
+        "kind": "video",
+        "top": 2,
+        "widthError": -0.0024875000000292857,
+        "xError": -0.0042600000000447835
+      },
+      {
+        "bottom": 2,
+        "kind": "audio",
+        "top": 2,
+        "widthError": -0.0042600000000447835,
+        "xError": 0
+      }
+    ],
+    "laneDeltas": [
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      },
+      {
+        "h": 0,
+        "y": 0
+      }
+    ],
+    "overflow": false,
+    "size": [
+      1920,
+      1080
+    ]
+  }
+]
