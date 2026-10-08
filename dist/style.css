@@ -472,3 +472,12 @@ body.inspector-expanded #selectionLabel{white-space:normal;overflow-wrap:anywher
 body[data-ui=phone] .setting-reset{min-width:36px;min-height:36px}body[data-ui=phone] .track-head button .pve-icon{width:18px;height:18px}
 
 .audio-clip>span .pve-icon{width:10px;height:10px}
+
+/* 2.2.34: workflow controls fit their group; focus shares the button boundary. */
+body:not([data-ui=phone]) .workflow-group{opacity:1}
+body:not([data-ui=phone]) .workflow button{border:1px solid transparent;min-height:0;box-sizing:border-box;color:#aab5ad}
+body:not([data-ui=phone]) .workflow button.active{border-color:#85956e;color:var(--accent)}
+body:not([data-ui=phone]) .workflow button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+@media(min-width:1201px){body:not([data-ui=phone]) .workflow-group{padding:11px 5px 2px}body:not([data-ui=phone]) .workflow-label{top:3px;font-size:8px;line-height:8px;letter-spacing:.09em;color:#99a69d}body:not([data-ui=phone]) .workflow button{height:28px}}
+@media(min-width:801px) and (max-width:1200px){body:not([data-ui=phone]) .workflow-group{padding:2px 5px}body:not([data-ui=phone]) .workflow button{height:31px}}
+@media(max-width:800px){body:not([data-ui=phone]) .workflow button{height:35px}}

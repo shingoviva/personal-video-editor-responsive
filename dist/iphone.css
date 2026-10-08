@@ -307,3 +307,9 @@ body[data-ui=phone] .phone-sheet-header{border-bottom:1px solid #3a4733;backgrou
 body[data-ui=phone] .inspector-tabs button{border-radius:6px}
 body[data-ui=phone] .inspector-tabs button.selected{background:#303d27;color:#e4efb8;border-color:#8d9d68}
 @media(max-width:360px){body[data-ui=phone] .viewer-controls .mono{font-size:10px}}
+
+/* Artwork legibility without taking space from preview or timeline. */
+body[data-ui=phone] .top-history .pve-icon,body[data-ui=phone] #phonePreviewExpand .pve-icon{width:20px;height:20px}
+body[data-ui=phone] .video-head.is-hidden,body[data-ui=phone] .overlay-head.is-hidden{opacity:1}
+body[data-ui=phone] .video-head.is-hidden strong,body[data-ui=phone] .overlay-head.is-hidden strong{color:#b6aaa0}
+body[data-ui=phone] .setting-reset{color:#c0cdb5}

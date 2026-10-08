@@ -1,6 +1,6 @@
 {
   "name": "personal-video-editor",
-  "version": "2.2.33",
+  "version": "2.2.34",
   "private": true,
   "type": "module",
   "scripts": {

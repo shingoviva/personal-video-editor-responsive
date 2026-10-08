@@ -1,0 +1,626 @@
+[
+  {
+    "height": 900,
+    "pageOverflow": 0,
+    "tabs": [
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "LIBRARY",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "BASIC",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "MOTION",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "COLOR",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "LOOKS",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "TEXT",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "FX",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "MIX",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "✧ ANALYZE",
+        "top": 12
+      }
+    ],
+    "ui": "desktop",
+    "width": 1440
+  },
+  {
+    "height": 768,
+    "pageOverflow": 0,
+    "tabs": [
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 31,
+        "name": "LIBRARY",
+        "top": 3
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 31,
+        "name": "BASIC",
+        "top": 3
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 31,
+        "name": "MOTION",
+        "top": 3
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 31,
+        "name": "COLOR",
+        "top": 3
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 31,
+        "name": "LOOKS",
+        "top": 3
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 31,
+        "name": "TEXT",
+        "top": 3
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 31,
+        "name": "FX",
+        "top": 3
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 31,
+        "name": "MIX",
+        "top": 3
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 31,
+        "name": "✧ ANALYZE",
+        "top": 3
+      }
+    ],
+    "ui": "desktop",
+    "width": 1024
+  },
+  {
+    "height": 700,
+    "pageOverflow": 0,
+    "tabs": [
+      {
+        "border": "1px",
+        "bottomOver": 87,
+        "focusOffset": "0px",
+        "h": 35,
+        "name": "LIBRARY",
+        "top": 52
+      },
+      {
+        "border": "1px",
+        "bottomOver": 87,
+        "focusOffset": "0px",
+        "h": 35,
+        "name": "BASIC",
+        "top": 52
+      },
+      {
+        "border": "1px",
+        "bottomOver": 87,
+        "focusOffset": "0px",
+        "h": 35,
+        "name": "MOTION",
+        "top": 52
+      },
+      {
+        "border": "1px",
+        "bottomOver": 87,
+        "focusOffset": "0px",
+        "h": 35,
+        "name": "COLOR",
+        "top": 52
+      },
+      {
+        "border": "1px",
+        "bottomOver": 87,
+        "focusOffset": "0px",
+        "h": 35,
+        "name": "LOOKS",
+        "top": 52
+      },
+      {
+        "border": "1px",
+        "bottomOver": 87,
+        "focusOffset": "0px",
+        "h": 35,
+        "name": "TEXT",
+        "top": 52
+      },
+      {
+        "border": "1px",
+        "bottomOver": 87,
+        "focusOffset": "0px",
+        "h": 35,
+        "name": "FX",
+        "top": 52
+      },
+      {
+        "border": "1px",
+        "bottomOver": 87,
+        "focusOffset": "0px",
+        "h": 35,
+        "name": "MIX",
+        "top": 52
+      },
+      {
+        "border": "1px",
+        "bottomOver": 87,
+        "focusOffset": "0px",
+        "h": 35,
+        "name": "✧ ANALYZE",
+        "top": 52
+      }
+    ],
+    "ui": "desktop",
+    "width": 800
+  },
+  {
+    "height": 1080,
+    "pageOverflow": 0,
+    "tabs": [
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "LIBRARY",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "BASIC",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "MOTION",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "COLOR",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "LOOKS",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "TEXT",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "FX",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "MIX",
+        "top": 12
+      },
+      {
+        "border": "1px",
+        "bottomOver": -3,
+        "focusOffset": "0px",
+        "h": 28,
+        "name": "✧ ANALYZE",
+        "top": 12
+      }
+    ],
+    "ui": "desktop",
+    "width": 1920
+  },
+  {
+    "headIcons": [
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      },
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      },
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      },
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      }
+    ],
+    "height": 650,
+    "pageOverflow": 0,
+    "pane": {
+      "preview": 287,
+      "timeline": 225
+    },
+    "tools": [
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "素材",
+        "width": 44
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "編集",
+        "width": 44
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "カラー",
+        "width": 44
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "ルック",
+        "width": 44
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "テキスト",
+        "width": 44
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "音声",
+        "width": 44
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "その他",
+        "width": 44
+      }
+    ],
+    "ui": "phone",
+    "width": 320
+  },
+  {
+    "headIcons": [
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      },
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      },
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      },
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      }
+    ],
+    "height": 650,
+    "pageOverflow": 0,
+    "pane": {
+      "preview": 287,
+      "timeline": 225
+    },
+    "tools": [
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "素材",
+        "width": 54.421875
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "編集",
+        "width": 54.4296875
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "カラー",
+        "width": 54.4296875
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "ルック",
+        "width": 54.4296875
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "テキスト",
+        "width": 54.4296875
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "音声",
+        "width": 54.4296875
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "その他",
+        "width": 54.4296875
+      }
+    ],
+    "ui": "phone",
+    "width": 393
+  },
+  {
+    "headIcons": [
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      },
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      },
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      },
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      }
+    ],
+    "height": 852,
+    "pageOverflow": 0,
+    "pane": {
+      "preview": 400,
+      "timeline": 314
+    },
+    "tools": [
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "素材",
+        "width": 59.7109375
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "編集",
+        "width": 59.71875
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "カラー",
+        "width": 59.7109375
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "ルック",
+        "width": 59.71875
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "テキスト",
+        "width": 59.7109375
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "音声",
+        "width": 59.71875
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "その他",
+        "width": 59.7109375
+      }
+    ],
+    "ui": "phone",
+    "width": 430
+  },
+  {
+    "headIcons": [
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      },
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      },
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      },
+      {
+        "height": 18,
+        "inside": true,
+        "width": 18
+      }
+    ],
+    "height": 393,
+    "pageOverflow": 0,
+    "pane": {
+      "preview": 267,
+      "timeline": 267
+    },
+    "tools": [
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "素材",
+        "width": 82.5703125
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "編集",
+        "width": 82.578125
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "カラー",
+        "width": 82.5703125
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "ルック",
+        "width": 82.5703125
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "テキスト",
+        "width": 82.5703125
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "音声",
+        "width": 82.5703125
+      },
+      {
+        "height": 46,
+        "iconInside": true,
+        "name": "その他",
+        "width": 82.5703125
+      }
+    ],
+    "ui": "phone",
+    "width": 590
+  }
+]
