@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {project,clip,sequence} from '../dist/model.js';
+import {movePhoneLayer} from '../dist/iphone-edit.js';
+import {detachAudio} from '../dist/audio-timeline.js';
+const p=project(),m={id:'v',duration:4,kind:'video',audio:true};p.media=[m];p.clips=[{...clip(m),id:'base',out:2},{...clip(m),id:'top',in:1,out:3}];
+const linked=detachAudio(p,'top',0),original=sequence(p).find(r=>r.clip.id==='top');movePhoneLayer(p,'video','top',2);
+assert.equal(p.clips[1].start,original.start);assert.equal(p.clips[1].layer,2);assert.equal(linked.start,original.start);assert.equal(linked.layer,0);
+movePhoneLayer(p,'audio',linked.id,3);assert.equal(linked.layer,3);assert.equal(p.clips[1].layer,2);
+p.clips[0].start=2;const snapshot=JSON.stringify(p);assert.throws(()=>movePhoneLayer(p,'video','top',0),/同じ時間/);assert.equal(JSON.stringify(p),snapshot,'collision leaves project unchanged');
+p.texts=[{id:'text',start:0,end:4,layer:0}];movePhoneLayer(p,'text','text',2);assert.equal(p.texts[0].layer,2);assert.equal(p.texts[0].end,4);assert.throws(()=>movePhoneLayer(p,'text','text',3));
+console.log('Phone explicit video/audio/text lane transfer, preserved timing, linked source audio and collision rollback PASS');

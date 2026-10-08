@@ -15,3 +15,15 @@ export function trimPhoneClip(p,c,{input,output,length,limit,ripple=true}){
  const delta=timing(c).duration-old;if(ripple)for(const r of rows)if(r.clip.id!==c.id&&r.layer===row.layer&&r.start>=row.end-.0001){r.clip.start=Math.max(0,r.start+delta);syncLinkedAudio(p,r.clip)}
  syncLinkedAudio(p,c);return c;
 }
+
+export function movePhoneLayer(p,kind,id,layer,{apply=true}={}){
+ const collection=kind==='video'?p.clips:kind==='audio'?p.audioClips:kind==='text'?p.texts:p.effects;
+ const item=collection.find(c=>c.id===id),count=kind==='audio'?4:3;
+ if(!item||!Number.isInteger(layer)||layer<0||layer>=count)throw Error('クリップと移動先レイヤーを選択してください。');
+ const rows=kind==='video'?sequence(p):kind==='audio'?audioSequence(p):null,row=rows?.find(r=>r.clip.id===id);
+ if(rows&&layer!==(item.layer||0)&&rows.some(r=>r.clip.id!==id&&r.layer===layer&&!r.clip.gap&&r.start<row.end-.0001&&r.end>row.start+.0001))throw Error('移動先の同じ時間にクリップがあります。別の段を選ぶか、配置時刻を変更してください。');
+ if(!apply)return item;
+ if(rows){anchor(p);item.start=row.start}item.layer=layer;
+ if(kind==='video')syncLinkedAudio(p,item);
+ return item;
+}

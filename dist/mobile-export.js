@@ -25,17 +25,17 @@ export async function exportStorageInfo(){let count=0,bytes=0;try{const dir=awai
 export async function rememberedExport(){try{const info=JSON.parse(localStorage.getItem('pve.iphone.last-export'));if(!info)return null;const root=await navigator.storage.getDirectory(),dir=await root.getDirectoryHandle('pve-iphone-renders'),handle=await dir.getFileHandle(info.path);return{...info,file:await handle.getFile()}}catch{return null}}
 export async function rememberExport(result,name){let previous,saved=false;try{previous=JSON.parse(localStorage.getItem('pve.iphone.last-export'));localStorage.setItem('pve.iphone.last-export',JSON.stringify({path:result.path,width:result.width,height:result.height,fps:result.fps,duration:result.duration,name}));saved=true}catch{}if(saved&&previous?.path&&previous.path!==result.path)await deleteRender(previous.path)}
 let activeDownload;
-export function confirmDeviceResultClose({modal,restore,dialog=document.querySelector('#modal')}){
+export function confirmDeviceResultClose({modal,restore,onReturn=()=>{},dialog=document.querySelector('#modal')}){
  modal(`<div class="modal-top"><h2>このウインドウを閉じますか？</h2></div><p>完成したMP4の保存先を確認してから閉じてください。編集内容は保持されます。</p><div class="modal-actions"><button id="keepExportResult">書き出し結果へ戻る</button><button id="confirmCloseExportResult" class="primary">閉じる</button></div>`);
  document.querySelector('#keepExportResult').onclick=restore;
- document.querySelector('#confirmCloseExportResult').onclick=()=>dialog.close();
+ document.querySelector('#confirmCloseExportResult').onclick=()=>{for(const media of (dialog.querySelectorAll?.('video,audio')||[]))media.pause();onReturn();dialog.close()};
 }
-export function showDeviceResult(result,name,{modal,head,esc,status}){
+export function showDeviceResult(result,name,{modal,head,esc,status,onReturn}){
  activeDownload?.dispose();const file=new File([result.file],safeName(name,'mp4'),{type:'video/mp4'});activeDownload=downloadable(file);const url=activeDownload.url;
- const content=head('MP4を作成しました')+`<video controls playsinline src="${url}" style="width:100%;max-height:40dvh;background:#000"></video><p class="mono">${result.width} × ${result.height} · ${result.fps} FPS · ${(result.file.size/1e6).toFixed(1)} MB</p>${(result.notes||[]).map(note=>`<p class="small-note">${esc(note)}</p>`).join('')}<div class="save-actions"><button id="shareMovie" class="primary">写真・ファイルへ保存</button><a class="download-link" href="${url}" download="${esc(file.name)}">ファイルとして保存 ↓</a></div><p id="deviceSaveStatus" role="status" class="small-note">共有画面で「ビデオを保存」を選ぶと「写真」へ、「ファイルに保存」を選ぶと本体やiCloud Driveへ保存できます。項目はiOSとブラウザにより異なります。</p>${result.test?'':'<p class="small-note">端末内に直近の書き出しを保持しています。再度開くにはIMPORTの「前回のMP4を開く」。</p>'}`;
+ const content=head('MP4を作成しました')+`<video controls playsinline src="${url}" style="width:100%;max-height:40dvh;background:#000"></video><p class="mono">${result.width} × ${result.height} · ${result.fps} FPS · ${(result.file.size/1e6).toFixed(1)} MB</p>${Number.isFinite(result.elapsedSeconds)?`<p class="small-note">処理時間 ${result.elapsedSeconds.toFixed(1)}秒</p>`:''}${(result.notes||[]).map(note=>`<p class="small-note">${esc(note)}</p>`).join('')}<div class="save-actions"><button id="shareMovie" class="primary">写真・ファイルへ保存</button><a class="download-link" href="${url}" download="${esc(file.name)}">ファイルとして保存 ↓</a></div><p id="deviceSaveStatus" role="status" class="small-note">共有画面で「ビデオを保存」を選ぶと「写真」へ、「ファイルに保存」を選ぶと本体やiCloud Driveへ保存できます。項目はiOSとブラウザにより異なります。</p>${result.test?'':'<p class="small-note">端末内に直近の書き出しを保持しています。再度開くにはIMPORTの「前回のMP4を開く」。</p>'}`;
  const showResult=()=>{modal(content);const button=document.querySelector('#shareMovie');if(!canShareFile(file)){button.disabled=true;document.querySelector('#deviceSaveStatus').textContent='共有保存に未対応です。「ファイルとして保存」を選んでください。iPhoneではSafariで開くと共有保存を利用できる場合があります。'}
   button.onclick=async()=>{try{await shareFile(file);document.querySelector('#deviceSaveStatus').textContent='共有先で保存をご確認ください。';}catch(e){if(e.name!=='AbortError')document.querySelector('#deviceSaveStatus').textContent=e.message;}};
-  const close=document.querySelector('#modalContent .modal-top [data-close]');if(close)close.onclick=()=>confirmDeviceResultClose({modal,restore:showResult});
+  const close=document.querySelector('#modalContent .modal-top [data-close]');if(close)close.onclick=()=>confirmDeviceResultClose({modal,restore:showResult,onReturn});
  };
  showResult();
  status('MP4を作成しました。保存先を選んでください。');
