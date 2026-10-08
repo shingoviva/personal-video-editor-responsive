@@ -15,5 +15,6 @@ const bind=()=>bindTimeline({root,rows:sequence(p),duration:10,select(){},begin(
 const event=x=>({button:0,pointerType:'touch',pointerId:1,clientX:x,clientY:0,target:{closest:()=>null}});
 bind();element.onpointerdown(event(0));element.onpointermove(event(100));element.onpointercancel();assert.equal(changes,0);assert.equal(p.clips[0].start,0);
 moving=true;bind();element.onpointerdown(event(0));element.onpointermove(event(100));element.onpointerup(event(100));assert.equal(changes,1);assert.equal(p.clips[0].start,1);
+moving=false;element.classList.contains=()=>true;bind();const trimEvent=x=>({...event(x),target:{closest:()=>({dataset:{edge:'out'}})}});element.onpointerdown(trimEvent(1000));element.onpointermove(trimEvent(900));element.onpointerup(trimEvent(900));assert.equal(p.clips[0].out,9,'selected clip handles trim without move mode');
 delete globalThis.document;
 console.log('Phone portrait/landscape routing, desktop/tablet preservation and scroll vs move PASS');
