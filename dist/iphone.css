@@ -160,3 +160,31 @@ body[data-ui=phone] .phone-layer-items{flex-basis:100%;display:flex;gap:5px;over
 body[data-ui=phone] .phone-layer-items:empty{display:none}
 body[data-ui=phone] .phone-layer-items button{min-width:80px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 body[data-ui=phone] .phone-layer-items button[aria-pressed=true]{border:1px solid var(--accent)}
+
+/* Compact controls and a single stable scroll owner in each phone sheet. */
+body[data-ui=phone]{--phone-bottom:48px}
+body[data-ui=phone] .phone-tools{flex-basis:48px;height:48px;min-height:48px;padding:1px 3px}
+body[data-ui=phone] .phone-tools button{min-height:46px;gap:1px;font-size:10px}
+body[data-ui=phone] .phone-tools button span{font-size:18px;line-height:20px}
+body[data-ui=phone] .phone-clip-actions{flex-basis:36px;height:36px;min-height:36px}
+body[data-ui=phone] .phone-clip-actions button{min-height:36px;font-size:12px;padding:0 4px}
+body[data-ui=phone] .phone-scrubber{flex-basis:24px;height:24px}
+body[data-ui=phone] .phone-scrubber input{height:24px}
+body[data-ui=phone] .viewer-controls{height:38px;min-height:38px}
+body[data-ui=phone] .transport button{min-height:38px;height:38px}
+body[data-ui=phone][data-phone-panel] .inspector{overflow:hidden!important;overscroll-behavior:none;flex-direction:column}
+body[data-ui=phone] #inspectorBody{flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;touch-action:pan-y;scrollbar-gutter:stable}
+body[data-ui=phone] .phone-quick:not([hidden]){flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;touch-action:pan-y;padding:8px 0;gap:8px}
+body[data-ui=phone][data-phone-panel=sound] .inspector{overflow-y:auto!important;overscroll-behavior-y:contain;touch-action:pan-y}
+body[data-ui=phone][data-phone-panel=sound] .phone-quick,body[data-ui=phone][data-phone-panel=sound] #inspectorBody{flex:none;overflow:visible;scrollbar-gutter:auto}
+body[data-ui=phone][data-phone-panel=library] .media-panel{overflow:hidden!important;overscroll-behavior:none}
+body[data-ui=phone] .media-list{overscroll-behavior-y:contain;touch-action:pan-y}
+body[data-ui=phone] .phone-layer-sheet:not([hidden]){padding:8px 10px max(10px,env(safe-area-inset-bottom));touch-action:pan-y;overflow-x:hidden}
+body[data-ui=phone] .phone-layer-tabs{margin-bottom:8px}
+body[data-ui=phone] .phone-layer-selection{padding:8px;margin-bottom:8px}
+body[data-ui=phone] .phone-layer-selection p{margin:4px 0 6px;line-height:1.4}
+body[data-ui=phone] .phone-layer-selection>button{margin-top:0;min-height:34px;font-size:12px}
+body[data-ui=phone] .phone-layer-guide{font-size:12px;line-height:1.45;margin-bottom:8px}
+body[data-ui=phone] .phone-layer-options{margin-top:10px;gap:4px}
+body[data-ui=phone] #phoneSheetClose{min-width:100px;padding:0 8px;font-size:13px}
+.export-stay-notice{padding:12px;border:1px solid #8d995d;border-radius:8px;background:#2d3522;color:#edf2d3;font-size:14px;line-height:1.6}
