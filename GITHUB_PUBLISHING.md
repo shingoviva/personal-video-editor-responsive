@@ -27,3 +27,5 @@
 通常のpushとPull Requestでは `Validate editor` がJavaScriptテスト、静的ビルド、Python動画処理テスト、Mac ZIP生成を実行します。FFmpegの任意機能がランナーにない場合、その機能はスキップとして記録し、不足機能を処理前に検出できることを確認します。Pages公開はこの検証とは別の手動操作です。
 
 iPhone別版2.2.26は既存の本人限定Sitesへ反映します。元のGitHub・元のSite・Mac開発ディレクトリには上書きしません。
+
+iPhone別版2.2.27は本人限定Sitesのみ更新。表示点検記録はVALIDATION.mdとvalidation/iphone-2.2.27-geometry.json。

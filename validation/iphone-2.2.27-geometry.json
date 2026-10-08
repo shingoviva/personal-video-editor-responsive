@@ -1,0 +1,314 @@
+[
+  {
+    "size": {
+      "width": 320,
+      "height": 568
+    },
+    "result": {
+      "clips": [
+        {
+          "bottomGap": 39,
+          "kind": "fx",
+          "topGap": 2,
+          "xError": 0
+        },
+        {
+          "bottomGap": 2,
+          "kind": "text",
+          "topGap": 39,
+          "xError": -0.005731999999994741
+        },
+        {
+          "bottomGap": 12,
+          "kind": "video",
+          "topGap": 4,
+          "xError": 0.000091999999995096
+        },
+        {
+          "bottomGap": 12,
+          "kind": "video",
+          "topGap": 4,
+          "xError": 0
+        },
+        {
+          "bottomGap": 12,
+          "kind": "video",
+          "topGap": 4,
+          "xError": 0
+        },
+        {
+          "bottomGap": 12,
+          "kind": "video",
+          "topGap": 4,
+          "xError": -0.002080499999976837
+        },
+        {
+          "bottomGap": 6,
+          "kind": "audio",
+          "topGap": 0,
+          "xError": 0
+        }
+      ],
+      "lanes": [
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "overlayTrack2"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "overlayTrack1"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "overlayTrack0"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "videoTrackTop"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "videoTrackUpper"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "videoTrack"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "audioTrack0"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "audioTrack1"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "audioTrack2"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "audioTrack3"
+        }
+      ]
+    }
+  },
+  {
+    "size": {
+      "width": 393,
+      "height": 650
+    },
+    "result": {
+      "clips": [
+        {
+          "bottomGap": 39,
+          "kind": "fx",
+          "topGap": 2,
+          "xError": 0
+        },
+        {
+          "bottomGap": 2,
+          "kind": "text",
+          "topGap": 39,
+          "xError": -0.006455499999987069
+        },
+        {
+          "bottomGap": 12,
+          "kind": "video",
+          "topGap": 4,
+          "xError": -0.005092000000004759
+        },
+        {
+          "bottomGap": 12,
+          "kind": "video",
+          "topGap": 4,
+          "xError": 0
+        },
+        {
+          "bottomGap": 12,
+          "kind": "video",
+          "topGap": 4,
+          "xError": 0
+        },
+        {
+          "bottomGap": 12,
+          "kind": "video",
+          "topGap": 4,
+          "xError": -0.0013569999999845097
+        },
+        {
+          "bottomGap": 6,
+          "kind": "audio",
+          "topGap": 0,
+          "xError": 0
+        }
+      ],
+      "lanes": [
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "overlayTrack2"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "overlayTrack1"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "overlayTrack0"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "videoTrackTop"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "videoTrackUpper"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "videoTrack"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "audioTrack0"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "audioTrack1"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "audioTrack2"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "audioTrack3"
+        }
+      ]
+    }
+  },
+  {
+    "size": {
+      "width": 568,
+      "height": 320
+    },
+    "result": {
+      "clips": [
+        {
+          "bottomGap": 39,
+          "kind": "fx",
+          "topGap": 2,
+          "xError": 0
+        },
+        {
+          "bottomGap": 2,
+          "kind": "text",
+          "topGap": 39,
+          "xError": -0.0007574999999917509
+        },
+        {
+          "bottomGap": 12,
+          "kind": "video",
+          "topGap": 4,
+          "xError": -0.002517500000003281
+        },
+        {
+          "bottomGap": 12,
+          "kind": "video",
+          "topGap": 4,
+          "xError": 0
+        },
+        {
+          "bottomGap": 12,
+          "kind": "video",
+          "topGap": 4,
+          "xError": 0
+        },
+        {
+          "bottomGap": 12,
+          "kind": "video",
+          "topGap": 4,
+          "xError": -0.007054999999979827
+        },
+        {
+          "bottomGap": 6,
+          "kind": "audio",
+          "topGap": 0,
+          "xError": 0
+        }
+      ],
+      "lanes": [
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "overlayTrack2"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "overlayTrack1"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "overlayTrack0"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "videoTrackTop"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "videoTrackUpper"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "videoTrack"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "audioTrack0"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "audioTrack1"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "audioTrack2"
+        },
+        {
+          "deltaHeight": 0,
+          "deltaY": 0,
+          "id": "audioTrack3"
+        }
+      ]
+    }
+  }
+]
