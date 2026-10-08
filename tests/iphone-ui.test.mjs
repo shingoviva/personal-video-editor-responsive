@@ -20,7 +20,8 @@ delete globalThis.document;
 console.log('Phone portrait/landscape routing, desktop/tablet preservation and scroll vs move PASS');
 
 // Sheet body has data-phone-panel for styling; clicks on inputs/empty space must not reopen it.
-function node(tag,dataset={},parent=null){return{tag,dataset,parent,closest(selector){for(let n=this;n;n=n.parent)if(n.tag==='button'&&(n.dataset.phonePanel||n.dataset.phoneCommand))return n;return null}}}
+function node(tag,dataset={},parent=null){return{tag,dataset,parent,closest(selector){for(let n=this;n;n=n.parent)if((!selector.includes('button[')||n.tag==='button')&&(n.dataset.phonePanel||n.dataset.phoneCommand))return n;return null}}}
 const sheetBody=node('body',{phonePanel:'motion'}),slider=node('input',{},sheetBody),closeButton=node('button',{},sheetBody),tabButton=node('button',{phonePanel:'fx'},sheetBody),icon=node('span',{},tabButton);
+assert.equal(slider.closest('[data-phone-panel],[data-phone-command]'),sheetBody,'the previous selector incorrectly matched the sheet body');
 assert.equal(phonePanelTrigger(slider),null);assert.equal(phonePanelTrigger(closeButton),null);assert.equal(phonePanelTrigger(sheetBody),null);assert.equal(phonePanelTrigger(icon),tabButton);
 console.log('Phone sheet inputs and return button never resolve the body as a panel trigger PASS');
