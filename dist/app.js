@@ -1,4 +1,4 @@
-import {clipEnvelopeOwnsPointer} from './clip-envelope-ui.js';
+import {clipEnvelopeOwnsPointer} from './clip-envelope-ui.js?v=2.2.32';
 import {bindPhoneTouch} from './phone-touch.js';
 import {advancePhoneClock} from './phone-playback-clock.js';
 import {PhonePreviewBudget} from './phone-preview-budget.js?v=2.2.30';
@@ -51,7 +51,7 @@ import{retainFile,restoreFile,forgetUnused,vaultInfo}from'./media-vault.js';
 import{supportsProjectFolders,createProjectFolder,chooseProjectFolder,openRecentProject,saveFolderProject,saveBrowserProject,listRecentProjects,referencedMediaIds,copyMediaToProject,restoreProjectMediaFile}from'./project-storage.js';
 import{deviceSupport,renderOnDevice,showDeviceResult,rememberExport,rememberedExport,deleteRender,cleanOldExports,exportStorageInfo}from'./mobile-export.js';
 import{outputSettings,gainAt}from'./mobile-model.js';
-import{bindClipEnvelope}from'./clip-envelope-ui.js';
+import{bindClipEnvelope}from'./clip-envelope-ui.js?v=2.2.32';
 import{normalizeEnvelope,remapEnvelope,envelopeDbAt,addEnvelopePoint}from'./clip-envelope.js';
 import{shareFile,canShareFile,safeName}from'./device-save.js';
 import{probeFile}from'./media-probe.js';

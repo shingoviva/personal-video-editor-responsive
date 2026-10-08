@@ -450,3 +450,12 @@ body:not([data-ui=phone]) .overlay-track>.fx-chip.text-chip{top:calc(var(--timel
 body:not([data-ui=phone]) .overlay-track:not(:has(>.text-chip))>.fx-chip,
 body:not([data-ui=phone]) .overlay-track:not(:has(>[data-fx]))>.text-chip{top:2px;height:calc(var(--timeline-overlay-lane) - 4px);line-height:48px}
 body:not([data-ui=phone]) .control-section input[type=range]{margin-inline:0;box-sizing:border-box}
+
+/* Match envelope time to the clip border box, without compressing the waveform. */
+.audio-clip.clip-block .gain-envelope-canvas{left:-1px;right:-1px;width:calc(100% + 2px)}
+/* Inspector spacing must follow the narrow-window padding as well as desktop. */
+body:not([data-ui=phone]) #inspectorBody{--inspector-inset:20px}
+body:not([data-ui=phone]) #inspectorBody:has(>.inspector-tabs){padding-top:0;scroll-padding-top:60px}
+body:not([data-ui=phone]) .inspector-tabs{top:0;margin:0 calc(-1 * var(--inspector-inset)) 18px}
+@media(max-width:800px){body:not([data-ui=phone]) #inspectorBody{--inspector-inset:14px}}
+.audio-clip.clip-block{border-width:1px} /* Selection uses the existing outline/shadow without changing the time grid. */
