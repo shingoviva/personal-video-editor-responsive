@@ -24,6 +24,7 @@ export function bindPhoneUI({openTab,command,refresh,pause}){
  // Existing asset placement buttons keep their native action and dismiss afterwards.
  document.querySelector('.media-panel').addEventListener('click',e=>{if(e.target.closest('[data-use-asset]'))requestAnimationFrame(dismiss);else if(e.target.closest('[data-manage-asset]'))open('import',e.target.closest('button'))});
  backdrop.onclick=close.onclick=dismiss;
+ window.addEventListener('pve-phone-imported',dismiss);
  document.addEventListener('keydown',e=>{if(!panel||$('modal').open)return;if(e.key==='Escape'){e.preventDefault();e.stopPropagation();dismiss()}if(e.key==='Tab'){
   const surface=panel==='library'?document.querySelector('.media-panel'):panel==='more'?menu:document.querySelector('.inspector');
   const items=[close,...surface.querySelectorAll('button,input,select,textarea,a[href]')].filter(el=>!el.disabled&&el.getClientRects().length);const i=items.indexOf(document.activeElement);e.preventDefault();items[(i+(e.shiftKey?-1:1)+items.length)%items.length]?.focus();

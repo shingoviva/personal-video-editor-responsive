@@ -367,10 +367,11 @@ function showRelinkCandidates(files){
 }
 async function importFiles(files,isBgm=false,targetId=null){
  if(busy)return toast('現在の処理が終わるまでお待ちください。');pause();busy=true;cancelled=false;importProgress();
+ const phoneImport=document.body.dataset.ui==='phone';
  let added=0,errors=[],audioCursor=time;
  try{
  for(const file of files){
-  const already=!targetId&&P.media.find(m=>m.name===file.name&&m.size===file.size&&linkURL(m));if(already){selectedAsset=already.id;if(isBgm&&already.audio&&P.audioClips.length<200){checkpoint();const a=appendAudio(P,already,audioCursor,activeAudioLayer);selectedAudio=a.id;selected=null;audioCursor+=timing(a).duration;save()}continue}
+  const already=!targetId&&P.media.find(m=>m.name===file.name&&m.size===file.size&&linkURL(m));if(already){selectedAsset=already.id;if(phoneImport&&!isBgm&&!usage(P,already.id)){if(mediaKind(already)==='audio')useAudio(already.id);else appendMedia(already.id);added++}if(isBgm&&already.audio&&P.audioClips.length<200){checkpoint();const a=appendAudio(P,already,audioCursor,activeAudioLayer);selectedAudio=a.id;selected=null;audioCursor+=timing(a).duration;save()}continue}
   if(cancelled)break;if(P.media.length>=200){errors.push('素材は200件までです。');break}
   let m,url,retained=false;
   try{
@@ -405,15 +406,20 @@ async function importFiles(files,isBgm=false,targetId=null){
    if(!engine&&url){
     const stored=P.media.find(item=>item.id===m.id)||m;localFiles.set(m.id,file);
     if(projectDirectory){try{progress('プロジェクトフォルダへ素材をコピー中',.85);stored.projectPath=await copyMediaToProject(projectDirectory,stored,file);m.projectPath=stored.projectPath;stored.retained=true}catch(e){stored.retained=false;errors.push(file.name+'：プロジェクトへのコピーに失敗。'+e.message)}}
-    else try{progress('再開用に素材を端末へ保存中',.85);await retainFile(m.id,file,operationAbort?.signal);stored.retained=true}catch(e){stored.retained=false;errors.push(file.name+'：再開用の保存に失敗。次回は再リンクしてください。 '+e.message)}
+    else if(phoneImport){
+     stored.retained=false;
+     // Editing uses the original File immediately; resume copies must never block it.
+     retainFile(m.id,file).then(()=>{if(P.media.includes(stored)){stored.retained=true;save()}}).catch(e=>{if(P.media.includes(stored)){stored.retained=false;save();toast('再開用の保存に失敗しました。現在の編集は続けられます。元素材を残してください。')}});
+    }else try{progress('再開用に素材を端末へ保存中',.85);await retainFile(m.id,file,operationAbort?.signal);stored.retained=true}catch(e){stored.retained=false;errors.push(file.name+'：再開用の保存に失敗。次回は再リンクしてください。 '+e.message)}
    }
    if(engine){capsMedia.add(m.id);if(mediaKind(m)==='video'){try{const r=await api('/api/prepare',{media:m.id});Object.assign(m,await watchJob(r.job))}catch(e){errors.push(file.name+'：プロキシ生成 '+e.message)}}}
+   if(phoneImport&&!isBgm&&(!missing||!usage(P,m.id))){if(mediaKind(m)==='audio')useAudio(m.id);else appendMedia(m.id);}
    save();render();
   }catch(e){if(url&&!retained)URL.revokeObjectURL(url);if(e.name==='AbortError'||cancelled)break;errors.push(file.name+'：'+e.message)}
  }
- $('#modal').close();tab=isBgm?'sound':'import';render();if(P.clips.length)await seek(sequence(P).find(r=>r.clip.id===selected)?.start||0);
+ $('#modal').close();tab=isBgm?'sound':phoneImport?(selectedAudio?'sound':'cut'):'import';render();if(phoneImport&&added)window.dispatchEvent(new Event('pve-phone-imported'));if(P.clips.length)await seek(sequence(P).find(r=>r.clip.id===selected)?.start||0);
  if(errors.length){const details=()=>modal(head('読み込み結果')+`<p>${added}件を追加しました。読み込み済みの素材は保持しています。</p><p class="small-note">${errors.map(esc).join('<br>')}</p><p class="small-note">再開用の保存に失敗した素材は、専用フォルダへ保存するか、次回再リンクしてください。</p><div class="modal-actions"><button data-close>閉じる</button></div>`);if(!added)details();else{let notice=$('#importNotice');if(!notice){notice=document.createElement('div');notice.id='importNotice';notice.className='import-notice';notice.setAttribute('role','status');document.body.append(notice)}notice.innerHTML=`<span>${translate('素材は読み込み済みです。保存などの警告があります。')}</span><button id="importDetails">${translate('詳細')}</button><button id="dismissImportNotice" aria-label="${translate('閉じる')}">×</button>`;$('#importDetails').onclick=details;$('#dismissImportNotice').onclick=()=>notice.remove();}}
- else toast(cancelled?'処理を中止しました。読み込み済みの素材は保持しています。':added+'件をMEDIAへ追加しました。配置ボタン、またはMacではドラッグしてタイムラインへ置けます。');
+ else toast(cancelled?'処理を中止しました。読み込み済みの素材は保持しています。':phoneImport?added+'件を追加しました。すぐに編集できます。':added+'件をMEDIAへ追加しました。配置ボタン、またはMacではドラッグしてタイムラインへ置けます。');
  }finally{$('#importProgress')?.remove();busy=false;jobID=null;$('#filePicker').value='';$('#bgmPicker').value=''}
 }
 
