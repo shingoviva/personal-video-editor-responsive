@@ -219,3 +219,22 @@ body[data-ui=phone] .video-head>[data-video-visible],body[data-ui=phone] .overla
 body[data-ui=phone] .audio-head>button[data-audiofocus]{min-height:20px;height:20px}
 body[data-ui=phone] .audio-head [data-trackmute][aria-pressed=true]{background:#604530;color:#ffe0b6}
 body[data-ui=phone] .video-head>[aria-pressed=false],body[data-ui=phone] .overlay-head>[aria-pressed=false]{background:#45382e;color:#dfbba3}
+
+/* Phone sheets must not inherit the desktop tabs' negative sticky offset. */
+body[data-ui=phone] .inspector-tabs{top:0;margin:0 0 12px;padding:6px 0;grid-template-columns:repeat(4,minmax(0,1fr));width:100%;background:#191f1a;gap:4px}
+body[data-ui=phone] .inspector-tabs>span{display:none}
+body[data-ui=phone] .inspector-tabs button{min-height:36px;height:36px;font-size:11px;padding:0 3px;letter-spacing:0;white-space:nowrap}
+body[data-ui=phone] #inspectorBody{scroll-padding-top:54px;padding-bottom:max(24px,env(safe-area-inset-bottom));scrollbar-gutter:auto}
+body[data-ui=phone] .control-section{min-width:0;overflow-wrap:anywhere}
+body[data-ui=phone] .speed-hero{gap:6px;flex-wrap:wrap}
+body[data-ui=phone] .speed-hero input{width:110px;min-width:0;font-size:28px;letter-spacing:-.04em}
+body[data-ui=phone] .speed-hero #speedReset{min-height:36px;font-size:12px}
+body[data-ui=phone] #playheadHandle{padding:0 5px;overflow:visible}
+body[data-ui=phone] #playheadHandle::before{top:100%;left:50%;right:auto;width:8px;height:5px;clip-path:polygon(0 0,100% 0,50% 100%);background:#eaf3cf}
+body[data-ui=phone] .clip-block>span:not(.trim-handle){display:block;margin-inline:6px;max-width:calc(100% - 12px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body[data-ui=phone] .clip-block>small:not(.waveform-progress){margin-inline:6px;max-width:calc(100% - 12px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body[data-ui=phone] .clip-block.selected>span:not(.trim-handle),body[data-ui=phone] .clip-block.selected>small:not(.waveform-progress){margin-inline:25px;max-width:calc(100% - 50px)}
+body[data-ui=phone] .track-labels{overflow:clip}
+@media(max-width:360px){body[data-ui=phone] #phoneView{width:68px;min-width:56px}body[data-ui=phone] .timeline-toolbar button{padding:0 3px;font-size:11px}body[data-ui=phone] .viewer-controls{gap:3px;padding-inline:4px}body[data-ui=phone] .transport button{width:33px;min-width:33px}body[data-ui=phone] .viewer-controls .mono{font-size:10px}}
+
+body[data-ui=phone] .control-section input[type=range]{width:100%;box-sizing:border-box;margin-inline:0}
