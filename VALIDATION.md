@@ -1,3 +1,10 @@
+## 2.2.36 — タイトルバー圧縮（2026-10-09）
+
+- スマホヘッダー44→40px。履歴ボタン38px、書き出し32→30px、ロゴ17→16px。タイトル文字12px・SVG20px・横幅を維持。Macは変更なし。
+- 320×650／393×650／430×852／590×393でheader40px、タイトル・Undo・Redo・書き出しが全て枠内、横超過0。393×650でプレビュー291px／タイムライン229px（前版289／227）。Mac1440×900はheader62px、desktop UI、横超過0。validation/2.2.36-ui-geometry.jsonとiphone-2.2.36-header.jpg。
+- AndroidはUAによる拒否なし、phoneLayoutの画面幅／coarse pointerでスマホUIへ。端末書き出しはVideoEncoder・AudioEncoder・Worker・OffscreenCanvas・OPFSを必要とし、Worker内でH.264/AAC対応を個別チェック。Android実機・指操作・実写HDR・長時間編集は未検証。
+- localhostサーバー試験成功。npm test・build・Python処理・Mac ZIPは反映前に完了を確認。元のMac版161ファイルは全てハッシュ一致。
+
 ## 2.2.35 — iPhoneの整列・余白・高さ配分（2026-10-09）
 
 - 中央4項目のボタン／native selectを同じ28px・align-self centerへ。phone-onlyのdisplay:flexをselectのみblockに戻し、native選択文字のズレを解消。操作段32→30px、下部アクション34→32px、ツール48→46px（ボタン44pxを維持）、合計6pxを編集領域へ戻す。

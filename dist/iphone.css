@@ -324,3 +324,10 @@ body[data-ui=phone] .phone-clip-actions,body[data-ui=phone] .phone-clip-actions 
 body[data-ui=phone] .phone-clip-actions{flex-basis:32px}
 body[data-ui=phone] .phone-tools{height:46px;min-height:46px;flex-basis:46px;padding:1px 4px}
 body[data-ui=phone] .phone-tools button{height:44px;min-height:44px;gap:1px}
+
+/* A modest header reduction preserves readable titles and history icons. */
+body[data-ui=phone]{--phone-header:40px}
+body[data-ui=phone] .topbar{flex-basis:40px;height:40px;min-height:40px;gap:4px}
+body[data-ui=phone] .brand{font-size:16px}
+body[data-ui=phone] .top-history button{height:38px;min-height:38px}
+body[data-ui=phone] #exportButton{height:30px;min-height:30px;padding-inline:9px}

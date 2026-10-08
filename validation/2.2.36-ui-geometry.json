@@ -1,0 +1,157 @@
+[
+  {
+    "header": 40,
+    "headerContents": [
+      {
+        "height": 14,
+        "id": "projectName",
+        "within": true
+      },
+      {
+        "height": 38,
+        "id": "topUndo",
+        "within": true
+      },
+      {
+        "height": 38,
+        "id": "topRedo",
+        "within": true
+      },
+      {
+        "height": 30,
+        "id": "exportButton",
+        "within": true
+      }
+    ],
+    "height": 650,
+    "overflow": 0,
+    "preview": 291,
+    "timeline": 229,
+    "ui": "phone",
+    "width": 320
+  },
+  {
+    "header": 40,
+    "headerContents": [
+      {
+        "height": 14,
+        "id": "projectName",
+        "within": true
+      },
+      {
+        "height": 38,
+        "id": "topUndo",
+        "within": true
+      },
+      {
+        "height": 38,
+        "id": "topRedo",
+        "within": true
+      },
+      {
+        "height": 30,
+        "id": "exportButton",
+        "within": true
+      }
+    ],
+    "height": 650,
+    "overflow": 0,
+    "preview": 291,
+    "timeline": 229,
+    "ui": "phone",
+    "width": 393
+  },
+  {
+    "header": 40,
+    "headerContents": [
+      {
+        "height": 14,
+        "id": "projectName",
+        "within": true
+      },
+      {
+        "height": 38,
+        "id": "topUndo",
+        "within": true
+      },
+      {
+        "height": 38,
+        "id": "topRedo",
+        "within": true
+      },
+      {
+        "height": 30,
+        "id": "exportButton",
+        "within": true
+      }
+    ],
+    "height": 852,
+    "overflow": 0,
+    "preview": 404,
+    "timeline": 318,
+    "ui": "phone",
+    "width": 430
+  },
+  {
+    "header": 40,
+    "headerContents": [
+      {
+        "height": 14,
+        "id": "projectName",
+        "within": true
+      },
+      {
+        "height": 38,
+        "id": "topUndo",
+        "within": true
+      },
+      {
+        "height": 38,
+        "id": "topRedo",
+        "within": true
+      },
+      {
+        "height": 30,
+        "id": "exportButton",
+        "within": true
+      }
+    ],
+    "height": 393,
+    "overflow": 0,
+    "preview": 275,
+    "timeline": 275,
+    "ui": "phone",
+    "width": 590
+  },
+  {
+    "header": 62,
+    "headerContents": [
+      {
+        "height": 29.5,
+        "id": "projectName",
+        "within": true
+      },
+      {
+        "height": 32,
+        "id": "topUndo",
+        "within": true
+      },
+      {
+        "height": 32,
+        "id": "topRedo",
+        "within": true
+      },
+      {
+        "height": 34,
+        "id": "exportButton",
+        "within": true
+      }
+    ],
+    "height": 900,
+    "overflow": 0,
+    "preview": 455.203125,
+    "timeline": 312.796875,
+    "ui": "desktop",
+    "width": 1440
+  }
+]
