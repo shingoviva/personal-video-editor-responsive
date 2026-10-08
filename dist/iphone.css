@@ -313,3 +313,14 @@ body[data-ui=phone] .top-history .pve-icon,body[data-ui=phone] #phonePreviewExpa
 body[data-ui=phone] .video-head.is-hidden,body[data-ui=phone] .overlay-head.is-hidden{opacity:1}
 body[data-ui=phone] .video-head.is-hidden strong,body[data-ui=phone] .overlay-head.is-hidden strong{color:#b6aaa0}
 body[data-ui=phone] .setting-reset{color:#c0cdb5}
+
+/* Compact, aligned phone chrome; keep the editing surfaces as the priority. */
+body[data-ui=phone] .timeline-toolbar{align-items:center;justify-content:flex-start;flex-basis:30px;height:30px;min-height:30px;padding:0 4px}
+body[data-ui=phone] .timeline-toolbar>button{display:flex;align-items:center;justify-content:center;align-self:center;flex:none;height:28px;min-height:28px;margin:0;padding-block:0;line-height:normal}
+body[data-ui=phone] #phoneView{display:block;align-self:center;flex:none;height:28px;min-height:28px;margin:0;padding:0 4px;line-height:normal;vertical-align:middle}
+body[data-ui=phone] .timeline-toolbar>.timeline-zoom{align-self:center;flex:none;height:28px;margin-left:auto;align-items:center}
+body[data-ui=phone] .timeline-zoom button{height:28px;min-height:28px;padding-block:0}
+body[data-ui=phone] .phone-clip-actions,body[data-ui=phone] .phone-clip-actions button{height:32px;min-height:32px}
+body[data-ui=phone] .phone-clip-actions{flex-basis:32px}
+body[data-ui=phone] .phone-tools{height:46px;min-height:46px;flex-basis:46px;padding:1px 4px}
+body[data-ui=phone] .phone-tools button{height:44px;min-height:44px;gap:1px}

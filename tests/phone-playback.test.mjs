@@ -2,13 +2,14 @@ import assert from 'node:assert/strict';
 import {advancePhoneClock,phonePaneSizes} from '../dist/phone-playback-clock.js';
 import {AudioPreview} from '../dist/audio-preview.js';
 import {project,clip} from '../dist/model.js';
-for(const height of [300,400,480,650,800])for(const mode of ['balanced','preview','timeline']){const {preview,timeline}=phonePaneSizes(height,mode);assert(Math.abs(preview+timeline-(height-12))<=1);assert(preview>=80);assert(timeline>=Math.min(mode==='preview'?152:224,(height-12)*.55)-1)}
+for(const height of [300,400,480,650,800])for(const mode of ['balanced','preview','timeline']){const {preview,timeline}=phonePaneSizes(height,mode);assert(Math.abs(preview+timeline-(height-12))<=1);assert(preview>=80);assert(timeline>=Math.min(mode==='timeline'?224:152,(height-12)*.55)-1)}
 assert(phonePaneSizes(480,'timeline').timeline>phonePaneSizes(480).timeline);
 assert(phonePaneSizes(480,'preview').preview>phonePaneSizes(480).preview);
 assert.equal(advancePhoneClock(2,.016,{waiting:true}),2,'decoder stall freezes the editing clock');
 assert.equal(advancePhoneClock(2,.016,{time:1.8}),2,'clock never runs backward');
 assert.equal(advancePhoneClock(2,.016,{time:2.03}),2.03);
 assert.equal(advancePhoneClock(2,3,null),2.25,'foreground resumption cannot skip several seconds');
+for(const height of [480,650,800]){const large=phonePaneSizes(height,'balanced',.84);assert(large.preview>phonePaneSizes(height).preview);assert(large.timeline>=151);assert.deepEqual(large,phonePaneSizes(height,'preview'))}
 const voices=[];
 globalThis.document={createElement(){let position=0;const voice={dataset:{},paused:true,readyState:2,seeking:false,ended:false,seeks:[],get currentTime(){return position},set currentTime(v){position=v;this.seeks.push(v)},decoded(v){position=v},load(){},pause(){this.paused=true},play(){this.paused=false;return Promise.resolve()},removeAttribute(){}};voices.push(voice);return voice}};
 const audio=new AudioPreview();audio.continuous=true;

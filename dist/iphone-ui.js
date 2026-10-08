@@ -1,5 +1,5 @@
 import {uiIcon} from './ui-icons.js?v=2.2.33';
-import {phonePaneSizes} from './phone-playback-clock.js';
+import {phonePaneSizes} from './phone-playback-clock.js?v=2.2.35';
 import {translate,translateDOM} from './i18n.js';
 export function phoneLayout({width,height,coarse,iphone}){
  return !!iphone||(!!coarse&&Math.min(width,height)<=600)||width<=600;
@@ -21,7 +21,7 @@ export function bindPhoneUI({openTab,command,refresh,pause,getState,getClock,set
  const enlarge=document.createElement('button');enlarge.id='phonePreviewExpand';enlarge.className='phone-only';enlarge.innerHTML=uiIcon('expand');enlarge.setAttribute('aria-label','プレビュー優先へ切り替える');document.querySelector('.viewer-panel').append(enlarge);enlarge.onclick=()=>{paneMode=paneMode==='preview'?'balanced':'preview';view.value=paneMode;resizePanes()};
  function resizePanes(){if(body.dataset.ui!=='phone')return;const sizes=phonePaneSizes(workspace.clientHeight,paneMode,paneRatio);workspace.style.setProperty('--phone-preview',sizes.preview+'px');body.dataset.phoneView=paneMode;refresh()}
  view.onchange=()=>{paneMode=view.value;resizePanes()};new ResizeObserver(resizePanes).observe(workspace);
- grip.onpointerdown=e=>{e.preventDefault();grip.setPointerCapture(e.pointerId);const y=e.clientY,h=document.querySelector('.viewer-panel').clientHeight,total=Math.max(1,workspace.clientHeight-12);pause();grip.onpointermove=e=>{paneRatio=Math.max(.28,Math.min(.76,(h+e.clientY-y)/total));paneMode='balanced';view.value=paneMode;resizePanes()};const finish=()=>{grip.onpointermove=grip.onpointerup=grip.onpointercancel=null};grip.onpointerup=grip.onpointercancel=finish};
+ grip.onpointerdown=e=>{e.preventDefault();grip.setPointerCapture(e.pointerId);const y=e.clientY,h=document.querySelector('.viewer-panel').clientHeight,total=Math.max(1,workspace.clientHeight-12);pause();grip.onpointermove=e=>{paneRatio=Math.max(.28,Math.min(.84,(h+e.clientY-y)/total));paneMode='balanced';view.value=paneMode;resizePanes()};const finish=()=>{grip.onpointermove=grip.onpointerup=grip.onpointercancel=null};grip.onpointerup=grip.onpointercancel=finish};
  const actions=document.querySelector('.phone-clip-actions');actions.innerHTML='<button data-phone-command="split">分割</button><button data-phone-command="ripple">削除</button><button data-phone-command="duplicateClip">複製</button><button data-phone-panel="cut">範囲</button><button id="phoneMove" data-phone-panel="layers">レイヤー移動</button>';
  sequenceBar.onclick=e=>{const b=e.target.closest('[data-phone-item]');if(b){selectItem(b.dataset.kind,b.dataset.phoneItem);sync();if(panel==='clips')dismiss()}};
  $('phoneScrub').oninput=()=>{const value=+$('phoneScrub').value;$('phoneScrubTime').value=(Math.floor(value*100)/100).toFixed(2)+'秒';if(scrubFrame)cancelAnimationFrame(scrubFrame);scrubFrame=requestAnimationFrame(()=>{scrubFrame=0;scrub(value)})};
