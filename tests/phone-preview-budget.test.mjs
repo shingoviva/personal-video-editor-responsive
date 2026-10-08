@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';
+import {PhonePreviewBudget,PhonePlaybackScheduler} from '../dist/phone-preview-budget.js';
+import {previewDimensions} from '../dist/preview.js';
+import {AudioPreview} from '../dist/audio-preview.js';
+import {project,clip} from '../dist/model.js';
+const budget=new PhonePreviewBudget();assert.equal(budget.longEdge,960);
+for(let i=0;i<2;i++)budget.observe(40);assert.equal(budget.longEdge,960,'one or two slow frames do not blur preview');
+budget.observe(40);assert.equal(budget.longEdge,720);assert.equal(budget.interval,50);
+for(let i=0;i<3;i++)budget.observe(50);assert.equal(budget.longEdge,540);assert.equal(budget.interval,1000/15);
+for(let i=0;i<59;i++)budget.observe(1);assert.equal(budget.longEdge,540,'recovery has hysteresis');
+budget.observe(1);assert.equal(budget.longEdge,720);budget.reset();assert.equal(budget.longEdge,960);
+budget.observe(NaN);assert.equal(budget.longEdge,960);
+const scheduler=new PhonePlaybackScheduler();let audioTicks=0,videoTicks=0,resolveVideo,errors=0;
+const callbacks={audio:()=>audioTicks++,video:()=>{videoTicks++;return new Promise(r=>resolveVideo=r)},onError:()=>errors++};
+scheduler.step(0,callbacks);await Promise.resolve();scheduler.step(20,callbacks);scheduler.step(50,callbacks);scheduler.step(100,callbacks);
+assert.equal(audioTicks,3,'audio keeps updating while video decoding waits');assert.equal(videoTicks,1,'only one video sync in flight');
+const oldResolve=resolveVideo;scheduler.reset();scheduler.step(150,callbacks);await Promise.resolve();const newer=scheduler.pending;
+assert.equal(videoTicks,2);oldResolve();await Promise.resolve();await Promise.resolve();assert.equal(scheduler.pending,newer,'old decoder completion cannot unlock a new seek');
+resolveVideo();await newer;assert.equal(scheduler.pending,null);assert.equal(errors,0);
+let staleCalled=false;scheduler.step(200,{audio(){},video(){staleCalled=true}});scheduler.reset();await Promise.resolve();assert.equal(staleCalled,false,'a queued stale seek cannot start after pause');
+scheduler.step(250,{audio(){},video(){throw Error('decode failed')},onError:()=>errors++});await scheduler.pending;assert.equal(errors,1,'decode errors go through the foreground failure handler');
+// Cached playback windows preserve placement and are rebuilt after an edit/pause.
+globalThis.document={createElement:()=>({dataset:{},pause(){},removeAttribute(){},load(){}})};
+const p=project(),m={id:'m',duration:6,audio:true};p.media=[m];p.clips=[{...clip(m),id:'c',start:1}];
+const audio=new AudioPreview();audio.beginPlayback(p);assert.equal(audio.playbackVideo[0][0].start,1);
+let picked;audio.syncLane=(_lane,row)=>{if(row)picked=row};audio.primeNext=()=>{};audio.sync(p,2,true,()=>'/test.mp4');assert.equal(picked.clip.id,'c');
+p.clips[0].start=3;audio.pause();assert.equal(audio.playbackProject,null);audio.beginPlayback(p);assert.equal(audio.playbackVideo[0][0].start,3);
+audio.dispose();delete globalThis.document;
+console.log('Phone adaptive preview, hysteresis, audio during blocked video, stale seek cancellation and playback-cache invalidation PASS');
+
+assert.deepEqual(previewDimensions(3840,2160,'9:16',{phone:true,longEdge:540}),{width:304,height:540});
+assert.deepEqual(previewDimensions(3840,2160,'9:16',{phone:true}),{width:540,height:960},'stopped phone preview returns to its full budget');
+assert.deepEqual(previewDimensions(3840,2160,'9:16',{phone:true,longEdge:540,width:2160,height:3840}),{width:2160,height:3840},'explicit export dimensions are never adapted');
+assert.deepEqual(previewDimensions(3840,2160,'16:9',{longEdge:540}),{width:1280,height:720},'desktop preview dimensions are unchanged');
+console.log('Runtime preview resolution, sharp stopped preview, desktop and 4K export isolation PASS');
