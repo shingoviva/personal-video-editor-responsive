@@ -188,3 +188,22 @@ body[data-ui=phone] .phone-layer-guide{font-size:12px;line-height:1.45;margin-bo
 body[data-ui=phone] .phone-layer-options{margin-top:10px;gap:4px}
 body[data-ui=phone] #phoneSheetClose{min-width:100px;padding:0 8px;font-size:13px}
 .export-stay-notice{padding:12px;border:1px solid #8d995d;border-radius:8px;background:#2d3522;color:#edf2d3;font-size:14px;line-height:1.6}
+
+/* Keep the live preview clear and give adjustment sheets a smaller scrollable budget. */
+body[data-ui=phone][data-phone-panel]{--phone-sheet-height:min(calc(var(--app-height,100dvh) * .42),440px)}
+body[data-ui=phone][data-phone-panel=library],body[data-ui=phone][data-phone-panel=layers],body[data-ui=phone][data-phone-panel=clips],body[data-ui=phone][data-phone-panel=more]{--phone-sheet-height:min(calc(var(--app-height,100dvh) * .70),550px)}
+body[data-ui=phone] .phone-backdrop{background:transparent;backdrop-filter:none;top:calc(var(--app-height,100dvh) - var(--phone-sheet-height))}
+body[data-ui=phone][data-phone-panel=adjust] .workspace,body[data-ui=phone][data-phone-panel=look] .workspace,body[data-ui=phone][data-phone-panel=text] .workspace,body[data-ui=phone][data-phone-panel=motion] .workspace,body[data-ui=phone][data-phone-panel=detail] .workspace{grid-template-rows:calc(var(--app-height,100dvh) - var(--phone-sheet-height) - 44px) 12px minmax(0,1fr)}
+body[data-ui=phone] .timeline-content,body[data-ui=phone] .timeline-scroll,body[data-ui=phone] .clip-block,body[data-ui=phone] .fx-chip{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+body[data-ui=phone] .timeline-context{max-height:65dvh;overflow-y:auto;overscroll-behavior:contain;min-width:220px}
+body[data-ui=phone] .timeline-context button{min-height:40px;font-size:13px}
+body[data-ui=phone].phone-moving .timeline-content .dragging{z-index:60;opacity:.85;outline:2px solid var(--accent);pointer-events:none}
+
+body[data-ui=phone].phone-drag-video .video-track.phone-empty-lane,body[data-ui=phone].phone-drag-audio .audio-track.phone-empty-lane,body[data-ui=phone].phone-drag-overlay .overlay-track.phone-empty-lane{display:block!important}
+
+body[data-ui=phone].phone-drag-video [data-videohead].phone-empty-lane,body[data-ui=phone].phone-drag-overlay [data-overlayhead].phone-empty-lane,body[data-ui=phone].phone-drag-audio [id^=audioLabel].phone-empty-lane{display:flex!important}
+
+body[data-ui=phone][data-phone-panel=adjust] #inspectorBody{padding-top:4px}
+body[data-ui=phone][data-phone-panel=adjust] .control-section{padding:8px 0;margin:0}
+body[data-ui=phone][data-phone-panel=adjust] .control-section:has(#resetAdjust)>.eyebrow,body[data-ui=phone][data-phone-panel=adjust] .control-section:has(#resetAdjust)>p{display:none}
+body[data-ui=phone][data-phone-panel=adjust] #resetAdjust,body[data-ui=phone][data-phone-panel=adjust] #lookBypass{min-height:34px;font-size:12px;padding:4px 8px}

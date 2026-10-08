@@ -38,7 +38,7 @@ export function bindTimeline({root,rows,duration,select,begin,finish,cancel,prev
      const minimum=Math.min(row.start,...companions.map(g=>g.start),...others.map(v=>v.start)),actual=Math.max(-minimum,c.start-row.start);c.start=row.start+actual;
      for(const g of companions){g.row.clip.start=g.start+actual;g.row.clip.layer=clamp(g.layer+c.layer-row.layer,0,c.kind==='audio'?3:2);const node=elementById.get(g.row.clip.id);if(node){node.style.left=g.row.clip.start/Math.max(duration,.001)*100+'%';node.style.top=((g.row.clip.layer-g.layer)*(c.kind==='audio'?44:-52))+'px'}}
      for(const value of others){value.item.start=value.start+actual;if(value.kind==='text')value.item.end=value.item.start+value.span;const node=elementById.get(value.item.id);if(node)node.style.left=value.item.start/Math.max(duration,.001)*100+'%'}
-     el.style.top=((c.layer-row.layer)*(c.kind==='audio'?44:-52))+'px';
+     const laneTop=layer=>globalThis.document?.getElementById?.(c.kind==='audio'?'audioTrack'+layer:['videoTrack','videoTrackUpper','videoTrackTop'][layer])?.getBoundingClientRect().top;const from=laneTop(row.layer),to=laneTop(c.layer);el.style.top=(Number.isFinite(from)&&Number.isFinite(to)?to-from:(c.layer-row.layer)*(c.kind==='audio'?44:-52))+'px';
     }else{
      Object.assign(c,structuredClone(origin));c.start=row.start;c.layer=row.layer;
      const d=timing(origin).nodes.at(-1)[1],sourceAt=t=>t<0?t*origin.speed:t>d?origin.out-origin.in+(t-d)*(origin.curve==='constant'?origin.speed:origin.endSpeed):sourceOffset(t,origin);

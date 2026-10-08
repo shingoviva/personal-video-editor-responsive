@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {project,clip} from '../dist/model.js';
+import {directCanvasEligible} from '../dist/export-direct-canvas.js';
+const p=project(),m={id:'m',duration:4};p.media=[m];p.clips=[{...clip(m),start:0,layer:0}];
+assert.equal(directCanvasEligible(p,4),true);p.clips[0].color.exposure=1;assert.equal(directCanvasEligible(p,4),true,'GPU color processing is retained');
+for(const change of [{opacity:.5},{fadeIn:.1},{layer:1},{start:1},{transition:{type:'dissolve'}}])assert.equal(directCanvasEligible({...p,clips:[{...p.clips[0],...change}]},4),false);
+assert.equal(directCanvasEligible(p,4,{texts:[{}]}),false);assert.equal(directCanvasEligible(p,4,{effects:[{}]}),false);assert.equal(directCanvasEligible(p,5),false);
+p.clips=[{...clip(m),in:0,out:2,start:0,layer:0},{...clip(m),in:2,out:4,start:2,layer:0}];assert.equal(directCanvasEligible(p,4),true);
+p.clips[1].start=1;assert.equal(directCanvasEligible(p,4),false,'overlap needs composition');
+console.log('Direct GPU export eligibility retains color and rejects compositing, transitions, fades, gaps and overlaps PASS');
