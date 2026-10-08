@@ -19,7 +19,8 @@ export function bindTimeline({root,rows,duration,select,begin,finish,cancel,prev
   el.onpointerdown=e=>{
    if(e.button!==0)return;
    let row=rowById.get(el.dataset.clip);if(!row)return;const elementById=new Map([...timelineRoot.querySelectorAll('[data-clip],[data-fx],[data-text-chip]')].map(node=>[node.dataset.clip||node.dataset.fx||node.dataset.textChip,node]));
-   const edge=e.target.closest('[data-edge]')?.dataset.edge;
+   const rawEdge=e.target.closest('[data-edge]')?.dataset.edge;
+   const edge=globalThis.document?.body?.dataset.ui==='phone'&&!globalThis.document.body.classList.contains('phone-moving')?null:rawEdge;
    const phoneScroll=e.pointerType==='touch'&&globalThis.document?.body?.dataset.ui==='phone'&&!edge&&!globalThis.document.body.classList.contains('phone-moving');
    const origin=structuredClone(row.clip),x=e.clientX,y=e.clientY;
    let moved=false,lastPreview=0,ghost=null,companions=[],others=[];

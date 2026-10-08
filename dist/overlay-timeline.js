@@ -27,8 +27,10 @@ export function bindOverlayTimeline({root,effects=[],texts=[],duration,targets,s
    const kind=el.dataset.fx?'effect':'text';let item=(kind==='effect'?effects:texts).find(value=>value.id===(el.dataset.fx||el.dataset.textChip));
    if(!item)return;const elementById=new Map([...surface.querySelectorAll('[data-clip],[data-fx],[data-text-chip]')].map(node=>[node.dataset.clip||node.dataset.fx||node.dataset.textChip,node]));
    const origin=structuredClone(item),originStart=origin.start,originSpan=kind==='effect'?origin.duration:origin.end-origin.start,x=event.clientX,y=event.clientY,edge=event.target?.closest?.('[data-overlay-edge]')?.dataset.overlayEdge;
+   const phoneScroll=event.pointerType==='touch'&&globalThis.document?.body?.dataset.ui==='phone'&&!globalThis.document.body.classList.contains('phone-moving');
    let moved=false,lastResult={snapped:false,target:null,spacing:{spacing:false}},ghost=null,companions=[];select(kind,item.id,event);el.setPointerCapture(event.pointerId);
    el.onpointermove=move=>{
+    if(phoneScroll)return;
     if(!moved&&Math.hypot(move.clientX-x,(move.clientY??y)-y)<5)return;
     if(!moved){begin();if(event.altKey&&!edge&&duplicate){ghost=el.cloneNode?.(true)||null;if(ghost){ghost.classList.add('duplicate-origin');el.parentNode?.insertBefore(ghost,el)}item=duplicate(item,kind)||item;select(kind,item.id,event)}else if(!edge)companions=groupItems(item,kind).filter(v=>v.item.id!==item.id);moved=true;el.classList.add('dragging')}
     const delta=(move.clientX-x)*secondsPerPixel,frame=1/30;
