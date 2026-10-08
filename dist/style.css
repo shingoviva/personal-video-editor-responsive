@@ -436,3 +436,9 @@ dialog:has(.help-intro){width:min(820px,94vw)}
 .timeline-panel{position:relative}.timeline-drop-hint{position:absolute;z-index:15;top:5px;left:50%;transform:translateX(-50%);padding:5px 9px;border:1px solid #dce9a955;border-radius:6px;background:#151d16;color:#e4f0aa;font:10px ui-monospace,monospace;pointer-events:none;max-width:80%;white-space:nowrap}.timeline-drop-hint[hidden]{display:none}
 .track-head.drop-compatible{box-shadow:inset 3px 0 #dce9a9;background:#dce9a90c}.video-track.drop-compatible,.editable-audio.drop-compatible,.overlay-track.drop-compatible{box-shadow:inset 0 0 0 1px #dce9a933}
 .audio-clip.clip-block>small.waveform-progress{position:absolute;right:18px;left:auto;top:2px;bottom:auto;font:9px ui-monospace,monospace;opacity:.9;color:#b9d0d7;z-index:4}.waveform-progress[hidden]{display:none}
+
+/* Shared precise time badge and short-clip handles, including desktop. */
+#playheadHandle,#playhead.near-end #playheadHandle{transform:translateX(calc(-50% + var(--timeline-head-shift,0px)));padding-inline:7px;transition:none}
+#playheadHandle::before,#playhead.near-end #playheadHandle::before{top:100%;left:calc(50% - var(--timeline-head-shift,0px));right:auto;width:8px;height:5px;transform:translateX(-50%);clip-path:polygon(0 0,100% 0,50% 100%);background:#eaf3cf}
+.clip-block .trim-handle,.fx-trim-handle{max-width:25%;min-width:0}
+.clip-block .trim-handle::after{left:50%;transform:translateX(-50%)}
