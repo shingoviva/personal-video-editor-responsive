@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {AudioPreview} from '../dist/audio-preview.js';
+import {START_RAMP_SECONDS} from '../dist/audio-preview-output.js';
+const param=()=>({value:1,events:[],cancelScheduledValues(t){this.events.push(['cancel',t])},setValueAtTime(v,t){this.value=v;this.events.push(['set',v,t])},linearRampToValueAtTime(v,t){this.events.push(['ramp',v,t])},setTargetAtTime(){}});
+const node=()=>({gain:param(),delayTime:param(),frequency:{},links:[],connect(to){this.links.push(to);return to},disconnect(to){this.links=to?this.links.filter(n=>n!==to):[]}});
+let resolvePlay;globalThis.document={createElement(){return{dataset:{key:'clip'},paused:true,play(){return new Promise(resolve=>{resolvePlay=()=>{this.paused=false;resolve()}})},pause(){this.paused=true},load(){},removeAttribute(){}}}};
+globalThis.AudioContext=class{constructor(){this.currentTime=2;this.state='running';this.destination=node()}createMediaElementSource(){return node()}createGain(){return node()}createDelay(){return node()}createBiquadFilter(){return node()}close(){return Promise.resolve()}};
+const a=new AudioPreview(),voice=a.voices[0],g=a.graph(voice);
+a.startVoice(voice);assert.equal(g.gate.gain.value,0,'pending native play cannot emit buffered PCM');assert.equal(g.gate.gain.events.length,0);
+resolvePlay();await Promise.resolve();assert.deepEqual(g.gate.gain.events.slice(-2),[['set',0,2],['ramp',1,2+START_RAMP_SECONDS]],'actual start ramps from silence');
+a.setOutputEnabled(true);const count=a.master.gain.events.length;for(let i=0;i<20;i++)a.setOutputEnabled(true);assert.equal(a.master.gain.events.length,count,'UI ticks do not rewrite master automation');
+a.stopVoice(voice);assert.equal(g.gate.gain.value,0,'pause closes start gate');await Promise.resolve();await Promise.resolve();
+a.startVoice(voice);a.stopVoice(voice);resolvePlay();await Promise.resolve();assert.equal(g.gate.gain.events.at(-1)[0],'set','late play must not reopen the gate');assert.equal(voice.paused,true);
+a.configure(voice,{delayEnabled:true},false);const oldDelay=g.delay,source=g.source;a.stopVoice(voice);a.configure(voice,{delayEnabled:true},false);assert.notEqual(g.delay,oldDelay,'suspended delay buffer is discarded before replay');assert.equal(g.source,source,'media source is not bound twice');assert.equal(oldDelay.links.length,0);assert(!source.links.includes(oldDelay));const fresh=g.delay;a.configure(voice,{delayEnabled:true},false);assert.equal(g.delay,fresh,'steady playback does not rebuild effect nodes');
+a.dispose();delete globalThis.document;delete globalThis.AudioContext;
+console.log('Native-start ramp, no repeated master writes, stale completion and fresh delay buffers PASS');
