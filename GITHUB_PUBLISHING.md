@@ -1,3 +1,7 @@
+## 2.2.41 — 端末切替版の更新
+
+別リポジトリ https://github.com/shingoviva/personal-video-editor-responsive のmainへ反映。同じHEADをGitHub Pages https://shingoviva.com/personal-video-editor-responsive/ と既存の公開Sitesへ配信します。元のMac開発版／GitHub／Siteは保全します。
+
 # GitHub公開準備
 
 このリポジトリは、そのままGitHubへ移せる構成です。元素材、プロジェクトの編集データ、書き出したMP4は含みません。
