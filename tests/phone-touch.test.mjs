@@ -27,3 +27,9 @@ let delegated=0;
 bindPhoneTouch({root,scroll,isPhone:()=>true,delegatePointer:()=>{delegated++;return true},onMenu(){},onDrag(){},onHideMenu(){},getZoom:()=>zoom,setZoom(){}});
 const left=scroll.scrollLeft;events.pointerdown(e(100,100));events.pointermove(e(140,100));events.pointerup(e(140,100));assert.equal(delegated,1);assert.equal(scroll.scrollLeft,left,'envelope owns its pointer without timeline scrolling');
 console.log('Immediate selected horizontal move, vertical scroll and envelope pointer ownership PASS');
+
+bindPhoneTouch({root,scroll,isPhone:()=>true,onMenu(){},onDrag(){},onHideMenu(){}});
+let resizePrevented=0;const resizeTarget={closest:selector=>selector.includes('[data-lane-resize]')?{}:null};
+events.pointerdown({...e(100,100),target:resizeTarget,preventDefault(){resizePrevented++}});
+assert.equal(resizePrevented,0,'lane resizing must own its touch without swipe interception');
+console.log('Lane resizing remains independent from phone timeline swipe PASS');

@@ -23,7 +23,7 @@ export function idsInRect(elements,rect){
 // Bound once: rendered item nodes are collected only when a gesture begins.
 export function bindTimelineMarquee({root,guide,getSelected,preview,finish,cancel,click,surfaceSelector='.fx-track,.video-track,.editable-audio'}){
  const down=event=>{
-  if(event.pointerType!=='mouse'||event.button!==0||event.target.closest('[data-clip],[data-fx],[data-text-chip],[data-marker],.ruler'))return;
+  if(event.pointerType!=='mouse'||event.button!==0||event.target.closest('[data-clip],[data-fx],[data-text-chip],[data-marker],[data-lane-resize],.ruler'))return;
   if(!event.target.closest(surfaceSelector))return;
   event.preventDefault();event.stopPropagation();
   const start={x:event.clientX,y:event.clientY},base=new Set(event.shiftKey||event.metaKey||event.ctrlKey?getSelected():[]),elements=[...root.querySelectorAll('[data-clip],[data-fx],[data-text-chip]')];

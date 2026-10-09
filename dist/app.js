@@ -1,7 +1,9 @@
+import {addEditMarker,nextEditMarker} from './edit-markers.js?v=2.2.39';
+import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.39';
 import {uiIcon} from './ui-icons.js?v=2.2.33';
 import {defaultForSetting,resetMotionAppearance,resetAudioAdjustments} from './setting-resets.js?v=2.2.33';
 import {clipEnvelopeOwnsPointer} from './clip-envelope-ui.js?v=2.2.32';
-import {bindPhoneTouch} from './phone-touch.js';
+import {bindPhoneTouch} from './phone-touch.js?v=2.2.39';
 import {advancePhoneClock} from './phone-playback-clock.js?v=2.2.35';
 import {PhonePreviewBudget} from './phone-preview-budget.js?v=2.2.30';
 import {PreviewPlaybackScheduler} from './preview-playback-scheduler.js';
@@ -13,19 +15,19 @@ import {bindPhoneUI} from './iphone-ui.js?v=2.2.38';
 import {bindTimelineDropGuide} from './timeline-drop-guide.js';
 import {bindTimelineDragScroll} from './timeline-drag-scroll.js';
 import {pasteAttributes,pasteTextAttributes} from './attributes.js';
-import {audioSequence} from './model.js';
+import {audioSequence} from './model.js?v=2.2.39';
 import {detachAudio,appendAudio,migrateBgm} from './audio-timeline.js';
 import {linkedAudio,linkedVideo,syncLinkedAudio,setAudioLinked,splitLinkedPair,removeLinkedAudio} from './linked-audio.js';
 import {AudioPreview} from './audio-preview.js?v=2.2.28';
 import {clipAlpha,opacityAt,scaleAt,effectAlpha,frozenClip,addEffect} from './creative.js';
 import {lookPresets,lookDescriptions,adaptiveCinematic} from './look.js';
 import {LayerPreview} from './layer-preview.js?v=2.2.28';
-import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js';
+import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.39';
 import {bindTimeline} from './timeline-gestures.js';
 import {bindTimelinePinch} from './timeline-zoom.js';
 import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from './timeline-shortcuts.js';
 import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js';
-import {bindTimelineMarquee} from './timeline-selection.js';
+import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.39';
 import {pasteTimelineItems} from './timeline-paste.js';
 import {currentLanguage,setLanguage,translate,translateDOM} from './i18n.js';
 import {bindNativeShell} from './native-shell.js';
@@ -203,6 +205,11 @@ function showTimelineSnap(result){const guide=$('#snapGuide');if(!guide)return;g
 function showSpacingGuide(result,item){const root=$('#spacingGuides');root.hidden=!result?.spacing;if(!result?.spacing)return;const dur=Math.max(timelineExtent(),.001),{start,span,kind,layer=0}=item,left=root.querySelector('i'),right=root.querySelector('b'),label=root.querySelector('span'),track=kind==='audio'?$('#audioTrack'+layer):kind==='overlay'?$('#overlayTrack'+layer):$(['#videoTrack','#videoTrackUpper','#videoTrackTop'][layer]),trackBox=track?.getBoundingClientRect(),contentBox=$('#timelineContent').getBoundingClientRect(),top=trackBox?trackBox.top-contentBox.top+trackBox.height/2:88;for(const line of [left,right])line.style.top=top+'px';left.style.left=result.previous/dur*100+'%';left.style.width=Math.max(0,start-result.previous)/dur*100+'%';right.style.left=(start+span)/dur*100+'%';right.style.width=Math.max(0,result.next-start-span)/dur*100+'%';label.style.left=Math.max(4,Math.min(94,start/dur*100))+'%';label.style.top=Math.max(2,top-21)+'px'}
 function clearTimelineSnap(){const guide=$('#snapGuide');if(guide)guide.hidden=true;$('#spacingGuides')?.setAttribute('hidden','');$('#playhead')?.classList.remove('snap-active')}
 function markersOnTimeline(){let points=[];for(let row of sequence(P)){let c=row.clip;if(c.gap)continue;let analysis=P.analysis.find(a=>a.media===c.media&&a.intent===P.intent);for(let m of analysis?.markers||[])if(m.time>=c.in&&m.time<c.out)points.push({...m,time:row.start+outputOffset(m.time-c.in,c),source:m.time,clip:c.id})}return points}
+const timelineLaneSizing=createTimelineLaneSizing({status});
+function renderEditMarkers(){let host=$('#editMarkerRuler');if(!host){host=document.createElement('div');host.id='editMarkerRuler';host.className='edit-marker-ruler';$('#ruler').append(host)}host.innerHTML=(P.editMarkers||[]).map(m=>`<button class="edit-marker" data-edit-marker="${esc(m.id)}" style="left:${m.time/Math.max(timelineExtent(),.001)*100}%" title="${esc(m.label)} · ${format(m.time)}" aria-label="${esc(m.label)} · ${format(m.time)}"></button>`).join('');host.querySelectorAll('button').forEach(b=>{b.onpointerdown=e=>e.stopPropagation();b.onclick=e=>{e.stopPropagation();showEditMarker(b.dataset.editMarker)}})}
+function markEditingMoment(){if(!duration())return;const snapshot=serial(),marker=addEditMarker(P,time,uid());if(!marker)return;history.push(snapshot);if(history.length>60)history.shift();future=[];save();renderEditMarkers();for(const id of ['undo','topUndo'])$('#'+id).disabled=false;for(const id of ['redo','topRedo'])$('#'+id).disabled=true;status(marker.label+' · '+format(marker.time)+' · 再生は続けられます。')}
+function jumpEditingMoment(direction){const marker=nextEditMarker(P.editMarkers,time,direction);if(marker)seek(Math.min(duration(),marker.time))}
+function showEditMarker(id){const marker=P.editMarkers?.find(m=>m.id===id);if(!marker)return;seek(Math.min(duration(),marker.time));modal(head('編集の目印')+`<label>名前<input id="editMarkerName" maxlength="80" value="${esc(marker.label)}"></label><p class="mono">${format(marker.time)}</p><p>目印は素材を分割しません。この位置から編集できます。</p><div class="modal-actions"><button id="removeEditMarker">目印を削除</button><button id="saveEditMarker" class="primary">完了</button></div>`);$('#removeEditMarker').onclick=()=>{mutate(()=>P.editMarkers=P.editMarkers.filter(m=>m.id!==id));$('#modal').close()};$('#saveEditMarker').onclick=()=>{mutate(()=>marker.label=$('#editMarkerName').value.trim()||'編集の目印');$('#modal').close()}}
 let workspacePaintFrame=0,lastTimelineWidth=0;
 function scheduleWorkspacePaint(){if(workspacePaintFrame)return;workspacePaintFrame=requestAnimationFrame(()=>{workspacePaintFrame=0;fitKey='';fit();draw();const width=$('#timelineScroll').clientWidth;if(width!==lastTimelineWidth)renderTimeline()})}
 function renderTimeline(){
@@ -253,6 +260,7 @@ function renderTimeline(){
  for(const id of ['copyClip','cutClip','duplicateClip'])$('#'+id).disabled=!selectedItems().length;
  $('#pasteClip').disabled=!clipboard;$('#undo').disabled=!history.length;$('#redo').disabled=!future.length;
  renderAudioTimeline(dur,width);
+ timelineLaneSizing.apply();renderEditMarkers();
  $('#snapToggle').classList.toggle('selected',snapping);$('#snapToggle').setAttribute('aria-pressed',String(snapping));
  updateClock();
 }
@@ -508,19 +516,21 @@ bindTimelineMarquee({root:$('#timelineContent'),guide:$('#selectionMarquee'),get
 function step(direction){let row=previewRow();if(!row)return;let c=row.clip,m=mediaOf(c);if(c.gap)return seek(time+direction/30);let s=sourceOffset(time-row.start,c)+direction/(m?.fps||30);seek(row.start+outputOffset(clamp(s,0,c.out-c.in),c));status(m?.rateMode==='VFR'?'VFR素材のフレーム送りは平均FPS基準です。':'フレーム送り')}
 function shortcuts(){
  const groups=[
-  ['再生・移動',[['再生 / 停止','Space'],['先頭 / 末尾','Home / End'],['前 / 次の編集点','↑ / ↓'],['後ろへ1秒','J'],['停止','K'],['前へ1秒','L'],['フレーム送り','← / →']]],
+  ['再生・移動',[['編集の目印を打つ（再生中も可）','M'],['次 / 前の目印','Shift M / Option M'],['再生 / 停止','Space'],['先頭 / 末尾','Home / End'],['前 / 次の編集点','↑ / ↓'],['後ろへ1秒','J'],['停止','K'],['前へ1秒','L'],['フレーム送り','← / →']]],
   ['編集',[['IN / OUT','I / O'],['再生ヘッドで分割','S'],['前 / 後を再生ヘッドまで前詰め','Q / W'],['コピー / 切り取り','⌘/Ctrl C · ⌘/Ctrl X'],['貼り付け / 複製','⌘/Ctrl V · ⌘/Ctrl D'],['属性だけをペースト','⌘/Ctrl Shift V'],['削除・他のクリップは固定','Delete'],['前詰め削除','Shift Delete'],['元に戻す','⌘/Ctrl Z'],['やり直し','⌘/Ctrl Shift Z']]],
   ['表示・選択',[['タイムラインの細かさ','2本指でピンチ'],['タイムライン拡大 / 縮小','+ / −'],['吸着 ON / OFF','N'],['指定位置の操作','Mac／Windows：右クリック'],['レイヤー横断の複数選択','空白部からドラッグして囲む'],['選択項目を1フレーム移動','Option/Alt + ← / →']]],
   ['保存',[['プロジェクト保存','⌘/Ctrl S']]]
  ];
- modal(head('ヘルプ')+`<div class="help-intro"><strong>PERSONAL VIDEO EDITOR</strong><span>素材を選ぶと、次に使う設定が右側へ表示されます。</span></div><div class="help-steps"><div><b>1</b><strong>素材を追加</strong><span>LIBRARYへ読み込み、使う素材をタイムラインへドラッグします。</span></div><div><b>2</b><strong>選んで調整</strong><span>タイムラインまたはプレビューで素材を選び、右側で調整します。</span></div><div><b>3</b><strong>確認して書き出し</strong><span>先頭から再生して確認し、右上の「書き出し」で形式を選びます。</span></div></div><h3 class="help-heading">画面の見方</h3><div class="help-map"><div><i>01</i><strong>LIBRARY</strong><span>動画・写真・音声を管理</span></div><div><i>02</i><strong>PREVIEW</strong><span>映像を確認して直接配置</span></div><div><i>03</i><strong>SETTINGS</strong><span>選択中の素材だけを調整</span></div><div><i>04</i><strong>TIMELINE</strong><span>時間・重なり・音声を編集</span></div></div><div class="help-direct"><span>プレビューの直接操作</span><strong>クリックで選択 · ドラッグで移動 · 右下の角をドラッグして拡大縮小</strong><small>中央へ近づくとガイドに吸着します。テロップはダブルクリックで内容とサイズを変更できます。</small></div><div class="help-topics"><details open><summary>タイムラインと基本編集</summary><p>素材をドラッグしたままタイムラインの上下左右端へ近づけると、自動でスクロールします。</p><p>時刻付きの再生ヘッドをドラッグして移動します。素材の端は再生ヘッドや他の編集点へ吸着します。空白から囲むかShiftクリックすると、レイヤーをまたいで複数選択できます。</p></details><details><summary>テロップとFX</summary><p>GRAPHICSから作成し、F/T1〜F/T3へ配置します。両端で表示時間、中央ドラッグで位置を変更できます。</p></details><details><summary>音声</summary><p>AUDIOでは4レイヤーの音量・ミュート・フェードを調整できます。音声素材の配置と削除もAUDIO LIBRARYから行えます。音声クリップを選び、波形上の音量ラインをクリックすると音量ポイントを追加できます。上下でdB、左右で時刻を調整し、Shiftドラッグで微調整、ダブルクリックで0 dBへ戻します。右クリックで直線／一定、Delete／Backspaceで削除できます。</p></details><details><summary>保存と再開</summary><p>Chrome／Edgeでは専用フォルダへ素材をまとめると、次回は個別の再リンクなしで再開できます。Safariではブラウザ内保存と.project保存を使います。</p></details><details><summary>書き出し</summary><p>用途、比率、解像度、FPS、画質、音質を開始前に確認できます。処理中は段階と進捗率が表示されます。</p></details></div><h3 class="help-heading">キーボードショートカット</h3><div class="keyboard-sections">${groups.map(([title,keys])=>`<section><h4>${title}</h4><div class="keyboard-grid">${keys.map(([a,b])=>`<span>${a}</span><kbd>${b}</kbd>`).join('')}</div></section>`).join('')}</div>`)
+ modal(head('ヘルプ')+`<div class="help-intro"><strong>PERSONAL VIDEO EDITOR</strong><span>素材を選ぶと、次に使う設定が右側へ表示されます。</span></div><div class="help-steps"><div><b>1</b><strong>素材を追加</strong><span>LIBRARYへ読み込み、使う素材をタイムラインへドラッグします。</span></div><div><b>2</b><strong>選んで調整</strong><span>タイムラインまたはプレビューで素材を選び、右側で調整します。</span></div><div><b>3</b><strong>確認して書き出し</strong><span>先頭から再生して確認し、右上の「書き出し」で形式を選びます。</span></div></div><h3 class="help-heading">画面の見方</h3><div class="help-map"><div><i>01</i><strong>LIBRARY</strong><span>動画・写真・音声を管理</span></div><div><i>02</i><strong>PREVIEW</strong><span>映像を確認して直接配置</span></div><div><i>03</i><strong>SETTINGS</strong><span>選択中の素材だけを調整</span></div><div><i>04</i><strong>TIMELINE</strong><span>時間・重なり・音声を編集</span></div></div><div class="help-direct"><span>プレビューの直接操作</span><strong>クリックで選択 · ドラッグで移動 · 右下の角をドラッグして拡大縮小</strong><small>中央へ近づくとガイドに吸着します。テロップはダブルクリックで内容とサイズを変更できます。</small></div><div class="help-topics"><details open><summary>タイムラインと基本編集</summary><p>素材をドラッグしたままタイムラインの上下左右端へ近づけると、自動でスクロールします。</p><p>時刻付きの再生ヘッドをドラッグして移動します。素材の端は再生ヘッドや他の編集点へ吸着します。空白から囲むかShiftクリックすると、レイヤーをまたいで複数選択できます。</p></details><details><summary>テロップとFX</summary><p>GRAPHICSから作成し、F/T1〜F/T3へ配置します。両端で表示時間、中央ドラッグで位置を変更できます。</p></details><details><summary>音声</summary><p>AUDIOでは4レイヤーの音量・ミュート・フェードを調整できます。音声素材の配置と削除もAUDIO LIBRARYから行えます。音声クリップを選び、レイヤーの境界を上下にドラッグすると波形を拡大できます。標準の高さへ吸着し、ダブルクリックで元に戻ります。波形上の音量ラインをクリックすると音量ポイントを追加できます。上下でdB、左右で時刻を調整し、Shiftドラッグで微調整、ダブルクリックで0 dBへ戻します。右クリックで直線／一定、Delete／Backspaceで削除できます。</p></details><details><summary>保存と再開</summary><p>Chrome／Edgeでは専用フォルダへ素材をまとめると、次回は個別の再リンクなしで再開できます。Safariではブラウザ内保存と.project保存を使います。</p></details><details><summary>書き出し</summary><p>用途、比率、解像度、FPS、画質、音質を開始前に確認できます。処理中は段階と進捗率が表示されます。</p></details></div><h3 class="help-heading">キーボードショートカット</h3><div class="keyboard-sections">${groups.map(([title,keys])=>`<section><h4>${title}</h4><div class="keyboard-grid">${keys.map(([a,b])=>`<span>${a}</span><kbd>${b}</kbd>`).join('')}</div></section>`).join('')}</div>`)
 }$('#shortcuts').onclick=shortcuts;$('#helpButton').onclick=shortcuts;
 $('#copyClip').onclick=()=>copySelection();$('#cutClip').onclick=()=>copySelection(true);$('#pasteClip').onclick=()=>pasteSelection();$('#pasteAttributes').onclick=pasteAttributeSelection;$('#duplicateClip').onclick=()=>pasteSelection(true);$('#snapToggle').onclick=toggleSnapping;
 $('#timelineMore').onclick=()=>{modal(head('タイムライン操作')+`<div class="action-grid">${[['copyClip','コピー'],['cutClip','切り取り'],['pasteClip','貼り付け'],['pasteAttributes','属性ペースト'],['duplicateClip','複製'],['snapToggle','吸着 ON / OFF'],['setIn','INを設定'],['setOut','OUTを設定']].map(([id,label])=>`<button class="wide" data-timeline-action="${id}">${label}</button>`).join('')}</div>`);$$('[data-timeline-action]').forEach(b=>b.onclick=()=>{$('#modal').close();$('#'+b.dataset.timelineAction).click()})};
 const keyboardTextEntry=target=>!!target?.closest?.('textarea,[contenteditable="true"],input:not([type]),input[type="text"],input[type="search"],input[type="number"],input[type="email"],input[type="url"],input[type="tel"],input[type="password"]');
 const keymap={KeyJ:()=>seek(time-1),KeyK:pause,KeyL:()=>seek(time+1),KeyI:()=>trimEdge('in'),KeyO:()=>trimEdge('out'),KeyS:split,KeyQ:()=>rippleTrimAtPlayhead('in'),KeyW:()=>rippleTrimAtPlayhead('out'),KeyN:toggleSnapping,Home:()=>jumpToProjectEdge('start'),End:()=>jumpToProjectEdge('end'),ArrowUp:()=>jumpToEditPoint(-1),ArrowDown:()=>jumpToEditPoint(1),ArrowLeft:()=>step(-1),ArrowRight:()=>step(1),Equal:()=>changeTimelineZoom(.5),NumpadAdd:()=>changeTimelineZoom(.5),Minus:()=>changeTimelineZoom(-.5),NumpadSubtract:()=>changeTimelineZoom(-.5)};
 document.addEventListener('keydown',e=>{
+ if(e.target.closest?.('[data-lane-resize]'))return;
  if(e.code==='Space'&&!e.metaKey&&!e.ctrlKey&&!e.altKey){if($('#modal').open||busy||keyboardTextEntry(e.target))return;e.preventDefault();if(!e.repeat)play();return}
+ if(e.code==='KeyM'&&!e.metaKey&&!e.ctrlKey&&!$('#modal').open&&!busy&&!keyboardTextEntry(e.target)){e.preventDefault();if(!e.repeat){if(e.altKey)jumpEditingMoment(-1);else if(e.shiftKey)jumpEditingMoment(1);else markEditingMoment()}return}
  if(e.key==='Escape'&&!$('#timelineContext').hidden){hideTimelineContext();return}if($('#modal').open||busy)return;
  if((e.metaKey||e.ctrlKey)&&!/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)){const actions={KeyC:()=>copySelection(),KeyX:()=>copySelection(true),KeyV:()=>e.shiftKey?pasteAttributeSelection():pasteSelection(),KeyD:()=>pasteSelection(true),KeyY:()=>undo(true)};if(actions[e.code]){e.preventDefault();actions[e.code]();return}}
  if(e.metaKey||e.ctrlKey){if(e.code==='KeyS'){e.preventDefault();saveFile();return}if(e.code==='KeyZ'&&!/INPUT|TEXTAREA/.test(e.target.tagName)){e.preventDefault();undo(e.shiftKey);return}}

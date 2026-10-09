@@ -345,3 +345,7 @@ body[data-ui=phone] .asset-detail-video{display:block;width:100%;max-height:180p
 body[data-ui=phone][data-phone-panel=import] .phone-sheet-header{padding-right:138px}
 body[data-ui=phone][data-phone-panel=import] #phoneSheetClose{min-width:128px}
 @media(max-width:360px){body[data-ui=phone] .transport{gap:0}body[data-ui=phone] .transport button{width:29px;min-width:29px}body[data-ui=phone] #jumpStart,body[data-ui=phone] #jumpEnd{width:27px;min-width:27px}body[data-ui=phone] .viewer-controls{gap:2px;padding-inline:3px}}
+
+body[data-ui=phone] .video-track>.clip-block,body[data-ui=phone] .editable-audio>.clip-block{height:calc(100% - 4px)!important;min-height:0!important}
+body[data-ui=phone] .track-head>[data-lane-resize]{display:block!important;height:10px!important;min-height:10px!important}
+body[data-ui=phone] .timeline-lane-resizer{height:10px!important;min-height:10px!important}
