@@ -1,3 +1,7 @@
+## 2.2.44 — 音声シーク・時計同期
+
+別版responsiveの共通音声エンジンを更新。同じHEADをGitHub Pagesと既存の公開Sitesへ配信します。
+
 ## 2.2.43 — 素材終端の再生再開修正
 
 端末切替版のiPhone／Mac共通音声処理、時計、映像終了処理を更新。同じHEADを別版GitHub Pagesと公開Sitesへ反映します。
