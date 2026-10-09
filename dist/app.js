@@ -1,35 +1,35 @@
-import {previewMediaEnded} from './playback-sync.js?v=2.2.45';
-import {bindEditMarker} from './edit-marker-ui.js?v=2.2.45';
-import {addEditMarker,nextEditMarker,moveEditMarker,removeEditMarker,editMarkerTimes} from './edit-markers.js?v=2.2.45';
-import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.45';
+import {previewMediaEnded} from './playback-sync.js?v=2.2.46';
+import {bindEditMarker} from './edit-marker-ui.js?v=2.2.46';
+import {addEditMarker,nextEditMarker,moveEditMarker,removeEditMarker,editMarkerTimes} from './edit-markers.js?v=2.2.46';
+import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.46';
 import {uiIcon} from './ui-icons.js?v=2.2.33';
 import {defaultForSetting,resetMotionAppearance,resetAudioAdjustments} from './setting-resets.js?v=2.2.33';
 import {clipEnvelopeOwnsPointer} from './clip-envelope-ui.js?v=2.2.32';
-import {bindPhoneTouch} from './phone-touch.js?v=2.2.45';
-import {advancePhoneClock} from './phone-playback-clock.js?v=2.2.45';
+import {bindPhoneTouch} from './phone-touch.js?v=2.2.46';
+import {advancePhoneClock} from './phone-playback-clock.js?v=2.2.46';
 import {PhonePreviewBudget} from './phone-preview-budget.js?v=2.2.30';
 import {PreviewPlaybackScheduler} from './preview-playback-scheduler.js';
 const phonePreviewBudget=new PhonePreviewBudget(),previewPlaybackScheduler=new PreviewPlaybackScheduler();
 const previewLongEdge=()=>document.body.dataset.ui==='phone'&&playing?phonePreviewBudget.longEdge:960;
 import {reorderPhoneClip,trimPhoneClip,movePhoneLayer} from './iphone-edit.js';
 import {PlaybackSession} from './playback-session.js';
-import {bindPhoneUI} from './iphone-ui.js?v=2.2.45';
+import {bindPhoneUI} from './iphone-ui.js?v=2.2.46';
 import {bindTimelineDropGuide} from './timeline-drop-guide.js';
 import {bindTimelineDragScroll} from './timeline-drag-scroll.js';
 import {pasteAttributes,pasteTextAttributes} from './attributes.js';
-import {audioSequence} from './model.js?v=2.2.45';
+import {audioSequence} from './model.js?v=2.2.46';
 import {detachAudio,appendAudio,migrateBgm} from './audio-timeline.js';
 import {linkedAudio,linkedVideo,syncLinkedAudio,setAudioLinked,splitLinkedPair,removeLinkedAudio} from './linked-audio.js';
-import {AudioPreview} from './audio-preview.js?v=2.2.45';
+import {AudioPreview} from './audio-preview.js?v=2.2.46';
 import {clipAlpha,opacityAt,scaleAt,effectAlpha,frozenClip,addEffect} from './creative.js';
 import {lookPresets,lookDescriptions,adaptiveCinematic} from './look.js';
-import {LayerPreview} from './layer-preview.js?v=2.2.45';
-import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.45';
-import {bindTimeline} from './timeline-gestures.js?v=2.2.45';
+import {LayerPreview} from './layer-preview.js?v=2.2.46';
+import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.46';
+import {bindTimeline} from './timeline-gestures.js?v=2.2.46';
 import {bindTimelinePinch} from './timeline-zoom.js';
-import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from './timeline-shortcuts.js';
-import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js?v=2.2.45';
-import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.45';
+import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from './timeline-shortcuts.js?v=2.2.46';
+import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js?v=2.2.46';
+import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.46';
 import {pasteTimelineItems} from './timeline-paste.js';
 import {currentLanguage,setLanguage,translate,translateDOM} from './i18n.js';
 import {bindNativeShell} from './native-shell.js';
@@ -54,7 +54,7 @@ import{bindPanelSplitters}from'./panel-splitter.js';
 import{performanceModes,performanceMode,setPerformanceMode,previewFrameInterval,scheduleIdleRelease,cancelIdleRelease,memorySnapshot}from'./preview-performance.js';
 import{videoTabs,tabMetadata,tabForSelection,inspectorHeading}from'./workspace-ui.js';
 import{retainFile,restoreFile,forgetUnused,vaultInfo}from'./media-vault.js';
-import{supportsProjectFolders,createProjectFolder,chooseProjectFolder,openRecentProject,saveFolderProject,saveBrowserProject,listRecentProjects,referencedMediaIds,copyMediaToProject,restoreProjectMediaFile}from'./project-storage.js';
+import{supportsProjectFolders,createProjectFolder,chooseProjectFolder,openRecentProject,saveFolderProject,saveBrowserProject,listRecentProjects,referencedMediaIds,copyMediaToProject,restoreProjectMediaFile}from'./project-storage.js?v=2.2.46';
 import{deviceSupport,renderOnDevice,showDeviceResult,rememberExport,rememberedExport,deleteRender,cleanOldExports,exportStorageInfo}from'./mobile-export.js';
 import{outputSettings,gainAt}from'./mobile-model.js';
 import{bindClipEnvelope}from'./clip-envelope-ui.js?v=2.2.32';
@@ -527,7 +527,7 @@ function showDeviceInfo(){modal(head('端末内で編集する')+`<p>${deviceSup
 const mb=n=>(n/1e6).toFixed(n>=1e9?0:1)+' MB';
 function releasePreviewMemory(){pause();lowerPreviews.forEach(value=>value.clear());transitionPreview.clear();stillPreview.clear();painter?.release?.();loadController?.abort();loadPromise=null;for(const source of [video,standbyVideo]){source.pause();source.removeAttribute('src');source.load();delete source.dataset.url;delete source.dataset.key}activeMedia=null;activeVideoKey='';loadedURL='';audioPreview.dispose();status('プレビューのデコーダとGPUメモリを解放しました。編集内容と素材は保持されています。')}
 function showPerformanceSettings(){const phone=document.body.dataset.ui==='phone';const info=memorySnapshot(),usage=info.used?`${mb(info.used)} / ${mb(info.limit)}`:'ブラウザから取得できません';modal(head('プレビューとメモリ')+`<p>${phone?'スマホでは音声を優先し、負荷が高い間だけ再生中の描画頻度と解像度を自動調整します。停止中は鮮明な表示へ戻ります。ここでは画面を離れた後のメモリ解放を選びます。':'Macの性能や編集内容に合わせて、プレビュー更新頻度と自動解放を選べます。'}書き出し画質には影響しません。</p><div class="performance-options">${Object.entries(performanceModes).map(([key,value])=>`<label><input type="radio" name="performanceMode" value="${key}" ${info.mode===key?'checked':''}><span><strong>${phone&&value.fps===60?'再開を優先':value.label} · ${phone?'最大':''}${phone?Math.min(24,value.fps):value.fps}fps</strong><small>${phone?(value.fps===24?'画面を離れて10秒後にメモリを解放します。':value.fps===30?'画面を離れて30秒後にメモリを解放します。':'自動解放を行いません。再開は速くなりますが、メモリを多く使います。'):value.description}</small></span></label>`).join('')}</div><div class="meta-grid"><div><span>推定搭載メモリ</span><strong>${info.deviceMemory?info.deviceMemory+' GB':'未取得'}</strong></div><div><span>JavaScriptメモリ</span><strong>${usage}</strong></div></div><button id="releasePreviewMemory" class="wide">プレビューメモリを今すぐ解放</button><p class="small-note">元素材、編集内容、保存済みプロキシは削除しません。解放後は次の再生・移動時に必要なフレームだけを読み直します。</p>`);$$('[name=performanceMode]').forEach(el=>el.onchange=()=>{setPerformanceMode(el.value);toast(`${phone&&performanceModes[el.value].fps===60?'再開を優先':performanceModes[el.value].label}に切り替えました。`);draw()});$('#releasePreviewMemory').onclick=()=>{releasePreviewMemory();$('#modal').close()}}
-async function showStorageInfo(){modal(head('端末内の保存容量')+'<p>使用量を確認しています…</p>');try{const [estimate,media,exports,persisted]=await Promise.all([navigator.storage?.estimate?.()||{},vaultInfo(),exportStorageInfo(),navigator.storage?.persisted?.()||false]);const used=estimate.usage||media.bytes+exports.bytes,quota=estimate.quota||0;modal(head('端末内の保存容量')+`<div class="meta-grid"><div><span>ブラウザ内の使用量</span><strong>${mb(used)}</strong></div><div><span>利用可能な上限</span><strong>${quota?mb(quota):'未取得'}</strong></div><div><span>保持素材</span><strong>${media.count}件 · ${mb(media.bytes)}</strong></div><div><span>書き出し</span><strong>${exports.count}件 · ${mb(exports.bytes)}</strong></div></div><p class="small-note">保持素材はプロジェクト再開用のコピーです。プロジェクトを切り替えても自動削除しません。</p><button id="persistStorage" class="wide" ${persisted?'disabled':''}>${persisted?'保存領域を保持中':'保存領域の保持を端末へ依頼'}</button><button id="cleanStoredMedia" class="wide">どのプロジェクトからも未使用の素材を削除</button><button id="cleanOldExports" class="wide">直近以外の書き出しを削除</button>`);$('#persistStorage').onclick=async()=>{const ok=await navigator.storage?.persist?.();toast(ok?'保存領域の保持が有効になりました。':'端末の設定により保持できませんでした。');showStorageInfo()};$('#cleanStoredMedia').onclick=async()=>{const ids=await referencedMediaIds();for(const m of P.media)ids.add(m.id);await forgetUnused(ids);toast('全プロジェクトから参照されていない素材データを整理しました。');showStorageInfo()};$('#cleanOldExports').onclick=async()=>{let keep;try{keep=JSON.parse(localStorage.getItem('pve.iphone.last-export'))?.path}catch{}const n=await cleanOldExports(keep);toast(`${n}件の古い書き出しを削除しました。`);showStorageInfo()}}catch(e){errorModal(e)}}
+async function showStorageInfo(){modal(head('端末内の保存容量')+'<p>使用量を確認しています…</p>');try{const [estimate,media,exports,persisted]=await Promise.all([navigator.storage?.estimate?.()||{},vaultInfo(),exportStorageInfo(),navigator.storage?.persisted?.()||false]);const used=estimate.usage||media.bytes+exports.bytes,quota=estimate.quota||0;modal(head('端末内の保存容量')+`<div class="meta-grid"><div><span>ブラウザ内の使用量</span><strong>${mb(used)}</strong></div><div><span>利用可能な上限</span><strong>${quota?mb(quota):'未取得'}</strong></div><div><span>保持素材</span><strong>${media.count}件 · ${mb(media.bytes)}</strong></div><div><span>書き出し</span><strong>${exports.count}件 · ${mb(exports.bytes)}</strong></div></div><p class="small-note">保持素材はプロジェクト再開用のコピーです。プロジェクトを切り替えても自動削除しません。</p><button id="persistStorage" class="wide" ${persisted?'disabled':''}>${persisted?'保存領域を保持中':'保存領域の保持を端末へ依頼'}</button><button id="cleanStoredMedia" class="wide">どのプロジェクトからも未使用の素材を削除</button><button id="cleanOldExports" class="wide">直近以外の書き出しを削除</button>`);$('#persistStorage').onclick=async()=>{const ok=await navigator.storage?.persist?.();toast(ok?'保存領域の保持が有効になりました。':'端末の設定により保持できませんでした。');showStorageInfo()};$('#cleanStoredMedia').onclick=async()=>{try{const ids=await referencedMediaIds();for(const m of P.media)ids.add(m.id);await forgetUnused(ids);toast('全プロジェクトから参照されていない素材データを整理しました。');showStorageInfo()}catch{toast('保存済みプロジェクトを確認できないため、素材の削除を中止しました。もう一度お試しください。')}};$('#cleanOldExports').onclick=async()=>{let keep;try{keep=JSON.parse(localStorage.getItem('pve.iphone.last-export'))?.path}catch{}const n=await cleanOldExports(keep);toast(`${n}件の古い書き出しを削除しました。`);showStorageInfo()}}catch(e){errorModal(e)}}
 async function exportDevice(preview,source=P){if(busy)return toast('現在の処理が終わるまでお待ちください。');busy=true;cancelled=false;cancelIdleRelease();releasePreviewMemory();progressModal('端末内でMP4を作成',true,source);try{const snapshot=await withTextRasters(source),exportName=snapshot.export?.fileName||snapshot.name;const files=[...localFiles].map(([id,file])=>({id,file}));const result=await renderOnDevice(snapshot,files,{preview,signal:operationAbort.signal,onProgress:progress});await rememberExport(result,exportName);showDeviceResult(result,exportName,{modal,head,esc,status,onReturn:()=>audioPreview.unlock()})}catch(e){errorModal(e,()=>exportDevice(preview,source))}finally{busy=false;jobID=null}}
 
 async function migrateCurrentToFolder(){if(!supportsProjectFolders())return toast('専用フォルダの作成にはChromeまたはEdgeを使用してください。');try{const directory=await createProjectFolder(P);projectDirectory=directory;pendingProjectRecord=null;projectStorageMode='folder';progressModal('専用フォルダへ移行中');let copied=0,missing=0;for(const media of P.media){const file=localFiles.get(media.id);if(!file){missing++;continue}progress('素材をコピー中',copied/Math.max(1,P.media.length));media.projectPath=await copyMediaToProject(directory,media,file);media.retained=true;copied++}await saveFolderProject(P,directory);$('#modal').close();$('#saveStatus').textContent='FOLDER AUTOSAVE';toast(`専用フォルダへ移行しました。${copied}件をコピー${missing?`、未接続${missing}件`:''}。`)}catch(error){if(error.name!=='AbortError')errorModal(error)}}

@@ -1,4 +1,5 @@
-import {anchor,audioSequence,sequence,sourceOffset,timing,total} from './model.js';
+import {syncLinkedAudio} from './linked-audio.js';
+import {anchor,audioSequence,sequence,sourceOffset,timing,total,trimClip} from './model.js';
 
 const EPSILON=1e-6;
 
@@ -45,11 +46,11 @@ export function rippleTrimToPlayhead(project,id,edge,playhead){
  if(!row){collection=project.audioClips||[];rows=audioSequence(project);row=rows.find(value=>value.clip.id===id)}
  if(!row||row.clip.gap||playhead<=row.start+EPSILON||playhead>=row.end-EPSILON)return null;
  const item=row.clip,source=item.in+sourceOffset(playhead-row.start,item),oldEnd=row.end,oldDuration=row.duration;
- if(edge==='in')item.in=source;else item.out=source;
+ const media=project.media.find(value=>value.id===item.media);
+ trimClip(item,edge,source,Math.max(item.out,media?.duration||item.out));
  const removed=Math.max(0,oldDuration-timing(item).duration);
  if(removed<EPSILON)return null;
- for(const other of collection)if(other!==item&&(other.layer||0)===row.layer&&(other.start??0)>=oldEnd-EPSILON)other.start=Math.max(row.start,(other.start??0)-removed);
- const linked=(project.audioClips||[]).find(audio=>audio.linked!==false&&audio.sourceClip===item.id);
- if(linked)for(const key of ['start','in','out','speed','endSpeed','curve','hold','timingBase'])item[key]===undefined?delete linked[key]:linked[key]=structuredClone(item[key]);
+ for(const other of collection)if(other!==item&&(other.layer||0)===row.layer&&(other.start??0)>=oldEnd-EPSILON){other.start=Math.max(row.start,(other.start??0)-removed);if(collection===project.clips)syncLinkedAudio(project,other)}
+ if(collection===project.clips)syncLinkedAudio(project,item);
  return{clip:item,kind:collection===project.clips?'video':'audio',removed,start:row.start};
 }
