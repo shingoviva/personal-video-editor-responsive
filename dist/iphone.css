@@ -331,3 +331,17 @@ body[data-ui=phone] .topbar{flex-basis:40px;height:40px;min-height:40px;gap:4px}
 body[data-ui=phone] .brand{font-size:16px}
 body[data-ui=phone] .top-history button{height:38px;min-height:38px}
 body[data-ui=phone] #exportButton{height:30px;min-height:30px;padding-inline:9px}
+
+/* Explicit source selection, all three video destinations and symmetric navigation. */
+body[data-ui=phone] #jumpEnd{display:flex;align-items:center;justify-content:center;width:32px;min-width:32px}
+body[data-ui=phone] .transport button{width:34px;min-width:34px}
+body[data-ui=phone] .phone-import-target{display:flex;flex:none;flex-wrap:wrap;align-items:center;gap:5px 8px;padding:6px 0}
+body[data-ui=phone] .phone-import-target strong{font-size:12px}
+body[data-ui=phone] .phone-import-target>div{display:flex;gap:4px}
+body[data-ui=phone] .phone-import-target button{min-height:34px;height:34px;min-width:40px;padding:0 8px;border:1px solid #4c5a43}
+body[data-ui=phone] .phone-import-target button[aria-pressed=true]{background:#354226;color:var(--accent);border-color:#9fac74}
+body[data-ui=phone] .phone-import-target small{width:100%;font-size:10px}
+body[data-ui=phone] .asset-detail-video{display:block;width:100%;max-height:180px;background:#080b08;margin:8px 0}
+body[data-ui=phone][data-phone-panel=import] .phone-sheet-header{padding-right:138px}
+body[data-ui=phone][data-phone-panel=import] #phoneSheetClose{min-width:128px}
+@media(max-width:360px){body[data-ui=phone] .transport{gap:0}body[data-ui=phone] .transport button{width:29px;min-width:29px}body[data-ui=phone] #jumpStart,body[data-ui=phone] #jumpEnd{width:27px;min-width:27px}body[data-ui=phone] .viewer-controls{gap:2px;padding-inline:3px}}

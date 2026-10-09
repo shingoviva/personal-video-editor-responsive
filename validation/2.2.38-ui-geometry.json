@@ -1,0 +1,392 @@
+[
+  {
+    "controls": [
+      {
+        "clientWidth": 55,
+        "h": 10.5,
+        "id": "sourceTime",
+        "scrollWidth": 55,
+        "visible": true,
+        "w": 55,
+        "within": true,
+        "x": 3
+      },
+      {
+        "clientWidth": 25,
+        "h": 38,
+        "id": "jumpStart",
+        "scrollWidth": 25,
+        "visible": true,
+        "w": 27,
+        "within": true,
+        "x": 84.5
+      },
+      {
+        "clientWidth": 27,
+        "h": 38,
+        "id": "prevFrame",
+        "scrollWidth": 27,
+        "visible": true,
+        "w": 29,
+        "within": true,
+        "x": 111.5
+      },
+      {
+        "clientWidth": 27,
+        "h": 38,
+        "id": "play",
+        "scrollWidth": 27,
+        "visible": true,
+        "w": 29,
+        "within": true,
+        "x": 145.5
+      },
+      {
+        "clientWidth": 27,
+        "h": 38,
+        "id": "nextFrame",
+        "scrollWidth": 27,
+        "visible": true,
+        "w": 29,
+        "within": true,
+        "x": 179.5
+      },
+      {
+        "clientWidth": 25,
+        "h": 38,
+        "id": "jumpEnd",
+        "scrollWidth": 25,
+        "visible": true,
+        "w": 27,
+        "within": true,
+        "x": 208.5
+      },
+      {
+        "clientWidth": 55,
+        "h": 10.5,
+        "id": "outputDuration",
+        "scrollWidth": 55,
+        "visible": true,
+        "w": 55,
+        "within": true,
+        "x": 262
+      }
+    ],
+    "height": 650,
+    "overflow": 0,
+    "ui": "phone",
+    "width": 320
+  },
+  {
+    "controls": [
+      {
+        "clientWidth": 61,
+        "h": 11.5,
+        "id": "sourceTime",
+        "scrollWidth": 61,
+        "visible": true,
+        "w": 60.5,
+        "within": true,
+        "x": 8
+      },
+      {
+        "clientWidth": 30,
+        "h": 38,
+        "id": "jumpStart",
+        "scrollWidth": 30,
+        "visible": true,
+        "w": 32,
+        "within": true,
+        "x": 108.5
+      },
+      {
+        "clientWidth": 32,
+        "h": 38,
+        "id": "prevFrame",
+        "scrollWidth": 32,
+        "visible": true,
+        "w": 34,
+        "within": true,
+        "x": 140.5
+      },
+      {
+        "clientWidth": 32,
+        "h": 38,
+        "id": "play",
+        "scrollWidth": 32,
+        "visible": true,
+        "w": 34,
+        "within": true,
+        "x": 179.5
+      },
+      {
+        "clientWidth": 32,
+        "h": 38,
+        "id": "nextFrame",
+        "scrollWidth": 32,
+        "visible": true,
+        "w": 34,
+        "within": true,
+        "x": 218.5
+      },
+      {
+        "clientWidth": 30,
+        "h": 38,
+        "id": "jumpEnd",
+        "scrollWidth": 30,
+        "visible": true,
+        "w": 32,
+        "within": true,
+        "x": 252.5
+      },
+      {
+        "clientWidth": 61,
+        "h": 11.5,
+        "id": "outputDuration",
+        "scrollWidth": 61,
+        "visible": true,
+        "w": 60.5,
+        "within": true,
+        "x": 324.5
+      }
+    ],
+    "height": 650,
+    "overflow": 0,
+    "ui": "phone",
+    "width": 393
+  },
+  {
+    "controls": [
+      {
+        "clientWidth": 61,
+        "h": 11.5,
+        "id": "sourceTime",
+        "scrollWidth": 61,
+        "visible": true,
+        "w": 60.5,
+        "within": true,
+        "x": 8
+      },
+      {
+        "clientWidth": 30,
+        "h": 38,
+        "id": "jumpStart",
+        "scrollWidth": 30,
+        "visible": true,
+        "w": 32,
+        "within": true,
+        "x": 127
+      },
+      {
+        "clientWidth": 32,
+        "h": 38,
+        "id": "prevFrame",
+        "scrollWidth": 32,
+        "visible": true,
+        "w": 34,
+        "within": true,
+        "x": 159
+      },
+      {
+        "clientWidth": 32,
+        "h": 38,
+        "id": "play",
+        "scrollWidth": 32,
+        "visible": true,
+        "w": 34,
+        "within": true,
+        "x": 198
+      },
+      {
+        "clientWidth": 32,
+        "h": 38,
+        "id": "nextFrame",
+        "scrollWidth": 32,
+        "visible": true,
+        "w": 34,
+        "within": true,
+        "x": 237
+      },
+      {
+        "clientWidth": 30,
+        "h": 38,
+        "id": "jumpEnd",
+        "scrollWidth": 30,
+        "visible": true,
+        "w": 32,
+        "within": true,
+        "x": 271
+      },
+      {
+        "clientWidth": 61,
+        "h": 11.5,
+        "id": "outputDuration",
+        "scrollWidth": 61,
+        "visible": true,
+        "w": 60.5,
+        "within": true,
+        "x": 361.5
+      }
+    ],
+    "height": 852,
+    "overflow": 0,
+    "ui": "phone",
+    "width": 430
+  },
+  {
+    "controls": [
+      {
+        "clientWidth": 61,
+        "h": 11.5,
+        "id": "sourceTime",
+        "scrollWidth": 61,
+        "visible": true,
+        "w": 60.5,
+        "within": true,
+        "x": 6
+      },
+      {
+        "clientWidth": 30,
+        "h": 38,
+        "id": "jumpStart",
+        "scrollWidth": 30,
+        "visible": true,
+        "w": 32,
+        "within": true,
+        "x": 49.203125
+      },
+      {
+        "clientWidth": 32,
+        "h": 38,
+        "id": "prevFrame",
+        "scrollWidth": 32,
+        "visible": true,
+        "w": 34,
+        "within": true,
+        "x": 81.203125
+      },
+      {
+        "clientWidth": 32,
+        "h": 38,
+        "id": "play",
+        "scrollWidth": 32,
+        "visible": true,
+        "w": 34,
+        "within": true,
+        "x": 120.203125
+      },
+      {
+        "clientWidth": 32,
+        "h": 38,
+        "id": "nextFrame",
+        "scrollWidth": 32,
+        "visible": true,
+        "w": 34,
+        "within": true,
+        "x": 159.203125
+      },
+      {
+        "clientWidth": 30,
+        "h": 38,
+        "id": "jumpEnd",
+        "scrollWidth": 30,
+        "visible": true,
+        "w": 32,
+        "within": true,
+        "x": 193.203125
+      },
+      {
+        "clientWidth": 61,
+        "h": 11.5,
+        "id": "outputDuration",
+        "scrollWidth": 61,
+        "visible": true,
+        "w": 60.5,
+        "within": true,
+        "x": 207.9140625
+      }
+    ],
+    "height": 393,
+    "overflow": 0,
+    "ui": "phone",
+    "width": 590
+  },
+  {
+    "controls": [
+      {
+        "clientWidth": 66,
+        "h": 13,
+        "id": "sourceTime",
+        "scrollWidth": 66,
+        "visible": true,
+        "w": 66,
+        "within": true,
+        "x": 247
+      },
+      {
+        "clientWidth": 25,
+        "h": 31.5,
+        "id": "jumpStart",
+        "scrollWidth": 25,
+        "visible": true,
+        "w": 27.03125,
+        "within": true,
+        "x": 577.9609375
+      },
+      {
+        "clientWidth": 29,
+        "h": 32,
+        "id": "prevFrame",
+        "scrollWidth": 29,
+        "visible": true,
+        "w": 31.0078125,
+        "within": true,
+        "x": 613.9921875
+      },
+      {
+        "clientWidth": 38,
+        "h": 40,
+        "id": "play",
+        "scrollWidth": 38,
+        "visible": true,
+        "w": 40,
+        "within": true,
+        "x": 659
+      },
+      {
+        "clientWidth": 29,
+        "h": 32,
+        "id": "nextFrame",
+        "scrollWidth": 29,
+        "visible": true,
+        "w": 31.0078125,
+        "within": true,
+        "x": 713
+      },
+      {
+        "clientWidth": 25,
+        "h": 31.5,
+        "id": "jumpEnd",
+        "scrollWidth": 25,
+        "visible": true,
+        "w": 27.03125,
+        "within": true,
+        "x": 753.0078125
+      },
+      {
+        "clientWidth": 66,
+        "h": 13,
+        "id": "outputDuration",
+        "scrollWidth": 66,
+        "visible": true,
+        "w": 66,
+        "within": true,
+        "x": 1045
+      }
+    ],
+    "height": 900,
+    "overflow": 0,
+    "ui": "desktop",
+    "width": 1440
+  }
+]
