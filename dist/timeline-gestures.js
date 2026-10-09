@@ -11,6 +11,13 @@ export function equalSpacingStart(value,span,row,rows,secondsPerPixel){
  return Math.abs(target-value)<=secondsPerPixel*8?{start:Math.max(0,target),spacing:true,previous:previous.end,next:next.start}:{start:value,spacing:false};
 }
 
+// Magnetize either end when moving, and the edited edge when trimming.
+export function snapClipPosition(value,span,{targets=[],enabled=true,threshold=0}={}){
+ let start=Math.max(0,Math.round(value*30)/30),target=null,best=Infinity;
+ if(enabled)for(const point of new Set(targets.filter(Number.isFinite)))for(const edge of [0,Math.max(0,span)]){const candidate=point-edge,distance=Math.abs(candidate-value);if(candidate>=0&&distance<=threshold&&distance<best){start=candidate;target=point;best=distance}}
+ return{start,snapped:target!==null,target};
+}
+
 export function bindTimeline({root,rows,duration,select,begin,finish,cancel,preview,media,snap,getLayer,duplicate,groupRows=()=>[],groupOthers=()=>[],timelineRoot=root,snapTargets=()=>[]}){
  const pixels=root.getBoundingClientRect().width;
  const secondsPerPixel=Math.max(duration,.001)/Math.max(pixels,1);
@@ -30,11 +37,11 @@ export function bindTimeline({root,rows,duration,select,begin,finish,cancel,prev
     if(!moved&&Math.hypot(ev.clientX-x,ev.clientY-y)<5)return;
     if(!moved){begin();if(e.altKey&&!edge&&duplicate){ghost=el.cloneNode?.(true)||null;if(ghost){ghost.classList.add('duplicate-origin');ghost.removeAttribute?.('data-clip');el.parentNode?.insertBefore(ghost,el)}row=duplicate(row)||row;select(row.clip.id,e)}else if(!edge){companions=groupRows(row).filter(r=>r.clip.id!==row.clip.id).map(r=>({row:r,start:r.start,layer:r.layer}));others=groupOthers(row).filter(v=>v.item.id!==row.clip.id)}moved=true;el.classList.add('dragging')}
     let delta=(ev.clientX-x)*secondsPerPixel;
-    const selectedIds=new Set([row.clip.id,...companions.map(g=>g.row.clip.id)]),frame=1/30,targets=[0,...snapTargets(),...rows.filter(r=>r!==row&&!selectedIds.has(r.clip.id)).flatMap(r=>[r.start,r.end])];let didSnap=false;
-    let spacingResult={spacing:false};const snapped=t=>{t=Math.round(t/frame)*frame;didSnap=false;if(snap()){let best=targets.reduce((found,a)=>Math.abs(a-t)<Math.abs((found??Infinity)-t)?a:found,undefined);if(best!==undefined&&Math.abs(best-t)<=secondsPerPixel*12){t=best;didSnap=true}}return Math.max(0,t)};
+    const selectedIds=new Set([row.clip.id,...companions.map(g=>g.row.clip.id)]),targets=[0,...snapTargets(),...rows.filter(r=>r!==row&&!selectedIds.has(r.clip.id)).flatMap(r=>[r.start,r.end])];let didSnap=false,snapPoint=null;
+    let spacingResult={spacing:false};const snapped=(t,span=0)=>{const result=snapClipPosition(t,span,{targets,enabled:snap(),threshold:secondsPerPixel*12});didSnap=result.snapped;snapPoint=result.target;return result.start};
     const c=row.clip;
     if(!edge){
-     c.start=snapped(row.start+delta);c.layer=getLayer(ev.clientY)??row.layer;if(snap()&&!didSnap){const spacingRows=[row,...rows.filter(r=>!selectedIds.has(r.clip.id))];spacingResult=equalSpacingStart(c.start,timing(c).duration,{...row,layer:c.layer},spacingRows,secondsPerPixel);c.start=spacingResult.start}
+     c.start=snapped(row.start+delta,timing(origin).duration);c.layer=getLayer(ev.clientY)??row.layer;if(snap()&&!didSnap){const spacingRows=[row,...rows.filter(r=>!selectedIds.has(r.clip.id))];spacingResult=equalSpacingStart(c.start,timing(c).duration,{...row,layer:c.layer},spacingRows,secondsPerPixel);c.start=spacingResult.start}
      const minimum=Math.min(row.start,...companions.map(g=>g.start),...others.map(v=>v.start)),actual=Math.max(-minimum,c.start-row.start);c.start=row.start+actual;
      for(const g of companions){g.row.clip.start=g.start+actual;g.row.clip.layer=clamp(g.layer+c.layer-row.layer,0,c.kind==='audio'?3:2);const node=elementById.get(g.row.clip.id);if(node){node.style.left=g.row.clip.start/Math.max(duration,.001)*100+'%';node.style.top=((g.row.clip.layer-g.layer)*(c.kind==='audio'?44:-52))+'px'}}
      for(const value of others){value.item.start=value.start+actual;if(value.kind==='text')value.item.end=value.item.start+value.span;const node=elementById.get(value.item.id);if(node)node.style.left=value.item.start/Math.max(duration,.001)*100+'%'}
@@ -54,7 +61,7 @@ export function bindTimeline({root,rows,duration,select,begin,finish,cancel,prev
     }
     el.style.left=c.start/Math.max(duration,.001)*100+'%';
     el.style.width=timing(c).duration/Math.max(duration,.001)*100+'%';
-    const now=performance.now();if(!edge||now-lastPreview>50){lastPreview=now;preview(c,edge,didSnap,spacingResult)}
+    const now=performance.now();if(!edge||now-lastPreview>50){lastPreview=now;preview(c,edge,didSnap,spacingResult,snapPoint)}
    };
    const cleanup=()=>{ghost?.remove?.();ghost=null;el.classList.remove?.('dragging');el.onpointermove=null;el.onpointerup=null;el.onpointercancel=null;el.onlostpointercapture=null};
    el.onpointerup=ev=>{cleanup();if(moved)finish();else{const t=row.start+clamp((ev.clientX-el.getBoundingClientRect().left)/Math.max(el.clientWidth,1),0,1)*row.duration;finish(t,false)}};

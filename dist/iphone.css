@@ -349,3 +349,5 @@ body[data-ui=phone][data-phone-panel=import] #phoneSheetClose{min-width:128px}
 body[data-ui=phone] .video-track>.clip-block,body[data-ui=phone] .editable-audio>.clip-block{height:calc(100% - 4px)!important;min-height:0!important}
 body[data-ui=phone] .track-head>[data-lane-resize]{display:block!important;height:10px!important;min-height:10px!important}
 body[data-ui=phone] .timeline-lane-resizer{height:10px!important;min-height:10px!important}
+
+body[data-ui=phone] .edit-marker{width:22px!important;min-width:22px!important;height:18px!important;min-height:18px!important}

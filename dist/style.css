@@ -501,3 +501,11 @@ body:not([data-ui=phone]) .workflow button:focus-visible{outline:2px solid var(-
 
 /* Focus on a lane handle must not independently scroll its fixed labels. */
 .track-labels{overflow:clip}
+
+/* Keep editable flags above the time badge so selected markers remain draggable. */
+.edit-marker-ruler{position:sticky;inset:auto;top:0;height:0;width:100%;z-index:30}
+.edit-marker{touch-action:none;cursor:ew-resize}
+.edit-marker.selected{background:#ffca83;filter:drop-shadow(0 0 2px #ffca83)}
+.edit-marker:focus-visible{background:#fff6c2;filter:drop-shadow(0 0 2px #fff6c2)}
+/* Shared button hover animation must not shift a flag away from its time. */
+.timeline-panel .edit-marker,.timeline-panel .edit-marker:hover,.timeline-panel .edit-marker:active{transform:translateX(-50%)!important}

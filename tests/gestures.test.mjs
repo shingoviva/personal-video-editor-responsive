@@ -30,3 +30,15 @@ bindTimeline({root:groupRoot,rows:groupRows,duration:10,select(){},begin(){},fin
 groupElements[0].onpointerdown(event(0));groupElements[0].onpointermove(event(100));groupElements[0].onpointerup(event(100));
 assert.equal(groupClips[0].start,2);assert.equal(groupClips[1].start,5);assert.equal(other.start,7);
 console.log('Shift-selected clip group preserves spacing while moving: PASS');
+const {snapClipPosition}=await import('../dist/timeline-gestures.js');
+assert.deepEqual(snapClipPosition(2.01,4,{targets:[6],threshold:.12}),{start:2,snapped:true,target:6},'moving tail snaps to marker');
+assert.deepEqual(snapClipPosition(2.98,4,{targets:[3],threshold:.12}),{start:3,snapped:true,target:3},'moving head snaps to marker');
+assert.equal(snapClipPosition(2.01,4,{targets:[6],threshold:.12,enabled:false}).snapped,false);
+for(const kind of ['video','audio'])for(const edge of ['in','out',null]){
+ const c={...clip(m),kind,in:2,out:6,start:1,layer:0},r={clip:c,start:1,end:5,duration:4,layer:0},el={...element,dataset:{clip:c.id},style:{}},rt={getBoundingClientRect:()=>({width:1000}),querySelectorAll:()=>[el]};
+ const marker=edge==='in'?1.5:edge==='out'?5.5:5.5;
+ bindTimeline({root:rt,rows:[r],duration:10,select(){},begin(){},finish(){},cancel(){},preview(){},media:()=>m,snap:()=>true,snapTargets:()=>[marker],getLayer:()=>0});
+ el.onpointerdown(event(100,0,edge));el.onpointermove(event(149,0,edge));el.onpointerup(event(149,0,edge));
+ assert.ok(Math.abs((edge==='in'?c.start:c.start+timing(c).duration)-marker)<1e-8,kind+' '+edge+' snaps to project marker');
+}
+console.log('Video/audio movement at either end and both trims snap to editable marker times PASS');

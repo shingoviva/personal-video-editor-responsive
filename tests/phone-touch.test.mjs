@@ -33,3 +33,7 @@ let resizePrevented=0;const resizeTarget={closest:selector=>selector.includes('[
 events.pointerdown({...e(100,100),target:resizeTarget,preventDefault(){resizePrevented++}});
 assert.equal(resizePrevented,0,'lane resizing must own its touch without swipe interception');
 console.log('Lane resizing remains independent from phone timeline swipe PASS');
+
+let markerIntercepted=0;const markerTarget={closest:selector=>selector.includes('[data-edit-marker]')?{}:null};
+events.pointerdown({...e(100,100),target:markerTarget,preventDefault(){markerIntercepted++}});assert.equal(markerIntercepted,0,'marker drag owns touch outside the ruler');
+console.log('Phone marker drag is independent from timeline swipe PASS');
