@@ -1,3 +1,7 @@
+## 2.2.42 — 音声停止処理
+
+同じ別版GitHub／Pages／公開Sitesを更新します。元版は変更しません。
+
 ## 2.2.41 — 端末切替版の更新
 
 別リポジトリ https://github.com/shingoviva/personal-video-editor-responsive のmainへ反映。同じHEADをGitHub Pages https://shingoviva.com/personal-video-editor-responsive/ と既存の公開Sitesへ配信します。元のMac開発版／GitHub／Siteは保全します。

@@ -1,10 +1,10 @@
-import {bindEditMarker} from './edit-marker-ui.js?v=2.2.41';
-import {addEditMarker,nextEditMarker,moveEditMarker,removeEditMarker,editMarkerTimes} from './edit-markers.js?v=2.2.41';
-import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.41';
+import {bindEditMarker} from './edit-marker-ui.js?v=2.2.42';
+import {addEditMarker,nextEditMarker,moveEditMarker,removeEditMarker,editMarkerTimes} from './edit-markers.js?v=2.2.42';
+import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.42';
 import {uiIcon} from './ui-icons.js?v=2.2.33';
 import {defaultForSetting,resetMotionAppearance,resetAudioAdjustments} from './setting-resets.js?v=2.2.33';
 import {clipEnvelopeOwnsPointer} from './clip-envelope-ui.js?v=2.2.32';
-import {bindPhoneTouch} from './phone-touch.js?v=2.2.41';
+import {bindPhoneTouch} from './phone-touch.js?v=2.2.42';
 import {advancePhoneClock} from './phone-playback-clock.js?v=2.2.35';
 import {PhonePreviewBudget} from './phone-preview-budget.js?v=2.2.30';
 import {PreviewPlaybackScheduler} from './preview-playback-scheduler.js';
@@ -12,23 +12,23 @@ const phonePreviewBudget=new PhonePreviewBudget(),previewPlaybackScheduler=new P
 const previewLongEdge=()=>document.body.dataset.ui==='phone'&&playing?phonePreviewBudget.longEdge:960;
 import {reorderPhoneClip,trimPhoneClip,movePhoneLayer} from './iphone-edit.js';
 import {PlaybackSession} from './playback-session.js';
-import {bindPhoneUI} from './iphone-ui.js?v=2.2.41';
+import {bindPhoneUI} from './iphone-ui.js?v=2.2.42';
 import {bindTimelineDropGuide} from './timeline-drop-guide.js';
 import {bindTimelineDragScroll} from './timeline-drag-scroll.js';
 import {pasteAttributes,pasteTextAttributes} from './attributes.js';
-import {audioSequence} from './model.js?v=2.2.41';
+import {audioSequence} from './model.js?v=2.2.42';
 import {detachAudio,appendAudio,migrateBgm} from './audio-timeline.js';
 import {linkedAudio,linkedVideo,syncLinkedAudio,setAudioLinked,splitLinkedPair,removeLinkedAudio} from './linked-audio.js';
-import {AudioPreview} from './audio-preview.js?v=2.2.28';
+import {AudioPreview} from './audio-preview.js?v=2.2.42';
 import {clipAlpha,opacityAt,scaleAt,effectAlpha,frozenClip,addEffect} from './creative.js';
 import {lookPresets,lookDescriptions,adaptiveCinematic} from './look.js';
 import {LayerPreview} from './layer-preview.js?v=2.2.28';
-import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.41';
-import {bindTimeline} from './timeline-gestures.js?v=2.2.41';
+import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.42';
+import {bindTimeline} from './timeline-gestures.js?v=2.2.42';
 import {bindTimelinePinch} from './timeline-zoom.js';
 import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from './timeline-shortcuts.js';
-import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js?v=2.2.41';
-import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.41';
+import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js?v=2.2.42';
+import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.42';
 import {pasteTimelineItems} from './timeline-paste.js';
 import {currentLanguage,setLanguage,translate,translateDOM} from './i18n.js';
 import {bindNativeShell} from './native-shell.js';
@@ -159,8 +159,8 @@ async function syncVideo(force=false){if(!playing)audioPreview.sync(P,time,false
  return true;
 }
 function localSpeed(row,t){let {nodes,pieces}=timing(row.clip);for(let i=1;i<nodes.length;i++)if(t<=nodes[i][1])return pieces[i-1][2];return 0}
-function pause(keepAudition=false){previewPlaybackScheduler.reset();playbackSession.stop();lowerPreviews.forEach(p=>p.pause());transitionPreview.pause();audioPreview.pause();stopAssetVideoPreviews();if(!keepAudition)document.querySelector('#assetAudition')?.pause();playing=false;playbackTimeline=null;playbackRows=null;video.pause();standbyVideo.pause();bgmAudio.pause();cancelAnimationFrame(raf);$('#play').textContent='▶';$('#play').ariaLabel=translate('再生');if(document.body.dataset.ui==='phone')requestAnimationFrame(()=>{if(!playing)draw()})}
-async function play(){if(!duration())return;cancelIdleRelease();document.querySelector('#assetAudition')?.pause();if(playing)return pause();if(time>=duration()-.01)time=0;const audioReady=audioPreview.unlock();const session=playbackSession.begin();playbackTimeline={...compileTimeline(P),duration:total(P)};playbackRows=visibleVideoRows(sequence(P));playing=true;audioPreview.continuous=document.body.dataset.ui==='phone';$('#play').textContent='❚❚';$('#play').ariaLabel=translate('停止');const ready=await syncVideo(true);await audioReady;if(!playbackSession.current(session))return;if(!ready||!playing){pause();return}if(document.body.dataset.ui==='phone')phonePreviewBudget.reset();previewPlaybackScheduler.reset();audioPreview.beginPlayback(P);audioPreview.sync(P,time,true,linkURL);const bg=P.media.find(m=>m.id===P.bgm.media);if(bg&&linkURL(bg)){if(bgmAudio.dataset.media!==bg.id){bgmAudio.src=linkURL(bg);bgmAudio.dataset.media=bg.id}bgmAudio.loop=true;bgmAudio.volume=clamp(P.bgm.volume,0,1);if(Number.isFinite(bgmAudio.duration)&&bgmAudio.duration>0)bgmAudio.currentTime=time%bgmAudio.duration;bgmAudio.play().catch(()=>{})}lastTick=performance.now();raf=requestAnimationFrame(now=>tick(now,session))}
+function pause(keepAudition=false){previewPlaybackScheduler.reset();playbackSession.stop();lowerPreviews.forEach(p=>p.pause());transitionPreview.pause();audioPreview.pause();stopAssetVideoPreviews();if(!keepAudition)document.querySelector('#assetAudition')?.pause();playing=false;playbackTimeline=null;playbackRows=null;video.pause();standbyVideo.pause();bgmAudio.muted=true;bgmAudio.pause();cancelAnimationFrame(raf);$('#play').textContent='▶';$('#play').ariaLabel=translate('再生');if(document.body.dataset.ui==='phone')requestAnimationFrame(()=>{if(!playing)draw()})}
+async function play(){if(!duration())return;cancelIdleRelease();document.querySelector('#assetAudition')?.pause();if(playing)return pause();if(time>=duration()-.01)time=0;const audioReady=audioPreview.unlock();const session=playbackSession.begin();playbackTimeline={...compileTimeline(P),duration:total(P)};playbackRows=visibleVideoRows(sequence(P));playing=true;audioPreview.continuous=document.body.dataset.ui==='phone';$('#play').textContent='❚❚';$('#play').ariaLabel=translate('停止');const ready=await syncVideo(true);await audioReady;if(!playbackSession.current(session))return;if(!ready||!playing){pause();return}if(document.body.dataset.ui==='phone')phonePreviewBudget.reset();previewPlaybackScheduler.reset();audioPreview.beginPlayback(P);audioPreview.sync(P,time,true,linkURL);const bg=P.media.find(m=>m.id===P.bgm.media);if(bg&&linkURL(bg)){if(bgmAudio.dataset.media!==bg.id){bgmAudio.src=linkURL(bg);bgmAudio.dataset.media=bg.id}bgmAudio.muted=false;bgmAudio.loop=true;bgmAudio.volume=clamp(P.bgm.volume,0,1);if(Number.isFinite(bgmAudio.duration)&&bgmAudio.duration>0)bgmAudio.currentTime=time%bgmAudio.duration;bgmAudio.play().then(()=>{if(!playing)bgmAudio.pause()}).catch(()=>{})}lastTick=performance.now();raf=requestAnimationFrame(now=>tick(now,session))}
 function primeNextVideo(){const rows=playbackRows||visibleVideoRows(sequence(P)),current=previewRow();if(!current||current.clip.gap||current.end-time>1.5)return;const at=Math.min(duration(),current.end+1e-6),next=locatePreviewRow(rows,at,duration()),m=mediaOf(next?.clip),url=m&&m.kind!=='image'&&linkURL(m),key=next&&url?`${next.clip.id}|${url}`:'';if(!key||key===activeVideoKey||standbyVideo.dataset.key===key)return;standbyVideo.pause();standbyVideo.dataset.key=key;if(standbyVideo.dataset.url!==url){standbyVideo.dataset.url=url;standbyVideo.src=url;standbyVideo.load()}const position=next.clip.freezeDuration?next.clip.freezeAt??next.clip.in:Math.min(next.clip.out-.00001,next.clip.in+sourceOffset(Math.max(0,at-next.start),next.clip)),prepare=()=>{try{standbyVideo.currentTime=position}catch{}};standbyVideo.readyState>=1?prepare():standbyVideo.addEventListener('loadedmetadata',prepare,{once:true})}
 function tick(now,session){if(!playing||!playbackSession.current(session))return;let dt=Math.max(0,(now-lastTick)/1000);lastTick=now;if(document.body.dataset.ui==='phone'){let sample=audioPreview.clock(time);const row=previewRow(),c=row?.clip;if(!sample&&c&&!c.gap&&!c.freezeDuration&&mediaOf(c)?.kind!=='image'&&time-row.start<timing(c).nodes.at(-1)[1]&&activeVideoKey===c.id+'|'+linkURL(mediaOf(c))){sample={time:row.start+outputOffset(Math.max(0,video.currentTime-c.in),c),waiting:video.seeking||video.readyState<2}}time=advancePhoneClock(time,dt,sample)}else time+=dt;if(time>=duration()){time=duration();pause();draw();updateClock();return}primeNextVideo();previewPlaybackScheduler.step(now,{audio:()=>audioPreview.sync(P,time,playing,linkURL),video:()=>syncVideo(),onError:error=>{pause();toast(error.message)}});bgmAudio.volume=clamp(gainAt(time,duration(),P.bgm.volume,P.bgm.fadeIn,P.bgm.fadeOut,P.bgm.gainKeyframes),0,1);draw();updateClock();raf=requestAnimationFrame(now=>tick(now,session))}
 let drawnAt=0,fxMarkup='';

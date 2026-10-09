@@ -1,3 +1,12 @@
+## 2.2.42 — 停止後の残留音対策（2026-10-09）
+
+- 音声回路を接続する前にfeedback／wet／outputを0、delayを0.28秒へ初期化。全voiceの出力を共通master経由に統一。
+- 停止でmasterの予約を取消・0を設定、音源をmute・pause、feedback／wetの予約取消、AudioContext.suspend。停止中syncが音声回路を再設定しない試験を追加。
+- 保留中play完了の消音維持、保留中suspendを待って次のresumeを実行する試験通過。
+- ブラウザーの実AudioContextでrunning→suspended→running→suspendedを確認。suspend直後のAudioParam.valueは処理前の値1を返すため、停止の確認はcontext.stateと全音源のpaused／mutedで行った。ユニット試験で0設定・予約取消も確認。
+- iPhone幅393×650で動画の自然終了17.60秒、停止直後の再開と時計進行、JS例外0を確認。iPhone実機の破裂音そのものは未再現・未確認。
+- npm test／build、Python動画パイプライン・サーバー試験、Mac ZIP検証通過。元版161ファイル差分0。
+
 ## 2.2.41 — 素材カード内の配置先（2026-10-09）
 
 - iPhone幅393×650でカードから動画V3へ配置。別カードのV2選択と他カードのV1選択を保持、詳細の「V3の末尾へ配置」も一致。選択だけでは配置しないことを確認。
