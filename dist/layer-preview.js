@@ -1,4 +1,4 @@
-import {needsPreviewSeek} from './playback-sync.js';
+import {needsPreviewSeek,previewMediaEnded} from './playback-sync.js?v=2.2.43';
 import {renderer} from './preview.js?v=2.2.28';
 import {StillPreview} from './image-media.js';
 import {waitForMedia} from './media-state.js';
@@ -18,8 +18,8 @@ export class LayerPreview{
     this.still.clear();
     if(this.url!==url){this.controller?.abort();this.controller=new AbortController();const ready=waitForMedia(this.video,'loadedmetadata',{signal:this.controller.signal});this.url=url;this.video.src=url;this.video.load();await ready}
     const c=row.clip,local=Math.max(0,t-row.start),source=c.freezeAt??Math.min(c.out-.00001,c.in+sourceOffset(local,c)),tm=timing(c),i=tm.nodes.findIndex(n=>n[1]>=local),speed=tm.pieces[Math.max(0,i-1)]?.[2]||1;
-    if(needsPreviewSeek(this.video,source,{playing,still:!!c.freezeDuration||speed<.25||speed>4,fps:m.fps||30}))this.video.currentTime=source;
-    if(playing&&!c.freezeDuration&&local<tm.nodes.at(-1)[1]&&speed>=.25&&speed<=4){if(this.video.playbackRate!==speed)this.video.playbackRate=speed;if(this.video.paused)await this.video.play().catch(()=>{})}else this.video.pause();
+    const reachedEnd=previewMediaEnded(this.video,`${c.id}|${url}`,{playing});if(!reachedEnd&&needsPreviewSeek(this.video,source,{playing,still:!!c.freezeDuration||speed<.25||speed>4,fps:m.fps||30}))this.video.currentTime=source;
+    if(playing&&!reachedEnd&&!this.video.ended&&!c.freezeDuration&&local<tm.nodes.at(-1)[1]&&speed>=.25&&speed<=4){if(this.video.playbackRate!==speed)this.video.playbackRate=speed;if(this.video.paused)await this.video.play().catch(()=>{})}else this.video.pause();
    }
    if(!this.pending)this.paint();
   }catch{this.painter?.black()}finally{this.busy=false;if(this.pending){const next=this.pending;this.pending=null;this.update(...next)}}
