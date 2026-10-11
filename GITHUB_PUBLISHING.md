@@ -1,3 +1,7 @@
+## 2.2.47 — 端末書き出しの容量判定修正
+
+同じ修正HEADをGitHub Pagesと既存公開Sitesへ配信し、Mac ZIPを更新。元のMac開発版・公開先は保全。
+
 ## 2.2.46 — 点検で確認した7件の修正
 
 端末切替版のMac／iPhone共通処理を更新。同じHEADを別版GitHub Pagesと既存公開Sitesへ反映し、元のMac開発版・公開先は保全します。
