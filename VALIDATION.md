@@ -1,3 +1,7 @@
+## 2.2.55 — Mac下部と14インチ表示の調整
+
+CUA1512×850でプレビュー約9px拡大、タイムライン約2px減少。1280×720、1024幅、JA/ENで横はみ出しなし。分類ラベル間隔2px、再生開始停止、iPhoneheader40/disc32維持を確認。実機14インチSafari未確認。npm全67/build、Python映像音声server全15、MacZIP成功。元Mac161SHA差分0。
+
 ## 2.2.54 — Macの固定UIとライブラリーをコンパクトに
 
 CUA1440/1024でタブ枠内、分類名との間隔2px、横はみ出しなし。英語表示とiPhone393でheader40/tools44px維持を確認。実機Safariは未確認。npm全67/build、Python映像音声server全15、MacZIP成功。元Mac161SHA差分0。

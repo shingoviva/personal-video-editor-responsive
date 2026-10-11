@@ -488,9 +488,18 @@ body:not([data-ui=phone]) .workflow button:focus-visible{outline:2px solid var(-
  body:not([data-ui=phone]) .workflow{height:42px;padding-block:2px}
  body:not([data-ui=phone]) .media-panel>.panel-title,body:not([data-ui=phone]) .viewer-top,body:not([data-ui=phone]) .inspector>.panel-title{height:32px;min-height:32px}
  body:not([data-ui=phone]) .viewer-top button,body:not([data-ui=phone]) .media-panel>.panel-title button,body:not([data-ui=phone]) .inspector>.panel-title button{height:28px;min-height:28px;padding-block:2px}
- body:not([data-ui=phone]) .viewer-controls{height:42px;min-height:42px}
- body:not([data-ui=phone]) .viewer-foot{min-height:34px;padding-block:0}
- body:not([data-ui=phone]) .timeline-toolbar{padding-block:3px}
+ body:not([data-ui=phone]) .viewer-controls{height:40px;min-height:40px}
+ body:not([data-ui=phone]) .transport .play-button{width:36px;height:36px}
+ body:not([data-ui=phone]) .viewer-foot{min-height:30px;padding-block:0}
+ body:not([data-ui=phone]) .aspect-buttons{padding:2px}
+ body:not([data-ui=phone]) .aspect-buttons button{height:24px;min-height:24px;padding-block:2px}
+ body:not([data-ui=phone]) #previewInfo{height:28px;min-height:28px;padding-block:2px}
+ body:not([data-ui=phone]) .timeline-toolbar{min-height:48px;padding-block:2px}
+ body:not([data-ui=phone]) .timeline-toolbar .tool-cluster{min-height:42px;padding:15px 5px 1px;border-radius:6px}
+ body:not([data-ui=phone]) .tool-cluster-label{top:3px;font-size:9px;line-height:10px}
+ body:not([data-ui=phone]) .timeline-zoom{padding-block:2px;border-radius:6px}
+ body:not([data-ui=phone]) .timeline-footer{height:24px;min-height:24px;padding:0 10px;gap:12px;font-size:10px;line-height:16px}
+ body:not([data-ui=phone]) .timeline-footer #shortcuts{height:22px;min-height:22px;padding:0 4px;font-size:9px;line-height:16px}
  body:not([data-ui=phone]) .media-drop{min-height:42px;flex-direction:row;padding:6px 8px;margin-bottom:6px;gap:8px}
  body:not([data-ui=phone]) .media-drop small{max-width:none;flex:1;text-align:left}
  body:not([data-ui=phone]) .media-drop span{flex:none}
@@ -501,6 +510,11 @@ body:not([data-ui=phone]) .workflow button:focus-visible{outline:2px solid var(-
  body:not([data-ui=phone]) .intent-box select{margin-top:4px;padding-block:5px}
 }
 @media(min-width:1201px){body:not([data-ui=phone]) .workflow-group{padding:12px 5px 0}body:not([data-ui=phone]) .workflow-label{top:2px}body:not([data-ui=phone]) .workflow button{height:24px}}
+/* Browser chrome can leave a 14-inch Mac with a short editing surface. */
+@media(min-width:801px) and (max-height:850px){
+ body:not([data-ui=phone]) .topbar{height:42px;min-height:42px;padding-block:2px}
+ body:not([data-ui=phone]) .media-panel>.panel-title,body:not([data-ui=phone]) .viewer-top,body:not([data-ui=phone]) .inspector>.panel-title{height:30px;min-height:30px}
+}
 
 /* Individual lane geometry is shared by content and labels. */
 .timeline-content{height:auto!important;min-height:100%}
