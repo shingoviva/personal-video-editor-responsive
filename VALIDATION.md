@@ -1,3 +1,7 @@
+## 2.2.52 — iPhoneプレビュー配分の統一
+
+393×852でBASIC/MOTION/COLOR/LOOKS/TEXT/FX/MIXのプレビュー高さ一致、320×740で境界一致・横はみ出しなしをCUA確認。実機Safari未確認。npm test全67/build、Python映像音声・server全15、Mac ZIP検証成功。元Mac161ファイル差分0。
+
 ## 2.2.51 — iPhoneの一列ツールメニュー（2026-10-11）
 
 公開前検証：JavaScript全67、build、Python映像・音声・localhost server全15、Mac ZIP検証成功。元Mac161ファイルのSHA-256差分0。

@@ -192,7 +192,8 @@ body[data-ui=phone] #phoneSheetClose{min-width:100px;padding:0 8px;font-size:13p
 body[data-ui=phone][data-phone-panel]{--phone-sheet-height:min(calc(var(--app-height,100dvh) * .42),440px)}
 body[data-ui=phone][data-phone-panel=library],body[data-ui=phone][data-phone-panel=layers],body[data-ui=phone][data-phone-panel=clips],body[data-ui=phone][data-phone-panel=more]{--phone-sheet-height:min(calc(var(--app-height,100dvh) * .70),550px)}
 body[data-ui=phone] .phone-backdrop{background:transparent;backdrop-filter:none;top:calc(var(--app-height,100dvh) - var(--phone-sheet-height))}
-body[data-ui=phone][data-phone-panel=adjust] .workspace,body[data-ui=phone][data-phone-panel=look] .workspace,body[data-ui=phone][data-phone-panel=text] .workspace,body[data-ui=phone][data-phone-panel=motion] .workspace,body[data-ui=phone][data-phone-panel=detail] .workspace{grid-template-rows:calc(var(--app-height,100dvh) - var(--phone-sheet-height) - 44px) 12px minmax(0,1fr)}
+/* All editing sheets share the same preview; browsing keeps its larger list. */
+body[data-ui=phone][data-phone-panel]:not([data-phone-panel=library]):not([data-phone-panel=more]):not([data-phone-panel=clips]):not([data-phone-panel=layers]) .workspace{grid-template-rows:calc(var(--app-height,100dvh) - var(--phone-sheet-height) - var(--phone-header) - env(safe-area-inset-top) - env(safe-area-inset-bottom)) 12px minmax(0,1fr)}
 body[data-ui=phone] .timeline-content,body[data-ui=phone] .timeline-scroll,body[data-ui=phone] .clip-block,body[data-ui=phone] .fx-chip{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 body[data-ui=phone] .timeline-context{max-height:65dvh;overflow-y:auto;overscroll-behavior:contain;min-width:220px}
 body[data-ui=phone] .timeline-context button{min-height:40px;font-size:13px}
@@ -326,7 +327,8 @@ body[data-ui=phone] .phone-tools button{height:44px;min-height:44px;gap:1px}
 
 /* A modest header reduction preserves readable titles and history icons. */
 body[data-ui=phone]{--phone-header:40px}
-body[data-ui=phone] .topbar{flex-basis:40px;height:40px;min-height:40px;gap:4px}
+body[data-ui=phone]{--phone-header:40px}
+body[data-ui=phone] .topbar{flex-basis:var(--phone-header);height:var(--phone-header);min-height:var(--phone-header);gap:4px}
 body[data-ui=phone] .brand{font-size:16px}
 body[data-ui=phone] .top-history button{height:38px;min-height:38px}
 body[data-ui=phone] #exportButton{height:30px;min-height:30px;padding-inline:9px}
@@ -334,7 +336,7 @@ body[data-ui=phone] #exportButton{height:30px;min-height:30px;padding-inline:9px
 /* Explicit source selection, all three video destinations and symmetric navigation. */
 body[data-ui=phone] #jumpEnd{display:flex;align-items:center;justify-content:center;width:32px;min-width:32px}
 body[data-ui=phone] .transport button{width:34px;min-width:34px}
-body[data-ui=phone] .asset-detail-video{display:block;width:100%;max-height:180px;background:#080b08;margin:8px 0}
+body[data-ui=phone] .asset-detail-video{display:block;width:100%;max-height:min(32dvh,300px);background:#080b08;margin:8px 0}
 body[data-ui=phone][data-phone-panel=import] .phone-sheet-header{padding-right:138px}
 body[data-ui=phone][data-phone-panel=import] #phoneSheetClose{min-width:128px}
 @media(max-width:360px){body[data-ui=phone] .transport{gap:0}body[data-ui=phone] .transport button{width:29px;min-width:29px}body[data-ui=phone] #jumpStart,body[data-ui=phone] #jumpEnd{width:27px;min-width:27px}body[data-ui=phone] .viewer-controls{gap:2px;padding-inline:3px}}
