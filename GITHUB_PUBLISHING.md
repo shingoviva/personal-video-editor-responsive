@@ -1,3 +1,7 @@
+## 2.2.56 — Macの文字階層・設定UIの統一
+
+同じ検証済みHEADをGitHub Pagesと既存公開Sitesへ反映。元Mac開発版・公開範囲を維持。
+
 ## 2.2.55 — Mac下部と14インチ表示の調整
 
 同じ検証済みHEADをGitHub Pagesと既存公開Sitesへ反映し、元Mac開発版と公開範囲を保全。

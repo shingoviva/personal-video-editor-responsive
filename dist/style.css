@@ -263,7 +263,7 @@ body.media-expanded .column-splitter,body.inspector-expanded .column-splitter{di
 .text-layer-row{display:grid;grid-template-columns:minmax(0,1fr) 30px;gap:4px}
 .text-layer-list .text-layer-row>button:first-child{display:grid;grid-template-columns:30px minmax(0,1fr) auto;align-items:center;gap:7px;width:100%;padding:8px;text-align:left;border:1px solid var(--border);background:#101411}
 .text-layer-list .text-layer-row>button:first-child.selected{border-color:var(--accent);background:var(--accent-soft)}
-.text-layer-list .text-layer-row>[data-text-delete]{padding:5px 2px;border:1px solid var(--border);color:#9aa494}
+.text-layer-list .text-layer-row>[data-text-delete]{display:flex;align-items:center;justify-content:center;gap:0;padding:5px 2px;border:1px solid var(--border);color:#9aa494}
 body[data-step=text] #textOverlay{pointer-events:auto}
 body[data-step=text] .text-item{pointer-events:auto;cursor:text}
 .text-preview-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.font-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:8px 0}.font-actions .wide{margin-top:0!important;font-size:11px}.relink-candidates .project-option{display:grid;grid-template-columns:1fr auto;gap:4px 12px}.relink-candidates .project-option span{font:10px var(--mono);color:var(--accent)}.relink-candidates .project-option small{grid-column:1/-1}.relink-action{color:var(--orange)!important}
@@ -549,5 +549,27 @@ html[lang=en] .modal-actions>*,html[lang=en] .wide{max-width:100%;white-space:no
 html[lang=en] .asset-actions .asset-place{min-width:0;white-space:normal;line-height:1.3}
 html[lang=en] .control-row,html[lang=en] .control-section{min-width:0}
 html[lang=en] .top-actions button{white-space:nowrap}
+/* Desktop: quiet supporting type, precise controls and restrained selection. */
+@media(min-width:801px){
+ body:not([data-ui=phone]) .workflow button{font-size:9px;letter-spacing:.08em}
+ body:not([data-ui=phone]) .panel-title,body:not([data-ui=phone]) .viewer-top,body:not([data-ui=phone]) .eyebrow{font-size:9px;letter-spacing:.09em}
+ body:not([data-ui=phone]) .top-command,body:not([data-ui=phone]) .timeline-toolbar button{font-size:11px}
+ body:not([data-ui=phone]) .project-heading input{font-size:14px;font-weight:550}
+ body:not([data-ui=phone]) .control-label,body:not([data-ui=phone]) #inspectorBody label{font-size:11px}
+ body:not([data-ui=phone]) #inspectorBody p,body:not([data-ui=phone]) .small-note{font-size:11px;line-height:1.65}
+ body:not([data-ui=phone]) .asset-copy small,body:not([data-ui=phone]) .asset-copy em,body:not([data-ui=phone]) .media-guide{font-size:10px}
+ body:not([data-ui=phone]) .asset-card .media-name{font-size:11px;font-weight:600}
+ body:not([data-ui=phone]) .asset-actions button{font-size:10px}
+ body:not([data-ui=phone]) .workflow-group{box-shadow:inset 0 1px #ffffff06;background:#131916}
+ body:not([data-ui=phone]) .workflow-group.active-scope{background:linear-gradient(180deg,#20271f,#151b17);box-shadow:inset 0 1px #ffffff09}
+ body:not([data-ui=phone]) .workflow button.active{background:#dce9a910;box-shadow:inset 0 0 0 1px #dce9a909}
+ body:not([data-ui=phone]) #inspectorBody button{font-size:11px}
+ body:not([data-ui=phone]) #inspectorBody button.selected{box-shadow:inset 0 0 0 1px #dce9a909;background:#dce9a910}
+ body:not([data-ui=phone]) .inspector-tabs button{font-size:9px;letter-spacing:.06em}
+ body:not([data-ui=phone]) #inspectorBody .inspector-tabs button{font-size:9px}
+ body:not([data-ui=phone]) #inspectorBody .preset-grid button,body:not([data-ui=phone]) #inspectorBody .caption-preset-grid button{font-size:12px}
+ body:not([data-ui=phone]) .inspector-tabs button.selected{box-shadow:none;background:#dce9a910}
+ body:not([data-ui=phone]) .asset-card.active{box-shadow:inset 2px 0 #b7c98a;background:#20291e}
+}
 html[lang=en] .performance-options label>span{min-width:0;flex:1;overflow-wrap:anywhere}
 html[lang=en] .performance-options label>input{width:auto;flex:0 0 auto}
