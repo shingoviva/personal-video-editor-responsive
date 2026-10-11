@@ -3,7 +3,7 @@ export function deviceSupport(){return!!(globalThis.VideoEncoder&&globalThis.Aud
 export async function renderOnDevice(project,files,{preview=false,signal,onProgress=()=>{}}={}){
  if(!deviceSupport())throw Error('このブラウザは端末内書き出しに未対応です。最新のiOSのSafariで開いてください。');
  const outputPath='render-'+crypto.randomUUID()+'.mp4';let completed=false;
- const worker=new Worker(new URL('./mobile-render-worker.js?v=2.2.47',import.meta.url),{type:'module'});let wake,timer,abortTimer,ended=false;const notes=[];
+ const worker=new Worker(new URL('./mobile-render-worker.js?v=2.2.48',import.meta.url),{type:'module'});let wake,timer,abortTimer,ended=false;const notes=[];
  try{
  wake=await navigator.wakeLock?.request?.('screen').catch(()=>null);
  return await new Promise((resolve,reject)=>{

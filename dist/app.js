@@ -1,35 +1,36 @@
-import {previewMediaEnded} from './playback-sync.js?v=2.2.47';
-import {bindEditMarker} from './edit-marker-ui.js?v=2.2.47';
-import {addEditMarker,nextEditMarker,moveEditMarker,removeEditMarker,editMarkerTimes} from './edit-markers.js?v=2.2.47';
-import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.47';
+import {shiftPlaybackShortcut} from './playback-shortcuts.js';
+import {previewMediaEnded,usesVideoClock} from './playback-sync.js?v=2.2.48';
+import {bindEditMarker} from './edit-marker-ui.js?v=2.2.48';
+import {addEditMarker,nextEditMarker,moveEditMarker,removeEditMarker,editMarkerTimes} from './edit-markers.js?v=2.2.48';
+import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.48';
 import {uiIcon} from './ui-icons.js?v=2.2.33';
 import {defaultForSetting,resetMotionAppearance,resetAudioAdjustments} from './setting-resets.js?v=2.2.33';
 import {clipEnvelopeOwnsPointer} from './clip-envelope-ui.js?v=2.2.32';
-import {bindPhoneTouch} from './phone-touch.js?v=2.2.47';
-import {advancePhoneClock} from './phone-playback-clock.js?v=2.2.47';
+import {bindPhoneTouch} from './phone-touch.js?v=2.2.48';
+import {advancePhoneClock} from './phone-playback-clock.js?v=2.2.48';
 import {PhonePreviewBudget} from './phone-preview-budget.js?v=2.2.30';
 import {PreviewPlaybackScheduler} from './preview-playback-scheduler.js';
 const phonePreviewBudget=new PhonePreviewBudget(),previewPlaybackScheduler=new PreviewPlaybackScheduler();
 const previewLongEdge=()=>document.body.dataset.ui==='phone'&&playing?phonePreviewBudget.longEdge:960;
 import {reorderPhoneClip,trimPhoneClip,movePhoneLayer} from './iphone-edit.js';
 import {PlaybackSession} from './playback-session.js';
-import {bindPhoneUI} from './iphone-ui.js?v=2.2.47';
+import {bindPhoneUI} from './iphone-ui.js?v=2.2.48';
 import {bindTimelineDropGuide} from './timeline-drop-guide.js';
 import {bindTimelineDragScroll} from './timeline-drag-scroll.js';
 import {pasteAttributes,pasteTextAttributes} from './attributes.js';
-import {audioSequence} from './model.js?v=2.2.47';
+import {audioSequence} from './model.js?v=2.2.48';
 import {detachAudio,appendAudio,migrateBgm} from './audio-timeline.js';
 import {linkedAudio,linkedVideo,syncLinkedAudio,setAudioLinked,splitLinkedPair,removeLinkedAudio} from './linked-audio.js';
-import {AudioPreview} from './audio-preview.js?v=2.2.47';
+import {AudioPreview} from './audio-preview.js?v=2.2.48';
 import {clipAlpha,opacityAt,scaleAt,effectAlpha,frozenClip,addEffect} from './creative.js';
 import {lookPresets,lookDescriptions,adaptiveCinematic} from './look.js';
-import {LayerPreview} from './layer-preview.js?v=2.2.47';
-import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.47';
-import {bindTimeline} from './timeline-gestures.js?v=2.2.47';
+import {LayerPreview} from './layer-preview.js?v=2.2.48';
+import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.48';
+import {bindTimeline} from './timeline-gestures.js?v=2.2.48';
 import {bindTimelinePinch} from './timeline-zoom.js';
-import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from './timeline-shortcuts.js?v=2.2.47';
-import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js?v=2.2.47';
-import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.47';
+import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from './timeline-shortcuts.js?v=2.2.48';
+import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js?v=2.2.48';
+import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.48';
 import {pasteTimelineItems} from './timeline-paste.js';
 import {currentLanguage,setLanguage,translate,translateDOM} from './i18n.js';
 import {bindNativeShell} from './native-shell.js';
@@ -54,8 +55,8 @@ import{bindPanelSplitters}from'./panel-splitter.js';
 import{performanceModes,performanceMode,setPerformanceMode,previewFrameInterval,scheduleIdleRelease,cancelIdleRelease,memorySnapshot}from'./preview-performance.js';
 import{videoTabs,tabMetadata,tabForSelection,inspectorHeading}from'./workspace-ui.js';
 import{retainFile,restoreFile,forgetUnused,vaultInfo}from'./media-vault.js';
-import{supportsProjectFolders,createProjectFolder,chooseProjectFolder,openRecentProject,saveFolderProject,saveBrowserProject,listRecentProjects,referencedMediaIds,copyMediaToProject,restoreProjectMediaFile}from'./project-storage.js?v=2.2.47';
-import{deviceSupport,renderOnDevice,showDeviceResult,rememberExport,rememberedExport,deleteRender,cleanOldExports,exportStorageInfo}from'./mobile-export.js?v=2.2.47';
+import{supportsProjectFolders,createProjectFolder,chooseProjectFolder,openRecentProject,saveFolderProject,saveBrowserProject,listRecentProjects,referencedMediaIds,copyMediaToProject,restoreProjectMediaFile}from'./project-storage.js?v=2.2.48';
+import{deviceSupport,renderOnDevice,showDeviceResult,rememberExport,rememberedExport,deleteRender,cleanOldExports,exportStorageInfo}from'./mobile-export.js?v=2.2.48';
 import{outputSettings,gainAt}from'./mobile-model.js';
 import{bindClipEnvelope}from'./clip-envelope-ui.js?v=2.2.32';
 import{normalizeEnvelope,remapEnvelope,envelopeDbAt,addEnvelopePoint}from'./clip-envelope.js';
@@ -176,7 +177,7 @@ async function play(){
 
 function primeNextVideo(){const rows=playbackRows||visibleVideoRows(sequence(P)),current=previewRow();if(!current||current.clip.gap||current.end-time>1.5)return;const at=Math.min(duration(),current.end+1e-6),next=locatePreviewRow(rows,at,duration()),m=mediaOf(next?.clip),url=m&&m.kind!=='image'&&linkURL(m),key=next&&url?`${next.clip.id}|${url}`:'';if(!key||key===activeVideoKey||standbyVideo.dataset.key===key)return;standbyVideo.pause();standbyVideo.dataset.key=key;if(standbyVideo.dataset.url!==url){standbyVideo.dataset.url=url;standbyVideo.src=url;standbyVideo.load()}const position=next.clip.freezeDuration?next.clip.freezeAt??next.clip.in:Math.min(next.clip.out-.00001,next.clip.in+sourceOffset(Math.max(0,at-next.start),next.clip)),prepare=()=>{try{standbyVideo.currentTime=position}catch{}};standbyVideo.readyState>=1?prepare():standbyVideo.addEventListener('loadedmetadata',prepare,{once:true})}
 function tick(now,session){try{tickPlayback(now,session)}catch(error){pause();toast('プレビューを停止しました。'+error.message)}}
-function tickPlayback(now,session){if(!playing||!playbackSession.current(session))return;let dt=Math.max(0,(now-lastTick)/1000);lastTick=now;{let sample=audioPreview.clock(time);const row=previewRow(),c=row?.clip;if(!sample&&c&&!c.gap&&!c.freezeDuration&&mediaOf(c)?.kind!=='image'&&time-row.start<timing(c).nodes.at(-1)[1]&&activeVideoKey===c.id+'|'+linkURL(mediaOf(c))){sample={time:row.start+outputOffset(Math.max(0,video.currentTime-c.in),c),waiting:video.seeking||video.readyState<2,ended:video.ended||video._previewEnded}}time=advancePhoneClock(time,dt,sample)}if(time>=duration()){time=duration();pause();draw();updateClock();return}primeNextVideo();previewPlaybackScheduler.step(now,{audio:()=>audioPreview.sync(P,time,playing,linkURL),video:()=>syncVideo(),onError:error=>{pause();toast(error.message)}});bgmAudio.volume=clamp(gainAt(time,duration(),P.bgm.volume,P.bgm.fadeIn,P.bgm.fadeOut,P.bgm.gainKeyframes),0,1);draw();updateClock();raf=requestAnimationFrame(now=>tick(now,session))}
+function tickPlayback(now,session){if(!playing||!playbackSession.current(session))return;let dt=Math.max(0,(now-lastTick)/1000);lastTick=now;{let sample=audioPreview.clock(time);const row=previewRow(),c=row?.clip;if(!sample&&c&&!c.gap&&usesVideoClock(c,localSpeed(row,time-row.start),video)&&mediaOf(c)?.kind!=='image'&&time-row.start<timing(c).nodes.at(-1)[1]&&activeVideoKey===c.id+'|'+linkURL(mediaOf(c))){sample={time:row.start+outputOffset(Math.max(0,video.currentTime-c.in),c),waiting:video.seeking||video.readyState<2,ended:video.ended||video._previewEnded}}time=advancePhoneClock(time,dt,sample)}if(time>=duration()){time=duration();pause();draw();updateClock();return}primeNextVideo();previewPlaybackScheduler.step(now,{audio:()=>audioPreview.sync(P,time,playing,linkURL),video:()=>syncVideo(),onError:error=>{pause();toast(error.message)}});bgmAudio.volume=clamp(gainAt(time,duration(),P.bgm.volume,P.bgm.fadeIn,P.bgm.fadeOut,P.bgm.gainKeyframes),0,1);draw();updateClock();raf=requestAnimationFrame(now=>tick(now,session))}
 let drawnAt=0,fxMarkup='';
 function draw(){const phone=document.body.dataset.ui==='phone',started=performance.now();if(playing&&started-drawnAt<Math.max(previewFrameInterval(),phone?phonePreviewBudget.interval:0))return;drawnAt=started;try{paintPreview()}finally{if(phone&&playing)phonePreviewBudget.observe(performance.now()-started)}}
 function paintPreview(){let row=previewRow(),c=row?.clip;const transformGuides=$('#transformGuides'),showTransform=!playing&&tab!=='text'&&c&&!c.gap&&c.id===selected;if(transformGuides){transformGuides.hidden=!showTransform;$('#stageScaleHandle').hidden=!showTransform;}const visibleFx=(P.effects||[]).filter(e=>!P.overlayTracks?.[e.layer||0]?.hidden&&e.start<=time&&time<e.start+e.duration),visibleText=(P.texts||[]).filter(t=>!P.overlayTracks?.[t.layer||0]?.hidden&&t.start<=time&&time<t.end);if(!duration()){video.pause();video.playbackRate=1;painter?.black();textPreview.clear();return}$('#picture').style.display='block';$('#emptyState').hidden=true;$('#emptyState').style.display='none';fit();const allRows=playbackRows||visibleVideoRows(sequence(P)),activeByLayer=[null,null,null];for(const value of allRows)if(!value.clip.gap&&value.start<=time&&value.end>time)activeByLayer[value.layer]=value;const active=activeByLayer.filter(Boolean),transition=transitionState(row,allRows,time);if(transition){const previous=transition.previous,pm=mediaOf(previous.clip),outgoing=outgoingTransitionRow(transition,row,pm?.duration);transitionPreview.update(outgoing.row,time,pm,pm&&linkURL(pm),localFiles.get(pm?.id),pictureAspect(),compare||lookBypass,playing,stabilizationFor(previous,pm),previewLongEdge())}else transitionPreview.clear();applyTransitionStyles(canvas,$('#transitionCanvas'),transition);for(let k=0;k<2;k++){const lower=active.filter(r=>r.layer===k).at(-1),lm=mediaOf(lower?.clip),covered=active.some(r=>r.layer>k&&clipAlpha(r,time)>=1);if(c&&lower&&k<(c.layer||0)&&!covered)lowerPreviews[k].update(lower,time,lm,lm&&linkURL(lm),localFiles.get(lm?.id),pictureAspect(),compare||lookBypass,playing,stabilizationFor(lower,lm),previewLongEdge());else lowerPreviews[k].clear();}const baseAlpha=c?clipAlpha(row,Math.min(time,row.end-.000001)):1;canvas.style.opacity=String(baseAlpha*(transition?.type==='dissolve'?transition.progress:1));const nextFx=visibleFx.map(e=>{const a=effectAlpha(e,time);return a?`<div style="position:absolute;inset:0;background:${e.type==='flash'?'white':'black'};opacity:${a}"></div>`:''}).join('');if(nextFx!==fxMarkup){fxMarkup=nextFx;$('#fxOverlay').innerHTML=nextFx}textPreview.update(visibleText,time,$('#picture').clientHeight/1080,playing);if(!c||c.gap){video.pause();video.playbackRate=1;painter?.black();$('#stageNote').hidden=true;$('#viewerMode').textContent='COMPOSITE';$("#viewerTitle").textContent='PREVIEW · TEXT / FX';return}const m=mediaOf(c);if(!m||!linkURL(m)){painter?.black();return}const source=m.kind==='image'?stillPreview.bitmap:video;if(!source||(m.kind!=='image'&&(activeVideoKey!==c.id+"|"+linkURL(m)||video.readyState<2)))return;$('#stageNote').hidden=true;try{if(painter)painter.draw(source,motionTransform(c,time-row.start,row.duration),pictureAspect(),compare||lookBypass,stabilizationFor(row,m),previewLongEdge());else{const ctx=canvas.getContext('2d');if(ctx){canvas.width=source.videoWidth||source.width;canvas.height=source.videoHeight||source.height;ctx.drawImage(source,0,0)}}}catch{}const notes=[];if(m.proxy)notes.push('720p proxy');if(c.stabilization!=='OFF'){const previewState=stabilizationPreview.state(c,m,localFiles.get(m.id));notes.push(engine?'手ぶれ補正は処理プレビューで確認':previewState.status==='ready'?'手ぶれ補正プレビュー適用中':previewState.status==='error'?'手ぶれ補正プレビューを生成できませんでした。':'手ぶれ補正を解析中');}if(['blend','motion','motion-max'].includes(c.interpolation))notes.push('スロー補間は処理プレビューで確認');if(c.speed<.25||c.speed>4)notes.push('極端な速度の試写は近似・原音ミュート');if(!engine&&m.hdr!==false)notes.push('色域・FPSは未検出');if(notes.length){$('#stageNote').hidden=false;$('#stageNote').textContent=translate(notes.join(' · '))}$('#viewerMode').textContent=m.kind==='image'?'STILL':m.proxy?'SDR PROXY':'ORIGINAL';$('#viewerTitle').textContent=assetName(m);$('#previewInfo').textContent=(lookBypass||compare?'BEFORE · SOURCE':'GPU · LOOK '+Math.round((c.lookAmount??1)*100)+'%')+' · '+performanceModes[performanceMode()].label}
@@ -554,7 +555,7 @@ bindTimelineMarquee({root:$('#timelineContent'),guide:$('#selectionMarquee'),get
 function step(direction){let row=previewRow();if(!row)return;let c=row.clip,m=mediaOf(c);if(c.gap)return seek(time+direction/30);let s=sourceOffset(time-row.start,c)+direction/(m?.fps||30);seek(row.start+outputOffset(clamp(s,0,c.out-c.in),c));status(m?.rateMode==='VFR'?'VFR素材のフレーム送りは平均FPS基準です。':'フレーム送り')}
 function shortcuts(){
  const groups=[
-  ['再生・移動',[['編集の目印を打つ（再生中も可）','M'],['次 / 前の目印','Shift M / Option M'],['再生 / 停止','Space'],['先頭 / 末尾','Home / End'],['前 / 次の編集点','↑ / ↓'],['後ろへ1秒','J'],['停止','K'],['前へ1秒','L'],['フレーム送り','← / →']]],
+  ['再生・移動',[['編集の目印を打つ（再生中も可）','M'],['次 / 前の目印','Shift M / Option M'],['再生 / 停止','Space / Shift単独'],['先頭 / 末尾','Home / End'],['前 / 次の編集点','↑ / ↓'],['後ろへ1秒','J'],['停止','K'],['前へ1秒','L'],['フレーム送り','← / →']]],
   ['編集',[['IN / OUT','I / O'],['再生ヘッドで分割','S'],['前 / 後を再生ヘッドまで前詰め','Q / W'],['コピー / 切り取り','⌘/Ctrl C · ⌘/Ctrl X'],['貼り付け / 複製','⌘/Ctrl V · ⌘/Ctrl D'],['属性だけをペースト','⌘/Ctrl Shift V'],['選択中の編集点 / クリップを削除','Delete / Backspace'],['前詰め削除','Shift Delete'],['元に戻す','⌘/Ctrl Z'],['やり直し','⌘/Ctrl Shift Z']]],
   ['表示・選択',[[ '編集点の選択 / 移動 / 詳細','クリック / ドラッグ / ダブルクリック'],['レイヤーの高さ / 標準へ戻す','境界を上下にドラッグ / ダブルクリック'],['タイムラインの細かさ','2本指でピンチ'],['タイムライン拡大 / 縮小','+ / −'],['吸着 ON / OFF','N'],['指定位置の操作','Mac／Windows：右クリック'],['レイヤー横断の複数選択','空白部からドラッグして囲む'],['選択項目を1フレーム移動','Option/Alt + ← / →']]],
   ['保存',[['プロジェクト保存','⌘/Ctrl S']]]
@@ -565,7 +566,12 @@ $('#copyClip').onclick=()=>copySelection();$('#cutClip').onclick=()=>copySelecti
 $('#timelineMore').onclick=()=>{modal(head('タイムライン操作')+`<div class="action-grid">${[['copyClip','コピー'],['cutClip','切り取り'],['pasteClip','貼り付け'],['pasteAttributes','属性ペースト'],['duplicateClip','複製'],['snapToggle','吸着 ON / OFF'],['setIn','INを設定'],['setOut','OUTを設定']].map(([id,label])=>`<button class="wide" data-timeline-action="${id}">${label}</button>`).join('')}</div>`);$$('[data-timeline-action]').forEach(b=>b.onclick=()=>{$('#modal').close();$('#'+b.dataset.timelineAction).click()})};
 const keyboardTextEntry=target=>!!target?.closest?.('textarea,[contenteditable="true"],input:not([type]),input[type="text"],input[type="search"],input[type="number"],input[type="email"],input[type="url"],input[type="tel"],input[type="password"]');
 const keymap={KeyJ:()=>seek(time-1),KeyK:pause,KeyL:()=>seek(time+1),KeyI:()=>trimEdge('in'),KeyO:()=>trimEdge('out'),KeyS:split,KeyQ:()=>rippleTrimAtPlayhead('in'),KeyW:()=>rippleTrimAtPlayhead('out'),KeyN:toggleSnapping,Home:()=>jumpToProjectEdge('start'),End:()=>jumpToProjectEdge('end'),ArrowUp:()=>jumpToEditPoint(-1),ArrowDown:()=>jumpToEditPoint(1),ArrowLeft:()=>step(-1),ArrowRight:()=>step(1),Equal:()=>changeTimelineZoom(.5),NumpadAdd:()=>changeTimelineZoom(.5),Minus:()=>changeTimelineZoom(-.5),NumpadSubtract:()=>changeTimelineZoom(-.5)};
+const shiftPlayback=shiftPlaybackShortcut(e=>!$('#modal').open&&!busy&&!keyboardTextEntry(e.target)&&e.target.tagName!=='SELECT',()=>play());
+document.addEventListener('keyup',e=>shiftPlayback.up(e),{capture:true});
+document.addEventListener('pointerdown',()=>shiftPlayback.cancel(),{capture:true});
+window.addEventListener('blur',()=>shiftPlayback.cancel());
 document.addEventListener('keydown',e=>{
+ shiftPlayback.down(e);
  if(e.target.closest?.('[data-lane-resize]'))return;
  if(e.code==='Space'&&!e.metaKey&&!e.ctrlKey&&!e.altKey){if($('#modal').open||busy||keyboardTextEntry(e.target))return;e.preventDefault();if(!e.repeat)play();return}
  if(e.code==='KeyM'&&!e.metaKey&&!e.ctrlKey&&!$('#modal').open&&!busy&&!keyboardTextEntry(e.target)&&e.target.tagName!=='SELECT'){e.preventDefault();if(!e.repeat){if(e.altKey)jumpEditingMoment(-1);else if(e.shiftKey)jumpEditingMoment(1);else markEditingMoment()}return}

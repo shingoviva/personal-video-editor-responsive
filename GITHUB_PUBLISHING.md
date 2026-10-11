@@ -1,3 +1,7 @@
+## 2.2.48 — プレビュー再生修正
+
+共通再生時計とShift単独操作を同じHEADでGitHub Pages／Sitesへ反映。元Mac開発版は保全。
+
 ## 2.2.47 — 端末書き出しの容量判定修正
 
 同じ修正HEADをGitHub Pagesと既存公開Sitesへ配信し、Mac ZIPを更新。元のMac開発版・公開先は保全。

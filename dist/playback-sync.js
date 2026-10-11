@@ -12,3 +12,8 @@ export function previewMediaEnded(media,key,{playing=true,reset=false}={}){
  if(playing&&!fresh&&media.ended)media._previewEnded=true;
  return !!(playing&&media._previewEnded);
 }
+
+// Seek-driven previews must not use the paused decoder as their time source.
+export function usesVideoClock(clip,speed,video){
+ return !!clip&&!clip.freezeDuration&&speed>=.25&&speed<=4&&(!video.paused||video.seeking||video.ended||video._previewEnded);
+}
