@@ -1,38 +1,38 @@
 import {shiftPlaybackShortcut} from './playback-shortcuts.js';
-import {previewMediaEnded,usesVideoClock} from './playback-sync.js?v=2.2.50';
-import {bindEditMarker} from './edit-marker-ui.js?v=2.2.50';
-import {addEditMarker,nextEditMarker,moveEditMarker,removeEditMarker,editMarkerTimes} from './edit-markers.js?v=2.2.50';
-import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.50';
-import {uiIcon} from './ui-icons.js?v=2.2.33';
+import {previewMediaEnded,usesVideoClock} from './playback-sync.js?v=2.2.51';
+import {bindEditMarker} from './edit-marker-ui.js?v=2.2.51';
+import {addEditMarker,nextEditMarker,moveEditMarker,removeEditMarker,editMarkerTimes} from './edit-markers.js?v=2.2.51';
+import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.51';
+import {uiIcon} from './ui-icons.js?v=2.2.51';
 import {defaultForSetting,resetMotionAppearance,resetAudioAdjustments} from './setting-resets.js?v=2.2.33';
 import {clipEnvelopeOwnsPointer} from './clip-envelope-ui.js?v=2.2.32';
-import {bindPhoneTouch} from './phone-touch.js?v=2.2.50';
-import {advancePhoneClock} from './phone-playback-clock.js?v=2.2.50';
+import {bindPhoneTouch} from './phone-touch.js?v=2.2.51';
+import {advancePhoneClock} from './phone-playback-clock.js?v=2.2.51';
 import {PhonePreviewBudget} from './phone-preview-budget.js?v=2.2.30';
 import {PreviewPlaybackScheduler} from './preview-playback-scheduler.js';
 const phonePreviewBudget=new PhonePreviewBudget(),previewPlaybackScheduler=new PreviewPlaybackScheduler();
 const previewLongEdge=()=>document.body.dataset.ui==='phone'&&playing?phonePreviewBudget.longEdge:960;
 import {reorderPhoneClip,trimPhoneClip,movePhoneLayer} from './iphone-edit.js';
 import {PlaybackSession} from './playback-session.js';
-import {bindPhoneUI} from './iphone-ui.js?v=2.2.50';
+import {bindPhoneUI} from './iphone-ui.js?v=2.2.51';
 import {bindTimelineDropGuide} from './timeline-drop-guide.js';
 import {bindTimelineDragScroll} from './timeline-drag-scroll.js';
 import {pasteAttributes,pasteTextAttributes} from './attributes.js';
-import {audioSequence} from './model.js?v=2.2.50';
+import {audioSequence} from './model.js?v=2.2.51';
 import {detachAudio,appendAudio,migrateBgm} from './audio-timeline.js';
 import {linkedAudio,linkedVideo,syncLinkedAudio,setAudioLinked,splitLinkedPair,removeLinkedAudio} from './linked-audio.js';
-import {AudioPreview} from './audio-preview.js?v=2.2.50';
+import {AudioPreview} from './audio-preview.js?v=2.2.51';
 import {clipAlpha,opacityAt,scaleAt,effectAlpha,frozenClip,addEffect} from './creative.js';
 import {lookPresets,lookDescriptions,adaptiveCinematic} from './look.js';
-import {LayerPreview} from './layer-preview.js?v=2.2.50';
-import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.50';
-import {bindTimeline} from './timeline-gestures.js?v=2.2.50';
+import {LayerPreview} from './layer-preview.js?v=2.2.51';
+import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.51';
+import {bindTimeline} from './timeline-gestures.js?v=2.2.51';
 import {bindTimelinePinch} from './timeline-zoom.js';
-import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from './timeline-shortcuts.js?v=2.2.50';
-import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js?v=2.2.50';
-import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.50';
+import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from './timeline-shortcuts.js?v=2.2.51';
+import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js?v=2.2.51';
+import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.51';
 import {pasteTimelineItems} from './timeline-paste.js';
-import {currentLanguage,setLanguage,translate,translateDOM,observeTranslations} from './i18n.js?v=2.2.50';
+import {currentLanguage,setLanguage,translate,translateDOM,observeTranslations} from './i18n.js?v=2.2.51';
 import {bindNativeShell} from './native-shell.js';
 import {bindStageTransform} from './stage-transform.js';
 import {motionTransform} from './motion-transform.js';
@@ -55,8 +55,8 @@ import{bindPanelSplitters}from'./panel-splitter.js';
 import{performanceModes,performanceMode,setPerformanceMode,previewFrameInterval,scheduleIdleRelease,cancelIdleRelease,memorySnapshot}from'./preview-performance.js';
 import{videoTabs,tabMetadata,tabForSelection,inspectorHeading}from'./workspace-ui.js';
 import{retainFile,restoreFile,forgetUnused,vaultInfo}from'./media-vault.js';
-import{supportsProjectFolders,createProjectFolder,chooseProjectFolder,openRecentProject,saveFolderProject,saveBrowserProject,listRecentProjects,referencedMediaIds,copyMediaToProject,restoreProjectMediaFile}from'./project-storage.js?v=2.2.50';
-import{deviceSupport,renderOnDevice,showDeviceResult,rememberExport,rememberedExport,deleteRender,cleanOldExports,exportStorageInfo}from'./mobile-export.js?v=2.2.50';
+import{supportsProjectFolders,createProjectFolder,chooseProjectFolder,openRecentProject,saveFolderProject,saveBrowserProject,listRecentProjects,referencedMediaIds,copyMediaToProject,restoreProjectMediaFile}from'./project-storage.js?v=2.2.51';
+import{deviceSupport,renderOnDevice,showDeviceResult,rememberExport,rememberedExport,deleteRender,cleanOldExports,exportStorageInfo}from'./mobile-export.js?v=2.2.51';
 import{outputSettings,gainAt}from'./mobile-model.js';
 import{bindClipEnvelope}from'./clip-envelope-ui.js?v=2.2.32';
 import{normalizeEnvelope,remapEnvelope,envelopeDbAt,addEnvelopePoint}from'./clip-envelope.js';
@@ -72,7 +72,7 @@ const duration=()=>playbackTimeline?.duration??total(P);
 const timelineExtent=()=>Math.min(86400,document.body.dataset.ui==='phone'?Math.max(5,duration()+Math.min(2,Math.max(.5,duration()*.1))):Math.max(10,duration()+10));
 const visibleVideoRows=rows=>rows.filter(r=>!P.videoTracks?.[r.layer]?.hidden);
 const previewRow=()=>locatePreviewRow(playbackRows||visibleVideoRows(sequence(P)),time,duration());
-import{waitForMedia,seekMedia}from'./media-state.js?v=2.2.50';
+import{waitForMedia,seekMedia}from'./media-state.js?v=2.2.51';
 import{timelineXAtTime,timelineTimeAtX,timelineLabelShift,locatePreviewRow}from'./timeline-time.js?v=2.2.24';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let draggedMediaKinds=new Set();
@@ -370,7 +370,7 @@ function organizeCaptionInspector(root){
  for(const section of [...root.querySelectorAll(':scope > .control-section')]){const eyebrow=section.querySelector(':scope > .eyebrow'),source=eyebrow?.textContent?.split(' · ')[0];if(!aliases.has(source))continue;const label=aliases.get(source);let group=groups.get(label);if(!group){group=document.createElement('details');group.className='inspector-group';group.dataset.inspectorGroup=label;group.open=captionInspectorOpenGroups.has(label);const summary=document.createElement('summary'),body=document.createElement('div');summary.textContent=label;body.className='inspector-group-body';group.append(summary,body);section.replaceWith(group);groups.set(label,group)}group.querySelector('.inspector-group-body').append(section)}
  for(const group of groups.values())group.addEventListener('toggle',()=>{const key=group.dataset.inspectorGroup;if(group.open)captionInspectorOpenGroups.add(key);else captionInspectorOpenGroups.delete(key)})
 }
-function videoInspectorTabs(){return`<div class="inspector-tabs" role="tablist" aria-label="映像調整"><span>VIDEO</span>${videoTabs.map(value=>`<button role="tab" data-inspector-tab="${value}" aria-selected="${value===tab}" class="${value===tab?'selected':''}">${document.body.dataset.ui==='phone'?({cut:'基本',motion:'動き',adjust:'カラー',look:'ルック'}[value]||tabMetadata(value).label):tabMetadata(value).label}</button>`).join('')}</div>`}
+function videoInspectorTabs(){return`<div class="inspector-tabs" role="tablist" aria-label="映像調整"><span>VIDEO</span>${videoTabs.map(value=>`<button role="tab" data-inspector-tab="${value}" aria-selected="${value===tab}" class="${value===tab?'selected':''}">${tabMetadata(value).label}</button>`).join('')}</div>`}
 function renderInspector(){let c=current(),m=tab==='import'?(P.media.find(m=>m.id===selectedAsset)||mediaOf(c)||P.media[0]):mediaOf(c),b=$('#inspectorBody');syncWorkspaceChrome();let html='';if(tab==='import'){html=assetInspector(m)}
 else if(tab==='adjust'){html=adjustInspector(c)}
 else if(tab==='cut'){html=canEdit()?`<div class="control-section"><div class="eyebrow">SOURCE RANGE</div><div class="row"><label>IN <input data-number="in" type="number" min="0" max="${c.out}" step=".01" value="${c.in.toFixed(3)}"></label><label>OUT <input data-number="out" type="number" min="${c.in}" max="${sourceLimit(m)}" step=".01" value="${c.out.toFixed(3)}"></label></div><p class="small-note">両端をドラッグして長さを調整。中央は移動。表示中の各映像レイヤーの原音を、レイヤー音量に沿って同時にミックスします。</p>${slider('in','開始位置',c.in,0,c.out-.001,.001,' sec')}${slider('out','終了位置',c.out,c.in+.001,m.kind==='image'?Math.max(60,c.out):m.duration,.001,' sec')}<div class="row"><label>配置（秒）<input id="clipStart" type="number" min="0" step=".033333" value="${sequence(P).find(r=>r.clip===c)?.start||0}"></label><label>レイヤー<select id="clipLayer"><option value="0" ${!c.layer?'selected':''}>V1 下段</option><option value="1" ${c.layer===1?'selected':''}>V2 中段</option><option value="2" ${c.layer===2?'selected':''}>V3 上段</option></select></label></div><div class="row"><button id="moveLeft">← 前へ</button><button id="moveRight">後へ →</button></div></div><div class="control-section clip-transition"><div class="eyebrow">CLIP TRANSITION</div>${selectControl('transition.type','種類',c.transition?.type||'none',[["none","なし（カット）"],["dissolve","ディゾルブ"],["slide","スライド"],["wipe","ラインワイプ"],["circle","サークルワイプ"]])}${slider('transition.duration','長さ',c.transition?.duration??.6,.1,2,.05,' sec')}${selectControl('transition.direction','方向',c.transition?.direction||'left',[["left","左へ"],["right","右へ"],["up","上へ"],["down","下へ"]])}<p class="small-note">同じレイヤーで直前に接するクリップとの切り替えに適用します。時間と方向は直接指定できます。</p></div><div class="control-section"><div class="eyebrow">REFRAME</div>${slider('scale','Scale',c.scale,.1,3,.01,'×')}${slider('x','Position X',c.x,0,1,.01)}${slider('y','Position Y',c.y,0,1,.01)}<button id="resetCrop" class="wide">位置・サイズを初期値に戻す</button><p class="small-note">プレビューを直接ドラッグして位置を調整できます。中央ではガイドに吸着します。0.1×から縮小できます。画面外の余白は黒で書き出します。</p></div>${compositingControls(c)}<div class="control-section"><div class="eyebrow">HOLD LAST FRAME</div>${slider('hold','末尾の静止',c.hold||0,0,60,.1,' sec')}<p class="small-note">最後のフレームを保持します。静止区間の原音は無音です。</p></div>`:blank()}

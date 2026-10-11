@@ -359,3 +359,17 @@ html[lang=en] body[data-ui=phone] .phone-bottom-nav button{min-width:0;font-size
 html[lang=en] body[data-ui=phone] .phone-menu-grid,html[lang=en] body[data-ui=phone] .phone-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 html[lang=en] body[data-ui=phone] .phone-tools button{min-width:0;flex:1;font-size:10px;letter-spacing:0;white-space:nowrap;padding-inline:2px}
 html[lang=en] body[data-ui=phone] .phone-clip-actions button{min-width:0;flex:1;font-size:11px;white-space:normal;line-height:1.2;padding-inline:3px}
+
+/* One compact tool row, with persistent access to settings and visible overflow cues. */
+body[data-ui=phone] .phone-tools{overflow:hidden;justify-content:flex-start;gap:0;padding:1px 2px}
+body[data-ui=phone] .phone-tool-strip{display:flex;flex:1;min-width:0;position:relative;gap:4px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x;scroll-snap-type:x proximity}
+body[data-ui=phone] .phone-tool-strip::-webkit-scrollbar{display:none}
+body[data-ui=phone] .phone-tool-strip>button{flex:0 0 62px;min-width:62px;scroll-snap-align:start;font-size:10px;letter-spacing:.15px}
+body[data-ui=phone] .phone-tools>.phone-tool-arrow{flex:0 0 24px;min-width:24px;padding:0;color:var(--accent);border-radius:0}
+body[data-ui=phone] .phone-tool-arrow svg{width:16px;height:16px}
+body[data-ui=phone] .phone-tools>.phone-tool-arrow:disabled{opacity:0;pointer-events:none}
+body[data-ui=phone] .phone-tools>.phone-more-fixed{flex:0 0 52px;min-width:52px;border-left:1px solid #354231;border-radius:0;margin-left:2px;background:#101712}
+body[data-ui=phone] .tools-next .phone-tool-strip{mask-image:linear-gradient(to right,#000 calc(100% - 12px),transparent)}
+body[data-ui=phone] .tools-back .phone-tool-strip{mask-image:linear-gradient(to right,transparent,#000 12px)}
+body[data-ui=phone] .tools-back.tools-next .phone-tool-strip{mask-image:linear-gradient(to right,transparent,#000 12px,#000 calc(100% - 12px),transparent)}
+body[data-ui=phone] .phone-tool-strip>button.tool-selected{background:#293521;color:var(--accent)}

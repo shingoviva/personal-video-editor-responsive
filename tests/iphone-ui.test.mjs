@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {phoneLayout,phonePanelTrigger} from '../dist/iphone-ui.js';
+import {phoneLayout,phonePanelTrigger,phoneInteractionScope} from '../dist/iphone-ui.js';
 import {bindTimeline} from '../dist/timeline-gestures.js';
 import {project,clip,sequence} from '../dist/model.js';
 assert.equal(phoneLayout({width:393,height:852,coarse:true,iphone:true}),true);
@@ -25,3 +25,10 @@ const sheetBody=node('body',{phonePanel:'motion'}),slider=node('input',{},sheetB
 assert.equal(slider.closest('[data-phone-panel],[data-phone-command]'),sheetBody,'the previous selector incorrectly matched the sheet body');
 assert.equal(phonePanelTrigger(slider),null);assert.equal(phonePanelTrigger(closeButton),null);assert.equal(phonePanelTrigger(sheetBody),null);assert.equal(phonePanelTrigger(icon),tabButton);
 console.log('Phone sheet inputs and return button never resolve the body as a panel trigger PASS');
+
+const scope=phoneInteractionScope(),viewer={inert:false},timeline={inert:false},blocked={inert:true};
+scope.replace([viewer,timeline,blocked]);assert(viewer.inert);assert(timeline.inert);
+scope.replace([timeline]);assert.equal(viewer.inert,false,'More → Motion releases preview for playback');assert.equal(blocked.inert,true,'pre-existing blocks remain');assert(timeline.inert);
+scope.clear();assert.equal(timeline.inert,false,'return/export restores timeline');assert.equal(viewer.inert,false,'preview stays interactive after closing Motion');
+scope.replace([viewer,timeline]);scope.replace([viewer]);assert.equal(timeline.inert,false,'Library → asset details restores unused scope');scope.clear();scope.clear();assert.equal(viewer.inert,false);
+console.log('Phone panel scope: More/Motion/Library/details/export/desktop restore original interactivity PASS');

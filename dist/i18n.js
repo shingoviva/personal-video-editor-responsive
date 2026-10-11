@@ -1,4 +1,5 @@
 const translations=[
+ ["前の編集ツール", "Previous editing tools"], ["次の編集ツール", "Next editing tools"],
  ["文字・FX", "Text / FX"],
 
  ["編集中の素材です。一覧から外すには、先にクリップやBGMから外してください。", "This media is in use. Remove it from clips and BGM before removing it from the library."],

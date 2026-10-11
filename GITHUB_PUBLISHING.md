@@ -1,3 +1,7 @@
+## 2.2.51 — iPhoneツールメニューと操作復帰
+
+同じ検証済みHEADを別版GitHub Pagesと既存公開Sitesへ反映し、Mac ZIPを更新します。元Mac開発版・既存公開範囲を保全します。
+
 ## 2.2.50 — 英語表示の改善
 
 同じHEADを別版GitHub Pagesと既存公開Sitesへ反映し、Mac ZIPを更新します。元Mac開発版と公開範囲を保全します。

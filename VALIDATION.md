@@ -1,3 +1,26 @@
+## 2.2.51 — iPhoneの一列ツールメニュー（2026-10-11）
+
+公開前検証：JavaScript全67、build、Python映像・音声・localhost server全15、Mac ZIP検証成功。元Mac161ファイルのSHA-256差分0。
+
+- LIBRARY/BASIC/MOTION/COLOR/LOOKS/TEXT/FX/MIXを一列の横スクロールへ。その他は右端固定。左右矢印はタップで移動、続きのある側だけ有効にし、端にフェードを表示。項目を一部見せて横の続きが分かる配置。初回案内なし。
+- 選択ツールを自動で見える位置へ移動し、選択色とaria-currentで識別。MOTION/FXをその他から移し、ANALYZEはその他に保持。専用SVGのmotion/fx/矢印追加。高さ46px維持。
+- CUA393×852で矢印移動0→198→237px、FX選択、選択維持、その他固定x339、パネル復帰、その他内容を確認。320×740でnav横overflow0、その他右端318px、height46px確認。
+- npm test全67、build、diff-check成功。実機Safariの指スワイプは未検証。公開対象のコードです。証拠：作業ルート.codex-context/audit-evidence/tool-strip-{start,end}.jpg。
+
+## 2.2.51 — Mac／iPhoneタブ名統一（2026-10-11）
+
+- iPhone映像調整をMacと同じBASIC/MOTION/COLOR/LOOKSに統一。LIBRARY/TEXT/MIX/FX/ANALYZEの入口・パネル名も揃え、workspace-uiの共通メタデータから表示。スマホ固有の「その他」「レイヤー」等は維持。
+- 393×852と320×740のローカル実ブラウザで4タブ・下部7ボタンのscrollWidth=clientWidthを確認。COLOR/LOOKS切り替えで見出しも追従。パネル寸法と映像・音声経路は変更なし。
+- npm test全67スイート、build成功。実機Safari未確認。画像：作業ルート.codex-context/audit-evidence/tabs-unified-iphone.jpg。
+
+## 2.2.51 — iPhoneパネル切り替えの操作復帰（2026-10-11）
+
+- 「その他 → モーション」でviewer-panelのinertが残り、閉じた後も再生・シークを操作できない状態をローカル実ブラウザで再現。パネルの切り替え前に既存の操作禁止範囲を解除し、各要素の元のinert値を復元する小さな管理関数へ統一。
+- 上部の書き出しボタンを詳細パネルでも操作可能にし、クリックのcapture段階でパネルを閉じてから既存の共通EXPORT SETTINGSへ進める。書き出しエンジン・映像時計・音声経路は変更なし。
+- 393×852のCUA実ブラウザで音声付き12秒H.264/AACテスト素材を使用。5.118倍・2倍・0.05倍の再生開始と時計の進行、2倍のvideo playbackRate、モーションから戻った後のinert残留0を確認。1倍と5.118倍で共通書き出し設定の8項目とパネル解除を確認。
+- npm test全67スイート、npm run build、git diff --check成功。操作範囲の切り替え・閉じる・元からinertな要素の維持を回帰試験へ追加。
+- 実機iPhone/Safari、今回の実ブラウザMP4生成・音の聴取は未確認。証拠：phone-motion-play-fixed.jpg、phone-export-panel-fixed.jpg（作業ルート.codex-context/audit-evidence）。
+
 ## 2.2.50 — 英語UIと領域内表示（2026-10-11）
 
 - 固定／動的ラベル、素材・レイヤー・カラー・モーション・音声・書き出し通知・設定・ショートカット・ヘルプに英訳を追加。文中の既知の複数文もまとめて翻訳し、後から追加したDOMと属性を対象限定で更新。

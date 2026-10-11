@@ -1,5 +1,9 @@
 // App-owned vector artwork; independent of emoji fonts.
 const paths={
+ chevronLeft:'<path d="m14 6-6 6 6 6"/>',
+ chevronRight:'<path d="m10 6 6 6-6 6"/>',
+ motion:'<path d="M3 7h6M3 12h4M3 17h6m5-11 6 6-6 6V6Z"/>',
+ fx:'<path d="m14 3 2.5 6.5L23 12l-6.5 2.5L14 21l-2.5-6.5L5 12l6.5-2.5L14 3ZM3 3v4M1 5h4"/>' ,
  link:'<path d="m9 15 6-6m-7 9-2 2a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m0-4 2-2a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0"/>',
  eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
  eyeOff:'<path d="m3 3 18 18M9.5 5.4A11 11 0 0 1 12 5c6.5 0 10 7 10 7a19 19 0 0 1-3 4M6 6.5A21 21 0 0 0 2 12s3.5 7 10 7a12 12 0 0 0 5-1M10 10a3 3 0 0 0 4 4"/>',
