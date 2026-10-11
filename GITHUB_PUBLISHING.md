@@ -1,3 +1,7 @@
+## 2.2.49 — 再生の例外・競合修正
+
+検証後、同じHEADを別版GitHub Pagesと既存公開Sitesへ配信し、Mac ZIPを更新します。元Mac開発版は保全します。
+
 ## 2.2.48 — プレビュー再生修正
 
 共通再生時計とShift単独操作を同じHEADでGitHub Pages／Sitesへ反映。元Mac開発版は保全。

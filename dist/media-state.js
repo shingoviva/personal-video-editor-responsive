@@ -1,5 +1,5 @@
 // Media lifecycle helpers. Register before changing src / currentTime.
-export function waitForMedia(media,event,{signal,timeout=20000,ready}={}){
+export function waitForMedia(media,event,{signal,timeout=20000,ready,start}={}){
   if(signal?.aborted)return Promise.reject(new DOMException('処理をキャンセルしました。','AbortError'));
   if(ready?.())return Promise.resolve();
   return new Promise((resolve,reject)=>{
@@ -10,9 +10,10 @@ export function waitForMedia(media,event,{signal,timeout=20000,ready}={}){
     const aborted=()=>{clean();reject(new DOMException('処理をキャンセルしました。','AbortError'))};
     media.addEventListener(event,done,{once:true});media.addEventListener('error',failed,{once:true});signal?.addEventListener('abort',aborted,{once:true});
     timer=setTimeout(()=>{clean();reject(new Error('素材の読み込みがタイムアウトしました。もう一度お試しください。'))},timeout);
+    try{start?.()}catch(error){clean();reject(error)}
   });
 }
 export async function seekMedia(media,time,options={}){
   if(Math.abs(media.currentTime-time)<.00001&&media.readyState>=2&&!media.seeking)return;
-  const pending=waitForMedia(media,'seeked',options);media.currentTime=time;await pending;
+  await waitForMedia(media,'seeked',{...options,start:()=>{media.currentTime=time}});
 }

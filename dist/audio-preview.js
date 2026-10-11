@@ -1,5 +1,5 @@
 import {silenceOutput,openOutput,createDelayEffect,resetDelayEffect} from './audio-preview-output.js';
-import {waitForMedia,seekMedia} from './media-state.js';
+import {waitForMedia,seekMedia} from './media-state.js?v=2.2.49';
 import {audioWindows,trackGain} from './audio-timeline.js';
 import {sourceTime,gainAt,held,declickGain} from './mobile-model.js';
 import {sequence,timing,outputOffset} from './model.js';
@@ -37,13 +37,15 @@ export class AudioPreview{
  if(!voice.loop&&(voice.ended||voice._endedKey===voice.dataset.key)){this.stopVoice(voice);return}
  voice.muted=false;voice._wanted=true;if(voice._playPending||!voice.paused)return;
  const generation=voice._playGeneration||0,key=voice.dataset.key;let pending;
- try{pending=Promise.resolve(voice.play())}catch{return}
+ try{pending=Promise.resolve(voice.play())}catch(error){this.failVoice(voice,error,generation,key);return}
  voice._playPending=pending;
  pending.then(()=>{
  if(!voice._wanted||generation!==(voice._playGeneration||0)||key!==voice.dataset.key){voice.pause();return}
  const graph=this.graphs.get(voice);if(graph?.gate)openOutput(graph.gate.gain,this.context.currentTime);
- }).catch(()=>{}).finally(()=>{if(voice._playPending===pending)voice._playPending=null});
+ }).catch(error=>this.failVoice(voice,error,generation,key)).finally(()=>{if(voice._playPending===pending)voice._playPending=null});
  }
+
+ failVoice(voice,error,generation,key){if(!voice._wanted||generation!==(voice._playGeneration||0)||key!==voice.dataset.key)return;this.stopVoice(voice);this.playbackError=error instanceof Error?error:new Error(String(error));}
 
  prepare(lane,row,p,urlOf){const c=row?.clip,m=p.media.find(item=>item.id===c?.media),url=m&&urlOf(m),key=keyFor(row,url);if(!key)return null;let index=lane.voices.findIndex(voice=>voice.dataset.key===key);if(index<0){index=1-lane.active;const voice=lane.voices[index];this.stopVoice(voice);voice._endedKey=null;voice._endedRow=null;voice.dataset.key=key;voice.dataset.url=url;voice.src=url;voice.load()}return index}
 
@@ -86,7 +88,7 @@ export class AudioPreview{
  scheduleGain(graph,c,local,duration,trackVolume,playing){const now=this.context.currentTime,key=JSON.stringify([c.audio,trackVolume,duration]);if(!playing||graph.gainKey!==key||Math.abs(local-(graph.local+(now-graph.clock)))>.03||now>=graph.until-.04){const param=graph.output.gain;param.cancelScheduledValues(now);const span=playing?Math.min(.15,Math.max(.001,duration-local)):.001,count=Math.max(2,Math.ceil(span*48000)),curve=new Float32Array(count);for(let i=0;i<count;i++){const at=local+span*i/(count-1);curve[i]=trackVolume*gainAt(at,duration,c.audio.volume,c.audio.fadeIn,c.audio.fadeOut,c.audio.gainKeyframes,c.audio.gainEnvelope)*declickGain(at,duration)}if(playing)param.setValueCurveAtTime(curve,now,span);else param.setValueAtTime(curve[0],now);graph.gainKey=key;graph.local=local;graph.clock=now;graph.until=now+span}}
  primeNext(lane,rows,p,t,urlOf){const next=nextRow(rows,t);if(next)this.prepare(lane,next,p,urlOf)}
  // Structural edits pause playback first; never reuse windows after pause/export.
- beginPlayback(p){this.playbackProject=p;this.playbackAudio=groupRows(audioWindows(p),4);this.playbackVideo=groupRows(sequence(p).filter(value=>!value.clip.gap),3)}
+ beginPlayback(p){this.playbackError=null;this.playbackProject=p;this.playbackAudio=groupRows(audioWindows(p),4);this.playbackVideo=groupRows(sequence(p).filter(value=>!value.clip.gap),3)}
  async preparePlayback(p,t,urlOf){
  this.prepareController?.abort();const controller=new AbortController();this.prepareController=controller;const signal=controller.signal;
  const groups=[...this.playbackVideo,...this.playbackAudio],solo=p.audioTracks?.some(track=>track.solo);
@@ -99,8 +101,8 @@ export class AudioPreview{
  }));}catch(error){controller.abort();throw error}finally{if(this.prepareController===controller)this.prepareController=null}
  }
  sync(p,t,playing,urlOf){if(!playing){this.pause();return}const cached=playing&&this.playbackProject===p,audioByLayer=cached?this.playbackAudio:groupRows(audioWindows(p),4);for(let layer=0;layer<4;layer++){const rows=audioByLayer[layer],row=currentRow(rows,t);this.syncLane(this.lanes[3+layer],row,p,t,playing,urlOf,trackGain(p,layer),!!row?.clip.loop);this.primeNext(this.lanes[3+layer],rows,p,t,urlOf)}const solo=!!p.audioTracks?.some(track=>track.solo),videoKey=cached?this.videoKey:p.clips.map(c=>[c.id,c.start,c.layer,c.in,c.out,c.speed,c.endSpeed,c.curve,c.hold].join(':')).join('|');if(videoKey!==this.videoKey){this.videoKey=videoKey;this.videoByLayer=groupRows(sequence(p).filter(value=>!value.clip.gap),3)}for(let layer=0;layer<3;layer++){const rows=(cached?this.playbackVideo:this.videoByLayer)[layer],row=currentRow(rows,t),track=p.videoTracks?.[layer]||{};this.syncLane(this.lanes[layer],row,p,t,playing,urlOf,solo||track.hidden?0:Math.max(0,Math.min(2,track.volume??1)));this.primeNext(this.lanes[layer],rows,p,t,urlOf)}this.setOutputEnabled(true)}
- clock(t){let terminal=null;for(const lane of this.lanes){const voice=lane.voices[lane.active],row=voice._clockRow||voice._endedRow;if(!row||t<row.start||t>=row.end-.00001)continue;if(!row.clip.loop&&(voice.ended||voice._endedKey===voice.dataset.key)){terminal={ended:true,time:t};continue}if(!voice._wanted||voice.readyState<2||voice.seeking||voice._alignedKey!==voice.dataset.key)return{waiting:true};const m=voice._clockMedia,c=row.clip;if(c.loop&&voice.currentTime<(voice._lastSource||0)-.5)voice._loopCycle=(voice._loopCycle||0)+1;voice._lastSource=voice.currentTime;const source=voice.currentTime+(c.loop?(voice._loopCycle||0)*m.duration:0),at=row.start+outputOffset(Math.max(0,source-c.in),c)-(row.offset||0);return{time:Math.min(row.end,at),waiting:voice.paused&&!voice.ended}}return terminal}
+ clock(t){if(this.playbackError){const error=this.playbackError;this.playbackError=null;throw error}let terminal=null;for(const lane of this.lanes){const voice=lane.voices[lane.active],row=voice._clockRow||voice._endedRow;if(!row||t<row.start||t>=row.end-.00001)continue;if(!row.clip.loop&&(voice.ended||voice._endedKey===voice.dataset.key)){terminal={ended:true,time:t};continue}if(!voice._wanted||voice.readyState<2||voice.seeking||voice._alignedKey!==voice.dataset.key)return{waiting:true};const m=voice._clockMedia,c=row.clip;if(c.loop&&voice.currentTime<(voice._lastSource||0)-.5)voice._loopCycle=(voice._loopCycle||0)+1;voice._lastSource=voice.currentTime;const source=voice.currentTime+(c.loop?(voice._loopCycle||0)*m.duration:0),at=row.start+outputOffset(Math.max(0,source-c.in),c)-(row.offset||0);return{time:Math.min(row.end,at),waiting:voice.paused&&!voice.ended}}return terminal}
 
- pause(){this.prepareController?.abort();this.prepareController=null;this.pauseGeneration++;this.setOutputEnabled(false);this.playbackProject=null;this.playbackAudio=this.playbackVideo=null;this.voices.forEach(voice=>{this.stopVoice(voice);voice._endedKey=null;voice._endedRow=null});this.suspendContext()}
+ pause(){this.playbackError=null;this.prepareController?.abort();this.prepareController=null;this.pauseGeneration++;this.setOutputEnabled(false);this.playbackProject=null;this.playbackAudio=this.playbackVideo=null;this.voices.forEach(voice=>{this.stopVoice(voice);voice._endedKey=null;voice._endedRow=null});this.suspendContext()}
  dispose(){this.pause();this.voices.forEach(voice=>{voice.pause();voice.removeAttribute('src');voice.load();delete voice.dataset.key;delete voice.dataset.url});this.context?.close?.();this.context=null;this.master=null;this.suspending=null;this.graphs=new WeakMap();this.videoKey=null;this.lanes=Array.from({length:7},()=>({voices:[mediaVoice(),mediaVoice()],active:0}));this.voices=this.lanes.flatMap(lane=>lane.voices)}
 }

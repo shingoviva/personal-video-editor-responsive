@@ -1,0 +1,24 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {AudioPreview} from '../dist/audio-preview.js';
+import {PlaybackSession} from '../dist/playback-session.js';
+import {seekMedia} from '../dist/media-state.js';
+import {advancePhoneClock} from '../dist/phone-playback-clock.js';
+const flush=()=>new Promise(resolve=>setTimeout(resolve,0));
+globalThis.document={createElement(){return {dataset:{},readyState:4,currentTime:2,paused:true,seeking:false,ended:false,pause(){this.paused=true},play(){return Promise.reject(Error('play denied'))}}}};
+const audio=new AudioPreview(),v=audio.voices[0];v.dataset.key='a';
+audio.startVoice(v);await flush();assert.equal(v._wanted,false);assert.equal(v.muted,true);assert.throws(()=>audio.clock(2),/play denied/);assert.equal(audio.clock(2),null);
+audio.beginPlayback({clips:[],audioClips:[],media:[]});v.play=function(){this.paused=false;return Promise.resolve()};audio.startVoice(v);await flush();assert.equal(v._wanted,true);assert.equal(v.paused,false,'retry succeeds');
+audio.stopVoice(v);v.play=()=>{throw Error('sync denied')};audio.startVoice(v);assert.throws(()=>audio.clock(2),/sync denied/);
+let reject;v.play=()=>new Promise((_,r)=>reject=r);audio.startVoice(v);audio.stopVoice(v);v.dataset.key='b';reject(Error('old denied'));await flush();assert.equal(audio.clock(2),null,'stale rejection does not poison next run');
+assert.equal(advancePhoneClock(2,.1,audio.clock(2)),2.1);
+const app=fs.readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
+const fragment=app.match(/const started=await syncVideo\(true\);if\(!playbackSession.current\(session\)\)return;if\(!started\)\{pause\(\);return\}/)?.[0];assert(fragment);
+const run=new Function('syncVideo','playbackSession','session','pause',`return (async()=>{${fragment}})()`);
+const sessions=new PlaybackSession();let resolve;const old=sessions.begin(),pending=run(()=>new Promise(r=>resolve=r),sessions,old,()=>sessions.stop());sessions.stop();const next=sessions.begin();resolve(false);await pending;assert(sessions.current(next),'stale preparation must not pause newer run');
+let pauses=0;await run(async()=>false,sessions,next,()=>pauses++);assert.equal(pauses,1,'current failed preparation still stops');
+class Media extends EventTarget{readyState=2;seeking=false;listeners=0;get currentTime(){return 0}set currentTime(t){throw Error('invalid seek')}addEventListener(...a){super.addEventListener(...a);this.listeners++}removeEventListener(...a){super.removeEventListener(...a);this.listeners--}}
+const media=new Media();let unhandled=[];const onUnhandled=e=>unhandled.push(e);process.on('unhandledRejection',onUnhandled);await assert.rejects(seekMedia(media,1,{timeout:5}),/invalid seek/);assert.equal(media.listeners,0);await new Promise(r=>setTimeout(r,15));assert.equal(unhandled.length,0);
+const controller=new AbortController();controller.abort();await assert.rejects(seekMedia(media,1,{signal:controller.signal}),{name:'AbortError'});assert.equal(media.listeners,0);
+process.removeListener('unhandledRejection',onUnhandled);delete globalThis.document;
+console.log('Playback failure: async/sync audio rejection, retry, stale completion, video session race, seek cleanup and pre-abort PASS');
