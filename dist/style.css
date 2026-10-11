@@ -509,3 +509,14 @@ body:not([data-ui=phone]) .workflow button:focus-visible{outline:2px solid var(-
 .edit-marker:focus-visible{background:#fff6c2;filter:drop-shadow(0 0 2px #fff6c2)}
 /* Shared button hover animation must not shift a flag away from its time. */
 .timeline-panel .edit-marker,.timeline-panel .edit-marker:hover,.timeline-panel .edit-marker:active{transform:translateX(-50%)!important}
+/* Translated labels may be longer; keep controls inside their own panels. */
+html[lang=en] .control-label,html[lang=en] .small-note,html[lang=en] .modal-top h2,html[lang=en] .modal-fields label{min-width:0;overflow-wrap:anywhere}
+html[lang=en] .modal-top{gap:12px}
+html[lang=en] .modal-top h2{flex:1;line-height:1.35}
+html[lang=en] .modal-actions{flex-wrap:wrap}
+html[lang=en] .modal-actions>*,html[lang=en] .wide{max-width:100%;white-space:normal;overflow-wrap:anywhere;line-height:1.35}
+html[lang=en] .asset-actions .asset-place{min-width:0;white-space:normal;line-height:1.3}
+html[lang=en] .control-row,html[lang=en] .control-section{min-width:0}
+html[lang=en] .top-actions button{white-space:nowrap}
+html[lang=en] .performance-options label>span{min-width:0;flex:1;overflow-wrap:anywhere}
+html[lang=en] .performance-options label>input{width:auto;flex:0 0 auto}

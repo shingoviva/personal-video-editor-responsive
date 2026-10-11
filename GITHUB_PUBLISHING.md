@@ -1,3 +1,7 @@
+## 2.2.50 — 英語表示の改善
+
+同じHEADを別版GitHub Pagesと既存公開Sitesへ反映し、Mac ZIPを更新します。元Mac開発版と公開範囲を保全します。
+
 ## 2.2.49 — 再生の例外・競合修正
 
 検証後、同じHEADを別版GitHub Pagesと既存公開Sitesへ配信し、Mac ZIPを更新します。元Mac開発版は保全します。

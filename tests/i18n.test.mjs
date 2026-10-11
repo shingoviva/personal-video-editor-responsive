@@ -17,7 +17,7 @@ assert.equal(translate('画面の見方'),'Workspace guide');
 assert.equal(translate('プレビューの直接操作'),'Direct preview controls');
 assert.equal(translate('中央へ近づくとガイドに吸着します。'),'Guides snap when the item approaches center.');
 assert.equal(translate('Noto Sans JP · Web'),'Noto Sans JP · Web');
-assert.equal(translate('黒浮かせ in'),'黒浮かせ in');
+assert.equal(translate('黒浮かせ in'),'Lift blacks in');
 const helpText='保存されるのは編集状態です。元素材は変更されません。別端末で開く場合は候補から元素材を再リンクします。';
 const helpEnglish=translate(helpText);
 assert.equal(helpEnglish,'The project file stores the edit state. Source media remains unchanged. On another device, choose candidates to relink the source media.');
@@ -34,3 +34,20 @@ for(const match of html.matchAll(/>([^<>]*[ぁ-んァ-ヶ一-龠][^<>]*)</g))sta
 const untranslated=[...new Set(staticJapanese)].filter(value=>translate(value,'en')===value);
 assert.deepEqual(untranslated,[],`Untranslated static UI: ${untranslated.join(', ')}`);
 console.log('JA/EN translation, dynamic phrases and language persistence: PASS');
+// Dynamic text and language round-trips preserve original UI sources.
+assert.equal(translate('省メモリ · 最大24fps','en'),'Save memory · Up to 24fps');
+assert.equal(translate('V3へ配置しました。','en'),'Placed on V3.');
+assert.equal(translate('A4へ移動','en'),'A4 · Move');
+assert.equal(translate('2件を素材ライブラリへ追加しました。素材を選んで配置してください。','en'),'Added 2 items to the library. Choose media to place it.');
+assert.equal(translate('基本','en'),'Basic');
+const {translateDOM}=await import('../dist/i18n.js');
+globalThis.NodeFilter={SHOW_TEXT:4};
+const label={nodeType:3,nodeValue:'配置',parentElement:{closest:()=>false}},user={nodeType:3,nodeValue:'配置',parentElement:{closest:()=>true}};
+const element={nodeType:1,closest:()=>false,attrs:new Map([['title','配置']]),hasAttribute(k){return this.attrs.has(k)},getAttribute(k){return this.attrs.get(k)},setAttribute(k,v){this.attrs.set(k,v)},querySelectorAll(){return []}};
+const root={querySelectorAll(){return [element]}};
+globalThis.document={documentElement:{},createTreeWalker(){let index=0;return {nextNode:()=>[label,user][index++]||null}}};
+for(let i=0;i<4;i++){setLanguage('en');translateDOM(root);assert.equal(label.nodeValue,'Place');assert.equal(user.nodeValue,'配置');assert.equal(element.getAttribute('title'),'Place');setLanguage('ja');translateDOM(root);assert.equal(label.nodeValue,'配置');assert.equal(element.getAttribute('title'),'配置')}
+label.nodeValue='基本';setLanguage('en');translateDOM(root);assert.equal(label.nodeValue,'Basic','new dynamic source replaces prior source');setLanguage('ja');translateDOM(root);assert.equal(label.nodeValue,'基本');
+setLanguage('en');translateDOM(element);assert.equal(element.getAttribute('title'),'Place','root attributes translated too');
+delete globalThis.document;delete globalThis.NodeFilter;setLanguage('ja');
+console.log('Dynamic English labels, source-preserving JA/EN round-trip and user content protection PASS');
