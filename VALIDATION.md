@@ -1,3 +1,7 @@
+## 2.2.54 — Macの固定UIとライブラリーをコンパクトに
+
+CUA1440/1024でタブ枠内、分類名との間隔2px、横はみ出しなし。英語表示とiPhone393でheader40/tools44px維持を確認。実機Safariは未確認。npm全67/build、Python映像音声server全15、MacZIP成功。元Mac161SHA差分0。
+
 ## 2.2.53 — iPhone操作列の余白と再生ボタン
 
 CUA393/320で横はみ出しなし、編集パネル境界一致、再生開始と停止を確認。実機Safariは未確認。npm全67/build、Python映像音声・server全15、MacZIP検証成功。元Mac161ファイル差分0。
