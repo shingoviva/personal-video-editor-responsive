@@ -1,50 +1,49 @@
 /* Mobile editor: header, two adjustable work surfaces, contextual tools. */
 .phone-only{display:none}
-body[data-ui=phone]{height:var(--app-height,100dvh);min-height:0;overflow:hidden;display:flex;flex-direction:column;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);--phone-header:44px;--phone-bottom:60px;--phone-sheet-height:min(calc(var(--app-height,100dvh) * .70),550px);--timeline-ruler:28px;--timeline-video-lane:64px;--timeline-overlay-lane:40px;--timeline-audio-lane:48px}
+body[data-ui=phone]{height:var(--app-height,100dvh);min-height:0;overflow:hidden;display:flex;flex-direction:column;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);--phone-sheet-height:min(calc(var(--app-height,100dvh) * .70),550px);--timeline-ruler:28px;--timeline-video-lane:64px;--timeline-overlay-lane:40px;--timeline-audio-lane:48px}
 body[data-ui=phone] .phone-only:not([hidden]){display:flex}
 body[data-ui=phone] button{min-height:44px;font-size:14px;touch-action:manipulation}
 body[data-ui=phone] input,body[data-ui=phone] select,body[data-ui=phone] textarea{font-size:16px}
-body[data-ui=phone] .topbar{order:0;flex:0 0 44px;height:44px;min-height:44px;padding:0 8px;gap:5px;flex-wrap:nowrap;background:#101612}
-body[data-ui=phone] .brand{font-size:17px;width:30px;min-width:30px;flex:none;padding:0;border:0;background:none}
+body[data-ui=phone] .topbar{order:0;flex:0 0 44px;padding:0 8px;flex-wrap:nowrap;background:#101612}
+body[data-ui=phone] .brand{width:30px;min-width:30px;flex:none;padding:0;border:0;background:none}
 body[data-ui=phone] .brand::after{display:none}
 body[data-ui=phone] .selection-context,body[data-ui=phone] .workflow,body[data-ui=phone] .top-actions>:not(#exportButton){display:none!important}
 body[data-ui=phone] .project-heading{flex:1;min-width:0;display:flex}
 body[data-ui=phone] .project-heading input{font-size:12px;width:100%;padding:0 4px;min-width:0;text-overflow:ellipsis}
 body[data-ui=phone] .project-heading span{display:none}
 body[data-ui=phone] .top-history{display:flex!important;gap:0;flex:none;order:1}
-body[data-ui=phone] .top-history button{width:38px;min-width:38px;height:44px;padding:0;font-size:23px}
+body[data-ui=phone] .top-history button{width:38px;min-width:38px;padding:0;font-size:23px}
 body[data-ui=phone] .top-actions{display:flex;flex:none;order:2;gap:0;margin-left:0}
-body[data-ui=phone] #exportButton{height:32px;min-height:32px;padding:0 10px;font-size:13px;border-radius:7px;white-space:nowrap}
+body[data-ui=phone] #exportButton{padding:0 10px;font-size:13px;border-radius:7px;white-space:nowrap}
 body[data-ui=phone] #exportButton span{display:none}
 body[data-ui=phone] .workspace,body[data-ui=phone][data-step=import] .workspace{order:1;flex:1;min-height:0;height:auto;width:100%;margin:0;gap:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:var(--phone-preview,55%) 12px minmax(0,1fr)}
 body[data-ui=phone] .column-splitter,body[data-ui=phone] .workspace-splitter{display:none!important}
 body[data-ui=phone] .viewer-panel{grid-column:1;grid-row:1;min-height:0;position:relative;overflow:hidden}
 body[data-ui=phone] .viewer-top,body[data-ui=phone] .viewer-foot{display:none!important}
 body[data-ui=phone] .stage{min-height:0;flex:1;margin:0 5px;border:0;border-radius:0;box-shadow:none}
-body[data-ui=phone] .viewer-controls{height:44px;min-height:44px;padding:0 8px;gap:6px}
-body[data-ui=phone] .viewer-controls .mono{font-size:11px;min-width:0}
+body[data-ui=phone] .viewer-controls{padding:0 8px;gap:6px}
+body[data-ui=phone] .viewer-controls .mono{min-width:0}
 body[data-ui=phone] .transport{gap:0}
-body[data-ui=phone] .transport button{width:40px;min-width:40px;padding:0;font-size:18px}
+body[data-ui=phone] .transport button{padding:0;font-size:18px}
 body[data-ui=phone] .transport .edge-button{display:none}
 body[data-ui=phone] #phonePreviewExpand{position:absolute;z-index:35;right:6px;top:4px;width:38px;min-height:38px;align-items:center;justify-content:center;background:#111a;opacity:.8}
 body[data-ui=phone] .phone-workspace-grip{grid-row:2;grid-column:1;min-height:12px;height:12px;padding:0;border:0;border-block:1px solid #30392f;cursor:ns-resize;align-items:center;justify-content:center;touch-action:none;background:#181e19}
 body[data-ui=phone] .phone-workspace-grip span{width:42px;height:3px;border-radius:8px;background:#75816d}
 body[data-ui=phone] .timeline-panel{grid-row:3;grid-column:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;box-shadow:none}
-body[data-ui=phone] .timeline-toolbar{flex:0 0 36px;min-height:36px;height:36px;padding:0 4px;gap:2px;flex-wrap:nowrap;overflow:hidden;border-bottom:1px solid #30392f}
-body[data-ui=phone] .timeline-toolbar button{min-height:34px;height:34px;min-width:32px;padding:0 5px;font-size:12px;white-space:nowrap}
-body[data-ui=phone] #phoneView{max-width:125px;min-width:60px;width:90px;padding:0 3px;min-height:32px;height:32px;font-size:12px;border:0;background:transparent}
+body[data-ui=phone] .timeline-toolbar{flex:0 0 36px;gap:2px;flex-wrap:nowrap;overflow:hidden;border-bottom:1px solid #30392f}
+body[data-ui=phone] .timeline-toolbar button{min-width:32px;padding:0 5px;font-size:12px;white-space:nowrap}
+body[data-ui=phone] #phoneView{max-width:125px;min-width:60px;width:90px;font-size:12px;border:0}
 body[data-ui=phone] .timeline-actions,body[data-ui=phone] #timelineCount{display:none}
 body[data-ui=phone] .timeline-zoom{min-width:0;gap:0;margin-left:auto;padding:0}
 body[data-ui=phone] .timeline-zoom input{display:none}
 body[data-ui=phone] .phone-sequence{display:none!important}
-body[data-ui=phone] .phone-scrubber{flex:0 0 30px;height:30px;gap:5px;padding:0 8px;align-items:center;background:#131a15}
+body[data-ui=phone] .phone-scrubber{flex:0 0 30px;gap:5px;padding:0 8px;align-items:center;background:#131a15}
 body[data-ui=phone] .phone-scrubber label{display:none}
-body[data-ui=phone] .phone-scrubber input{flex:1;min-width:0;height:30px;margin:0}
+body[data-ui=phone] .phone-scrubber input{flex:1;min-width:0;margin:0}
 body[data-ui=phone] .phone-scrubber output{font:11px var(--mono);width:65px;text-align:right}
 body[data-ui=phone] .timeline-layout{flex:1;min-height:0;overflow:hidden}
 body[data-ui=phone] .timeline-content{height:auto;min-height:100%}
 body[data-ui=phone] .timeline-scroll{touch-action:pan-x pan-y;scrollbar-gutter:auto;overscroll-behavior:contain}
-body[data-ui=phone] .track-labels{width:36px}
 body[data-ui=phone] .track-labels-inner>.track-head{padding:0 3px!important;gap:0!important;display:flex!important;align-items:center!important;justify-content:center!important}
 body[data-ui=phone] .video-head input,body[data-ui=phone] .video-head small,body[data-ui=phone] .audio-head input,body[data-ui=phone] .audio-head [data-trackmute],body[data-ui=phone] .video-head>button,body[data-ui=phone] .overlay-head>button,body[data-ui=phone] .overlay-head small{display:none}
 body[data-ui=phone] .track-labels-inner>.track-head strong,body[data-ui=phone] .audio-head button{font-size:11px;padding:0;min-width:24px;min-height:44px}
@@ -60,19 +59,19 @@ body[data-ui=phone] .clip-block .trim-handle,body[data-ui=phone] .fx-trim-handle
 body[data-ui=phone] .clip-block.selected .trim-handle,body[data-ui=phone] .fx-chip.selected .fx-trim-handle{display:block}
 body[data-ui=phone].phone-moving .clip-block,body[data-ui=phone].phone-moving .trim-handle,body[data-ui=phone].phone-moving .fx-chip{touch-action:none}
 body[data-ui=phone] .fx-chip{touch-action:pan-x pan-y}
-body[data-ui=phone] #playheadHandle{height:26px;min-height:26px;padding:0 3px}
+body[data-ui=phone] #playheadHandle{height:26px;min-height:26px}
 body[data-ui=phone] #playheadTime{font-size:10px}
 body[data-ui=phone] .timeline-footer{display:none}
-body[data-ui=phone] .phone-clip-actions{order:2;position:static;flex:0 0 44px;height:44px;min-height:44px;background:#171e19;border-top:1px solid #354031;align-items:stretch;justify-content:space-around;padding:0 4px;gap:1px}
-body[data-ui=phone] .phone-clip-actions button{min-width:50px;font-size:13px;padding:0 6px;flex:1;border-radius:0}
+body[data-ui=phone] .phone-clip-actions{order:2;position:static;flex:0 0 44px;border-top:1px solid #354031;align-items:stretch;justify-content:space-around;padding:0 4px;gap:1px}
+body[data-ui=phone] .phone-clip-actions button{min-width:50px;flex:1}
 body[data-ui=phone] #phoneMove[aria-pressed=true]{color:#152010;background:var(--accent)}
-body[data-ui=phone] .phone-tools{order:3;position:static;flex:0 0 60px;height:60px;min-height:60px;align-items:stretch;justify-content:space-around;padding:3px 4px;gap:1px;background:#101712;border-top:1px solid #354031;overflow-x:auto}
-body[data-ui=phone] .phone-tools button{display:flex;flex:1;min-width:44px;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0 2px;font-size:11px;white-space:nowrap;color:#cbd4c7}
-body[data-ui=phone] .phone-tools button span{font-size:20px;line-height:23px;color:var(--accent)}
+body[data-ui=phone] .phone-tools{order:3;position:static;flex:0 0 60px;align-items:stretch;border-top:1px solid #354031;overflow-x:auto}
+body[data-ui=phone] .phone-tools button{display:flex;flex:1;min-width:44px;flex-direction:column;align-items:center;justify-content:center;padding:0 2px;white-space:nowrap}
+body[data-ui=phone] .phone-tools button span{color:var(--accent)}
 body[data-ui=phone] .empty-state{padding:8px}
 body[data-ui=phone] .empty-state h1{font-size:16px;margin:0 0 8px}
 body[data-ui=phone] .empty-state p,body[data-ui=phone] .frame-symbol,body[data-ui=phone] .empty-state small,body[data-ui=phone] #emptyDeviceInfo{display:none}
-body[data-ui=phone] .phone-quick:not([hidden]){display:flex;flex-direction:column;gap:12px;width:100%;overflow:auto;padding:14px 0;min-height:0}
+body[data-ui=phone] .phone-quick:not([hidden]){display:flex;flex-direction:column;width:100%;overflow:auto;min-height:0}
 body[data-ui=phone] .phone-selection-name{font-size:15px;overflow-wrap:anywhere}
 body[data-ui=phone] .phone-quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 body[data-ui=phone] .phone-quick label{font-size:14px;display:block}
@@ -84,12 +83,12 @@ body[data-ui=phone][data-phone-panel=cut] #inspectorBody{display:none}
 body[data-ui=phone] .phone-aspect-group{display:flex;flex-wrap:wrap;grid-column:1/-1;gap:4px}
 body[data-ui=phone] .phone-aspect-group strong{flex-basis:100%;font-size:14px;padding:8px 0}
 body[data-ui=phone] .phone-aspect-group button{flex:1;padding:0 6px!important;text-align:center}
-body[data-ui=phone] .phone-backdrop{position:fixed;inset:0;z-index:69;background:#0007;backdrop-filter:blur(3px)}
-body[data-ui=phone] .phone-sheet-header{position:fixed;z-index:72;bottom:calc(min(56dvh,520px) - 52px);left:0;right:0;height:52px;padding:0 16px;align-items:center;justify-content:space-between;background:#232b24;border-top:1px solid #46503f;border-radius:18px 18px 0 0}
-body[data-ui=phone] .phone-sheet-header strong{font-size:16px}
+body[data-ui=phone] .phone-backdrop{position:fixed;inset:0;z-index:69}
+body[data-ui=phone] .phone-sheet-header{position:fixed;z-index:72;left:0;right:0;padding:0 16px;align-items:center;justify-content:space-between;border-top:1px solid #46503f}
+body[data-ui=phone] .phone-sheet-header strong{font-size:14px;font-weight:650}
 body[data-ui=phone] #phoneSheetClose{color:var(--accent);font-weight:600}
 body[data-ui=phone] .media-panel,body[data-ui=phone] .inspector,body[data-ui=phone][data-step=import] .media-panel,body[data-ui=phone][data-step=import] .inspector{display:none!important}
-body[data-ui=phone][data-phone-panel=library] .media-panel,body[data-ui=phone][data-phone-panel]:not([data-phone-panel=library]):not([data-phone-panel=more]):not([data-phone-panel=clips]):not([data-phone-panel=layers]) .inspector,body[data-ui=phone] .phone-menu:not([hidden]){display:flex!important;position:fixed;z-index:71;left:0;right:0;bottom:0;width:100%;height:calc(min(56dvh,520px) - 52px);padding:0 14px env(safe-area-inset-bottom);background:#191f1a;overflow:auto!important;border:0;min-height:0}
+body[data-ui=phone][data-phone-panel=library] .media-panel,body[data-ui=phone][data-phone-panel]:not([data-phone-panel=library]):not([data-phone-panel=more]):not([data-phone-panel=clips]):not([data-phone-panel=layers]) .inspector,body[data-ui=phone] .phone-menu:not([hidden]){display:flex!important;position:fixed;z-index:71;left:0;right:0;bottom:0;width:100%;padding:0 14px env(safe-area-inset-bottom);background:#191f1a;overflow:auto!important;border:0;min-height:0}
 body[data-ui=phone] .media-panel>.panel-title,body[data-ui=phone] .inspector>.panel-title{display:none}
 body[data-ui=phone] #inspectorBody{overflow:auto;padding:14px 0;min-height:0;width:100%;overscroll-behavior:contain}
 body[data-ui=phone] .media-panel .media-drop{display:flex!important;min-height:48px;margin:10px 0;flex:none}
@@ -106,12 +105,12 @@ body[data-ui=phone] .media-card{display:flex;width:100%;min-width:0;align-items:
 body[data-ui=phone] .asset-thumb{width:85px;height:60px;flex:none}
 body[data-ui=phone] .asset-thumb video,body[data-ui=phone] .asset-thumb img{height:60px}
 body[data-ui=phone] .asset-copy{min-width:0}
-body[data-ui=phone] .media-name{font-size:14px}
+body[data-ui=phone] .media-name{font-size:13px;font-weight:600}
 body[data-ui=phone] .asset-actions button{min-height:44px}
 body[data-ui=phone] .phone-menu-grid{display:grid;grid-template-columns:1fr 1fr;width:100%;gap:8px;padding:14px 0;align-content:start}
 body[data-ui=phone] .phone-menu-grid button{background:#273026;border:1px solid #3d4938;padding:10px;text-align:left}
-body[data-ui=phone] .control-label,body[data-ui=phone] .control-label label{font-size:14px}
-body[data-ui=phone] .control-section .eyebrow{font-size:12px}
+body[data-ui=phone] .control-label,body[data-ui=phone] .control-label label{font-size:13px}
+body[data-ui=phone] .control-section .eyebrow{font-size:10px;letter-spacing:.08em}
 body[data-ui=phone] .control-section input[type=range]{height:36px}
 body[data-ui=phone] dialog{max-height:calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));width:calc(100% - 20px);max-width:640px;overflow:auto}
 body[data-ui=phone] .toast{bottom:calc(var(--phone-bottom) + 50px);max-width:calc(100% - 24px);font-size:14px;z-index:90}
@@ -132,15 +131,15 @@ body[data-ui=phone] .trim-handle,body[data-ui=phone] .fx-trim-handle{touch-actio
 body[data-ui=phone] .phone-menu{flex-direction:column}
 body[data-ui=phone] .phone-aspect-group{flex:none;padding-top:14px}
 
-body[data-ui=phone] .phone-layer-sheet:not([hidden]){display:block!important;position:fixed;z-index:71;bottom:0;left:0;right:0;height:calc(var(--phone-sheet-height) - 44px);overflow:auto;overscroll-behavior:contain;padding:12px 14px max(14px,env(safe-area-inset-bottom));background:#191f1a}
-body[data-ui=phone] .phone-layer-guide{margin:0 0 12px;font-size:13px;line-height:1.65;color:#d1dacb}
-body[data-ui=phone] .phone-layer-selection{padding:12px;border:1px solid #869563;border-radius:10px;background:#263020}
+body[data-ui=phone] .phone-layer-sheet:not([hidden]){display:block!important;position:fixed;z-index:71;bottom:0;left:0;right:0;height:calc(var(--phone-sheet-height) - 44px);overflow:auto;overscroll-behavior:contain;background:#191f1a}
+body[data-ui=phone] .phone-layer-guide{margin:0 0 12px;color:#d1dacb}
+body[data-ui=phone] .phone-layer-selection{border:1px solid #869563;border-radius:10px;background:#263020}
 body[data-ui=phone] .phone-layer-selection strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-body[data-ui=phone] .phone-layer-selection p{font-size:12px;line-height:1.6;margin:6px 0 10px}
+body[data-ui=phone] .phone-layer-selection p{font-size:12px}
 body[data-ui=phone] .phone-layer-destinations{display:flex;gap:6px;margin-bottom:8px}
 body[data-ui=phone] .phone-layer-destinations button{flex:1;background:#dce9a2;color:#182015;padding:5px;font-size:13px}
 body[data-ui=phone] .phone-layer-destinations button[aria-pressed=true]{background:#4b593b;color:#fff;opacity:1}
-body[data-ui=phone] .phone-layer-selection>button{width:100%;margin-top:8px}
+body[data-ui=phone] .phone-layer-selection>button{width:100%}
 body[data-ui=phone] .phone-layer-sheet h3{font-size:14px;margin:20px 0 8px}
 body[data-ui=phone] .phone-layer-overview{border:1px solid #394336;border-radius:8px;overflow:hidden}
 body[data-ui=phone] .phone-layer-overview>div{display:flex;align-items:center;gap:8px;min-height:50px;padding:4px 8px;border-bottom:1px solid #394336}
@@ -148,7 +147,7 @@ body[data-ui=phone] .phone-layer-overview>div:last-child{border:0}
 body[data-ui=phone] .phone-layer-overview strong{font-size:14px;width:24px}
 body[data-ui=phone] .phone-layer-overview span{font-size:12px;color:#acb6a5;flex:1}
 body[data-ui=phone] .phone-layer-overview button{font-size:12px;padding:4px 8px;background:#303d28}
-body[data-ui=phone] .phone-layer-options{display:grid;gap:8px;margin-top:18px}
+body[data-ui=phone] .phone-layer-options{display:grid}
 body[data-ui=phone] .phone-layer-options button[aria-pressed=true]{border-color:var(--accent);background:#34402b}
 
 body[data-ui=phone] .phone-layer-tabs{display:flex;gap:4px;margin:0 0 12px}
@@ -162,11 +161,9 @@ body[data-ui=phone] .phone-layer-items button[aria-pressed=true]{border:1px soli
 
 /* Compact controls and a single stable scroll owner in each phone sheet. */
 body[data-ui=phone]{--phone-bottom:48px}
-body[data-ui=phone] .phone-tools{flex-basis:48px;height:48px;min-height:48px;padding:1px 3px}
-body[data-ui=phone] .phone-tools button{min-height:46px;gap:1px;font-size:10px}
-body[data-ui=phone] .phone-tools button span{font-size:18px;line-height:20px}
-body[data-ui=phone] .phone-clip-actions{flex-basis:36px;height:36px;min-height:36px}
-body[data-ui=phone] .phone-clip-actions button{min-height:36px;font-size:12px;padding:0 4px}
+body[data-ui=phone] .phone-tools button{font-size:10px}
+body[data-ui=phone] .phone-tools button span{font-size:18px}
+body[data-ui=phone] .phone-clip-actions button{padding:0 4px}
 body[data-ui=phone] .phone-scrubber{flex-basis:22px;height:22px}
 body[data-ui=phone] .phone-scrubber input{height:22px}
 body[data-ui=phone] .viewer-controls{height:38px;min-height:38px}
@@ -175,7 +172,7 @@ body[data-ui=phone] .transport button{min-height:38px;height:38px}
 body[data-ui=phone] .transport .play-button{position:relative;isolation:isolate;border:0;background:transparent;box-shadow:none}
 body[data-ui=phone] .transport .play-button::before{content:"";position:absolute;width:32px;height:32px;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid #3a4234;border-radius:50%;box-sizing:border-box;background:linear-gradient(145deg,#293129,#171c18);z-index:-1;pointer-events:none}
 body[data-ui=phone][data-phone-panel] .inspector{overflow:hidden!important;overscroll-behavior:none;flex-direction:column}
-body[data-ui=phone] #inspectorBody{flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;touch-action:pan-y;scrollbar-gutter:stable}
+body[data-ui=phone] #inspectorBody{flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;touch-action:pan-y}
 body[data-ui=phone] .phone-quick:not([hidden]){flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;touch-action:pan-y;padding:8px 0;gap:8px}
 body[data-ui=phone][data-phone-panel=sound] .inspector{overflow-y:auto!important;overscroll-behavior-y:contain;touch-action:pan-y}
 body[data-ui=phone][data-phone-panel=sound] .phone-quick,body[data-ui=phone][data-phone-panel=sound] #inspectorBody{flex:none;overflow:visible;scrollbar-gutter:auto}
@@ -213,8 +210,8 @@ body[data-ui=phone][data-phone-panel=adjust] #resetAdjust,body[data-ui=phone][da
 
 /* Selected clips move horizontally immediately; envelope points keep their own gesture. */
 body[data-ui=phone] .clip-block{padding:0;min-width:2px}
-body[data-ui=phone] #playheadHandle{transform:translateX(-50%);width:max-content}
-body[data-ui=phone] #playheadHandle::before{left:50%;transform:translateX(-50%)}
+body[data-ui=phone] #playheadHandle{width:max-content}
+body[data-ui=phone] #playheadHandle::before{transform:translateX(-50%)}
 body[data-ui=phone] #jumpStart{display:flex;align-items:center;justify-content:center;width:32px;min-width:32px}
 body[data-ui=phone] .track-labels{width:44px}
 body[data-ui=phone] .track-labels-inner>.track-head{flex-direction:column;gap:0!important}
@@ -233,7 +230,7 @@ body[data-ui=phone] .speed-hero{gap:6px;flex-wrap:wrap}
 body[data-ui=phone] .speed-hero input{width:110px;min-width:0;font-size:28px;letter-spacing:-.04em}
 body[data-ui=phone] .speed-hero #speedReset{min-height:36px;font-size:12px}
 body[data-ui=phone] #playheadHandle{padding:0 5px;overflow:visible}
-body[data-ui=phone] #playheadHandle::before{top:100%;left:50%;right:auto;width:8px;height:5px;clip-path:polygon(0 0,100% 0,50% 100%);background:#eaf3cf}
+body[data-ui=phone] #playheadHandle::before{top:100%;right:auto;width:8px;height:5px;clip-path:polygon(0 0,100% 0,50% 100%);background:#eaf3cf}
 body[data-ui=phone] .clip-block>span:not(.trim-handle){display:block;margin-inline:6px;max-width:calc(100% - 12px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 body[data-ui=phone] .clip-block>small:not(.waveform-progress){margin-inline:6px;max-width:calc(100% - 12px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 body[data-ui=phone] .clip-block.selected>span:not(.trim-handle),body[data-ui=phone] .clip-block.selected>small:not(.waveform-progress){margin-inline:25px;max-width:calc(100% - 50px)}
@@ -248,7 +245,7 @@ body[data-ui=phone] .track-labels-inner>.track-head strong{min-height:0;height:1
 body[data-ui=phone] .track-labels-inner>.overlay-head strong{height:14px;line-height:14px;font-size:10px}
 body[data-ui=phone] .overlay-head>[data-overlay-visible]{min-height:22px;height:22px;flex:none}
 
-body[data-ui=phone] .phone-edit-context{height:22px;min-height:22px;flex:0 0 22px;align-items:center;gap:6px;padding:0 7px;background:#1c241b;font-size:11px}
+body[data-ui=phone] .phone-edit-context{flex:0 0 22px;align-items:center;gap:6px;padding:0 7px;font-size:11px}
 body[data-ui=phone] .phone-edit-context>span{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 body[data-ui=phone] .phone-edit-context small{display:none}
 body[data-ui=phone] .phone-sheet-header{flex-wrap:wrap;align-content:center;padding-left:12px;padding-right:112px}
@@ -289,17 +286,17 @@ body[data-ui=phone] .clip-block>span:not(.trim-handle),body[data-ui=phone] .clip
 
 /* A quieter phone chrome leaves the two editing surfaces in focus. */
 body[data-ui=phone] .stage{margin-inline:2px}
-body[data-ui=phone] .timeline-toolbar{flex-basis:32px;height:32px;min-height:32px;background:#151d17}
+body[data-ui=phone] .timeline-toolbar{background:#151d17}
 body[data-ui=phone] .timeline-toolbar button{height:30px;min-height:30px;border-radius:5px}
-body[data-ui=phone] #phoneView{height:28px;min-height:28px;border-radius:5px;background:#202a20;color:#e2e8dc}
+body[data-ui=phone] #phoneView{border-radius:5px;background:#202a20;color:#e2e8dc}
 body[data-ui=phone] .phone-edit-context{height:18px;min-height:18px;flex-basis:18px;background:#171f18}
-body[data-ui=phone] .phone-clip-actions{height:34px;min-height:34px;flex-basis:34px;background:#182019;padding-inline:3px}
+body[data-ui=phone] .phone-clip-actions{height:34px;min-height:34px;background:#182019;padding-inline:3px}
 body[data-ui=phone] .phone-clip-actions button{height:34px;min-height:34px;font-size:11px;border-radius:5px;color:#e0e7da}
 body[data-ui=phone] .phone-tools{background:#101712;border-top-color:#354231}
 body[data-ui=phone] .phone-tools button{border:0;border-radius:6px;font-weight:500;color:#d7e0d0}
 body[data-ui=phone] .phone-tools button span{display:flex;align-items:center;justify-content:center;height:22px;line-height:22px}
 body[data-ui=phone] .phone-tools svg{display:block;width:20px;height:20px}
-body[data-ui=phone] .phone-tools button[aria-expanded=true]{background:#293521;color:var(--accent)}
+body[data-ui=phone] .phone-tools button[aria-expanded=true]{background:var(--phone-selection);color:var(--accent)}
 body[data-ui=phone] .phone-clip-actions button:disabled{opacity:.4}
 body[data-ui=phone] .phone-tools button:active,body[data-ui=phone] .phone-clip-actions button:not(:disabled):active{background:#2c3826}
 body[data-ui=phone] .viewer-controls .mono,body[data-ui=phone] .phone-scrubber output{font-style:normal;font-variant-numeric:tabular-nums;letter-spacing:0;color:#c9d5bf}
@@ -308,7 +305,7 @@ body[data-ui=phone] .ruler span{color:#b7c6a9;font-style:normal;font-variant-num
 body[data-ui=phone] .track-labels-inner>.track-head strong{color:#c3d0b6;font-weight:600}
 body[data-ui=phone] .phone-sheet-header{border-bottom:1px solid #3a4733;background:#202a20}
 body[data-ui=phone] .inspector-tabs button{border-radius:6px}
-body[data-ui=phone] .inspector-tabs button.selected{background:#303d27;color:#e4efb8;border-color:#8d9d68}
+body[data-ui=phone] .inspector-tabs button.selected{background:var(--phone-selection);color:var(--accent);border-color:var(--phone-selection-border);box-shadow:none}
 @media(max-width:360px){body[data-ui=phone] .viewer-controls .mono{font-size:10px}}
 
 /* Artwork legibility without taking space from preview or timeline. */
@@ -325,11 +322,10 @@ body[data-ui=phone] .timeline-toolbar>.timeline-zoom{align-self:center;flex:none
 body[data-ui=phone] .timeline-zoom button{height:28px;min-height:28px;padding-block:0}
 body[data-ui=phone] .phone-clip-actions,body[data-ui=phone] .phone-clip-actions button{height:30px;min-height:30px}
 body[data-ui=phone] .phone-clip-actions{flex-basis:30px}
-body[data-ui=phone] .phone-tools{height:44px;min-height:44px;flex-basis:44px;padding:0 4px}
+body[data-ui=phone] .phone-tools{height:44px;min-height:44px;flex-basis:44px}
 body[data-ui=phone] .phone-tools button{height:44px;min-height:44px;gap:0}
 
 /* A modest header reduction preserves readable titles and history icons. */
-body[data-ui=phone]{--phone-header:40px}
 body[data-ui=phone]{--phone-header:40px}
 body[data-ui=phone] .topbar{flex-basis:var(--phone-header);height:var(--phone-header);min-height:var(--phone-header);gap:4px}
 body[data-ui=phone] .brand{font-size:16px}
@@ -377,4 +373,17 @@ body[data-ui=phone] .phone-tools>.phone-more-fixed{flex:0 0 52px;min-width:52px;
 body[data-ui=phone] .tools-next .phone-tool-strip{mask-image:linear-gradient(to right,#000 calc(100% - 12px),transparent)}
 body[data-ui=phone] .tools-back .phone-tool-strip{mask-image:linear-gradient(to right,transparent,#000 12px)}
 body[data-ui=phone] .tools-back.tools-next .phone-tool-strip{mask-image:linear-gradient(to right,transparent,#000 12px,#000 calc(100% - 12px),transparent)}
-body[data-ui=phone] .phone-tool-strip>button.tool-selected{background:#293521;color:var(--accent)}
+body[data-ui=phone] .phone-tool-strip>button.tool-selected{background:var(--phone-selection);color:var(--accent)}
+
+/* Consistent phone hierarchy; compact spacing with unchanged touch controls. */
+body[data-ui=phone]{--phone-selection:#293521;--phone-selection-border:#85956e}
+body[data-ui=phone] #inspectorBody p,body[data-ui=phone] #inspectorBody .small-note{font-size:12px;line-height:1.55}
+body[data-ui=phone] #inspectorBody label{font-size:13px}
+body[data-ui=phone]:not([data-phone-panel=adjust]) #inspectorBody>.control-section+.control-section{margin-top:14px;padding-top:14px}
+body[data-ui=phone] .inspector-group{margin-block:8px}
+body[data-ui=phone] .inspector-group>summary{min-height:40px;padding:10px 12px;font-size:11px}
+body[data-ui=phone] .inspector-group-body{padding:2px 12px 10px}
+body[data-ui=phone] .asset-copy small,body[data-ui=phone] .asset-copy em{font-size:11px;line-height:1.45}
+body[data-ui=phone] .media-guide{font-size:11px}
+body[data-ui=phone] .asset-card.active{border-color:var(--phone-selection-border);background:var(--phone-selection);box-shadow:inset 2px 0 var(--accent)}
+body[data-ui=phone] #inspectorBody .preset-grid button.selected,body[data-ui=phone] #inspectorBody .caption-preset-grid button.selected,body[data-ui=phone] .text-layer-list button.selected{border-color:var(--phone-selection-border);background:var(--phone-selection);box-shadow:none;color:var(--accent)}

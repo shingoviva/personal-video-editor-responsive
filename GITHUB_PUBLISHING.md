@@ -1,3 +1,7 @@
+## 2.2.58 — iPhone設定画面の統一
+
+検証済みの同じHEADを既存GitHub Pagesと公開Sitesへ反映。元Mac開発版を維持。
+
 ## 2.2.57 — Macプレビュー下部の一段化
 
 同じ検証済みHEADをGitHub Pagesと既存公開Sitesへ反映。元Mac開発版と公開範囲を維持。
