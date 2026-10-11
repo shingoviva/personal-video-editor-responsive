@@ -167,10 +167,13 @@ body[data-ui=phone] .phone-tools button{min-height:46px;gap:1px;font-size:10px}
 body[data-ui=phone] .phone-tools button span{font-size:18px;line-height:20px}
 body[data-ui=phone] .phone-clip-actions{flex-basis:36px;height:36px;min-height:36px}
 body[data-ui=phone] .phone-clip-actions button{min-height:36px;font-size:12px;padding:0 4px}
-body[data-ui=phone] .phone-scrubber{flex-basis:24px;height:24px}
-body[data-ui=phone] .phone-scrubber input{height:24px}
+body[data-ui=phone] .phone-scrubber{flex-basis:22px;height:22px}
+body[data-ui=phone] .phone-scrubber input{height:22px}
 body[data-ui=phone] .viewer-controls{height:38px;min-height:38px}
 body[data-ui=phone] .transport button{min-height:38px;height:38px}
+/* A quieter 32px disc keeps the existing playback hit area. */
+body[data-ui=phone] .transport .play-button{position:relative;isolation:isolate;border:0;background:transparent;box-shadow:none}
+body[data-ui=phone] .transport .play-button::before{content:"";position:absolute;width:32px;height:32px;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid #3a4234;border-radius:50%;box-sizing:border-box;background:linear-gradient(145deg,#293129,#171c18);z-index:-1;pointer-events:none}
 body[data-ui=phone][data-phone-panel] .inspector{overflow:hidden!important;overscroll-behavior:none;flex-direction:column}
 body[data-ui=phone] #inspectorBody{flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;touch-action:pan-y;scrollbar-gutter:stable}
 body[data-ui=phone] .phone-quick:not([hidden]){flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;touch-action:pan-y;padding:8px 0;gap:8px}
@@ -247,7 +250,7 @@ body[data-ui=phone] .overlay-head>[data-overlay-visible]{min-height:22px;height:
 
 body[data-ui=phone] .phone-edit-context{height:22px;min-height:22px;flex:0 0 22px;align-items:center;gap:6px;padding:0 7px;background:#1c241b;font-size:11px}
 body[data-ui=phone] .phone-edit-context>span{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-body[data-ui=phone] .phone-edit-context small{flex:none;font-size:9px;color:#aab79c}
+body[data-ui=phone] .phone-edit-context small{display:none}
 body[data-ui=phone] .phone-sheet-header{flex-wrap:wrap;align-content:center;padding-left:12px;padding-right:112px}
 body[data-ui=phone] #phoneSheetTitle{width:100%;font-size:14px;line-height:19px}
 body[data-ui=phone] #phoneSheetContext{width:100%;font-size:10px;line-height:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#b8c5ac}
@@ -289,7 +292,7 @@ body[data-ui=phone] .stage{margin-inline:2px}
 body[data-ui=phone] .timeline-toolbar{flex-basis:32px;height:32px;min-height:32px;background:#151d17}
 body[data-ui=phone] .timeline-toolbar button{height:30px;min-height:30px;border-radius:5px}
 body[data-ui=phone] #phoneView{height:28px;min-height:28px;border-radius:5px;background:#202a20;color:#e2e8dc}
-body[data-ui=phone] .phone-edit-context{height:20px;min-height:20px;flex-basis:20px;background:#171f18}
+body[data-ui=phone] .phone-edit-context{height:18px;min-height:18px;flex-basis:18px;background:#171f18}
 body[data-ui=phone] .phone-clip-actions{height:34px;min-height:34px;flex-basis:34px;background:#182019;padding-inline:3px}
 body[data-ui=phone] .phone-clip-actions button{height:34px;min-height:34px;font-size:11px;border-radius:5px;color:#e0e7da}
 body[data-ui=phone] .phone-tools{background:#101712;border-top-color:#354231}
@@ -320,10 +323,10 @@ body[data-ui=phone] .timeline-toolbar>button{display:flex;align-items:center;jus
 body[data-ui=phone] #phoneView{display:block;align-self:center;flex:none;height:28px;min-height:28px;margin:0;padding:0 4px;line-height:normal;vertical-align:middle}
 body[data-ui=phone] .timeline-toolbar>.timeline-zoom{align-self:center;flex:none;height:28px;margin-left:auto;align-items:center}
 body[data-ui=phone] .timeline-zoom button{height:28px;min-height:28px;padding-block:0}
-body[data-ui=phone] .phone-clip-actions,body[data-ui=phone] .phone-clip-actions button{height:32px;min-height:32px}
-body[data-ui=phone] .phone-clip-actions{flex-basis:32px}
-body[data-ui=phone] .phone-tools{height:46px;min-height:46px;flex-basis:46px;padding:1px 4px}
-body[data-ui=phone] .phone-tools button{height:44px;min-height:44px;gap:1px}
+body[data-ui=phone] .phone-clip-actions,body[data-ui=phone] .phone-clip-actions button{height:30px;min-height:30px}
+body[data-ui=phone] .phone-clip-actions{flex-basis:30px}
+body[data-ui=phone] .phone-tools{height:44px;min-height:44px;flex-basis:44px;padding:0 4px}
+body[data-ui=phone] .phone-tools button{height:44px;min-height:44px;gap:0}
 
 /* A modest header reduction preserves readable titles and history icons. */
 body[data-ui=phone]{--phone-header:40px}
@@ -363,7 +366,7 @@ html[lang=en] body[data-ui=phone] .phone-tools button{min-width:0;flex:1;font-si
 html[lang=en] body[data-ui=phone] .phone-clip-actions button{min-width:0;flex:1;font-size:11px;white-space:normal;line-height:1.2;padding-inline:3px}
 
 /* One compact tool row, with persistent access to settings and visible overflow cues. */
-body[data-ui=phone] .phone-tools{overflow:hidden;justify-content:flex-start;gap:0;padding:1px 2px}
+body[data-ui=phone] .phone-tools{overflow:hidden;justify-content:flex-start;gap:0;padding:0 2px}
 body[data-ui=phone] .phone-tool-strip{display:flex;flex:1;min-width:0;position:relative;gap:4px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x;scroll-snap-type:x proximity}
 body[data-ui=phone] .phone-tool-strip::-webkit-scrollbar{display:none}
 body[data-ui=phone] .phone-tool-strip>button{flex:0 0 62px;min-width:62px;scroll-snap-align:start;font-size:10px;letter-spacing:.15px}

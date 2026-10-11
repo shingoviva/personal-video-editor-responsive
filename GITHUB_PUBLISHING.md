@@ -1,3 +1,7 @@
+## 2.2.53 — iPhone操作列の余白と再生ボタン
+
+同じ検証済みHEADをGitHub Pagesと既存公開Sitesへ反映。元Mac開発版と公開範囲を維持。
+
 ## 2.2.52 — iPhoneプレビュー配分の統一
 
 同じ検証済みHEADをGitHub Pagesと既存公開Sitesへ反映し、Mac ZIPを更新します。
