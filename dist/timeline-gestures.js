@@ -31,7 +31,7 @@ export function bindTimeline({root,rows,duration,select,begin,finish,cancel,prev
    const phoneScroll=e.pointerType==='touch'&&globalThis.document?.body?.dataset.ui==='phone'&&!edge&&!globalThis.document.body.classList.contains('phone-moving');
    const origin=structuredClone(row.clip),x=e.clientX,y=e.clientY;
    let moved=false,lastPreview=0,ghost=null,companions=[],others=[];
-   select(row.clip.id,e);el.setPointerCapture(e.pointerId);
+   select(row.clip.id,e);if(!e.timelineTouchManaged)el.setPointerCapture(e.pointerId);
    el.onpointermove=ev=>{
     if(phoneScroll)return;
     if(!moved&&Math.hypot(ev.clientX-x,ev.clientY-y)<5)return;

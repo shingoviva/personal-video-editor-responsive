@@ -14,7 +14,7 @@ const translations=[
  ["FXの末尾まで拡大した状態を保持します。", "Keep the zoom until the FX ends."],
  ["開始から効果を再生", "Play effect from start"],
  ["枠を中央・2.5倍に戻す", "Reset frame to center / 2.5×"],
- ["プレビューの枠を移動し、右下のハンドルで範囲を調整します。小さい枠ほど大きく拡大します。設定中は元の画面、再生中は効果を表示します。", "Move the preview frame and drag its bottom-right handle. Smaller frames zoom further. Editing shows the original; playback shows the effect."],
+ ["プレビューの枠を移動し、右下のハンドルで範囲を調整します。小さい枠ほど大きく拡大します。小さい枠はZOOM表示をドラッグして移動できます。設定中は元の画面、再生中は効果を表示します。", "Move the preview frame and drag its bottom-right handle. Smaller frames zoom further; drag the ZOOM label to move a small frame. Editing shows the original; playback shows the effect."],
 
  ["前の編集ツール", "Previous editing tools"], ["次の編集ツール", "Next editing tools"],
  ["文字・FX", "Text / FX"],

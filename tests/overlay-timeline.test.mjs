@@ -44,3 +44,8 @@ bindOverlayTimeline({root:layerRoot,effects:[layerEffect],texts:[],duration:10,t
 layerElement.onpointerdown(event(100,10));layerElement.onpointermove(event(100,90));assert.equal(layerEffect.layer,2);assert.equal(layerElement.style.transform,'translateY(80px)');layerElement.onpointerup(event(100,90));assert.equal(layerResult.layerChanged,true);assert.equal(layerElement.style.transform,'');
 
 console.log('FX/Text timeline drag: placement, vertical layer move, group move, edge trim, duration preservation and magnetic placement PASS');
+
+let overlayCaptures=0;layerElement.setPointerCapture=()=>overlayCaptures++;
+layerElement.onpointerdown({...event(100,10),timelineTouchManaged:true});layerElement.onpointermove(event(120,10));layerElement.onpointerup(event(120,10));assert.equal(overlayCaptures,0,'managed FX/text move must not steal timeline capture');
+layerElement.onpointerdown(event(100,10));layerElement.onpointercancel();assert.equal(overlayCaptures,1,'direct overlay gesture retains its capture');
+console.log('Overlay pointer capture respects the phone timeline touch owner PASS');

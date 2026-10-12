@@ -32,3 +32,12 @@ scope.replace([timeline]);assert.equal(viewer.inert,false,'More → Motion relea
 scope.clear();assert.equal(timeline.inert,false,'return/export restores timeline');assert.equal(viewer.inert,false,'preview stays interactive after closing Motion');
 scope.replace([viewer,timeline]);scope.replace([viewer]);assert.equal(timeline.inert,false,'Library → asset details restores unused scope');scope.clear();scope.clear();assert.equal(viewer.inert,false);
 console.log('Phone panel scope: More/Motion/Library/details/export/desktop restore original interactivity PASS');
+
+// Managed phone gestures keep capture on the timeline root; direct desktop /
+// trim gestures still capture their own clip as before.
+globalThis.document={body:{dataset:{ui:'phone'},classList:{contains:()=>true}}};
+let captures=0;element.setPointerCapture=()=>captures++;
+bind();element.onpointerdown({...event(0),timelineTouchManaged:true});element.onpointermove(event(50));element.onpointerup(event(50));assert.equal(captures,0,'managed move keeps the timeline capture owner');
+bind();element.onpointerdown(trimEvent(900));element.onpointermove(trimEvent(850));element.onpointerup(trimEvent(850));assert.equal(captures,1,'direct trim keeps element capture');
+delete globalThis.document;
+console.log('Managed phone move and direct trim maintain distinct pointer capture ownership PASS');

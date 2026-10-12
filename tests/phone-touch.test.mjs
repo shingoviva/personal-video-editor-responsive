@@ -37,3 +37,54 @@ console.log('Lane resizing remains independent from phone timeline swipe PASS');
 let markerIntercepted=0;const markerTarget={closest:selector=>selector.includes('[data-edit-marker]')?{}:null};
 events.pointerdown({...e(100,100),target:markerTarget,preventDefault(){markerIntercepted++}});assert.equal(markerIntercepted,0,'marker drag owns touch outside the ruler');
 console.log('Phone marker drag is independent from timeline swipe PASS');
+
+// Losing capture or opening a sheet must never turn the next finger into a
+// phantom second finger, leaving every clip stuck in scroll/pinch mode.
+let resets=0,managed=false;
+bindPhoneTouch({root,scroll,isPhone:()=>true,onMenu(){},onDrag(){classes.add('phone-moving')},onHideMenu(){resets++}});
+clip.onpointerdown=event=>{managed=event.timelineTouchManaged===true};
+selected=true;
+assert.equal(typeof events.lostpointercapture,'function','lost capture must reset the touch owner');
+for(let i=0;i<20;i++){
+ const id=10+i*2;
+ events.pointerdown({...e(100,100),pointerId:id,isPrimary:true});
+ events.pointermove({...e(120,100),pointerId:id});
+ assert(managed,'delegated clip must not steal capture from timeline owner');
+ events.lostpointercapture({...e(120,100),pointerId:id,target:root});
+ const oldLeft=scroll.scrollLeft;
+ events.pointerdown({...e(100,100),pointerId:id+1,isPrimary:true});
+ events.pointermove({...e(130,100),pointerId:id+1});
+ assert.equal(scroll.scrollLeft,oldLeft,'next clip drag must recover after lost capture');
+ events.pointerup({...e(130,100),pointerId:id+1});
+ assert(!classes.has('phone-moving'),'temporary drag mode must be released');
+}
+assert.equal(typeof events['pve-phone-interaction-reset'],'function');
+events.pointerdown(e(100,100));events['pve-phone-interaction-reset']({});
+const beforeReset=scroll.scrollLeft;
+events.pointerdown({...e(100,100),pointerId:99,isPrimary:true});events.pointermove({...e(130,100),pointerId:99});events.pointerup({...e(130,100),pointerId:99});
+assert.equal(scroll.scrollLeft,beforeReset,'sheet transitions reset pending touch state');
+console.log('Repeated caption sheet/lost-capture recovery and single touch capture owner PASS');
+
+// A clip's own capture loss bubbles; it must not cancel the root's gesture.
+let recoveryDrag=0;
+bindPhoneTouch({root,scroll,isPhone:()=>true,onMenu(){},onDrag(){recoveryDrag++;classes.add('phone-moving')},onHideMenu(){}});
+events.pointerdown({...e(100,100),pointerId:200,isPrimary:true});
+events.lostpointercapture({...e(100,100),pointerId:200,target:clip});
+events.pointermove({...e(130,100),pointerId:200});events.pointerup({...e(130,100),pointerId:200});assert.equal(recoveryDrag,1);
+// A new primary pointer recovers even if Safari did not deliver the previous up.
+events.pointerdown({...e(100,100),pointerId:201,isPrimary:true});
+events.pointerdown({...e(100,100),pointerId:202,isPrimary:true});
+events.pointermove({...e(130,100),pointerId:202});events.pointerup({...e(130,100),pointerId:202});assert.equal(recoveryDrag,2);
+// Re-rendered captions no longer leave the detached clip as touch owner.
+events.pointerdown({...e(100,100),pointerId:203,isPrimary:true});clip.isConnected=false;
+events.pointermove({...e(130,100),pointerId:203});delete clip.isConnected;
+events.pointerdown({...e(100,100),pointerId:204,isPrimary:true});events.pointermove({...e(130,100),pointerId:204});events.pointerup({...e(130,100),pointerId:204});assert.equal(recoveryDrag,3);
+console.log('Bubbled capture loss, missing pointerup and detached caption DOM recover without phantom pinch PASS');
+
+// Pinch rebuilds clip DOM on each zoom change; that is not a lost gesture.
+let pinchValues=[];
+bindPhoneTouch({root,scroll,isPhone:()=>true,onMenu(){},onDrag(){},onHideMenu(){},getZoom:()=>1,setZoom:value=>{pinchValues.push(value);clip.isConnected=false}});
+events.pointerdown({...e(100,100),pointerId:301,isPrimary:true});events.pointerdown({...e(200,100),pointerId:302,isPrimary:false});
+events.pointermove({...e(250,100),pointerId:302});events.pointermove({...e(300,100),pointerId:302});events.pointerup({...e(300,100),pointerId:302});delete clip.isConnected;
+assert.deepEqual(pinchValues,[1.5,2],'pinch must continue across its own timeline re-render');
+console.log('Pinch zoom survives replacement of clip DOM PASS');

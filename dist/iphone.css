@@ -387,3 +387,13 @@ body[data-ui=phone] .asset-copy small,body[data-ui=phone] .asset-copy em{font-si
 body[data-ui=phone] .media-guide{font-size:11px}
 body[data-ui=phone] .asset-card.active{border-color:var(--phone-selection-border);background:var(--phone-selection);box-shadow:inset 2px 0 var(--accent)}
 body[data-ui=phone] #inspectorBody .preset-grid button.selected,body[data-ui=phone] #inspectorBody .caption-preset-grid button.selected,body[data-ui=phone] .text-layer-list button.selected{border-color:var(--phone-selection-border);background:var(--phone-selection);box-shadow:none;color:var(--accent)}
+
+/* Keep FX switches readable and independently tappable on the phone sheet. */
+body[data-ui=phone] .zoom-return{min-height:44px;gap:10px;margin:8px 0}
+body[data-ui=phone] .zoom-return input[type=checkbox]{width:22px;height:22px;flex:0 0 22px;margin:0;accent-color:var(--accent)}
+
+/* Direct region selection: a visible corner grip with a full finger target. */
+body[data-ui=phone] #regionZoomFrame{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+body[data-ui=phone] #regionZoomFrame>button{left:var(--zoom-handle-left);top:var(--zoom-handle-top);right:auto;bottom:auto;width:44px;height:44px;min-height:44px;touch-action:none}
+body[data-ui=phone] #regionZoomFrame>button::after{right:12px;bottom:12px;width:20px;height:20px;border-radius:3px;background:#111a12d9;box-shadow:0 0 0 1px #e2eeab44}
+body[data-ui=phone] #regionZoomFrame[data-compact=true]>span{left:var(--zoom-label-left);top:var(--zoom-label-top);width:74px;height:44px;display:flex;align-items:center;justify-content:center;pointer-events:auto;touch-action:none;border:1px solid #e2eeab66;border-radius:5px;cursor:move;font-size:9px}

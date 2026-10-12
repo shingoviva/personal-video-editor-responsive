@@ -1,5 +1,5 @@
 import {clamp} from './model.js';
-import {equalSpacingStart} from './timeline-gestures.js?v=2.2.40';
+import {equalSpacingStart} from './timeline-gestures.js?v=2.2.60';
 
 // Keep overlay items frame-aligned, then magnetize either edge to the playhead
 // or an edit boundary. Twelve screen pixels is forgiving without feeling sticky.
@@ -28,7 +28,7 @@ export function bindOverlayTimeline({root,effects=[],texts=[],duration,targets,s
    if(!item)return;const elementById=new Map([...surface.querySelectorAll('[data-clip],[data-fx],[data-text-chip]')].map(node=>[node.dataset.clip||node.dataset.fx||node.dataset.textChip,node]));
    const origin=structuredClone(item),originStart=origin.start,originSpan=kind==='effect'?origin.duration:origin.end-origin.start,x=event.clientX,y=event.clientY,edge=event.target?.closest?.('[data-overlay-edge]')?.dataset.overlayEdge;
    const phoneScroll=event.pointerType==='touch'&&globalThis.document?.body?.dataset.ui==='phone'&&!edge&&!globalThis.document.body.classList.contains('phone-moving');
-   let moved=false,lastResult={snapped:false,target:null,spacing:{spacing:false}},ghost=null,companions=[];select(kind,item.id,event);el.setPointerCapture(event.pointerId);
+   let moved=false,lastResult={snapped:false,target:null,spacing:{spacing:false}},ghost=null,companions=[];select(kind,item.id,event);if(!event.timelineTouchManaged)el.setPointerCapture(event.pointerId);
    el.onpointermove=move=>{
     if(phoneScroll)return;
     if(!moved&&Math.hypot(move.clientX-x,(move.clientY??y)-y)<5)return;

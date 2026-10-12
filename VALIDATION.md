@@ -1,3 +1,21 @@
+## 2.2.60 — iPhone範囲ズームの直接枠操作（2026-10-12）
+
+- FX設定中のプレビュー操作を開放した前回修正を維持。枠dragとresizeにtouch moveのpreventDefault/stopPropagation、pointerIdの一致確認、lostpointercapture時の取消/復帰を追加。Macの枠計算・出力処理は維持。
+- iPhoneのresize hit targetを44pxに拡大し、画像の端でも枠border分を含めて内側へ収める。小さい枠にはresizeと重ならない74×44pxのZOOM移動つまみを表示。通常枠は従来どおり枠内をドラッグ。
+- 新回帰テストは旧実装で別pointerが枠を変更して失敗。修正後はtouch move/resize、別指除外、scroll抑止、capture取消/次操作、四隅のhandle座標、移動つまみとresizeの分離が成功。
+- 393×852ブラウザで直接drag移動（横位置0.50→0.63）、resize（size0.40→0.27→0.10）、最小枠の右下端配置、ハンドル全44pxの画像内表示、ZOOMつまみからの再移動、reset0.40を確認。入力はマウス。実機Safari touchは未確認。
+- 証拠 workspace .codex-context/audit-evidence/phone-region-zoom-direct-frame.jpg。npm68/build成功。公開用追加検証はリリースログへ記録。
+
+## 2.2.60 — iPhone FX設定とタッチ操作の復帰（2026-10-12）
+
+- 範囲ズームの「テロップもズームする」を時刻・枠スライダーより前へ移動。選択FXの設定を先頭に出す処理をHTML生成へ一本化。22pxチェックボックス／44px行を確保。FX設定中のプレビューのinertを解除。
+- タイムラインの管理対象タッチはルートだけがpointer captureを保持。映像・音声・テキスト・FXの委譲ハンドラはcaptureを奪わない。直接のトリム／Mac操作は従来の要素captureを維持。
+- rootのlostpointercapture、次のprimary pointer、表示切替、blur/pagehide、切り離されたクリップDOMで古いgestureを解除。終了時は状態を先に破棄してから完了／取消を呼び、再描画からの再入を防ぐ。ピンチによるDOM更新は解除対象から除外。
+- 回帰テスト追加前はlostpointercaptureの解除ハンドラ不在で失敗。修正後は20回のcapture中断・復帰、シート切替、up欠落、切り離されたDOM、バブリングした子のcapture loss、ピンチ中DOM更新、通常／管理対象のcapture分離が成功。
+- npm test（68ファイル）／npm run build成功。再生・音声処理／書き出し処理は変更なし。
+- 393×852のブラウザでFXのON/OFF、チェック行の表示範囲、横はみ出しなし、TEXT再編集8回後のシート閉鎖／timeline inert解除／映像クリップ選択を確認。FX中viewer inertなし、timeline inertありを確認。
+- ブラウザ操作はマウス・DOM操作。iPhone実機Safariのタッチ操作は未確認。証拠 .codex-context/audit-evidence/phone-region-zoom-touch-fix.jpg（workspace root）。公開結果は引き継ぎstateへ記録。
+
 ## 2.2.59 — 範囲ズームFX
 
 範囲ズームのgeometry/保存復元と、Mac出力の画素・透明テロップ・戻り/保持・音声を検証。実機Safari再生と端末書き出しは未確認。
