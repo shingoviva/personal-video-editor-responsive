@@ -1,0 +1,15 @@
+import {regionZoomDrag} from '../dist/region-zoom-ui.js';
+import assert from 'node:assert/strict';
+import {normalizeRegionZoom,regionZoomPose,regionZoomTransform,drawRegionZoom} from '../dist/region-zoom.js';
+import {project,sanitize} from '../dist/model.js';
+import {addEffect,effectAlpha} from '../dist/creative.js';
+const e={type:'region-zoom',start:2,duration:4,zoomSize:.25,zoomX:.25,zoomY:.75,zoomIn:.2,zoomOut:.4,returnAt:2,zoomReturn:true};
+assert.equal(regionZoomPose(e,1).scale,1);assert.equal(regionZoomPose(e,2).scale,1);assert.ok(Math.abs(regionZoomPose(e,2.1).scale-2.5)<1e-9);assert.equal(regionZoomPose(e,3).scale,4);assert.equal(regionZoomPose(e,4.4).scale,1);assert.equal(regionZoomPose({...e,zoomReturn:false},5.99).scale,4);assert.equal(regionZoomPose(e,6).scale,1);
+const pose=regionZoomPose(e,3);assert.equal((.25-.5)*pose.scale+.5+pose.x, .5);assert.equal((.75-.5)*pose.scale+.5+pose.y,.5);
+const n=normalizeRegionZoom({...e,zoomSize:.01,zoomX:-100,zoomY:9,zoomIn:9,zoomOut:9,returnAt:-2});assert.equal(n.zoomSize,.1);assert.equal(n.zoomX,.05);assert.equal(n.zoomY,.95);assert.equal(n.zoomIn,4);assert.equal(n.zoomOut,0);assert.equal(n.returnAt,4);
+assert.equal(regionZoomPose({...e,zoomSize:1},3).scale,1);assert.equal(regionZoomPose({...e,zoomIn:0,zoomOut:0},2).scale,4);assert.equal(effectAlpha(e,3),0);
+assert.equal(normalizeRegionZoom(e).zoomTexts,true);assert.equal(normalizeRegionZoom({...e,zoomTexts:false}).zoomTexts,false);
+const p=project(),added=addEffect(p,'region-zoom',2);assert.equal(added.zoomSize,.4);const loaded=sanitize({...p,effects:[e,{type:'flash',start:1,duration:.2}]});assert.equal(loaded.effects[0].zoomSize,.25);assert.equal(sanitize({...p,effects:[{...e,zoomTexts:false}]}).effects[0].zoomTexts,false);assert.equal(loaded.effects[1].type,'flash');assert.equal(regionZoomTransform([],3).scale,1);
+let matrix;const ctx={save(){},restore(){},setTransform(...a){matrix=a},drawImage(){}};drawRegionZoom(ctx,{}, {getContext(){return{drawImage(){}}}},[e],3,400,200);assert.deepEqual(matrix,[4,0,0,4,-200,-500]);
+assert.equal(regionZoomDrag(normalizeRegionZoom(e),-.05,0,true).zoomSize,.15);assert.equal(regionZoomDrag(normalizeRegionZoom(e),0,-.05,true).zoomSize,.15);assert.equal(regionZoomDrag(normalizeRegionZoom(e),10,10).zoomX,.875);
+console.log('Region zoom geometry, timing, instant/return/hold, bounds, persistence and composed canvas PASS');

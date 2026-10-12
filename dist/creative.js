@@ -12,7 +12,7 @@ export function scaleAt(clip,local,duration=Infinity){
  return points.at(-1).value;
 }
 export function clipAlpha(row,t){if(!row||t<row.start||t>=row.end)return 0;const c=row.clip,d=timing(c).duration,local=t-row.start+(row.offset||0),fi=Math.min(c.fadeIn||0,d/2),fo=Math.min(c.fadeOut||0,d/2);return opacityAt(c,local,d)*Math.max(0,Math.min(1,fi?local/fi:1,fo?(d-local)/fo:1))}
-export function effectAlpha(e,t){if(t<e.start||t>=e.start+e.duration)return 0;const elapsed=t-e.start,d=Math.max(1/60,e.duration),hold=clamp(e.hold||0,0,Math.max(0,d-1/60)),transition=Math.max(1/60,d-hold),strength=clamp(e.strength??1,0,1);if(e.type==='black-in')return strength*(elapsed<=hold?1:1-clamp((elapsed-hold)/transition,0,1));if(e.type==='black-out')return strength*clamp(elapsed/transition,0,1);return strength*(1-clamp(elapsed/d,0,1))}
+export function effectAlpha(e,t){if(e.type==='region-zoom')return 0;if(t<e.start||t>=e.start+e.duration)return 0;const elapsed=t-e.start,d=Math.max(1/60,e.duration),hold=clamp(e.hold||0,0,Math.max(0,d-1/60)),transition=Math.max(1/60,d-hold),strength=clamp(e.strength??1,0,1);if(e.type==='black-in')return strength*(elapsed<=hold?1:1-clamp((elapsed-hold)/transition,0,1));if(e.type==='black-out')return strength*clamp(elapsed/transition,0,1);return strength*(1-clamp(elapsed/d,0,1))}
 export function textPose(text,t){
  const d=Math.max(.001,text.end-text.start),fi=Math.min(text.fadeIn??text.fade??0,d/2),fo=Math.min(text.fadeOut??text.fade??0,d/2);
  const ease=x=>{x=clamp(x,0,1);return x*x*(3-2*x)},md=Math.min(text.motionDuration??.4,d/2);
@@ -27,4 +27,4 @@ export function frozenClip(p,id,t,seconds=1){
  const frozen={...structuredClone(c),freezeAt:source,freezeDuration:clamp(seconds,1/30,60),in:source,out:Math.max(source+.001,Math.min(c.out,source+1/30)),hold:0,speed:1,endSpeed:1,curve:'constant',stabilization:'OFF',fadeIn:0,fadeOut:0};
  delete frozen.timingBase;frozen.audio={...c.audio,mute:true};return pasteClip(p,frozen,Math.max(0,t),2);
 }
-export function addEffect(p,type,t){const e={id:uid(),type,start:Math.max(0,t),duration:type==='flash'?.16:.6,hold:0,strength:1};(p.effects??=[]).push(e);return e}
+export function addEffect(p,type,t){const e={id:uid(),type,start:Math.max(0,t),duration:type==='region-zoom'?Math.max(1,Math.max(0,...sequence(p).map(r=>r.end))-t):type==='flash'?.16:.6,hold:0,strength:1};if(type==='region-zoom')Object.assign(e,{zoomSize:.4,zoomX:.5,zoomY:.5,zoomIn:.2,zoomOut:.3,zoomReturn:true,returnAt:Math.max(.2,e.duration-.3)});(p.effects??=[]).push(e);return e}

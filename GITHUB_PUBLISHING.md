@@ -1,3 +1,7 @@
+## 2.2.59 — 範囲ズームFX
+
+同じ検証済みHEADを既存GitHub Pagesと公開Sitesへ反映。元Mac開発版と公開範囲を維持。
+
 ## 2.2.58 — iPhone設定画面の統一
 
 検証済みの同じHEADを既存GitHub Pagesと公開Sitesへ反映。元Mac開発版を維持。

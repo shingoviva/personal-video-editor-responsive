@@ -1,3 +1,4 @@
+import {drawRegionZoom} from './region-zoom.js';
 import {openRenderFile,writeRenderChunk,storageFailureMessage} from './mobile-storage-output.js';
 import {directCanvasEligible} from './export-direct-canvas.js';
 import {AudioWindowReader} from './streaming-audio.js';
@@ -79,7 +80,7 @@ export async function render(p,files,preview,outputPath){const began=performance
  check();({root,path,fileHandle,handle}=await openRenderFile(navigator.storage,outputPath));
  const stream=new WritableStream({write({data,position}){writeRenderChunk(handle,data,position,check)}});
  output=new Output({format:new Mp4OutputFormat({fastStart:'reserve'}),target:new StreamTarget(stream,{chunked:true,chunkSize:1024*1024})});
- const picture=canvas(cfg.width,cfg.height),processed=canvas(cfg.width,cfg.height),ctx=picture.getContext('2d',{alpha:false,colorSpace:'srgb'});painter=renderer(processed,{width:cfg.width,height:cfg.height,preserve:true});if(!painter)throw Error('映像処理用GPUを利用できません。');
+ const zoomScratch=canvas(cfg.width,cfg.height),fixedCaptions=!!texts.length&&effects.some(e=>e.type==='region-zoom'&&e.zoomTexts===false),captionCanvas=fixedCaptions?canvas(cfg.width,cfg.height):null,captionScratch=fixedCaptions?canvas(cfg.width,cfg.height):null;const picture=canvas(cfg.width,cfg.height),processed=canvas(cfg.width,cfg.height),ctx=picture.getContext('2d',{alpha:false,colorSpace:'srgb'});painter=renderer(processed,{width:cfg.width,height:cfg.height,preserve:true});if(!painter)throw Error('映像処理用GPUを利用できません。');
  const directCanvas=directCanvasEligible(videoProject,cfg.duration,{texts,effects});const videoSource=new CanvasSource(directCanvas?processed:picture,{codec:'avc',quality:new Quality({bitrate:cfg.bitrate}),keyFrameInterval:2,hardwareAcceleration});const audioSource=new AudioSampleSource({codec:'aac',quality:new Quality({bitrate:cfg.audioBitrate})});output.addVideoTrack(videoSource,{frameRate:cfg.fps,maximumPacketCount:cfg.frames+8});output.addAudioTrack(audioSource,{maximumPacketCount:Math.ceil(cfg.duration*48000/1024)+100});await output.start();let frameIndex=0,audioTime=0;
  const timelineRows=sequence(videoProject),originalLayerRows=[0,1,2].map(layer=>timelineRows.filter(row=>row.layer===layer)),layerRows=[0,1,2].map(layer=>visibleSequence({...videoProject,clips:timelineRows.filter(r=>r.layer===layer).map(r=>({...r.clip,start:r.start}))})),indices=[0,0,0];
  while(frameIndex<cfg.frames){
@@ -97,7 +98,7 @@ export async function render(p,files,preview,outputPath){const began=performance
  const frame=await sessions[k].reader.frame(t);painter.draw(frame,motionTransform(row.clip,t-row.start,row.duration),`${cfg.width}:${cfg.height}`);if(!directCanvas){ctx.globalAlpha=alpha;drawTransitionLayer(ctx,processed,state,cfg.width,cfg.height,'incoming');ctx.globalAlpha=1;}
  }
  for(const e of effects){const alpha=effectAlpha(e,t);if(alpha){ctx.globalAlpha=alpha;ctx.fillStyle=e.type==='flash'?'#fff':'#000';ctx.fillRect(0,0,cfg.width,cfg.height)}}ctx.globalAlpha=1;
- for(const text of texts){const bitmap=textBitmaps.get(text.id);bitmap?drawTextRasterCanvas(ctx,text,bitmap,t,cfg.width,cfg.height):drawTextCanvas(ctx,text,t,cfg.width,cfg.height)}await videoSource.add(t,Math.min(1/cfg.fps,cfg.duration-t));frameIndex++;
+ const captionCtx=fixedCaptions?captionCanvas.getContext('2d',{alpha:true}):ctx;if(fixedCaptions){drawRegionZoom(ctx,picture,zoomScratch,effects,t,cfg.width,cfg.height);captionCtx.clearRect(0,0,cfg.width,cfg.height)}for(const text of texts){const bitmap=textBitmaps.get(text.id);bitmap?drawTextRasterCanvas(captionCtx,text,bitmap,t,cfg.width,cfg.height):drawTextCanvas(captionCtx,text,t,cfg.width,cfg.height)}if(fixedCaptions){drawRegionZoom(captionCtx,captionCanvas,captionScratch,effects.filter(e=>e.zoomTexts!==false),t,cfg.width,cfg.height);ctx.drawImage(captionCanvas,0,0)}else drawRegionZoom(ctx,picture,zoomScratch,effects,t,cfg.width,cfg.height);await videoSource.add(t,Math.min(1/cfg.fps,cfg.duration-t));frameIndex++;
  const target=Math.min(cfg.duration,frameIndex/cfg.fps);while(audioTime<target-1e-8){const end=Math.min(cfg.duration,audioTime+.25),sample=await mixAudio(sourceAudioRows,resources,p,audioTime,end);if(sample){try{await audioSource.add(sample)}finally{sample.close()}}audioTime=end;}
  if(frameIndex%5===0)progress('MP4を書き出し中',frameIndex/cfg.frames*.95);
  }

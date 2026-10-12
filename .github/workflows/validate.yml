@@ -31,6 +31,7 @@ jobs:
           python tests/server.test.py
           python tests/validate_pipeline.py
           python tests/validate_formats.py
+          python tests/region-zoom.test.py
           python tests/creative.test.py
           python tests/youtube.test.py
           python tests/program-workflow.test.py

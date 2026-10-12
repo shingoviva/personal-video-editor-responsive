@@ -89,7 +89,7 @@ def capabilities():
  f=subprocess.run([FFMPEG,'-hide_banner','-filters'],capture_output=True,text=True).stdout
  e=subprocess.run([FFMPEG,'-hide_banner','-encoders'],capture_output=True,text=True).stdout
  ready='libx264' in e;stabilization='vidstabtransform' in f;hdr='zscale' in f and 'tonemap' in f;drawtext='drawtext' in f;text_raster='overlay' in f;text=drawtext or text_raster;prores='prores_ks' in e;motion='minterpolate' in f
- return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.58','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
+ return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.59','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
 
 def preflight_render(project,clips=None,caps=None):
  """Fail before rendering when the chosen edit needs a missing FFmpeg feature."""
@@ -661,6 +661,11 @@ def render(job,project,preview=False,_token=None,_size=None):
    job['operation']=f'画面効果 {i+1}/{len(effects)} を合成中'
    run(job,['-i',joined,'-f','lavfi','-t',d,'-i',f'color=c={color}:s={w}x{h}:r={fps}','-filter_complex',graph,'-map','[v]','-map','0:a','-t',total,*video_args,'-c:a','copy',fx],total,.89,0)
    joined=fx
+  caption_plane=any(str(t.get('text','')) and overlay_visible(t) for t in project.get('texts',[])) and any(e.get('type')=='region-zoom' and e.get('zoomTexts') is False for e in effects);picture_joined=joined
+  if caption_plane:
+   joined=work/'caption-base.mov'
+   run(job,['-f','lavfi','-i',f'color=c=black@0:s={w}x{h}:r={fps},format=rgba','-f','lavfi','-i','anullsrc=r=48000:cl=stereo','-t',total,'-c:v','qtrle','-pix_fmt','argb','-c:a','pcm_s16le',joined],total,.89,0)
+  caption_video_args=['-c:v','qtrle','-pix_fmt','argb'] if caption_plane else video_args
   bgm=project.get('bgm',{});texts=[t for t in project.get('texts',[]) if overlay_visible(t)];final_vf=[];raster_layers=[]
   if len(texts)>300:raise ValueError('テロップは最大300個です。')
   for i,t in enumerate(texts):
@@ -702,9 +707,22 @@ def render(job,project,preview=False,_token=None,_size=None):
     text_graph.append(f"[{j}:v]{','.join(layer['filters'])},setpts=PTS-STARTPTS+{layer['start']}/TB[{label}]")
     text_graph.append(f"[{previous}][{label}]overlay=x='{layer['x']}':y='{layer['y']}':eof_action=pass:repeatlast=0:enable='gte(t,{layer['start']})*lt(t,{layer['end']})'[{out_label}]")
     previous=out_label
-   texted=work/f'texted{ext}';job['operation']=f'{len(raster_layers)}個のテロップを一括合成中'
-   run(job,text_args+['-filter_complex',';'.join(text_graph),'-map',f'[{previous}]','-map','0:a','-t',total,*video_args,'-c:a','copy',texted],total,.89,0)
+   texted=work/('texted.mov' if caption_plane else f'texted{ext}');job['operation']=f'{len(raster_layers)}個のテロップを一括合成中'
+   run(job,text_args+['-filter_complex',';'.join(text_graph),'-map',f'[{previous}]','-map','0:a','-t',total,*caption_video_args,'-c:a','copy',texted],total,.89,0)
    joined=texted
+  zooms=[e for e in effects if e.get('type')=='region-zoom']
+  if caption_plane:
+   if final_vf:
+    captioned=work/'caption-drawn.mov'
+    run(job,['-i',joined,'-vf',','.join(final_vf),'-t',total,*caption_video_args,'-c:a','copy',captioned],total,.89,0);joined=captioned
+   base_filters=','.join(region_zoom_filter(e,w,h,fps) for e in zooms) or 'null'
+   text_filters=','.join(region_zoom_filter(e,w,h,fps) for e in zooms if e.get('zoomTexts') is not False) or 'null'
+   composed=work/f'caption-composed{ext}'
+   graph=f'[0:v]{base_filters}[base];[1:v]{text_filters}[caption];[base][caption]overlay=eof_action=pass:repeatlast=0[v]'
+   run(job,['-i',picture_joined,'-i',joined,'-filter_complex',graph,'-map','[v]','-map','0:a','-t',total,*video_args,'-c:a','copy',composed],total,.89,0)
+   joined=composed;final_vf=[]
+  else:
+   for effect in zooms:final_vf.append(region_zoom_filter(effect,w,h,fps))
   out=ROOT/('cache' if preview else 'exports')/(token+ext)
   args=['-i',joined];bg=MEDIA.get(bgm.get('media'));graph=[]
   if bg:
@@ -739,6 +757,20 @@ def render(job,project,preview=False,_token=None,_size=None):
  finally:
   shutil.rmtree(work,ignore_errors=True)
   for lower_path in lower_paths.values():lower_path.unlink(missing_ok=True)
+
+def region_zoom_filter(e,w,h,fps):
+ # Same smoothstep and normalized frame geometry as region-zoom.js.
+ size=number(e.get('zoomSize'),.4,.1,1);cx=number(e.get('zoomX'),.5,size/2,1-size/2);cy=number(e.get('zoomY'),.5,size/2,1-size/2)
+ start=number(e.get('start'),0,0,86400);d=number(e.get('duration'),3,1/60,86400);zi=number(e.get('zoomIn'),.2,0,d);zo=number(e.get('zoomOut'),.3,0,d-zi);back=number(e.get('returnAt'),max(zi,d-zo),zi,d-zo)
+ local=f'(in_time-{start})'
+ def smooth(x):return f'(({x})*({x})*(3-2*({x})))'
+ enter=smooth(f'clip({local}/{zi},0,1)') if zi else '1'
+ leave=smooth(f'clip(({local}-{back})/{zo},0,1)') if zo else f'gte({local},{back})'
+ progress=f'if(gte(in_time,{start})*lt(in_time,{start+d}),({enter})'+(f'*(1-({leave}))' if e.get('zoomReturn') is not False else '')+',0)'
+ z=f'(1+({1/size-1})*({progress}))'
+ x=f'iw*(.5-.5/zoom-({(.5-cx)/(1-size) if size<1 else 0})*(zoom-1)/zoom)'
+ y=f'ih*(.5-.5/zoom-({(.5-cy)/(1-size) if size<1 else 0})*(zoom-1)/zoom)'
+ return f"zoompan=z='{z}':x='{x}':y='{y}':d=1:s={w}x{h}:fps={fps}"
 
 def analyze(job,id,intent='HIGH FASHION'):
  m=MEDIA[id];src=ROOT/'cache'/m['proxy'] if m.get('proxy') else pathlib.Path(m['path']);fps=min(4,18000/max(m['duration'],1));w=h=64;n=w*h

@@ -1,4 +1,21 @@
 const translations=[
+ ["テロップもズームする", "Zoom captions too"],
+ ["オフではテロップの位置とサイズを画面に固定します。", "When off, captions keep their screen position and size."],
+ ["REGION ZOOMは枠を移動・縮小して拡大範囲を指定し、ズーム時間・戻り始める位置・戻り時間を調整できます。戻さない場合はFX末尾まで保持します。", "REGION ZOOM lets you move and resize a frame to choose the target. Set zoom-in time, when to return, and return duration. Without a return, the zoom remains until the FX ends."],
+ ["ズーム範囲", "Zoom region"],
+ ["ズーム枠のサイズを変更", "Resize zoom region"],
+ ["枠の大きさ", "Frame size"],
+ ["枠の横位置", "Frame horizontal position"],
+ ["枠の縦位置", "Frame vertical position"],
+ ["ズームにかける時間", "Zoom-in duration"],
+ ["元のサイズに戻す", "Return to original size"],
+ ["戻り始める位置（開始から）", "Return starts (from FX start)"],
+ ["戻りにかける時間", "Return duration"],
+ ["FXの末尾まで拡大した状態を保持します。", "Keep the zoom until the FX ends."],
+ ["開始から効果を再生", "Play effect from start"],
+ ["枠を中央・2.5倍に戻す", "Reset frame to center / 2.5×"],
+ ["プレビューの枠を移動し、右下のハンドルで範囲を調整します。小さい枠ほど大きく拡大します。設定中は元の画面、再生中は効果を表示します。", "Move the preview frame and drag its bottom-right handle. Smaller frames zoom further. Editing shows the original; playback shows the effect."],
+
  ["前の編集ツール", "Previous editing tools"], ["次の編集ツール", "Next editing tools"],
  ["文字・FX", "Text / FX"],
 
