@@ -1,6 +1,15 @@
 import {timing,sourceOffset,clamp,trimClip} from './model.js';
 import {sourceLimit} from './assets.js';
 
+// Match visible lane bounds only; separators keep the last valid destination.
+export function timelineLaneAtY(y,lanes){return lanes.find(({element})=>{const r=element?.getBoundingClientRect();return r&&r.height>0&&y>=r.top&&y<=r.bottom})?.layer}
+function laneElement(kind,layer){return globalThis.document?.getElementById?.(kind==='audio'?'audioTrack'+layer:['videoTrack','videoTrackUpper','videoTrackTop'][layer])}
+function laneFeedback(kind,layer,enabled){
+ const track=laneElement(kind,layer),head=globalThis.document?.querySelector?.(kind==='audio'?'#audioLabel'+layer:`[data-videohead="${layer}"]`);
+ for(const node of [track,head])node?.classList?.toggle('move-target',enabled);
+ if(track){if(enabled)track.setAttribute?.('data-move-label',(kind==='audio'?'A':'V')+(layer+1));else track.removeAttribute?.('data-move-label')}
+}
+
 // A pointer gesture is a single history transaction, including touch/pen.
 // Only geometry changes during dragging; no thumbnail DOM is rebuilt.
 export function equalSpacingStart(value,span,row,rows,secondsPerPixel){
@@ -30,20 +39,20 @@ export function bindTimeline({root,rows,duration,select,begin,finish,cancel,prev
    const edge=globalThis.document?.body?.dataset.ui==='phone'&&!globalThis.document.body.classList.contains('phone-moving')&&!el.classList.contains?.('selected')?null:rawEdge;
    const phoneScroll=e.pointerType==='touch'&&globalThis.document?.body?.dataset.ui==='phone'&&!edge&&!globalThis.document.body.classList.contains('phone-moving');
    const origin=structuredClone(row.clip),x=e.clientX,y=e.clientY;
-   let moved=false,lastPreview=0,ghost=null,companions=[],others=[];
+   let moved=false,lastPreview=0,ghost=null,companions=[],others=[],feedbackLayer=null;
    select(row.clip.id,e);if(!e.timelineTouchManaged)el.setPointerCapture(e.pointerId);
    el.onpointermove=ev=>{
     if(phoneScroll)return;
     if(!moved&&Math.hypot(ev.clientX-x,ev.clientY-y)<5)return;
     if(!moved){begin();if(e.altKey&&!edge&&duplicate){ghost=el.cloneNode?.(true)||null;if(ghost){ghost.classList.add('duplicate-origin');ghost.removeAttribute?.('data-clip');el.parentNode?.insertBefore(ghost,el)}row=duplicate(row)||row;select(row.clip.id,e)}else if(!edge){companions=groupRows(row).filter(r=>r.clip.id!==row.clip.id).map(r=>({row:r,start:r.start,layer:r.layer}));others=groupOthers(row).filter(v=>v.item.id!==row.clip.id)}moved=true;el.classList.add('dragging')}
     let delta=(ev.clientX-x)*secondsPerPixel;
-    const selectedIds=new Set([row.clip.id,...companions.map(g=>g.row.clip.id)]),targets=[0,...snapTargets(),...rows.filter(r=>r!==row&&!selectedIds.has(r.clip.id)).flatMap(r=>[r.start,r.end])];let didSnap=false,snapPoint=null;
+    const selectedIds=new Set([row.clip.id,...companions.map(g=>g.row.clip.id),...others.map(v=>v.item.id)]),targets=[0,...snapTargets(selectedIds),...rows.filter(r=>r!==row&&!selectedIds.has(r.clip.id)).flatMap(r=>[r.start,r.end])];let didSnap=false,snapPoint=null;
     let spacingResult={spacing:false};const snapped=(t,span=0)=>{const result=snapClipPosition(t,span,{targets,enabled:snap(),threshold:secondsPerPixel*12});didSnap=result.snapped;snapPoint=result.target;return result.start};
     const c=row.clip;
     const laneTop=(kind,layer)=>globalThis.document?.getElementById?.(kind==='audio'?'audioTrack'+layer:['videoTrack','videoTrackUpper','videoTrackTop'][layer])?.getBoundingClientRect().top;
     const laneDelta=(kind,from,to)=>{const a=laneTop(kind,from),b=laneTop(kind,to);return Number.isFinite(a)&&Number.isFinite(b)?b-a:(to-from)*(kind==='audio'?44:-52)};
     if(!edge){
-     c.start=snapped(row.start+delta,timing(origin).duration);c.layer=getLayer(ev.clientY)??row.layer;if(snap()&&!didSnap){const spacingRows=[row,...rows.filter(r=>!selectedIds.has(r.clip.id))];spacingResult=equalSpacingStart(c.start,timing(c).duration,{...row,layer:c.layer},spacingRows,secondsPerPixel);c.start=spacingResult.start}
+     c.start=snapped(row.start+delta,timing(origin).duration);c.layer=getLayer(ev.clientY)??c.layer??row.layer;if(feedbackLayer!==c.layer){if(feedbackLayer!==null)laneFeedback(c.kind,feedbackLayer,false);feedbackLayer=c.layer;laneFeedback(c.kind,feedbackLayer,true)};if(snap()&&!didSnap){const spacingRows=[row,...rows.filter(r=>!selectedIds.has(r.clip.id))];spacingResult=equalSpacingStart(c.start,timing(c).duration,{...row,layer:c.layer},spacingRows,secondsPerPixel);c.start=spacingResult.start}
      const minimum=Math.min(row.start,...companions.map(g=>g.start),...others.map(v=>v.start)),actual=Math.max(-minimum,c.start-row.start);c.start=row.start+actual;
      for(const g of companions){g.row.clip.start=g.start+actual;g.row.clip.layer=clamp(g.layer+c.layer-row.layer,0,c.kind==='audio'?3:2);const node=elementById.get(g.row.clip.id);if(node){node.style.left=g.row.clip.start/Math.max(duration,.001)*100+'%';node.style.top=laneDelta(g.row.clip.kind,g.layer,g.row.clip.layer)+'px'}}
      for(const value of others){value.item.start=value.start+actual;if(value.kind==='text')value.item.end=value.item.start+value.span;const node=elementById.get(value.item.id);if(node)node.style.left=value.item.start/Math.max(duration,.001)*100+'%'}
@@ -65,7 +74,7 @@ export function bindTimeline({root,rows,duration,select,begin,finish,cancel,prev
     el.style.width=timing(c).duration/Math.max(duration,.001)*100+'%';
     const now=performance.now();if(!edge||now-lastPreview>50){lastPreview=now;preview(c,edge,didSnap,spacingResult,snapPoint)}
    };
-   const cleanup=()=>{ghost?.remove?.();ghost=null;el.classList.remove?.('dragging');el.onpointermove=null;el.onpointerup=null;el.onpointercancel=null;el.onlostpointercapture=null};
+   const cleanup=()=>{if(feedbackLayer!==null)laneFeedback(row.clip.kind,feedbackLayer,false);feedbackLayer=null;ghost?.remove?.();ghost=null;el.classList.remove?.('dragging');el.onpointermove=null;el.onpointerup=null;el.onpointercancel=null;el.onlostpointercapture=null};
    el.onpointerup=ev=>{cleanup();if(moved)finish();else{const t=row.start+clamp((ev.clientX-el.getBoundingClientRect().left)/Math.max(el.clientWidth,1),0,1)*row.duration;finish(t,false)}};
    el.onpointercancel=()=>{cleanup();if(moved)cancel()};
    el.onlostpointercapture=()=>{cleanup();if(moved)cancel()};

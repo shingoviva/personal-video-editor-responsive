@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {bindTimeline,equalSpacingStart} from '../dist/timeline-gestures.js';
+import {bindTimeline,equalSpacingStart,timelineLaneAtY} from '../dist/timeline-gestures.js';
 import {project,clip,sequence,anchor,timing} from '../dist/model.js';
 const m={id:'m',duration:10},p=project();p.media=[m];p.clips=[{...clip(m),in:2,out:6,start:1,layer:0}];
 let checkpoints=0,finishes=0,cancels=0,duplicates=0,ghostVisible=0;
@@ -42,3 +42,32 @@ for(const kind of ['video','audio'])for(const edge of ['in','out',null]){
  assert.ok(Math.abs((edge==='in'?c.start:c.start+timing(c).duration)-marker)<1e-8,kind+' '+edge+' snaps to project marker');
 }
 console.log('Video/audio movement at either end and both trims snap to editable marker times PASS');
+
+// Cross-family boundaries use the callback's full project edges, excluding moving items.
+for(const kind of ['audio','video'])for(const edge of [null,'in','out']){
+ const c={...clip(m),kind,id:'moving',start:1,in:2,out:5,layer:0},r={clip:c,start:1,end:4,duration:3,layer:0},el={...element,dataset:{clip:c.id},style:{}},root={getBoundingClientRect:()=>({width:1000}),querySelectorAll:()=>[el]};
+ let skip;
+ bindTimeline({root,rows:[r],duration:10,select(){},begin(){},finish(){},cancel(){},preview(){},media:()=>m,snap:()=>true,snapTargets:ids=>(skip=ids,[2.04,5.04]),getLayer:()=>0});
+ el.onpointerdown(event(0,0,edge));el.onpointermove(event(100,0,edge));el.onpointerup(event(100,0,edge));
+ assert(skip.has('moving'));assert(Math.abs((edge==='out'?c.start+timing(c).duration:c.start)- (edge==='out'?5.04:2.04))<1e-6);
+}
+// Destination feedback and retained lane across a separator, including cancellation.
+const tracks=new Map(),heads=new Map();
+const lane=(top,height)=>({classes:new Set(),getBoundingClientRect:()=>({top,bottom:top+height,height}),classList:{toggle(name,on){on?this.owner.classes.add(name):this.owner.classes.delete(name)}},setAttribute(){},removeAttribute(){}});
+for(const kind of ['video','audio'])for(let layer=0;layer<(kind==='audio'?4:3);layer++){
+ const node=lane(100+layer*80,78);node.classList.owner=node;tracks.set(kind==='audio'?'audioTrack'+layer:['videoTrack','videoTrackUpper','videoTrackTop'][layer],node);heads.set(kind+layer,node);
+}
+globalThis.document={body:{dataset:{ui:'desktop'}},getElementById:id=>tracks.get(id),querySelector:selector=>selector.startsWith('#audioLabel')?heads.get('audio'+selector.slice(-1)):heads.get('video'+selector.match(/"(\d)"/)[1])};
+for(const kind of ['audio','video']){
+ const c={...clip(m),kind,start:0,layer:0},r={clip:c,start:0,end:10,duration:10,layer:0},el={...element,dataset:{clip:c.id},style:{}},root={getBoundingClientRect:()=>({width:1000}),querySelectorAll:()=>[el]},lanes=[0,1,2].map(layer=>({layer,element:heads.get(kind+layer)}));
+ bindTimeline({root,rows:[r],duration:10,select(){},begin(){},finish(){},cancel(){},preview(){},media:()=>m,snap:()=>false,getLayer:y=>timelineLaneAtY(y,lanes)});
+ el.onpointerdown(event(0,120));el.onpointermove(event(20,200));assert.equal(c.layer,1);assert(heads.get(kind+1).classes.has('move-target'));
+ el.onpointermove(event(20,259));assert.equal(c.layer,1,'separator retains the last destination');
+ el.onpointermove(event(20,280));assert.equal(c.layer,2);assert(!heads.get(kind+1).classes.has('move-target'));assert(heads.get(kind+2).classes.has('move-target'));
+ el.onpointercancel();assert(!heads.get(kind+2).classes.has('move-target'));
+ el.onpointerdown(event(0,120));el.onpointermove(event(20,200));el.onlostpointercapture();assert(!heads.get(kind+1).classes.has('move-target'));
+ el.onpointerdown(event(0,120));el.onpointermove(event(20,280));el.onpointerup(event(20,280));assert.equal(c.layer,2);assert(!heads.get(kind+2).classes.has('move-target'));
+ assert.equal(timelineLaneAtY(1,[{layer:3,element:lane(0,0)}]),undefined,'hidden lane cannot intercept drop');
+}
+delete globalThis.document;
+console.log('Cross-family edge snapping, move destination feedback, separator retention and cleanup PASS');

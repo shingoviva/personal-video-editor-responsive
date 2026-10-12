@@ -1,40 +1,40 @@
 import {normalizeRegionZoom,regionZoomTransform} from './region-zoom.js';
-import {bindRegionZoomFrame,regionZoomHandlePosition} from './region-zoom-ui.js?v=2.2.60';
+import {bindRegionZoomFrame,regionZoomHandlePosition} from './region-zoom-ui.js?v=2.2.61';
 import {shiftPlaybackShortcut} from './playback-shortcuts.js';
-import {previewMediaEnded,usesVideoClock} from './playback-sync.js?v=2.2.60';
-import {bindEditMarker} from './edit-marker-ui.js?v=2.2.60';
-import {addEditMarker,nextEditMarker,moveEditMarker,removeEditMarker,editMarkerTimes} from './edit-markers.js?v=2.2.60';
-import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.60';
-import {uiIcon} from './ui-icons.js?v=2.2.60';
-import {defaultForSetting,resetMotionAppearance,resetAudioAdjustments} from './setting-resets.js?v=2.2.33';
-import {clipEnvelopeOwnsPointer} from './clip-envelope-ui.js?v=2.2.32';
-import {bindPhoneTouch} from './phone-touch.js?v=2.2.60';
-import {advancePhoneClock} from './phone-playback-clock.js?v=2.2.60';
-import {PhonePreviewBudget} from './phone-preview-budget.js?v=2.2.30';
+import {previewMediaEnded,usesVideoClock} from './playback-sync.js?v=2.2.61';
+import {bindEditMarker} from './edit-marker-ui.js?v=2.2.61';
+import {addEditMarker,nextEditMarker,moveEditMarker,removeEditMarker,editMarkerTimes} from './edit-markers.js?v=2.2.61';
+import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.61';
+import {uiIcon} from './ui-icons.js?v=2.2.61';
+import {defaultForSetting,resetMotionAppearance,resetAudioAdjustments} from './setting-resets.js?v=2.2.61';
+import {clipEnvelopeOwnsPointer,clipEnvelopeDoubleTap} from './clip-envelope-ui.js?v=2.2.61';
+import {bindPhoneTouch} from './phone-touch.js?v=2.2.61';
+import {advancePhoneClock} from './phone-playback-clock.js?v=2.2.61';
+import {PhonePreviewBudget} from './phone-preview-budget.js?v=2.2.61';
 import {PreviewPlaybackScheduler} from './preview-playback-scheduler.js';
 const phonePreviewBudget=new PhonePreviewBudget(),previewPlaybackScheduler=new PreviewPlaybackScheduler();
 const previewLongEdge=()=>document.body.dataset.ui==='phone'&&playing?phonePreviewBudget.longEdge:960;
 import {reorderPhoneClip,trimPhoneClip,movePhoneLayer} from './iphone-edit.js';
 import {PlaybackSession} from './playback-session.js';
-import {bindPhoneUI} from './iphone-ui.js?v=2.2.60';
+import {bindPhoneUI} from './iphone-ui.js?v=2.2.61';
 import {bindTimelineDropGuide} from './timeline-drop-guide.js';
 import {bindTimelineDragScroll} from './timeline-drag-scroll.js';
 import {pasteAttributes,pasteTextAttributes} from './attributes.js';
-import {audioSequence} from './model.js?v=2.2.60';
+import {audioSequence} from './model.js?v=2.2.61';
 import {detachAudio,appendAudio,migrateBgm} from './audio-timeline.js';
 import {linkedAudio,linkedVideo,syncLinkedAudio,setAudioLinked,splitLinkedPair,removeLinkedAudio} from './linked-audio.js';
-import {AudioPreview} from './audio-preview.js?v=2.2.60';
+import {AudioPreview} from './audio-preview.js?v=2.2.61';
 import {clipAlpha,opacityAt,scaleAt,effectAlpha,frozenClip,addEffect} from './creative.js';
 import {lookPresets,lookDescriptions,adaptiveCinematic} from './look.js';
-import {LayerPreview} from './layer-preview.js?v=2.2.60';
-import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.60';
-import {bindTimeline} from './timeline-gestures.js?v=2.2.60';
+import {LayerPreview} from './layer-preview.js?v=2.2.61';
+import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.61';
+import {bindTimeline,timelineLaneAtY} from './timeline-gestures.js?v=2.2.61';
 import {bindTimelinePinch} from './timeline-zoom.js';
-import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from './timeline-shortcuts.js?v=2.2.60';
-import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js?v=2.2.60';
-import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.60';
+import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from './timeline-shortcuts.js?v=2.2.61';
+import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js?v=2.2.61';
+import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.61';
 import {pasteTimelineItems} from './timeline-paste.js';
-import {currentLanguage,setLanguage,translate,translateDOM,observeTranslations} from './i18n.js?v=2.2.60';
+import {currentLanguage,setLanguage,translate,translateDOM,observeTranslations} from './i18n.js?v=2.2.61';
 import {bindNativeShell} from './native-shell.js';
 import {bindStageTransform} from './stage-transform.js';
 import {motionTransform} from './motion-transform.js';
@@ -46,7 +46,7 @@ import {bindTimelineLaneScroll} from './timeline-scroll.js';
 import {mediaKind,assetName,fileKind,usage,filterAssets,removeUnused,sourceLimit} from './assets.js';
 import {bindAssetVideoPreviews,stopAssetVideoPreviews} from './asset-preview.js';
 import {probeImage,StillPreview} from './image-media.js';
-import{renderer}from'./preview.js?v=2.2.28';
+import{renderer}from'./preview.js?v=2.2.61';
 import{TextPreview,withTextRasters}from'./text-render.js';
 import{fontChoices,fontRecord,installFont,restoreFonts,discoverLocalFonts}from'./font-library.js';
 import{rankRelinkCandidates,relinkScore}from'./relink.js';
@@ -57,10 +57,10 @@ import{bindPanelSplitters}from'./panel-splitter.js';
 import{performanceModes,performanceMode,setPerformanceMode,previewFrameInterval,scheduleIdleRelease,cancelIdleRelease,memorySnapshot}from'./preview-performance.js';
 import{videoTabs,tabMetadata,tabForSelection,inspectorHeading}from'./workspace-ui.js';
 import{retainFile,restoreFile,forgetUnused,vaultInfo}from'./media-vault.js';
-import{supportsProjectFolders,createProjectFolder,chooseProjectFolder,openRecentProject,saveFolderProject,saveBrowserProject,listRecentProjects,referencedMediaIds,copyMediaToProject,restoreProjectMediaFile}from'./project-storage.js?v=2.2.60';
-import{deviceSupport,renderOnDevice,showDeviceResult,rememberExport,rememberedExport,deleteRender,cleanOldExports,exportStorageInfo}from'./mobile-export.js?v=2.2.60';
+import{supportsProjectFolders,createProjectFolder,chooseProjectFolder,openRecentProject,saveFolderProject,saveBrowserProject,listRecentProjects,referencedMediaIds,copyMediaToProject,restoreProjectMediaFile}from'./project-storage.js?v=2.2.61';
+import{deviceSupport,renderOnDevice,showDeviceResult,rememberExport,rememberedExport,deleteRender,cleanOldExports,exportStorageInfo}from'./mobile-export.js?v=2.2.61';
 import{outputSettings,gainAt}from'./mobile-model.js';
-import{bindClipEnvelope}from'./clip-envelope-ui.js?v=2.2.32';
+import{bindClipEnvelope}from'./clip-envelope-ui.js?v=2.2.61';
 import{normalizeEnvelope,remapEnvelope,envelopeDbAt,addEnvelopePoint}from'./clip-envelope.js';
 import{shareFile,canShareFile,safeName}from'./device-save.js';
 import{probeFile}from'./media-probe.js';
@@ -74,8 +74,8 @@ const duration=()=>playbackTimeline?.duration??total(P);
 const timelineExtent=()=>Math.min(86400,document.body.dataset.ui==='phone'?Math.max(5,duration()+Math.min(2,Math.max(.5,duration()*.1))):Math.max(10,duration()+10));
 const visibleVideoRows=rows=>rows.filter(r=>!P.videoTracks?.[r.layer]?.hidden);
 const previewRow=()=>locatePreviewRow(playbackRows||visibleVideoRows(sequence(P)),time,duration());
-import{waitForMedia,seekMedia}from'./media-state.js?v=2.2.60';
-import{timelineXAtTime,timelineTimeAtX,timelineLabelShift,locatePreviewRow}from'./timeline-time.js?v=2.2.24';
+import{waitForMedia,seekMedia}from'./media-state.js?v=2.2.61';
+import{timelineXAtTime,timelineTimeAtX,timelineLabelShift,locatePreviewRow}from'./timeline-time.js?v=2.2.61';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let draggedMediaKinds=new Set();
 let P=project(),selected=null,tab='import',engine=false,caps={},time=0,playing=false,raf=0,lastTick=0,urls=new Map(),thumbs=new Map(),history=[],future=[],zoom=1,activeMedia=null,activeVideoKey='',compare=false,busy=false,jobID=null,cancelled=false,saveTimer,toastTimer,scanWorker=null,loading=false,loadedURL='',renderPreview=null,localFontNames=[],relinkTarget=null,projectDirectory=null,pendingProjectRecord=null,projectStorageMode='browser';
@@ -284,7 +284,7 @@ function renderTimeline(){
  $('#markerTrack').innerHTML=markersOnTimeline().map((m,i)=>`<button class="marker-point ${m.type}" data-marker="${i}" style="left:${m.time/Math.max(dur,.001)*100}%" title="${esc(m.label)} ${format(m.time)}" aria-label="${esc(m.label)}"></button>`).join('');
  let transaction=null,oldFuture;
  bindTimeline({root:$('#timelineContent'),rows,duration:dur,media:mediaOf,snap:()=>snapping,
-  snapTargets:()=>[time,...editMarkerTimes(P.editMarkers)],
+  snapTargets:skip=>timelineSnapTargets(null,new Set([...skip,...P.audioClips.filter(a=>a.linked&&skip.has(a.sourceClip)).map(a=>a.id)])),
   select:(id,event)=>{chooseTimeline('video',id,event);$$('[data-clip]').forEach(e=>e.classList.toggle('selected',selectedTimeline.has(e.dataset.clip)));renderInspector()},
   groupRows:()=>rows.filter(r=>selectedTimeline.has(r.clip.id)),
   groupOthers:()=>timelineMoveItems().filter(v=>v.kind!=='video'),
@@ -294,7 +294,7 @@ function renderTimeline(){
   cancel:()=>{clearTimelineSnap();if(transaction){P=sanitize(JSON.parse(transaction));history.pop();future=oldFuture;if(!P.clips.some(c=>c.id===selected))selected=P.clips[0]?.id||null;render();syncVideo(true)}},
   duplicate:row=>{if(P.clips.length>=200)return row;const copy={...structuredClone(row.clip),id:uid(),start:row.start};P.clips.push(copy);const audio=linkedAudio(P,row.clip.id);if(audio&&P.audioClips.length<200){const clone={...structuredClone(audio),id:uid(),sourceClip:copy.id,linked:true};P.audioClips.push(clone);copy.audioDetached=clone.id}return{...row,clip:copy}},
   preview:(c,edge,didSnap,spacing,snapPoint)=>{const span=timing(c).duration;showTimelineSnap(didSnap?{snapped:true,target:snapPoint??(edge==='out'?c.start+span:c.start)}:null);showSpacingGuide(spacing,{kind:'video',layer:c.layer||0,start:c.start,span});$('#playhead')?.classList.toggle('snap-active',didSnap);status(`V${c.layer+1} · ${format(c.start)} · 長さ ${span.toFixed(2)}秒${didSnap?' · 吸着':''}${spacing?.spacing?' · 等間隔':''}`)},
-  getLayer:y=>{for(const layer of [2,1,0]){const r=$(['#videoTrack','#videoTrackUpper','#videoTrackTop'][layer]).getBoundingClientRect();if(y>=r.top&&y<=r.bottom)return layer}}
+  getLayer:y=>timelineLaneAtY(y,[2,1,0].map(layer=>({layer,element:$(['#videoTrack','#videoTrackUpper','#videoTrackTop'][layer])})))
  });
  $$('.video-track [data-clip]').forEach(el=>el.onkeydown=e=>{if(e.code==='Enter'){chooseTimeline('video',el.dataset.clip,e);render();e.preventDefault()}});
  $$('[data-marker]').forEach(el=>el.onclick=()=>showMarker(markersOnTimeline()[+el.dataset.marker]));
@@ -627,7 +627,7 @@ function drawLookThumbnails(){
 function useAudio(id,layer=activeAudioLayer){if(P.audioClips.length>=200)return toast('音声は200クリップまでです。');mutate(()=>{const m=P.media.find(m=>m.id===id);selectedAudio=appendAudio(P,m,time,layer).id;selected=null;if(document.body.dataset.ui==='phone')chooseTimeline('audio',selectedAudio);selectedAsset=id;tab='sound'});toast('音声をA'+(layer+1)+'へ配置しました。')}
 function audioInspector(){
  const a=P.audioClips.find(c=>c.id===selectedAudio),c=current(),m=mediaOf(c),audioMedia=P.media.filter(m=>mediaKind(m)==='audio');
- return `${a?`<div class="control-section"><div class="eyebrow">クリップ音量 · ${esc(assetName(mediaOf(a)))}</div><p class="small-note">音声クリップのラインをクリックして音量ポイントを追加できます。点を上下に動かすと音量、左右に動かすと時刻を調整できます。</p>${gainAutomationControls('clip',a.audio,timing(a).duration,clamp(time-(audioSequence(P).find(r=>r.clip===a)?.start||0),0,timing(a).duration))}</div>`:''}<div class="control-section"><div class="eyebrow">音声 · 4レイヤー</div><p class="small-note">各レイヤーは自由に使えます。同じレイヤーで重なる区間は後に置いたクリップが優先されます。別のレイヤーは同時に再生します。</p>${P.audioTracks.map((t,i)=>`<div class="audio-mixer-row"><button data-audiofocus="${i}" class="${activeAudioLayer===i?'selected':''}">A${i+1}</button><input data-trackname="${i}" value="${esc(t.name)}" aria-label="A${i+1}の名前"><button data-trackmute="${i}" aria-pressed="${!!t.mute}" class="${t.mute?'selected':''}" title="ミュート">M</button><button data-tracksolo="${i}" aria-pressed="${!!t.solo}" class="${t.solo?'selected':''}" title="このレイヤーだけ聴く">S</button></div>`).join('')}<button id="addBgm" class="wide">＋ 音声ファイルを追加</button><label>配置先<select id="audioDestination">${[0,1,2,3].map(i=>option(String(i),'A'+(i+1)+' · '+P.audioTracks[i].name,String(activeAudioLayer))).join('')}</select></label><select id="audioAsset" aria-label="配置する音声"><option value="">素材から音声を配置</option>${audioMedia.map(m=>option(m.id,esc(assetName(m)),'')).join('')}</select>${audioMedia.length?`<div class="audio-library-list"><div class="audio-library-title">AUDIO LIBRARY <span>${audioMedia.length}</span></div>${audioMedia.map(item=>`<div class="audio-library-row"><span title="${esc(assetName(item))}">${esc(assetName(item))}${P.bgm.media===item.id?' · BGM':''}</span><button data-audio-place="${esc(item.id)}" title="タイムラインへ配置">配置</button><button data-audio-delete="${esc(item.id)}" class="danger" title="音声素材を削除" aria-label="${esc(assetName(item))}を削除">×</button></div>`).join('')}</div>`:'<p class="small-note">読み込んだ音声素材はここに表示されます。</p>'}</div>
+ return `${a?`<div class="control-section"><div class="eyebrow">クリップ音量 · ${esc(assetName(mediaOf(a)))}</div><p class="small-note">音声クリップのラインをダブルクリックして音量ポイントを追加できます。点を上下に動かすと音量、左右に動かすと時刻を調整できます。</p>${gainAutomationControls('clip',a.audio,timing(a).duration,clamp(time-(audioSequence(P).find(r=>r.clip===a)?.start||0),0,timing(a).duration))}</div>`:''}<div class="control-section"><div class="eyebrow">音声 · 4レイヤー</div><p class="small-note">各レイヤーは自由に使えます。同じレイヤーで重なる区間は後に置いたクリップが優先されます。別のレイヤーは同時に再生します。</p>${P.audioTracks.map((t,i)=>`<div class="audio-mixer-row"><button data-audiofocus="${i}" class="${activeAudioLayer===i?'selected':''}">A${i+1}</button><input data-trackname="${i}" value="${esc(t.name)}" aria-label="A${i+1}の名前"><button data-trackmute="${i}" aria-pressed="${!!t.mute}" class="${t.mute?'selected':''}" title="ミュート">M</button><button data-tracksolo="${i}" aria-pressed="${!!t.solo}" class="${t.solo?'selected':''}" title="このレイヤーだけ聴く">S</button></div>`).join('')}<button id="addBgm" class="wide">＋ 音声ファイルを追加</button><label>配置先<select id="audioDestination">${[0,1,2,3].map(i=>option(String(i),'A'+(i+1)+' · '+P.audioTracks[i].name,String(activeAudioLayer))).join('')}</select></label><select id="audioAsset" aria-label="配置する音声"><option value="">素材から音声を配置</option>${audioMedia.map(m=>option(m.id,esc(assetName(m)),'')).join('')}</select>${audioMedia.length?`<div class="audio-library-list"><div class="audio-library-title">AUDIO LIBRARY <span>${audioMedia.length}</span></div>${audioMedia.map(item=>`<div class="audio-library-row"><span title="${esc(assetName(item))}">${esc(assetName(item))}${P.bgm.media===item.id?' · BGM':''}</span><button data-audio-place="${esc(item.id)}" title="タイムラインへ配置">配置</button><button data-audio-delete="${esc(item.id)}" class="danger" title="音声素材を削除" aria-label="${esc(assetName(item))}を削除">×</button></div>`).join('')}</div>`:'<p class="small-note">読み込んだ音声素材はここに表示されます。</p>'}</div>
  ${P.bgm.media?`<div class="control-section"><div class="eyebrow">BACKGROUND MUSIC · ${esc(assetName(P.media.find(item=>item.id===P.bgm.media)))}</div>${slider('bgm.volume','BGM volume',P.bgm.volume,0,2,.01)}${fadeControls('bgm',P.bgm,Math.min(240,duration()),true)}${gainAutomationControls('bgm',P.bgm,duration(),time)}<button id="removeBgm" class="wide">BGMを外す</button></div>`:''}
  ${c&&m?.audio&&!c.freezeDuration?`<div class="control-section"><div class="eyebrow">VIDEO ORIGINAL AUDIO</div><button id="detachAudio" class="primary wide" ${c.audioDetached?'disabled':''}>${c.audioDetached?'原音は分離済み':'原音を音声トラックへ分離'}</button><label><input id="muteAudio" type="checkbox" ${c.audio.mute?'checked':''}> 動画側の原音をミュート</label>${slider('audio.volume','動画の原音量',c.audio.volume,0,2,.01)}${fadeControls('audio',c.audio,timing(c).duration,true)}${delayControls('audio',c.audio,'videoDelayEnabled')}<p class="small-note">分離した音声は映像と連動します。連動中は移動・トリム・速度・分割が映像に追従し、音量とフェードは個別に調整できます。</p></div>`:''}
  ${a?`<div class="control-section"><div class="eyebrow">A${a.layer+1} · ${esc(assetName(mediaOf(a)))}</div>${a.sourceClip?`<div class="link-state ${a.linked?'is-linked':''}"><strong>${a.linked?'映像と連動中':'独立編集'}</strong><span>${a.linked?'長さと位置は映像側に追従します。':'位置・範囲・速度を個別に変更できます。'}</span><button id="toggleAudioLink" class="wide">${a.linked?'連動を解除':'映像と再連動'}</button></div>`:''}<fieldset class="linked-fields" ${a.linked?'disabled':''}><div class="row"><label>配置（秒）<input data-audionum="start" type="number" min="0" step=".01" value="${a.start}"></label><label>レイヤー<select data-control="soundclip.layer">${[0,1,2,3].map(i=>option(String(i),'A'+(i+1),String(a.layer))).join('')}</select></label></div><div class="row"><label>IN<input data-audionum="in" type="number" min="0" step=".01" value="${a.in}"></label><label>OUT<input data-audionum="out" type="number" min="0" step=".01" value="${a.out}"></label></div>${slider('soundclip.speed','Speed',a.speed,.05,20,.05,'×')}${selectControl('soundclip.curve','Speed ramp',a.curve,[['constant','Constant'],['linear','Linear'],['ease-in','Ease In'],['ease-out','Ease Out'],['ease-in-out','Ease In / Out']])}${a.curve!=='constant'?slider('soundclip.endSpeed','End speed',a.endSpeed,.05,20,.05,'×'):''}</fieldset><label><input id="audioClipMute" type="checkbox" ${a.audio.mute?'checked':''}> ミュート</label>${!a.sourceClip?`<label><input id="audioLoop" type="checkbox" ${a.loop?'checked':''}> 元音声をループして延長</label>`:''}${slider('soundclip.audio.volume','Volume',a.audio.volume,0,2,.01)}${fadeControls('soundclip.audio',a.audio,timing(a).duration,true)}${delayControls('soundclip.audio',a.audio,'audioDelayEnabled')}<p class="small-note">音声クリップ上の薄い0 dBラインをダブルクリックして音量ポイントを追加します。点は上下でdB、左右で時刻を変更し、Shiftで微調整できます。点のダブルクリックで0 dB、右クリックで直線／一定、Deleteで削除できます。</p><button id="deleteAudioClip" class="wide danger" ${a.linked?'disabled title="先に映像との連動を解除してください"':''}>選択した音声クリップを削除</button></div>`:'<p class="small-note">タイムラインの音声クリップを選択して編集します。</p>'}`;
@@ -673,7 +673,7 @@ function renderAudioTimeline(dur,width){
  const track=$('#audioTrack'+layer),head=$('#audioLabel'+layer),trackState=P.audioTracks[layer];track.classList.toggle('active-layer',activeAudioLayer===layer);head.title=`A${layer+1} · ${trackState.name} · ${Math.round(trackState.volume*100)}%`;head.classList.toggle('is-muted',!!trackState.mute);const mute=head.querySelector('[data-trackmute]'),volume=head.querySelector('[data-trackvolume]');mute?.classList.toggle('selected',!!trackState.mute);mute?.setAttribute('aria-pressed',String(!!trackState.mute));if(mute){mute.innerHTML=uiIcon(trackState.mute?'muted':'speaker');mute.title=trackState.mute?'ミュート中 · 音声をオン':'音声オン · ミュートする';mute.setAttribute('aria-label',`A${layer+1}の音声を${trackState.mute?'再生':'消音'}`)}if(volume&&document.activeElement!==volume)volume.value=trackState.volume;
  track.innerHTML=rows.filter(r=>r.layer===layer).map(r=>`<div class="clip-block audio-clip ${selectedTimeline.has(r.clip.id)||selectedAudio===r.clip.id?'selected':''}" data-clip="${r.clip.id}" role="button" tabindex="0" aria-label="A${layer+1} ${esc(assetName(mediaOf(r.clip)))}" style="left:${r.start/Math.max(dur,.001)*100}%;width:${r.duration/Math.max(dur,.001)*100}%"><canvas class="gain-envelope-canvas" aria-hidden="true"></canvas><span>${r.clip.linked?uiIcon('link')+' ':""}${esc(assetName(mediaOf(r.clip)))}</span><small>${r.duration.toFixed(2)}s · ${r.clip.audio.mute?'MUTE':Math.round(r.clip.audio.volume*100)+'%'}</small><span data-edge="in" class="trim-handle trim-in"></span><span data-edge="out" class="trim-handle trim-out"></span></div>`).join('');
  track.onpointerdown=e=>{if(!e.target.closest('[data-clip]')){activeAudioLayer=layer;selected=null;selectedAudio=null;tab='sound';seek((e.clientX-track.getBoundingClientRect().left)/width*(dur||30));render()}};
- bindTimeline({root:track,rows,duration:dur,media:c=>c.loop?{...mediaOf(c),duration:86400}:mediaOf(c),snap:()=>snapping,snapTargets:()=>[time,...editMarkerTimes(P.editMarkers)],
+ bindTimeline({root:track,rows,duration:dur,media:c=>c.loop?{...mediaOf(c),duration:86400}:mediaOf(c),snap:()=>snapping,snapTargets:skip=>timelineSnapTargets(null,skip),
  select:(id,event)=>{chooseTimeline('audio',id,event);renderInspector();$$('.audio-clip').forEach(el=>el.classList.toggle('selected',selectedTimeline.has(el.dataset.clip)))},
  groupRows:()=>rows.filter(r=>selectedTimeline.has(r.clip.id)),
  groupOthers:()=>timelineMoveItems().filter(v=>v.kind!=='audio'),timelineRoot:$('#timelineContent'),
@@ -682,7 +682,7 @@ function renderAudioTimeline(dur,width){
  cancel:()=>{clearTimelineSnap();if(transaction){P=sanitize(JSON.parse(transaction));history.pop();future=oldFuture;if(!P.audioClips.some(c=>c.id===selectedAudio))selectedAudio=null;render()}},
  duplicate:row=>{if(P.audioClips.length>=200)return row;const copy={...structuredClone(row.clip),id:uid(),start:row.start,linked:false,sourceClip:null};P.audioClips.push(copy);return{...row,clip:copy}},
   preview:(c,edge,didSnap,spacing,snapPoint)=>{const span=timing(c).duration;showTimelineSnap(didSnap?{snapped:true,target:snapPoint??(edge==='out'?c.start+span:c.start)}:null);showSpacingGuide(spacing,{kind:'audio',layer:c.layer||0,start:c.start,span});$('#playhead')?.classList.toggle('snap-active',didSnap);status('A'+(c.layer+1)+' · '+format(c.start)+' · '+span.toFixed(2)+'秒'+(didSnap?' · 吸着':'')+(spacing?.spacing?' · 等間隔':''))},
- getLayer:y=>[0,1,2,3].find(k=>{const r=$('#audioTrack'+k).getBoundingClientRect();return y>=r.top&&y<=r.bottom})
+ getLayer:y=>timelineLaneAtY(y,[0,1,2,3].map(layer=>({layer,element:$('#audioTrack'+layer)})))
  });
  track.querySelectorAll('[data-clip]').forEach(element=>{const row=rows.find(value=>value.clip.id===element.dataset.clip),clip=row?.clip;if(!clip)return;bindClipEnvelope(element,{file:localFiles.get(clip.media),url:linkURL(mediaOf(clip)),getClip:()=>clip,getPoints:()=>clip.audio.gainEnvelope||[],setPoints:points=>clip.audio.gainEnvelope=points,duration:()=>timing(clip).duration,isActive:()=>selectedAudio===clip.id||selectedTimeline.has(clip.id),selectedId:()=>selectedGainPoint?.clipId===clip.id?selectedGainPoint.pointId:null,setSelected:pointId=>{selectedGainPoint={clipId:clip.id,pointId};chooseTimeline('audio',clip.id);renderInspector()},onBegin:()=>{pause();checkpoint()},onInput:point=>{audioPreview.sync(P,time,false,linkURL);status(`${point.valueDb.toFixed(1)} dB · ${point.time.toFixed(2)}秒${Math.abs(point.valueDb)<.005?' · 0 dBへ吸着':''}`)},onCommit:()=>{save();renderInspector()},onContext:(event,point)=>openGainEnvelopeContext(event,clip,point)})});
  track.ondragover=e=>{if(!e.dataTransfer.types.includes('application/x-pve-media')||draggedMediaKinds.size&&!draggedMediaKinds.has('audio'))return;e.preventDefault();e.dataTransfer.dropEffect='copy';track.classList.add('drop-target');const rect=track.getBoundingClientRect(),result=snapTimelinePlacement((e.clientX-rect.left)/Math.max(1,rect.width)*Math.max(dur,.001));track.style.setProperty('--drop-x',result.start/Math.max(dur,.001)*100+'%');showTimelineSnap(result)};track.ondragleave=e=>{if(!track.contains(e.relatedTarget))track.classList.remove('drop-target')};track.ondrop=e=>{e.preventDefault();track.classList.remove('drop-target');const rect=track.getBoundingClientRect(),at=snapTimelinePlacement((e.clientX-rect.left)/Math.max(1,rect.width)*Math.max(dur,.001)).start;placeDraggedAssets(draggedAssetIds(e.dataTransfer),at,'audio',layer)};
@@ -725,7 +725,7 @@ bindPhoneUI({
  }catch(e){toast(e.message);return false}},
 });
 
-bindPhoneTouch({root:$('#timelineContent'),scroll:$('#timelineScroll'),isPhone:()=>document.body.dataset.ui==='phone',delegatePointer:clipEnvelopeOwnsPointer,onMenu:(target,x,y)=>openTimelineContext({target,clientX:x,clientY:y,preventDefault(){},stopPropagation(){}}),onHideMenu:hideTimelineContext,getZoom:()=>zoom,setZoom:value=>{zoom=clamp(value,1,10);$('#timelineZoom').value=zoom;renderTimeline()},onDrag:clip=>{const before=clip.getBoundingClientRect().top;document.body.classList.add('phone-moving',clip.dataset.textChip||clip.dataset.fx?'phone-drag-overlay':clip.closest('.editable-audio')?'phone-drag-audio':'phone-drag-video');$('#timelineScroll').scrollTop+=clip.getBoundingClientRect().top-before;pause()}});
+bindPhoneTouch({root:$('#timelineContent'),scroll:$('#timelineScroll'),isPhone:()=>document.body.dataset.ui==='phone',delegatePointer:clipEnvelopeOwnsPointer,onDoubleTap:clipEnvelopeDoubleTap,onMenu:(target,x,y)=>openTimelineContext({target,clientX:x,clientY:y,preventDefault(){},stopPropagation(){}}),onHideMenu:hideTimelineContext,getZoom:()=>zoom,setZoom:value=>{zoom=clamp(value,1,10);$('#timelineZoom').value=zoom;renderTimeline()},onDrag:clip=>{const before=clip.getBoundingClientRect().top;document.body.classList.add('phone-moving',clip.dataset.textChip||clip.dataset.fx?'phone-drag-overlay':clip.closest('.editable-audio')?'phone-drag-audio':'phone-drag-video');$('#timelineScroll').scrollTop+=clip.getBoundingClientRect().top-before;pause()}});
 
 let phoneHeadScrollFrame=0;$('#timelineScroll').addEventListener('scroll',()=>{if(document.body.dataset.ui==='phone'&&!phoneHeadScrollFrame)phoneHeadScrollFrame=requestAnimationFrame(()=>{phoneHeadScrollFrame=0;updateClock()})},{passive:true});
 

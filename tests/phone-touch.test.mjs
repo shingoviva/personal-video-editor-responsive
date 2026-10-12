@@ -88,3 +88,13 @@ events.pointerdown({...e(100,100),pointerId:301,isPrimary:true});events.pointerd
 events.pointermove({...e(250,100),pointerId:302});events.pointermove({...e(300,100),pointerId:302});events.pointerup({...e(300,100),pointerId:302});delete clip.isConnected;
 assert.deepEqual(pinchValues,[1.5,2],'pinch must continue across its own timeline re-render');
 console.log('Pinch zoom survives replacement of clip DOM PASS');
+
+// Double taps survive clip DOM replacement after the first selection/seek.
+let doubleTaps=0;classes.delete('phone-moving');
+bindPhoneTouch({root,scroll,isPhone:()=>true,onMenu(){},onDrag(){},onHideMenu(){},onDoubleTap:()=>{doubleTaps++;return true}});
+events.pointerdown(e(150,110));events.pointerup(e(150,110));
+const replacement={...clip,dataset:{clip:'c'}},replacementTarget={closest:s=>s.includes('data-clip')?replacement:null};
+events.pointerdown({...e(150,110),target:replacementTarget});events.pointerup({...e(150,110),target:replacementTarget});assert.equal(doubleTaps,1);
+events.pointerdown(e(150,110));events.pointermove(e(180,110));events.pointerup(e(180,110));
+events.pointerdown(e(150,110));events.pointerup(e(150,110));assert.equal(doubleTaps,1,'a drag must not count as a tap');
+console.log('Explicit envelope double taps survive selection redraw; swipes never add points PASS');
