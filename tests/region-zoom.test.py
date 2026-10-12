@@ -21,7 +21,7 @@ with tempfile.TemporaryDirectory(prefix='pve-region-zoom-') as tmp:
  for raster in [False,True]:
   if not raster and not core.capabilities().get('drawtext'):
    print('drawtext unavailable: raster captions tested instead');continue
-  p['texts']=[{'id':'title','text':'WWW','start':0,'end':3,'x':.75,'y':.5,'size':22,'font':'Sans','color':'#ffffff','opacity':1,'fade':0,'outline':0,'shadow':0}]
+  p['texts']=[{'id':'title','text':'WWW','start':0,'end':3,'x':.75,'y':.5,'size':288,'font':'Sans','color':'#ffffff','opacity':1,'fade':0,'outline':0,'shadow':0}]
   if raster:p['texts'][0]['raster']={'data':png(),'width':12,'height':12,'referenceHeight':90,'anchorX':6,'anchorY':6}
   for captions in [True,False]:
    p['effects'][0]['zoomTexts']=captions;p['effects'][0]['zoomReturn']=False
