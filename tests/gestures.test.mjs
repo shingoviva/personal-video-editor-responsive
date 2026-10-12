@@ -61,12 +61,12 @@ globalThis.document={body:{dataset:{ui:'desktop'}},getElementById:id=>tracks.get
 for(const kind of ['audio','video']){
  const c={...clip(m),kind,start:0,layer:0},r={clip:c,start:0,end:10,duration:10,layer:0},el={...element,dataset:{clip:c.id},style:{}},root={getBoundingClientRect:()=>({width:1000}),querySelectorAll:()=>[el]},lanes=[0,1,2].map(layer=>({layer,element:heads.get(kind+layer)}));
  bindTimeline({root,rows:[r],duration:10,select(){},begin(){},finish(){},cancel(){},preview(){},media:()=>m,snap:()=>false,getLayer:y=>timelineLaneAtY(y,lanes)});
- el.onpointerdown(event(0,120));el.onpointermove(event(20,200));assert.equal(c.layer,1);assert(heads.get(kind+1).classes.has('move-target'));
+ el.onpointerdown(event(0,120));el.onpointermove(event(20,200));assert.equal(c.layer,1);assert.equal(el.style.transform,'translateY(80px)');assert(heads.get(kind+1).classes.has('move-target'));
  el.onpointermove(event(20,259));assert.equal(c.layer,1,'separator retains the last destination');
  el.onpointermove(event(20,280));assert.equal(c.layer,2);assert(!heads.get(kind+1).classes.has('move-target'));assert(heads.get(kind+2).classes.has('move-target'));
- el.onpointercancel();assert(!heads.get(kind+2).classes.has('move-target'));
- el.onpointerdown(event(0,120));el.onpointermove(event(20,200));el.onlostpointercapture();assert(!heads.get(kind+1).classes.has('move-target'));
- el.onpointerdown(event(0,120));el.onpointermove(event(20,280));el.onpointerup(event(20,280));assert.equal(c.layer,2);assert(!heads.get(kind+2).classes.has('move-target'));
+ el.onpointercancel();assert.equal(el.style.transform,'');assert(!heads.get(kind+2).classes.has('move-target'));
+ el.onpointerdown(event(0,120));el.onpointermove(event(20,200));el.onlostpointercapture();assert.equal(el.style.transform,'');assert(!heads.get(kind+1).classes.has('move-target'));
+ el.onpointerdown(event(0,120));el.onpointermove(event(20,280));el.onpointerup(event(20,280));assert.equal(c.layer,2);assert.equal(el.style.transform,'');assert(!heads.get(kind+2).classes.has('move-target'));
  assert.equal(timelineLaneAtY(1,[{layer:3,element:lane(0,0)}]),undefined,'hidden lane cannot intercept drop');
 }
 delete globalThis.document;

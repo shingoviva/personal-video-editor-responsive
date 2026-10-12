@@ -1,3 +1,7 @@
+## 2.2.62 — 映像・音声のドラッグ表示をFX方式へ統一
+
+固定top:2px!importantがドラッグのstyle.topを上書きする原因を修正。FX同様のtranslateYで実高さへ追従し、完了・取消・capture喪失で移動表示を解除。複数選択の随伴クリップも同方式。ブラウザで実CSS使用の手動fixtureを検証：映像V1→V2は-52px、音声A1→A2は44px、描画位置は宛先top+2pxと一致。通常幅と393pxの両方で成功（マウス入力）。全68JS/build成功、実機Safari touch未確認。fixtures/timeline-drag-visual.htmlをrepo rootのHTTPで再検証可能。音声再生/export非変更。公開前追加検証：Python動画処理16本・localhost API成功、Mac ZIP 4,210,892 bytes検証成功。
+
 ## 2.2.61 — タイムライン操作の修正（2026-10-12）
 
 - 映像／音声の移動とIN/OUTトリムで、他種のクリップ端も吸着対象に統合。移動グループと、映像に追従する連動音声は対象から除外。

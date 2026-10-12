@@ -40,11 +40,11 @@ const elements=rows.map(row=>({dataset:{clip:row.clip.id},style:{},classList:{ad
 const surface={getBoundingClientRect(){return {width:160}},querySelectorAll(){return elements}};
 globalThis.document={body:{dataset:{ui:'desktop'}},getElementById(id){return {getBoundingClientRect(){return {top:id==='videoTrack'?500:id==='videoTrackUpper'?300:100}}}}};
 bindTimeline({root:surface,timelineRoot:surface,rows,duration:16,select(){},begin(){},finish(){},cancel(){},preview(){},media(){return media},snap(){return false},getLayer(){return 1},groupRows(){return rows}});
-elements[0].onpointerdown({button:0,clientX:0,clientY:500,pointerId:1,target:{closest(){return null}}});elements[0].onpointermove({clientX:10,clientY:300});assert.equal(elements[0].style.top,'-200px');assert.equal(elements[1].style.top,'-200px');
+elements[0].onpointerdown({button:0,clientX:0,clientY:500,pointerId:1,target:{closest(){return null}}});elements[0].onpointermove({clientX:10,clientY:300});assert.equal(elements[0].style.transform,'translateY(-200px)');assert.equal(elements[1].style.transform,'translateY(-200px)');
 // Audio lanes use their actual, independently resized heights too.
 main.kind=comp.kind='audio';main.layer=comp.layer=0;
 globalThis.document.getElementById=id=>({getBoundingClientRect(){return {top:id==='audioTrack0'?500:680}}});
-elements[0].onpointerdown({button:0,clientX:0,clientY:500,pointerId:2,target:{closest(){return null}}});elements[0].onpointermove({clientX:10,clientY:680});assert.equal(elements[0].style.top,'180px');assert.equal(elements[1].style.top,'180px');delete globalThis.document;
+elements[0].onpointerdown({button:0,clientX:0,clientY:500,pointerId:2,target:{closest(){return null}}});elements[0].onpointermove({clientX:10,clientY:680});assert.equal(elements[0].style.transform,'translateY(180px)');assert.equal(elements[1].style.transform,'translateY(180px)');delete globalThis.document;
 const {sourceOffset,trimClip}=await import(root+'model.js');const curveProject=project();curveProject.media=[media];const curved={...clip(media),id:'curve',speed:.5,endSpeed:4,curve:'ease-in-out',start:0};curveProject.clips=[curved];const before=timing(curved).duration,cut=before/2,expected=structuredClone(curved);trimClip(expected,'out',sourceOffset(cut,curved),8);rippleTrimToPlayhead(curveProject,'curve','out',cut);assert(Math.abs(timing(curved).duration-cut)<.0001);assert.deepEqual(curved.timingBase,expected.timingBase);
 // IN and OUT must share normal trim semantics, including gain envelopes.
 for(const edge of ['in','out']){

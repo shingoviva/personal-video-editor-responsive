@@ -54,9 +54,9 @@ export function bindTimeline({root,rows,duration,select,begin,finish,cancel,prev
     if(!edge){
      c.start=snapped(row.start+delta,timing(origin).duration);c.layer=getLayer(ev.clientY)??c.layer??row.layer;if(feedbackLayer!==c.layer){if(feedbackLayer!==null)laneFeedback(c.kind,feedbackLayer,false);feedbackLayer=c.layer;laneFeedback(c.kind,feedbackLayer,true)};if(snap()&&!didSnap){const spacingRows=[row,...rows.filter(r=>!selectedIds.has(r.clip.id))];spacingResult=equalSpacingStart(c.start,timing(c).duration,{...row,layer:c.layer},spacingRows,secondsPerPixel);c.start=spacingResult.start}
      const minimum=Math.min(row.start,...companions.map(g=>g.start),...others.map(v=>v.start)),actual=Math.max(-minimum,c.start-row.start);c.start=row.start+actual;
-     for(const g of companions){g.row.clip.start=g.start+actual;g.row.clip.layer=clamp(g.layer+c.layer-row.layer,0,c.kind==='audio'?3:2);const node=elementById.get(g.row.clip.id);if(node){node.style.left=g.row.clip.start/Math.max(duration,.001)*100+'%';node.style.top=laneDelta(g.row.clip.kind,g.layer,g.row.clip.layer)+'px'}}
+     for(const g of companions){g.row.clip.start=g.start+actual;g.row.clip.layer=clamp(g.layer+c.layer-row.layer,0,c.kind==='audio'?3:2);const node=elementById.get(g.row.clip.id);if(node){node.style.left=g.row.clip.start/Math.max(duration,.001)*100+'%';node.style.transform=`translateY(${laneDelta(g.row.clip.kind,g.layer,g.row.clip.layer)}px)`}}
      for(const value of others){value.item.start=value.start+actual;if(value.kind==='text')value.item.end=value.item.start+value.span;const node=elementById.get(value.item.id);if(node)node.style.left=value.item.start/Math.max(duration,.001)*100+'%'}
-     el.style.top=laneDelta(c.kind,row.layer,c.layer)+'px';
+     el.style.transform=`translateY(${laneDelta(c.kind,row.layer,c.layer)}px)`;
     }else{
      Object.assign(c,structuredClone(origin));c.start=row.start;c.layer=row.layer;
      const d=timing(origin).nodes.at(-1)[1],sourceAt=t=>t<0?t*origin.speed:t>d?origin.out-origin.in+(t-d)*(origin.curve==='constant'?origin.speed:origin.endSpeed):sourceOffset(t,origin);
@@ -74,7 +74,7 @@ export function bindTimeline({root,rows,duration,select,begin,finish,cancel,prev
     el.style.width=timing(c).duration/Math.max(duration,.001)*100+'%';
     const now=performance.now();if(!edge||now-lastPreview>50){lastPreview=now;preview(c,edge,didSnap,spacingResult,snapPoint)}
    };
-   const cleanup=()=>{if(feedbackLayer!==null)laneFeedback(row.clip.kind,feedbackLayer,false);feedbackLayer=null;ghost?.remove?.();ghost=null;el.classList.remove?.('dragging');el.onpointermove=null;el.onpointerup=null;el.onpointercancel=null;el.onlostpointercapture=null};
+   const cleanup=()=>{if(feedbackLayer!==null)laneFeedback(row.clip.kind,feedbackLayer,false);feedbackLayer=null;el.style.transform='';for(const g of companions){const node=elementById.get(g.row.clip.id);if(node)node.style.transform=''}ghost?.remove?.();ghost=null;el.classList.remove?.('dragging');el.onpointermove=null;el.onpointerup=null;el.onpointercancel=null;el.onlostpointercapture=null};
    el.onpointerup=ev=>{cleanup();if(moved)finish();else{const t=row.start+clamp((ev.clientX-el.getBoundingClientRect().left)/Math.max(el.clientWidth,1),0,1)*row.duration;finish(t,false)}};
    el.onpointercancel=()=>{cleanup();if(moved)cancel()};
    el.onlostpointercapture=()=>{cleanup();if(moved)cancel()};

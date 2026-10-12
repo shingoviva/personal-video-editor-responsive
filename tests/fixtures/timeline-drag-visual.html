@@ -1,0 +1,10 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="../../dist/style.css?v=2.2.61"><link rel="stylesheet" href="../../dist/iphone.css?v=2.2.61"><style>body{display:block;padding:24px}#timelineContent{width:320px;position:relative}#result{white-space:pre-wrap}section{margin:30px 0}</style><h3>クリップ本体の移動検証</h3><section id="timelineContent"><div id="videoTrackTop" class="video-track"></div><div id="videoTrackUpper" class="video-track"></div><div id="videoTrack" class="video-track"><div data-clip="v" class="clip-block selected" style="left:10%;width:50%">VIDEO</div></div><div id="audioTrack0" class="audio-track editable-audio"><div data-clip="a" class="clip-block audio-clip selected" style="left:10%;width:50%">AUDIO</div></div><div id="audioTrack1" class="audio-track editable-audio"></div></section><pre id="result">ドラッグ待機</pre><script type="module">
+import {bindTimeline,timelineLaneAtY} from '../../dist/timeline-gestures.js?v=drag-qa';
+import {clip} from '../../dist/model.js';
+const root=document.querySelector('#timelineContent'),result=document.querySelector('#result');
+for(const kind of ['video','audio']){
+ const c={...clip({id:'m',kind,duration:5}),id:kind==='video'?'v':'a',start:1,layer:0},ids=kind==='video'?['videoTrack','videoTrackUpper','videoTrackTop']:['audioTrack0','audioTrack1'],el=root.querySelector(`[data-clip="${c.id}"]`),surface={getBoundingClientRect:()=>root.getBoundingClientRect(),querySelectorAll:()=>[el]};
+ let proof;
+ bindTimeline({root:surface,rows:[{clip:c,start:1,end:6,duration:5,layer:0}],duration:10,select(){},begin(){},cancel(){},finish(){document.getElementById(ids[c.layer]).append(el);result.textContent=JSON.stringify(proof)},media:()=>({duration:5}),snap:()=>true,snapTargets:()=>[1,6],getLayer:y=>timelineLaneAtY(y,ids.map((id,layer)=>({layer,element:document.getElementById(id)}))),preview(){const track=document.getElementById(ids[c.layer]);proof={kind,layer:c.layer,visualTop:el.getBoundingClientRect().top,destinationTop:track.getBoundingClientRect().top,transform:el.style.transform,fixedTop:getComputedStyle(el).top};result.textContent=JSON.stringify(proof)}});
+}
+</script>
