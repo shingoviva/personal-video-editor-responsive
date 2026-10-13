@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {centeredTransform,scaleFromWheel,scaleFromDrag} from '../dist/stage-transform.js';
+import {centeredTransform,scaleFromWheel,scaleFromDrag,bindStageTransform} from '../dist/stage-transform.js';
 assert.deepEqual(centeredTransform({x:.45,y:.55},-5,5,100,100),{x:.5,y:.5,snapX:true,snapY:true});
 assert.deepEqual(centeredTransform({x:.5,y:.5},20,-10,100,100,8,1),{x:.7,y:.4,snapX:false,snapY:false});
 assert.equal(scaleFromWheel(1,-100)>1,true);
@@ -10,3 +10,14 @@ assert.ok(scaleFromDrag(1,40,-20)>1);
 assert.equal(scaleFromDrag(3,40,-20),3);
 assert.equal(scaleFromDrag(.1,-40,20),.1);
 console.log('Stage transform: position, center snapping and 0.1–3× scale limits PASS');
+
+const handlers=new Map(),target={x:.5,y:.5,scale:1};let begins=0,finishes=0,lastGuide;
+const root={addEventListener:(name,callback)=>handlers.set(name,callback),setPointerCapture(){},getBoundingClientRect:()=>({width:100,height:100})};
+bindStageTransform({root,getClip:()=>target,enabled:()=>true,begin:()=>begins++,change:next=>Object.assign(target,next),finish:()=>finishes++,guides:next=>lastGuide=next,direction:()=>1});
+const event=(pointerId,x=0)=>({pointerId,button:0,pointerType:'mouse',clientX:x,clientY:0,target:{closest:()=>null},preventDefault(){}});
+handlers.get('pointerdown')(event(1));handlers.get('pointermove')(event(1,20));assert.equal(target.x,.7);
+handlers.get('pointerdown')(event(2));handlers.get('pointermove')(event(2,40));assert.equal(target.x,.7);handlers.get('lostpointercapture')(event(2));assert.equal(finishes,0);
+handlers.get('lostpointercapture')(event(1));assert.equal(finishes,1);assert.equal(lastGuide,null);handlers.get('pointermove')(event(1,40));assert.equal(target.x,.7);
+handlers.get('pointerup')(event(1));assert.equal(finishes,1);
+handlers.get('pointerdown')(event(3));handlers.get('pointermove')(event(3,-20));handlers.get('pointerup')(event(3));assert.ok(Math.abs(target.x-.5)<1e-9);assert.equal(begins,2);assert.equal(finishes,2);
+console.log('Stage transform ignores concurrent presses and recovers after capture loss PASS');

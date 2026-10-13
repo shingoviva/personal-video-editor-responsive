@@ -42,6 +42,7 @@ export function bindTimeline({root,rows,duration,select,begin,finish,cancel,prev
    let moved=false,lastPreview=0,ghost=null,companions=[],others=[],feedbackLayer=null;
    select(row.clip.id,e);if(!e.timelineTouchManaged)el.setPointerCapture(e.pointerId);
    el.onpointermove=ev=>{
+    if(ev.pointerId!==undefined&&ev.pointerId!==e.pointerId)return;
     if(phoneScroll)return;
     if(!moved&&Math.hypot(ev.clientX-x,ev.clientY-y)<5)return;
     if(!moved){begin();if(e.altKey&&!edge&&duplicate){ghost=el.cloneNode?.(true)||null;if(ghost){ghost.classList.add('duplicate-origin');ghost.removeAttribute?.('data-clip');el.parentNode?.insertBefore(ghost,el)}row=duplicate(row)||row;select(row.clip.id,e)}else if(!edge){companions=groupRows(row).filter(r=>r.clip.id!==row.clip.id).map(r=>({row:r,start:r.start,layer:r.layer}));others=groupOthers(row).filter(v=>v.item.id!==row.clip.id)}moved=true;el.classList.add('dragging')}
@@ -75,9 +76,9 @@ export function bindTimeline({root,rows,duration,select,begin,finish,cancel,prev
     const now=performance.now();if(!edge||now-lastPreview>50){lastPreview=now;preview(c,edge,didSnap,spacingResult,snapPoint)}
    };
    const cleanup=()=>{if(feedbackLayer!==null)laneFeedback(row.clip.kind,feedbackLayer,false);feedbackLayer=null;el.style.transform='';for(const g of companions){const node=elementById.get(g.row.clip.id);if(node)node.style.transform=''}ghost?.remove?.();ghost=null;el.classList.remove?.('dragging');el.onpointermove=null;el.onpointerup=null;el.onpointercancel=null;el.onlostpointercapture=null};
-   el.onpointerup=ev=>{cleanup();if(moved)finish();else{const t=row.start+clamp((ev.clientX-el.getBoundingClientRect().left)/Math.max(el.clientWidth,1),0,1)*row.duration;finish(t,false)}};
-   el.onpointercancel=()=>{cleanup();if(moved)cancel()};
-   el.onlostpointercapture=()=>{cleanup();if(moved)cancel()};
+   el.onpointerup=ev=>{if(ev.pointerId!==undefined&&ev.pointerId!==e.pointerId)return;cleanup();if(moved)finish();else{const t=row.start+clamp((ev.clientX-el.getBoundingClientRect().left)/Math.max(el.clientWidth,1),0,1)*row.duration;finish(t,false)}};
+   el.onpointercancel=ev=>{if(ev?.pointerId!==undefined&&ev.pointerId!==e.pointerId)return;cleanup();if(moved)cancel()};
+   el.onlostpointercapture=ev=>{if(ev?.pointerId!==undefined&&ev.pointerId!==e.pointerId)return;cleanup();if(moved)cancel()};
   };
  }
 }

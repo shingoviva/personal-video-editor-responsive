@@ -1,0 +1,23 @@
+<!doctype html><meta charset="utf-8"><title>LOOK export verification</title>
+<button id="run">Run LOOK export verification</button><pre id="result">Ready</pre>
+<script type="module">
+import {project,clip,sanitize} from '../../dist/model.js';
+import {lookPresets,gradeRGB} from '../../dist/look.js';
+import {renderer} from '../../dist/preview.js';
+import {renderOnDevice,deleteRender} from '../../dist/mobile-export.js';
+import {Input,ALL_FORMATS,BlobSource,VideoSampleSink} from '../../dist/vendor/mediabunny.mjs';
+const result=document.querySelector('#result');
+document.querySelector('#run').onclick=async()=>{try{
+ const source=document.createElement('canvas');source.width=160;source.height=90;source.getContext('2d').fillStyle='#c87838';source.getContext('2d').fillRect(0,0,160,90);
+ let file=new File([await new Promise(resolve=>source.toBlob(resolve))],'sample.png',{type:'image/png'});let m={id:'look-source',name:file.name,kind:'image',width:160,height:90,duration:5,fps:24,audio:false};
+ const report=[];const videoFile=new File([await fetch('./look-export-source.mp4').then(r=>r.blob())],'look-export-source.mp4',{type:'video/mp4'});
+ for(const [name,amount,layer,compose,kind] of [...Object.keys(lookPresets).map(name=>[name,1,0,false]),['MONO',.5,0,false],['MONO',0,0,false],['WARM',1,2,true],['COLD',1,0,true],['MONO',1,0,false,'video'],['WARM',1,2,true,'video']]){
+  let expectedSource=source;if(kind==='video'){file=videoFile;m={...m,kind:'video',name:file.name,duration:1};expectedSource=document.createElement('video');expectedSource.muted=true;expectedSource.playsInline=true;expectedSource.src=URL.createObjectURL(file);await new Promise((resolve,reject)=>{expectedSource.onloadeddata=resolve;expectedSource.onerror=()=>reject(Error('Preview source failed'));expectedSource.load()});await new Promise(resolve=>{expectedSource.onseeked=resolve;expectedSource.currentTime=Math.floor(.2*24)/24});}const p=project();p.media=[m];p.clips=[{...clip(m),out:.5,start:0,layer,color:lookPresets[name],lookName:name,lookAmount:amount}];p.aspect='Original';p.export={...p.export,fps:24,resolution:'Source',quality:'High'};
+  if(compose)p.effects=[{id:'no-op',type:'flash',start:0,duration:.5,strength:0,layer:0}];
+  result.textContent='Rendering '+name+' '+amount+' V'+(layer+1);const safe=sanitize(JSON.parse(JSON.stringify(p))),previewCanvas=document.createElement('canvas'),paint=renderer(previewCanvas,{width:160,height:90,preserve:true});paint.draw(expectedSource,safe.clips[0],'160:90');const previewRead=document.createElement('canvas');previewRead.width=160;previewRead.height=90;previewRead.getContext('2d').drawImage(previewCanvas,0,0);const preview=[...previewRead.getContext('2d').getImageData(80,45,1,1).data].slice(0,3);paint.dispose();if(kind==='video'){URL.revokeObjectURL(expectedSource.src);expectedSource.removeAttribute('src');expectedSource.load()}
+  const exported=await renderOnDevice(safe,[{id:m.id,file}]),input=new Input({formats:ALL_FORMATS,source:new BlobSource(exported.file)});
+  try{const track=await input.getPrimaryVideoTrack(),sample=await new VideoSampleSink(track).getSample(.2),canvas=document.createElement('canvas');canvas.width=160;canvas.height=90;sample.draw(canvas.getContext('2d'),0,0,160,90);sample.close();const pixel=[...canvas.getContext('2d').getImageData(80,45,1,1).data].slice(0,3),expected=gradeRGB([200/255,120/255,56/255],lookPresets[name],amount).map(v=>Math.round(v*255));if(Math.max(...pixel.map((v,i)=>Math.abs(v-preview[i])))>8)throw Error('Preview/export mismatch '+JSON.stringify({name,amount,pixel,preview}));if(kind!=='video'&&Math.max(...pixel.map((v,i)=>Math.abs(v-expected[i])))>8)throw Error('LOOK mismatch '+JSON.stringify({name,amount,pixel,expected}));report.push({name,amount,layer,kind:kind||'image',direct:exported.directCanvas,pixel,preview,expected});}finally{input.dispose();await deleteRender(exported.path)}
+ }
+ result.textContent='PASS\n'+JSON.stringify(report,null,2);result.dataset.status='pass';
+}catch(error){result.textContent='FAIL '+error.stack;result.dataset.status='fail'}};
+</script>

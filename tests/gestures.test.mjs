@@ -71,3 +71,12 @@ for(const kind of ['audio','video']){
 }
 delete globalThis.document;
 console.log('Cross-family edge snapping, move destination feedback, separator retention and cleanup PASS');
+// Direct trims bypass phone swipe delegation, so they must own one pointer themselves.
+for(const edge of [null,'in','out']){
+ const c={...clip(m),start:1,in:2,out:6,layer:0},r={clip:c,start:1,end:5,duration:4,layer:0},el={...element,dataset:{clip:c.id},style:{}},root={getBoundingClientRect:()=>({width:1000}),querySelectorAll:()=>[el]};let finished=0;
+ bindTimeline({root,rows:[r],duration:10,select(){},begin(){},finish(){finished++},cancel(){},preview(){},media:()=>m,snap:()=>false,getLayer:()=>1});
+ el.onpointerdown(event(0,0,edge));const before=structuredClone(c);el.onpointermove({...event(100,0,edge),pointerId:2});assert.deepEqual(c,before);
+ el.onpointermove(event(100,0,edge));el.onpointerup({...event(100),pointerId:2});el.onpointercancel({pointerId:2});assert.equal(finished,0);assert(el.onpointermove);
+ el.onpointerup(event(100));assert.equal(finished,1);
+}
+console.log('Direct video/audio move and trim ignore another finger without ending the gesture PASS');

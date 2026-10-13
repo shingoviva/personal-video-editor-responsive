@@ -7,7 +7,7 @@ body[data-ui=phone] input,body[data-ui=phone] select,body[data-ui=phone] textare
 body[data-ui=phone] .topbar{order:0;flex:0 0 44px;padding:0 8px;flex-wrap:nowrap;background:#101612}
 body[data-ui=phone] .brand{width:30px;min-width:30px;flex:none;padding:0;border:0;background:none}
 body[data-ui=phone] .brand::after{display:none}
-body[data-ui=phone] .selection-context,body[data-ui=phone] .workflow,body[data-ui=phone] .top-actions>:not(#exportButton){display:none!important}
+body[data-ui=phone] .selection-context,body[data-ui=phone] .workflow,body[data-ui=phone] .top-actions>:not(#exportButton):not(#resetAll){display:none!important}
 body[data-ui=phone] .project-heading{flex:1;min-width:0;display:flex}
 body[data-ui=phone] .project-heading input{font-size:12px;width:100%;padding:0 4px;min-width:0;text-overflow:ellipsis}
 body[data-ui=phone] .project-heading span{display:none}
@@ -397,3 +397,9 @@ body[data-ui=phone] #regionZoomFrame{user-select:none;-webkit-user-select:none;-
 body[data-ui=phone] #regionZoomFrame>button{left:var(--zoom-handle-left);top:var(--zoom-handle-top);right:auto;bottom:auto;width:44px;height:44px;min-height:44px;touch-action:none}
 body[data-ui=phone] #regionZoomFrame>button::after{right:12px;bottom:12px;width:20px;height:20px;border-radius:3px;background:#111a12d9;box-shadow:0 0 0 1px #e2eeab44}
 body[data-ui=phone] #regionZoomFrame[data-compact=true]>span{left:var(--zoom-label-left);top:var(--zoom-label-top);width:74px;height:44px;display:flex;align-items:center;justify-content:center;pointer-events:auto;touch-action:none;border:1px solid #e2eeab66;border-radius:5px;cursor:move;font-size:9px}
+
+/* Share the desktop reset action and confirmation, with a compact phone icon. */
+body:not([data-ui=phone]) #resetAll>.pve-icon{display:none}
+body[data-ui=phone] #resetAll{display:flex!important;align-items:center;justify-content:center;width:34px;min-width:34px;height:36px;min-height:36px;padding:0;margin-right:4px;border:0;background:transparent;color:var(--muted)}
+body[data-ui=phone] #resetAll>.pve-icon{width:18px;height:18px}
+body[data-ui=phone] #resetAll>.reset-label{display:none}

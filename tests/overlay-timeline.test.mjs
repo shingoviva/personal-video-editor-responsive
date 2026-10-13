@@ -49,3 +49,8 @@ let overlayCaptures=0;layerElement.setPointerCapture=()=>overlayCaptures++;
 layerElement.onpointerdown({...event(100,10),timelineTouchManaged:true});layerElement.onpointermove(event(120,10));layerElement.onpointerup(event(120,10));assert.equal(overlayCaptures,0,'managed FX/text move must not steal timeline capture');
 layerElement.onpointerdown(event(100,10));layerElement.onpointercancel();assert.equal(overlayCaptures,1,'direct overlay gesture retains its capture');
 console.log('Overlay pointer capture respects the phone timeline touch owner PASS');
+const guarded={id:'guarded',start:1,duration:1},guardEl=makeElement({fx:'guarded'}),guardRoot={getBoundingClientRect:()=>({width:1000}),querySelectorAll:()=>[guardEl]};let ended=0;
+bindOverlayTimeline({root:guardRoot,effects:[guarded],duration:10,targets:()=>[],snap:()=>false,select(){},begin(){},finish(){ended++},cancel(){},preview(){}});
+guardEl.onpointerdown(event(0));guardEl.onpointermove({...event(100),pointerId:2});assert.equal(guarded.start,1);
+guardEl.onpointermove(event(100));guardEl.onpointerup({...event(100),pointerId:2});guardEl.onpointercancel({pointerId:2});assert.equal(ended,0);assert(guardEl.onpointermove);guardEl.onpointerup(event(100));assert.equal(ended,1);
+console.log('FX direct drag ignores other pointers and completes only for its owner PASS');

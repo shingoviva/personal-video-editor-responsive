@@ -4,7 +4,14 @@ export const timelineRatio=(pointerY,top,bottom)=>clampTimelineHeight(bottom-poi
 export function bindWorkspaceSplitter({workspace,splitter,onResize=()=>{},storage=localStorage}){
  const key='pve.iphone.timeline.ratio',read=()=>Math.max(.2,Math.min(.66,+(storage.getItem(key)||.4))),apply=ratio=>{const h=clampTimelineHeight(workspace.clientHeight*ratio,workspace.clientHeight);workspace.style.setProperty('--timeline-height',h+'px');onResize(h)};let ratio=read();apply(ratio);
  const resize=()=>apply(ratio);window.addEventListener('resize',resize);
- splitter.onpointerdown=event=>{if(event.button!==0)return;event.preventDefault();splitter.setPointerCapture(event.pointerId);splitter.classList.add('dragging');document.body.classList.add('resizing-workspace');const move=e=>{const box=workspace.getBoundingClientRect();ratio=timelineRatio(e.clientY,box.top,box.bottom);apply(ratio)};const finish=()=>{splitter.onpointermove=null;splitter.onpointerup=null;splitter.onpointercancel=null;splitter.classList.remove('dragging');document.body.classList.remove('resizing-workspace');storage.setItem(key,String(ratio));onResize()};splitter.onpointermove=move;splitter.onpointerup=finish;splitter.onpointercancel=finish};
+ splitter.onpointerdown=event=>{
+  if(event.button!==0)return;event.preventDefault();splitter.setPointerCapture(event.pointerId);const initial=ratio;
+  splitter.classList.add('dragging');document.body.classList.add('resizing-workspace');
+  const move=e=>{if(e.pointerId!==event.pointerId)return;const box=workspace.getBoundingClientRect();ratio=timelineRatio(e.clientY,box.top,box.bottom);apply(ratio)};
+  const finish=(e,cancel=false)=>{if(e.pointerId!==event.pointerId)return;splitter.onpointermove=splitter.onpointerup=splitter.onpointercancel=splitter.onlostpointercapture=null;splitter.classList.remove('dragging');document.body.classList.remove('resizing-workspace');if(cancel){ratio=initial;apply(ratio)}else{storage.setItem(key,String(ratio));onResize()}try{splitter.releasePointerCapture(e.pointerId)}catch{}};
+  splitter.onpointermove=move;splitter.onpointerup=e=>finish(e);splitter.onpointercancel=splitter.onlostpointercapture=e=>finish(e,true);
+ };
+
  splitter.onkeydown=event=>{if(!['ArrowUp','ArrowDown','Home'].includes(event.key))return;event.preventDefault();ratio=event.key==='Home'?.4:Math.max(.2,Math.min(.66,ratio+(event.key==='ArrowUp'?.04:-.04)));storage.setItem(key,String(ratio));apply(ratio)};
  return()=>window.removeEventListener('resize',resize)
 }

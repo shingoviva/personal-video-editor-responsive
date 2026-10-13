@@ -1,5 +1,5 @@
 import {clamp} from './model.js';
-import {equalSpacingStart} from './timeline-gestures.js?v=2.2.62';
+import {equalSpacingStart} from './timeline-gestures.js?v=2.2.63';
 
 // Keep overlay items frame-aligned, then magnetize either edge to the playhead
 // or an edit boundary. Twelve screen pixels is forgiving without feeling sticky.
@@ -29,7 +29,7 @@ export function bindOverlayTimeline({root,effects=[],texts=[],duration,targets,s
    const origin=structuredClone(item),originStart=origin.start,originSpan=kind==='effect'?origin.duration:origin.end-origin.start,x=event.clientX,y=event.clientY,edge=event.target?.closest?.('[data-overlay-edge]')?.dataset.overlayEdge;
    const phoneScroll=event.pointerType==='touch'&&globalThis.document?.body?.dataset.ui==='phone'&&!edge&&!globalThis.document.body.classList.contains('phone-moving');
    let moved=false,lastResult={snapped:false,target:null,spacing:{spacing:false}},ghost=null,companions=[];select(kind,item.id,event);if(!event.timelineTouchManaged)el.setPointerCapture(event.pointerId);
-   el.onpointermove=move=>{
+   el.onpointermove=move=>{if(move.pointerId!==undefined&&move.pointerId!==event.pointerId)return;
     if(phoneScroll)return;
     if(!moved&&Math.hypot(move.clientX-x,(move.clientY??y)-y)<5)return;
     if(!moved){begin();if(event.altKey&&!edge&&duplicate){ghost=el.cloneNode?.(true)||null;if(ghost){ghost.classList.add('duplicate-origin');el.parentNode?.insertBefore(ghost,el)}item=duplicate(item,kind)||item;select(kind,item.id,event)}else if(!edge)companions=groupItems(item,kind).filter(v=>v.item.id!==item.id);moved=true;el.classList.add('dragging')}
@@ -40,9 +40,9 @@ export function bindOverlayTimeline({root,effects=[],texts=[],duration,targets,s
     const itemSpan=kind==='effect'?item.duration:item.end-item.start;el.style.left=item.start/Math.max(duration,.001)*100+'%';el.style.width=itemSpan/Math.max(duration,.001)*100+'%';preview(item,kind,lastResult,edge);
    };
    const cleanup=()=>{ghost?.remove?.();ghost=null;el.style.transform='';el.classList.remove('dragging');el.onpointermove=null;el.onpointerup=null;el.onpointercancel=null;el.onlostpointercapture=null};
-   el.onpointerup=()=>{cleanup();if(moved)finish(item,kind,lastResult)};
-   el.onpointercancel=()=>{cleanup();if(moved)cancel()};
-   el.onlostpointercapture=()=>{cleanup();if(moved)cancel()};
+   el.onpointerup=next=>{if(next?.pointerId!==undefined&&next.pointerId!==event.pointerId)return;cleanup();if(moved)finish(item,kind,lastResult)};
+   el.onpointercancel=next=>{if(next?.pointerId!==undefined&&next.pointerId!==event.pointerId)return;cleanup();if(moved)cancel()};
+   el.onlostpointercapture=next=>{if(next?.pointerId!==undefined&&next.pointerId!==event.pointerId)return;cleanup();if(moved)cancel()};
   };
  }
 }

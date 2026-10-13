@@ -1,3 +1,35 @@
+## 2.2.63 公開前検証（2026-10-13）
+
+- 前回からの操作中断復帰修正、iPhone共通リセット、通知3.4秒、LOOK回帰検証を収録。
+- タイムラインの前詰めボタンを「詰めて削除」に変更。iPhoneの同じ処理につながる「削除」表示も揃えた。機能そのものは変更なし。Shift+Deleteと英語Ripple deleteを維持。
+- npm test全体・npm run build・git diff --check成功。native全17本（LOOK/localhost API含む）、Mac ZIP検証成功。ログ/tmp/pve-release-63-{js,build,native,mac}.log。実機Safari/ユーザー素材HDRは未確認。
+
+## iPhoneリセット・通知短縮・LOOK書き出し検証（2026-10-13・未公開）
+
+- iPhone上部に既存resetAllボタンをSVGアイコンで表示。Macと同一のconfirmResetAll/resetAll処理を利用。Macの文字ボタン表示を維持。
+- 通常toast共通時間を4400→3400msに変更。同程度の独立した情報通知タイマーは見つからず。処理タイムアウト/保存待ち時間は変更なし。
+- CUA393×852でリセット確認の消去対象/素材非削除/保存リンク/キャンセルを確認（リセット実行なし）。上部右端385px、画面幅393px内に全ボタン収まる。LOOKカードMONO選択と強度1.00確認。
+- 実書き出し: tests/look-export.test.pyでMac全9LOOK、MONO強度0/.5/1、V3、完成動画decodeとH.264/AAC、元ファイルハッシュ維持を確認。ログ/tmp/pve-look-native.log。
+- tests/fixtures/look-export.htmlは実アプリのrenderer＋mobile workerを用い、生成PNG/一定色H.264素材からMP4作成、再decodeした中心画素とプレビューを比較。全9LOOK、MONO0/.5/1、V3/合成経路、動画MONO/WARMがPASS。差は0〜3/255程度。検証出力ファイルは終了時削除。動画プレビューはアプリと同じHTMLVideoを使用し、WebCodecsの別描画経路と混同しない。
+- LOOK未反映は今回再現せず、LOOKのproduction処理は変更していない。iPhone実機Safari・ユーザー素材/HDR未確認。
+- npm test全体/build成功、証拠: ../.codex-context/audit-evidence/phone-reset-header.png、look-export-result.json（ブラウザ検証結果）。
+
+## プレビュー操作・境界調整の追加監査（2026-10-12・未公開）
+
+- stage-transform: 操作中の別pointerdownで進行中のドラッグを上書きしない。lostpointercaptureでも既存の終了処理を実行し、ガイド・ドラッグ状態を解除。中断時の変更確定は既存pointercancelと同じ仕様を維持。
+- workspace-splitter: 所有pointerだけで調整・終了。cancel/lostcapture時は元の比率へ復帰し、途中値を保存せずCSS/handlerを解除。
+- 回帰テストで別pointer干渉、captureloss、二重終了防止、解除後の再操作、正常完了保存を確認。
+- 素材プレビュー、設定reset、タブrouting、プロジェクト保存復元の実装と関連テストも点検。今回それらの明確な不具合は確認せず。
+- npm test全体/build/diffcheck成功。ログ/tmp/pve-third-audit-{test,build}.log。再生/音声/export非変更。ブラウザ実操作・実機Safariは未検証。
+
+## 操作不整合の追加監査（2026-10-12・未公開）
+
+- パネル開閉・素材プレビュー・読み込み・再生開始/停止/シーク・書き出し復帰・Undo/Redoの実装と関連テストを確認。
+- Macパネル幅調整: 別pointerのmove/up/cancelを無視。cancel/lostcaptureで元の幅へ復帰し、ドラッグCSS状態とハンドラを解除。途中値を保存しない。通常完了の保存は維持。
+- 新回帰テストで左右両方のパネルについて別指・captureloss・取消・再操作を検証。
+- 前回のクリップ/FX/レイヤー高さ修正を含むnpm test全体、npm run build、git diff --check成功。ログ: /tmp/pve-expanded-audit-test.log、/tmp/pve-expanded-audit-build.log。
+- 再生・音声・書き出し処理は変更なし。今回ブラウザでの実操作、実機Safari、実素材書き出しは未実施。
+
 ## 2.2.62 — 映像・音声のドラッグ表示をFX方式へ統一
 
 固定top:2px!importantがドラッグのstyle.topを上書きする原因を修正。FX同様のtranslateYで実高さへ追従し、完了・取消・capture喪失で移動表示を解除。複数選択の随伴クリップも同方式。ブラウザで実CSS使用の手動fixtureを検証：映像V1→V2は-52px、音声A1→A2は44px、描画位置は宛先top+2pxと一致。通常幅と393pxの両方で成功（マウス入力）。全68JS/build成功、実機Safari touch未確認。fixtures/timeline-drag-visual.htmlをrepo rootのHTTPで再検証可能。音声再生/export非変更。公開前追加検証：Python動画処理16本・localhost API成功、Mac ZIP 4,210,892 bytes検証成功。
