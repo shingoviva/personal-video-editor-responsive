@@ -162,7 +162,7 @@ def validate_output(path,expected_duration=None,require_audio=False):
   raise OutputValidationError(f'出力の長さが一致しません（予定 {expected_duration:.3f}秒 / 出力 {duration:.3f}秒）。')
  if require_audio and video:
   audio_duration=number(audio.get('duration',d.get('format',{}).get('duration')),0)
-  if abs(audio_duration-duration)>tolerance:raise OutputValidationError('映像と音声の長さが一致しません。')
+  if abs(audio_duration-duration)>tolerance:raise OutputValidationError(f'映像と音声の長さが一致しません（映像 {duration:.3f}秒 / 音声 {audio_duration:.3f}秒）。')
  return {'duration':duration,'bytes':path.stat().st_size,'video':video.get('codec_name') if video else None,'audio':audio.get('codec_name') if audio else None}
 
 
