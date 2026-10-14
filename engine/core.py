@@ -89,7 +89,7 @@ def capabilities():
  f=subprocess.run([FFMPEG,'-hide_banner','-filters'],capture_output=True,text=True).stdout
  e=subprocess.run([FFMPEG,'-hide_banner','-encoders'],capture_output=True,text=True).stdout
  ready='libx264' in e;stabilization='vidstabtransform' in f;hdr='zscale' in f and 'tonemap' in f;drawtext='drawtext' in f;text_raster='overlay' in f;text=drawtext or text_raster;prores='prores_ks' in e;motion='minterpolate' in f
- return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.63','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
+ return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.64','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
 
 def preflight_render(project,clips=None,caps=None):
  """Fail before rendering when the chosen edit needs a missing FFmpeg feature."""
@@ -514,6 +514,15 @@ def transition_video_graph(value,duration,window_duration,w,h,fps,pixel):
  else:expr=f'if(gte(Y,H*(1-({ease}))),B,A)'
  return prepare+f"[old][new]blend=all_expr='{expr}',trim=duration={window_duration:.9f},setpts=PTS-STARTPTS[v]"
 
+def video_frame_window(duration,fps):
+ """Keep quantized video windows exact; never change the audio sample clock."""
+ frames=max(1,math.ceil(duration*fps-1e-8))
+ return f'fps={fps}:start_time=0,tpad=stop_mode=clone:stop=-1,trim=end_frame={frames},setpts=N/({fps}*TB)'
+
+def video_has_frames(path,frames):
+ result=subprocess.run([FFPROBE,'-v','error','-select_streams','v:0','-show_entries','stream=nb_frames','-of','csv=p=0',str(path)],capture_output=True,text=True,timeout=60)
+ return result.returncode==0 and result.stdout.strip()==str(frames)
+
 def render(job,project,preview=False,_token=None,_size=None):
  audio_clips=validate_audio(project)
  overlay_end=max([0]+[number(e.get('start'),0,0,86400)+number(e.get('duration'),.6,1/60,86400) for e in project.get('effects',[])]+[number(t.get('end'),0,0,86400) for t in project.get('texts',[])])
@@ -522,7 +531,7 @@ def render(job,project,preview=False,_token=None,_size=None):
  if preview:fps=min(30,fps)
  fps=min(60,fps) # SNS V1 delivery contract
  video_end=max([0]+[c['_at']+c['_window'][1] for c in visible_clips(clips)]);required_end=max(timeline_end,audio_extent(audio_clips))
- if required_end>video_end:clips=[*clips,{'gap':required_end-video_end,'start':video_end}]
+ if required_end>video_end+1e-8:clips=[*clips,{'gap':required_end-video_end,'start':video_end}]
  raw_clips=copy.deepcopy(clips)
  clips=visible_clips(clips,fps)
  crf={'Preview':28,'Standard':21,'High':18,'Maximum':15}.get(exp.get('quality'),21)
@@ -583,7 +592,7 @@ def render(job,project,preview=False,_token=None,_size=None):
    # untagged inputs use swscale's deterministic BT.709 conversion instead.
    tagged=all(m.get(k) not in (None,'','unknown') for k in ('transfer','primaries','matrix'))
    precision_convert='zscale=matrix=709:range=limited:dither=error_diffusion' if caps.get('hdr') and m.get('kind')!='image' and tagged else 'scale=out_color_matrix=bt709:out_range=tv:flags=lanczos+accurate_rnd+full_chroma_int:sws_dither=auto'
-   vf+=['fps='+str(fps),'tpad=stop_mode=clone:stop=-1',f'trim=duration={duration+hold}',precision_convert,f'format={pixel}','setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709']
+   vf+=['fps='+str(fps),'tpad=stop_mode=clone:stop=-1',f'trim=duration={duration+hold+1/fps}',precision_convert,f'format={pixel}','setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709']
    # Source audio is mixed per video layer after picture compositing. Keeping
    # these clip parts silent avoids duplicating the visible layer's audio.
    graph=['[0:v]'+','.join(vf)+'[v]'];audio=c.get('audio',{});volume=0
@@ -610,8 +619,8 @@ def render(job,project,preview=False,_token=None,_size=None):
    gain_filter=f"volume='{keyframe_expression(gain_keys,duration+hold,2,'t')}':eval=frame," if gain_keys else ''
    graph.append(f'[mix]{gain_filter}afade=t=in:d={max(.001,fadein)},afade=t=out:st={max(0,duration+hold-fadeout)}:d={max(.001,fadeout)}[a]')
    offset,window_duration=c['_window']
-   graph[0]=graph[0].replace('[v]',f',trim=start={offset}:duration={window_duration},setpts=PTS-STARTPTS[v]')
-   graph[-1]=graph[-1].replace('[a]',f',atrim=start={offset}:duration={window_duration},asetpts=PTS-STARTPTS[a]')
+   graph[0]=graph[0].replace('[v]',f',trim=start={offset:.9f}:duration={window_duration:.9f},setpts=PTS-STARTPTS[v]')
+   graph[-1]=graph[-1].replace('[a]',f',atrim=start={offset:.9f}:duration={window_duration:.9f},asetpts=PTS-STARTPTS[a]')
    fi=number(c.get('fadeIn'),0,0,(duration+hold)/2);fo=number(c.get('fadeOut'),0,0,(duration+hold)/2);opacity=number(c.get('opacity'),1,0,1);opacity_keys=c.get('opacityKeyframes',[])
    if fi or fo or opacity<1 or opacity_keys:
     ai=f'(T+{offset})/{fi}' if fi else '1';ao=f'({duration+hold}-T-{offset})/{fo}' if fo else '1'
@@ -622,10 +631,11 @@ def render(job,project,preview=False,_token=None,_size=None):
      graph.append(f'[{index}:v]setpts=PTS-STARTPTS[lower]')
     else:graph.append(f'color=c=black:s={w}x{h}:r={fps}:d={window_duration}[lower]')
     graph.append(f"[lower][top]blend=all_expr='A*(1-({alpha}))+B*({alpha})':shortest=1[v]")
+   graph.append(f'[v]{video_frame_window(window_duration,fps)}[vout]')
    part=work/f'clip-{idx:04d}{ext}';outputs.append(part)
    script=work/'graph.txt';script.write_text(';\n'.join(graph))
    job['operation']=f'クリップ {idx+1}/{len(clips)} を書き出し中'
-   run(job,input_args+['-filter_complex_script',script,'-map','[v]','-map','[a]',*video_args,*audio_args,'-color_primaries','bt709','-color_trc','bt709','-colorspace','bt709','-video_track_timescale','90000',part],window_duration,done/max(total,.001)*.85,window_duration/max(total,.001)*.85)
+   run(job,input_args+['-filter_complex_script',script,'-map','[vout]','-map','[a]',*video_args,*audio_args,'-color_primaries','bt709','-color_trc','bt709','-colorspace','bt709','-video_track_timescale','90000',part],window_duration,done/max(total,.001)*.85,window_duration/max(total,.001)*.85)
    transition=clip_transition(c,raw_clips,fps)
    if transition and len(outputs)>1 and offset<1/fps+1e-7:
     td=min(transition['duration'],window_duration);previous=outputs[-2];blended=work/f'clip-{idx:04d}-transition{ext}'
@@ -657,7 +667,7 @@ def render(job,project,preview=False,_token=None,_size=None):
    start=number(e.get('start'),0,0,total);d=number(e.get('duration'),.6,1/60,30);hold=number(e.get('hold'),0,0,max(0,d-1/60));transition=max(1/60,d-hold);strength=number(e.get('strength'),1,0,1)
    if start>=total or strength==0:continue
    color='white' if kind=='flash' else 'black';direction='in' if kind=='black-out' else 'out';fade_start=hold if kind=='black-in' else 0;fade_duration=transition if kind!='flash' else d;fx=work/f'fx-{i}{ext}'
-   graph=f"[1:v]format=rgba,colorchannelmixer=aa={strength},fade=t={direction}:st={fade_start}:d={fade_duration}:alpha=1,setpts=PTS-STARTPTS+{start}/TB[fx];[0:v][fx]overlay=eof_action=pass:repeatlast=0:enable='gte(t,{start})*lt(t,{start+d})'[v]"
+   graph=f"[0:v]setpts=PTS-STARTPTS[base];[1:v]format=rgba,colorchannelmixer=aa={strength},fade=t={direction}:st={fade_start}:d={fade_duration}:alpha=1,setpts=PTS-STARTPTS+{start}/TB[fx];[base][fx]overlay=eof_action=pass:repeatlast=0:enable='gte(t,{start})*lt(t,{start+d})'[v]"
    job['operation']=f'画面効果 {i+1}/{len(effects)} を合成中'
    run(job,['-i',joined,'-f','lavfi','-t',d,'-i',f'color=c={color}:s={w}x{h}:r={fps}','-filter_complex',graph,'-map','[v]','-map','0:a','-t',total,*video_args,'-c:a','copy',fx],total,.89,0)
    joined=fx
@@ -710,7 +720,7 @@ def render(job,project,preview=False,_token=None,_size=None):
    texted=work/('texted.mov' if caption_plane else f'texted{ext}');job['operation']=f'{len(raster_layers)}個のテロップを一括合成中'
    run(job,text_args+['-filter_complex',';'.join(text_graph),'-map',f'[{previous}]','-map','0:a','-t',total,*caption_video_args,'-c:a','copy',texted],total,.89,0)
    joined=texted
-  zooms=[e for e in effects if e.get('type')=='region-zoom']
+  zooms=sorted([e for e in effects if e.get('type')=='region-zoom'],key=lambda e:e.get('motionKind')!='focus')
   if caption_plane:
    if final_vf:
     captioned=work/'caption-drawn.mov'
@@ -747,7 +757,10 @@ def render(job,project,preview=False,_token=None,_size=None):
    for path in mixed_tracks:args+=['-i',path];labels.append(f'[{index}:a]');index+=1
    graph.append(''.join(labels)+f'amix=inputs={len(labels)}:duration=first:normalize=0,alimiter=limit=0.95:level=0:latency=1[a]')
    args+=['-filter_complex',';'.join(graph),'-map','0:v','-map','[a]']
-  if final_vf:args+=['-vf',','.join(final_vf),*video_args]
+  # Keep the fast copy path when the composed video already has the exact frame count.
+  if final_vf or not video_has_frames(joined,max(1,math.ceil(total*fps-1e-8))):
+   final_vf.append(video_frame_window(total,fps))
+   args+=['-vf',','.join(final_vf),*video_args]
   else:args+=['-c:v','copy']
   if bg or mixed_tracks:args+=audio_args
   else:args+=['-c:a','copy']
@@ -758,8 +771,27 @@ def render(job,project,preview=False,_token=None,_size=None):
   shutil.rmtree(work,ignore_errors=True)
   for lower_path in lower_paths.values():lower_path.unlink(missing_ok=True)
 
+def material_path_expr(points,key,local,fallback):
+ values=[]
+ for p in (points if isinstance(points,list) else [])[:2000]:
+  t=number(p.get('time'),0,0,30);value=number(p.get(key),fallback,-1,2)
+  if not values or t>values[-1][0]:values.append((t,value))
+ if not values:return str(fallback)
+ parts=[str(values[0][1])]
+ for (a,x),(b,y) in zip(values,values[1:]):
+  if abs(y-x)>1e-9:parts.append(f'({y-x})*clip(({local}-{a})/{b-a},0,1)')
+ return '('+'+'.join(parts)+')'
+
 def region_zoom_filter(e,w,h,fps):
  # Same smoothstep and normalized frame geometry as region-zoom.js.
+ kind=e.get('motionKind');start=number(e.get('start'),0,0,86400);duration=number(e.get('duration'),3,1/60,86400);local=f'(in_time-{start})';strength=number(e.get('strength'),.5,0,1)
+ if kind in ('audio-pulse','camera-bump'):
+  active=f'gte(in_time,{start})*lt(in_time,{start+duration})';scale=material_path_expr(e.get('motionPath'), 'scale',local,1);dx=material_path_expr(e.get('motionPath'),'x',local,0);dy=material_path_expr(e.get('motionPath'),'y',local,0)
+  z=f'(1+(({scale})-1)*{strength}*({active}))';x=f'iw*(.5-.5/zoom-({dx})*{strength}*({active})/zoom)';y=f'ih*(.5-.5/zoom-({dy})*{strength}*({active})/zoom)'
+  return f"zoompan=z='{z}':x='{x}':y='{y}':d=1:s={w}x{h}:fps={fps}"
+ if kind=='focus':
+  size=number(e.get('zoomSize'),.4,.1,1);cx=material_path_expr(e.get('trackPath'),'x',f'(T-{start})',number(e.get('zoomX'),.5,size/2,1-size/2));cy=material_path_expr(e.get('trackPath'),'y',f'(T-{start})',number(e.get('zoomY'),.5,size/2,1-size/2));inside=f'gte(X/W,({cx})-{size/2})*lt(X/W,({cx})+{size/2})*gte(Y/H,({cy})-{size/2})*lt(Y/H,({cy})+{size/2})';factor=f'(1-{min(.85,strength)}*(1-({inside}))*gte(T,{start})*lt(T,{start+duration}))'
+  return "geq="+':'.join(f"{channel}='{channel}(X,Y)*{factor}'" for channel in ['r','g','b'])
  size=number(e.get('zoomSize'),.4,.1,1);cx=number(e.get('zoomX'),.5,size/2,1-size/2);cy=number(e.get('zoomY'),.5,size/2,1-size/2)
  start=number(e.get('start'),0,0,86400);d=number(e.get('duration'),3,1/60,86400);zi=number(e.get('zoomIn'),.2,0,d);zo=number(e.get('zoomOut'),.3,0,d-zi);back=number(e.get('returnAt'),max(zi,d-zo),zi,d-zo)
  local=f'(in_time-{start})'
@@ -768,8 +800,9 @@ def region_zoom_filter(e,w,h,fps):
  leave=smooth(f'clip(({local}-{back})/{zo},0,1)') if zo else f'gte({local},{back})'
  progress=f'if(gte(in_time,{start})*lt(in_time,{start+d}),({enter})'+(f'*(1-({leave}))' if e.get('zoomReturn') is not False else '')+',0)'
  z=f'(1+({1/size-1})*({progress}))'
- x=f'iw*(.5-.5/zoom-({(.5-cx)/(1-size) if size<1 else 0})*(zoom-1)/zoom)'
- y=f'ih*(.5-.5/zoom-({(.5-cy)/(1-size) if size<1 else 0})*(zoom-1)/zoom)'
+ center_x=material_path_expr(e.get('trackPath'),'x',local,cx);center_y=material_path_expr(e.get('trackPath'),'y',local,cy)
+ x=f'iw*(.5-.5/zoom-((.5-({center_x}))/{1-size if size<1 else 1})*(zoom-1)/zoom)'
+ y=f'ih*(.5-.5/zoom-((.5-({center_y}))/{1-size if size<1 else 1})*(zoom-1)/zoom)'
  return f"zoompan=z='{z}':x='{x}':y='{y}':d=1:s={w}x{h}:fps={fps}"
 
 def analyze(job,id,intent='HIGH FASHION'):

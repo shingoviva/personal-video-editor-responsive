@@ -1,3 +1,14 @@
+## 2.2.64 素材解析FX・保存復元・書き出し（2026-10-14公開前検証）
+
+- URL素材解析はメイン画面で全体Blobを作らず、ワーカーのUrlSourceを利用。File/URLの両経路をブラウザで確認。Macパッケージも生成・検証成功（/tmp/pve-material-mac.log）。
+- 純粋関数試験: 無音/一定音の除外、音の立ち上がり、一定パンの除外/急な動き検出、揺れ量による抑制、テクスチャ追跡/低信頼度保持、経路補間/範囲制限/最大80点、保存復元、元素材編集時の無効化、再生で経路を複製しないことを確認。
+- 全npm test/build成功。ログ/tmp/pve-material-js-final.log、/tmp/pve-material-build-final.log。
+- native実書き出し: 新4FXとFOCUS＋ZOOMの組み合わせをH.264/AACで検証。画素、全decode、2秒の尺と音声RMSを確認。ログ/tmp/pve-material-native-final.log。既存REGION ZOOMのテロップON/OFF・透明合成とcreative動画処理も成功（/tmp/pve-material-{region,creative}-native.log）。
+- CUA実worker: 2秒の静止テクスチャを横パン＋一度急移動させた動画で、追跡経路・不確かな点0・急な動き候補1を確認。右チャンネルのみの音声で0.4/1.0/1.6秒の3アクセント検出。速度0.5倍の時間対応も成功。
+- 端末内4FXを書き出して再decodeし、同じ素材のHTMLVideo/GPU＋Canvasプレビューと画素を比較。160×90の高周波テスト素材は圧縮誤差を分離するため8Mbps指定。平均誤差は0.99〜3.83/255、全FXで画面変化と出力検証成功。既定ビットレートの低解像度人工ノイズ動画に対する画素完全一致は主張しない。
+- 実編集画面で音アクセント/バンプ/追跡ズームの解析適用、iPhone幅393でFOCUS枠指定・追跡適用、解析結果Undo/Redo、横overflowなしを確認。証拠../.codex-context/audit-evidence/material-fx-{result.json,phone.png}。
+- 実機iPhone Safari、実写での隠れ/顔変形/高速運動/HDR、長い解析区間の性能は未確認。追加の常駐解析なし。音声プレビュー/mix/export処理非変更（キャッシュ番号以外）。元Mac開発版は非変更。2.2.64の公開対象へ追加。
+
 ## 2.2.63 公開前検証（2026-10-13）
 
 - 前回からの操作中断復帰修正、iPhone共通リセット、通知3.4秒、LOOK回帰検証を収録。
@@ -1058,3 +1069,15 @@ Chromeの1440×1000と402×874相当で、レイアウト、工程切り替え�
 - Codexブラウザ393×650で標準のトラックスクロール領域158px、タイムライン優先276px。複製、Undo/Redo、前詰めトリム（8秒→7秒）、分割（3→4クリップ）とUndo、クリップ一覧、比率シート、8秒連続再生の末尾到達、H.264/AAC端末内MP4生成（180×320・30fps）を実操作確認。393×852、590×393、1440×900で画面幅超過0、Macはdesktopへ切替。
 - npm test全件、静的ビルド、Python動画処理パイプライン、サーバー認証・Range・保存・非同期処理試験が通過。新試験は画面高さ予算、バッファ待ち、単調クロック、反復seek防止、2倍速、停止中スクラブ、選択端の直接トリムを検証。
 - 元版161ファイルをSHA-256照合、変更0。iPhone実機Safariの聴感、4K/HDR・長尺・多レイヤーでの連続編集は未検証。音声の実機症状の解消を保証するものではありません。
+
+
+## Project reset/load and exact frame windows (2.2.64, local)
+
+- Invalid parseable projects (unsupported version or missing media records) are rejected by the real `loadProject` function before playback pause, URL revocation, file clearing or history replacement. New `project-load-guard.test.mjs` is included in npm test.
+- Native `frame-window.test.py` exports fractional edits and speed changes with FX at 24/30/60 fps; exact frame counts/durations, audio continuity and complete decoding pass. Added to the native CI checks.
+- Quantized video segments retain exact frames with bounded trimming and terminal-frame padding. Float noise below 1e-8 seconds does not create a synthetic gap; trim timestamps use fixed decimal syntax. FX compositing resets its video input timestamp origin. Final frames are normalized only when needed; exact existing videos retain stream-copy. Audio mixer/engine unchanged.
+- Independent 20-second complex fixture:17 media/69 video clips/41 FX/10 captions/5 audio clips covering all4 audio lanes. Actual save/reset/load/link functions executed100 times in Node VM with UI/decoder adapters; complete JSON/engine ID references preserved. Browser-mode media restoration used a simulated persistent file store, not Safari IndexedDB.
+- Real native before/restored exports succeeded at30fps(600frames) and60fps(1200frames), both20 seconds. After final changes the restored project was exported again at both rates and fully decoded. Text rasters reused the existing browser-generated rasters for unchanged captions. Test output sizes:30fps540x960 and60fps270x480.
+- Final60fps decoded audio matches the pre-fix baseline sample-for-sample. Existing clip boundaries, four-track mix, transitions, region zoom, creative effects, material FX, ProRes and still-image native tests pass; npm test/build and diff checks pass.
+- Physical Mac UI/playback/speaker tests could not run while the Mac was locked. Real Safari/iPhone and packaged Mac build remain unverified/unupdated. No publication. AAC near-silent decoded tail observation remains an investigation item, not claimed fixed.
+- Detailed fixtures/logs: workspace `pve-vibe/lifecycle-audit/`.

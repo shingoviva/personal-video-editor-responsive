@@ -23,7 +23,9 @@ jobs:
           python tests/capabilities.test.py
           python tests/images.test.py
           python tests/look-export.test.py
+          python tests/material-fx.test.py
           python tests/layers.test.py
+          python tests/frame-window.test.py
           python tests/clip-boundary.test.py
           python tests/transitions.test.py
           python tests/multitrack.test.py
