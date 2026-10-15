@@ -18,28 +18,46 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
-      - name: Validate native video pipeline
-        run: |
-          python tests/capabilities.test.py
-          python tests/images.test.py
-          python tests/look-export.test.py
-          python tests/material-fx.test.py
-          python tests/layers.test.py
-          python tests/export-optimizations.test.py
-          python tests/frame-window.test.py
-          python tests/clip-boundary.test.py
-          python tests/transitions.test.py
-          python tests/multitrack.test.py
-          python tests/prores.test.py
-          python tests/reliability.test.py
-          python tests/server.test.py
-          python tests/validate_pipeline.py
-          python tests/validate_formats.py
-          python tests/region-zoom.test.py
-          python tests/creative.test.py
-          python tests/youtube.test.py
-          python tests/program-workflow.test.py
-          python tests/overlay-only.test.py
+      - name: Native capabilities.test.py
+        run: python tests/capabilities.test.py
+      - name: Native images.test.py
+        run: python tests/images.test.py
+      - name: Native look-export.test.py
+        run: python tests/look-export.test.py
+      - name: Native material-fx.test.py
+        run: python tests/material-fx.test.py
+      - name: Native layers.test.py
+        run: python tests/layers.test.py
+      - name: Native export-optimizations.test.py
+        run: python tests/export-optimizations.test.py
+      - name: Native frame-window.test.py
+        run: python tests/frame-window.test.py
+      - name: Native clip-boundary.test.py
+        run: python tests/clip-boundary.test.py
+      - name: Native transitions.test.py
+        run: python tests/transitions.test.py
+      - name: Native multitrack.test.py
+        run: python tests/multitrack.test.py
+      - name: Native prores.test.py
+        run: python tests/prores.test.py
+      - name: Native reliability.test.py
+        run: python tests/reliability.test.py
+      - name: Native server.test.py
+        run: python tests/server.test.py
+      - name: Native validate_pipeline.py
+        run: python tests/validate_pipeline.py
+      - name: Native validate_formats.py
+        run: python tests/validate_formats.py
+      - name: Native region-zoom.test.py
+        run: python tests/region-zoom.test.py
+      - name: Native creative.test.py
+        run: python tests/creative.test.py
+      - name: Native youtube.test.py
+        run: python tests/youtube.test.py
+      - name: Native program-workflow.test.py
+        run: python tests/program-workflow.test.py
+      - name: Native overlay-only.test.py
+        run: python tests/overlay-only.test.py
       - run: python scripts/package-mac.py
       - uses: actions/upload-artifact@v4
         with:
