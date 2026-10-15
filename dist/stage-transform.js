@@ -1,4 +1,4 @@
-import {clamp} from './model.js?v=2.2.64';
+import {clamp} from './model.js?v=2.2.65';
 
 export function centeredTransform(origin,dx,dy,width,height,threshold=8,direction=-1){
  let x=clamp((origin.x??.5)+direction*dx/Math.max(width,1),0,1),y=clamp((origin.y??.5)+direction*dy/Math.max(height,1),0,1),snapX=false,snapY=false;

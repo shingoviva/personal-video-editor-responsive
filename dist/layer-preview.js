@@ -1,15 +1,16 @@
-import {needsPreviewSeek,previewMediaEnded} from './playback-sync.js?v=2.2.64';
-import {renderer} from './preview.js?v=2.2.64';
+import {needsPreviewSeek,previewMediaEnded} from './playback-sync.js?v=2.2.65';
+import {renderer} from './preview.js?v=2.2.65';
 import {StillPreview} from './image-media.js';
-import {waitForMedia} from './media-state.js?v=2.2.64';
-import {sourceOffset,timing} from './model.js?v=2.2.64';
-import {clipAlpha} from './creative.js?v=2.2.64';
+import {waitForMedia} from './media-state.js?v=2.2.65';
+import {sourceOffset,timing} from './model.js?v=2.2.65';
+import {clipAlpha} from './creative.js?v=2.2.65';
 import {motionTransform} from './motion-transform.js';
 // A second decoder exists only while an upper layer reveals the lower picture.
 export class LayerPreview{
- constructor(canvas){this.generation=0;this.canvas=canvas;this.painter=renderer(canvas);this.still=new StillPreview();this.video=document.createElement('video');this.video.muted=true;this.video.playsInline=true;this.video.preload='auto';this.video.onseeked=()=>this.paint();this.video.onloadeddata=()=>this.paint();}
+ constructor(canvas){this.generation=0;this.cleared=true;this.canvas=canvas;canvas.style.opacity='0';this.painter=renderer(canvas);this.still=new StillPreview();this.video=document.createElement('video');this.video.muted=true;this.video.playsInline=true;this.video.preload='auto';this.video.onseeked=()=>this.paint();this.video.onloadeddata=()=>this.paint();}
  async update(row,t,m,url,file,aspect,compare,playing,stabilization=null,previewLongEdge=960){
   if(!row||!url){this.clear();return}
+  this.cleared=false;
   this.canvas.style.opacity=String(clipAlpha(row,t));
   if(this.busy){this.pending=[row,t,m,url,file,aspect,compare,playing,stabilization,previewLongEdge];return}
   const generation=this.generation;this.state={row,t,m,aspect,compare,stabilization,previewLongEdge};this.busy=true;try{
@@ -27,7 +28,7 @@ export class LayerPreview{
   }catch{if(generation===this.generation)this.painter?.black()}finally{this.busy=false;if(this.pending){const next=this.pending;this.pending=null;this.update(...next)}}
  }
  paint(){const s=this.state;if(!s?.row||this.video.seeking||s.m.kind!=='image'&&this.url!==this.video.getAttribute('src'))return;const source=s.m.kind==='image'?this.still.bitmap:this.video;if(source)this.painter?.draw(source,motionTransform(s.row.clip,s.t-s.row.start,s.row.duration),s.aspect,s.compare,s.stabilization,s.previewLongEdge)}
- clear(){this.generation++;this.state=null;this.pending=null;this.canvas.style.opacity='0';this.video.pause();this.controller?.abort();if(this.url){this.video.removeAttribute('src');this.video.load();this.url=null}this.still.clear();this.painter?.release?.();}
+ clear(){if(this.cleared)return;this.cleared=true;this.generation++;this.state=null;this.pending=null;this.canvas.style.opacity='0';this.video.pause();this.controller?.abort();if(this.url){this.video.removeAttribute('src');this.video.load();this.url=null}this.still.clear();this.painter?.release?.();}
  pause(){this.generation++;if(this.pending)this.pending[7]=false;this.video.pause()}
  dispose(){this.clear();this.painter?.dispose()}
 }

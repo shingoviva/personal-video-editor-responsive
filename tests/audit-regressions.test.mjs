@@ -33,7 +33,14 @@ const layer=new LayerPreview({style:{},getContext(){return null}});const row={cl
 // Clear during decoding also cancels playback. A fresh update remains usable.
 const cleared=new LayerPreview({style:{},getContext(){return null}});
 const clearLoad=cleared.update(row,.2,media,'clear.mp4',null,'Original',false,true);cleared.clear();await clearLoad;assert.equal(video.plays,0);assert.equal(cleared.state,null);
-const fresh=cleared.update(row,.2,media,'fresh.mp4',null,'Original',false,true);video.metadata();await fresh;assert.equal(video.plays,1);cleared.pause();assert.equal(video.paused,true);cleared.dispose();delete globalThis.document;
+const fresh=cleared.update(row,.2,media,'fresh.mp4',null,'Original',false,true);video.metadata();await fresh;assert.equal(video.plays,1);cleared.pause();assert.equal(video.paused,true);cleared.dispose();// Empty layers must not reallocate GPU textures every preview frame.
+const idle=new LayerPreview({style:{},getContext(){return null}});let releases=0;idle.painter={release(){releases++},draw(){},dispose(){}};
+for(let i=0;i<120;i++)idle.clear();assert.equal(releases,0);
+const visible=idle.update(row,.2,media,'visible.mp4',null,'Original',false,false);video.metadata();await visible;
+idle.clear();for(let i=0;i<120;i++)idle.clear();assert.equal(releases,1);
+const restored=idle.update(row,.3,media,'visible.mp4',null,'Original',false,false);video.metadata();await restored;
+idle.clear();assert.equal(releases,2,'restored layer releases exactly once again');idle.dispose();
+delete globalThis.document;
 const {bindTimeline}=await import(root+'timeline-gestures.js');
 const main={...clip(media),id:'main',start:0,layer:0},comp={...clip(media),id:'comp',start:8,layer:0};const rows=[{clip:main,layer:0,start:0,end:8,duration:8},{clip:comp,layer:0,start:8,end:16,duration:8}];
 const elements=rows.map(row=>({dataset:{clip:row.clip.id},style:{},classList:{add(){},remove(){}},setPointerCapture(){},getBoundingClientRect(){return {left:0}},clientWidth:80}));

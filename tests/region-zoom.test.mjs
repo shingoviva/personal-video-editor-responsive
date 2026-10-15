@@ -34,3 +34,21 @@ for(const target of [{zoomSize:.1,zoomX:.05,zoomY:.05},{zoomSize:.1,zoomX:.95,zo
  if(pos.compact){const labelLeft=(target.zoomX-target.zoomSize/2)*200+pos.labelLeft;assert(labelLeft+74<=left||labelLeft>=left+44,'small-frame move grip stays separate from resize');}
 }
 console.log('Phone region frame touch move/resize, scroll exclusion, lost capture recovery and edge handle bounds PASS');
+
+// Removing the last zoom must release the transform compositor, including undo/redo.
+const {previewZoomStyle,focusOverlayMarkup}=await import('../dist/preview-effects.js');
+assert.equal(previewZoomStyle(regionZoomTransform([e],3)).includes('scale(4)'),true);
+assert.equal(previewZoomStyle(regionZoomTransform([],3)),'none');
+assert.equal(previewZoomStyle(regionZoomTransform([e],7)),'none');
+for(let i=0;i<100;i++){
+ assert.notEqual(previewZoomStyle(regionZoomTransform([e],3)),'none');
+ assert.equal(previewZoomStyle(regionZoomTransform([],3)),'none');
+}
+for(const rect of [{x:.5,y:.5,size:.4},{x:0,y:0,size:.1},{x:1,y:1,size:.5},{x:.5,y:.5,size:1}]){
+ const mask=focusOverlayMarkup(rect,.6);assert.doesNotMatch(mask,/box-shadow|vmax|filter/);
+ for(const m of mask.matchAll(/(?:left|top|width|height):([\d.]+)%/g))assert.ok(+m[1]>=0&&+m[1]<=100);
+}
+const mask=focusOverlayMarkup({x:.5,y:.5,size:.4},.6);let area=0;
+for(const m of mask.matchAll(/width:([\d.]+)%;height:([\d.]+)%/g))area+=+m[1]*+m[2];
+assert.ok(Math.abs(area-8400)<1e-6,'bounded rectangles darken exactly the area outside the focus window');
+console.log('FX compositor: repeated zoom removal returns to none; focus masks stay inside picture bounds PASS');

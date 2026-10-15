@@ -1,8 +1,8 @@
 import {silenceOutput,openOutput,createDelayEffect,resetDelayEffect} from './audio-preview-output.js';
-import {waitForMedia,seekMedia} from './media-state.js?v=2.2.64';
+import {waitForMedia,seekMedia} from './media-state.js?v=2.2.65';
 import {audioWindows,trackGain} from './audio-timeline.js';
 import {sourceTime,gainAt,held,declickGain} from './mobile-model.js';
-import {sequence,timing,outputOffset} from './model.js?v=2.2.64';
+import {sequence,timing,outputOffset} from './model.js?v=2.2.65';
 const mediaVoice=()=>{const value=document.createElement('audio');value.preload='auto';value.preservesPitch=false;value.muted=true;return value};
 export const previewDriftTolerance=playing=>playing?.32:.035;
 const keyFor=(row,url)=>row&&url?`${row.clip.id}|${url}`:'';
