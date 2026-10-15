@@ -25,6 +25,7 @@ jobs:
           python tests/look-export.test.py
           python tests/material-fx.test.py
           python tests/layers.test.py
+          python tests/export-optimizations.test.py
           python tests/frame-window.test.py
           python tests/clip-boundary.test.py
           python tests/transitions.test.py

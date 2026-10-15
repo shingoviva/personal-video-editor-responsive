@@ -28,6 +28,7 @@ with ZipFile(output) as archive:
     assert 'Personal-Video-Editor/engine/color_engine.py' in archive.namelist()
     assert 'Personal-Video-Editor/dist/creative.js' in archive.namelist()
     assert 'Personal-Video-Editor/engine/audio_engine.py' in archive.namelist()
+    assert 'Personal-Video-Editor/engine/export_pipeline.py' in archive.namelist()
     assert 'Personal-Video-Editor/dist/audio-preview.js' in archive.namelist()
     assert 'Personal-Video-Editor/dist/attributes.js' in archive.namelist()
     assert 'Personal-Video-Editor/dist/text-render.js' in archive.namelist()

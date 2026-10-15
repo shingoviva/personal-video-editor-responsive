@@ -2,6 +2,8 @@ from audio_engine import validate_audio,extent as audio_extent,render_tracks
 """Bounded-memory, non-destructive native media pipeline. Python standard library only."""
 from color_engine import filters as matched_color_filters
 import copy
+from export_pipeline import ClipRenderer,worker_count,sparse_lower,batch_screen_effects
+import re, sys
 import array, base64, binascii, bisect, collections, hashlib, json, math, os, pathlib, shutil, statistics, subprocess, threading, time, uuid, struct, zlib
 ROOT=pathlib.Path(os.environ.get('PVE_DATA',str(pathlib.Path(__file__).resolve().parent.parent/'.local-data')))
 ROOT.mkdir(parents=True,exist_ok=True)
@@ -72,6 +74,16 @@ def spatial_filters(width,height,scale_expr,x_expr,y_expr):
  """Scale from the historical cover=1 baseline, then crop or pad to a fixed black canvas."""
  base_w=f'max({width},{height}*iw/ih)';base_h=f'max({height},{width}*ih/iw)'
  scaled_w=f'max(2,trunc(({base_w})*({scale_expr})/2)*2)';scaled_h=f'max(2,trunc(({base_h})*({scale_expr})/2)*2)'
+ if re.search(r'\bt\b',str(x_expr)+' '+str(y_expr)):
+  # pad cannot evaluate t. Put the image on a larger fixed canvas and move
+  # the final crop instead, including when a <1x image moves over black.
+  return [
+   f"scale=w='{scaled_w}':h='{scaled_h}':eval=frame:flags=lanczos",
+   f"crop=w='min(iw,{width})':h='min(ih,{height})':x='max(0,(iw-ow)*({x_expr}))':y='max(0,(ih-oh)*({y_expr}))'",
+   f'pad=w=2*{width}-iw:h=2*{height}-ih:x={width}-iw:y={height}-ih:color=black',
+   f"crop=w={width}:h={height}:x='(iw-{width})*(1-({x_expr}))':y='(ih-{height})*(1-({y_expr}))'",
+   'setsar=1'
+  ]
  return [
   f"scale=w='{scaled_w}':h='{scaled_h}':eval=frame:flags=lanczos",
   f"crop=w='min(iw,{width})':h='min(ih,{height})':x='max(0,(iw-ow)*({x_expr}))':y='max(0,(ih-oh)*({y_expr}))'",
@@ -167,6 +179,10 @@ def validate_output(path,expected_duration=None,require_audio=False):
 
 
 def _record(job,entry):
+ parent=getattr(job,'parent',None)
+ if parent is not None:
+  with job.record_lock:_record(parent,entry)
+  return
  events=job.setdefault('_events',[]);events.append(entry)
  if len(events)>200:del events[:-200]
  id=job.get('id')
@@ -248,6 +264,7 @@ def submit(kind,fn,*args):
 
 def cancel(id):
  j=JOBS[id];j['cancel']=True;p=j.get('_proc')
+ for renderer in list(j.get('_clip_renderers',[])):renderer.cancel()
  if p and p.poll() is None:p.terminate()
 
 def tone(m,small=None):
@@ -514,10 +531,13 @@ def transition_video_graph(value,duration,window_duration,w,h,fps,pixel):
  else:expr=f'if(gte(Y,H*(1-({ease}))),B,A)'
  return prepare+f"[old][new]blend=all_expr='{expr}',trim=duration={window_duration:.9f},setpts=PTS-STARTPTS[v]"
 
-def video_frame_window(duration,fps):
+def video_frame_window(duration,fps,hold_first=False):
  """Keep quantized video windows exact; never change the audio sample clock."""
  frames=max(1,math.ceil(duration*fps-1e-8))
- return f'fps={fps}:start_time=0,tpad=stop_mode=clone:stop=-1,trim=end_frame={frames},setpts=N/({fps}*TB)'
+ # A single-frame blend can end before fps emits its first frame. Hold only
+ # that case; moving this padding ahead of fps globally changes other cuts.
+ leading=f'tpad=stop_mode=clone:stop_duration={1/fps},' if hold_first and frames==1 else ''
+ return leading+f'fps={fps}:start_time=0,tpad=stop_mode=clone:stop=-1,trim=end_frame={frames},setpts=N/({fps}*TB)'
 
 def video_has_frames(path,frames):
  result=subprocess.run([FFPROBE,'-v','error','-select_streams','v:0','-show_entries','stream=nb_frames','-of','csv=p=0',str(path)],capture_output=True,text=True,timeout=60)
@@ -538,6 +558,8 @@ def render(job,project,preview=False,_token=None,_size=None):
  encoding=output_encoding(exp,preview,crf);ext=encoding['extension'];pixel=encoding['pixel'];video_args=encoding['video'];audio_args=encoding['audio']
  token=_token or job['id']
  work=ROOT/'cache'/('render-'+token);work.mkdir();outputs=[];total=sum(c['_window'][1] for c in clips);done=0;lower_paths={}
+ source_pixels=max([0]+[MEDIA[c['media']]['width']*MEDIA[c['media']]['height'] for c in clips if c.get('media') in MEDIA])
+ parts=ClipRenderer(job,run,work,worker_count(w,h,preview,ext=='.mov',source_pixels))
  try:
   for target in (1,2):
    if not any(c.get('layer')==target and (c.get('fadeIn') or c.get('fadeOut') or c.get('opacity',1)<1 or c.get('opacityKeyframes')) for c in raw_clips):continue
@@ -546,15 +568,18 @@ def render(job,project,preview=False,_token=None,_size=None):
     layer=int(number(c.get('layer'),0,0,2));d=timing(c)[0][-1][1]+c.get('hold',0);start=c.get('start',ends[layer]);ends[layer]=max(ends[layer],start+d)
     if layer<target:lower.append({**c,'start':start,'layer':layer})
    lower.append({'gap':.001,'start':max(0,total-.001)})
+   lower=sparse_lower(lower,raw_clips,target,fps,visible_clips,timing)
    base={**project,'clips':lower,'texts':[],'effects':[],'bgm':{},'audioClips':[]}
    lr=render(job,base,preview,_token=token+'-lower'+str(target),_size=(w,h));lower_paths[target]=ROOT/('cache' if preview else 'exports')/lr['file']
   for idx,c in enumerate(clips):
    if c.get('gap'):
+    parts.wait()
     d=c['_window'][1];part=work/f'clip-{idx:04d}{ext}';outputs.append(part);job['operation']='空白区間を生成中'
     run(job,['-f','lavfi','-i',f'color=c=black:s={w}x{h}:r={fps}','-f','lavfi','-i','anullsrc=r=48000:cl=stereo','-t',d,*video_args,*audio_args,'-video_track_timescale','90000',part],d,done/max(total,.001)*.85,d/max(total,.001)*.85)
     done+=d;continue
    check(job);m=MEDIA[c['media']];nodes,pieces=timing(c);duration=nodes[-1][1];hold=number(c.get('hold'),0,0,10);vf=tone(m);source=m['path'];source_duration=c['out']-c['in'];seek=c['in'];audio_source=source;audio_seek=seek;job['operation']=f'クリップ {idx+1}/{len(clips)} を処理中'
    stabil='OFF' if m.get('kind')=='image' or c.get('freezeDuration') else c.get('stabilization','OFF')
+   if stabil!='OFF' or (m['audio'] and len(pieces)>1):parts.wait()
    if stabil!='OFF':
     if not caps['stabilization']:raise ValueError('このFFmpegにはvidstabがありません。libvidstab対応版が必要です。')
     # Stabilize before time remapping. Each selected source segment is streamed to disk, not RAM.
@@ -596,7 +621,7 @@ def render(job,project,preview=False,_token=None,_size=None):
    # Source audio is mixed per video layer after picture compositing. Keeping
    # these clip parts silent avoids duplicating the visible layer's audio.
    graph=['[0:v]'+','.join(vf)+'[v]'];audio=c.get('audio',{});volume=0
-   input_args=['-loop','1','-framerate',fps,'-t',source_duration,'-i',source] if m.get('kind')=='image' else ['-ss',seek,'-t',source_duration,'-i',source]
+   input_args=(['-framerate',fps,'-i',source] if preset=='none' and not c.get('scaleKeyframes') else ['-loop','1','-framerate',fps,'-t',source_duration,'-i',source]) if m.get('kind')=='image' else ['-ss',seek,'-t',source_duration,'-i',source]
    if m['audio'] and not c.get('freezeDuration') and len(pieces)>1:
     # Render ramp audio pieces sequentially to disk. No full-length asplit queues in RAM.
     audio_parts=[]
@@ -631,13 +656,14 @@ def render(job,project,preview=False,_token=None,_size=None):
      graph.append(f'[{index}:v]setpts=PTS-STARTPTS[lower]')
     else:graph.append(f'color=c=black:s={w}x{h}:r={fps}:d={window_duration}[lower]')
     graph.append(f"[lower][top]blend=all_expr='A*(1-({alpha}))+B*({alpha})':shortest=1[v]")
-   graph.append(f'[v]{video_frame_window(window_duration,fps)}[vout]')
+   graph.append(f'[v]{video_frame_window(window_duration,fps,hold_first=bool(fi or fo or opacity<1 or opacity_keys))}[vout]')
    part=work/f'clip-{idx:04d}{ext}';outputs.append(part)
    script=work/'graph.txt';script.write_text(';\n'.join(graph))
    job['operation']=f'クリップ {idx+1}/{len(clips)} を書き出し中'
-   run(job,input_args+['-filter_complex_script',script,'-map','[vout]','-map','[a]',*video_args,*audio_args,'-color_primaries','bt709','-color_trc','bt709','-colorspace','bt709','-video_track_timescale','90000',part],window_duration,done/max(total,.001)*.85,window_duration/max(total,.001)*.85)
+   parts.submit(input_args+['-filter_complex_script',script,'-map','[vout]','-map','[a]',*video_args,*audio_args,'-color_primaries','bt709','-color_trc','bt709','-colorspace','bt709','-video_track_timescale','90000',part],window_duration,done/max(total,.001)*.85,window_duration/max(total,.001)*.85)
    transition=clip_transition(c,raw_clips,fps)
    if transition and len(outputs)>1 and offset<1/fps+1e-7:
+    parts.wait()
     td=min(transition['duration'],window_duration);previous=outputs[-2];blended=work/f'clip-{idx:04d}-transition{ext}'
     # Continue the outgoing source beyond its edit point when a media handle is
     # available. Only clips cut at the physical end of a file fall back to the
@@ -657,6 +683,7 @@ def render(job,project,preview=False,_token=None,_size=None):
     part.unlink();blended.replace(part)
    done+=window_duration
    if (work/'stabilized.mov').exists():(work/'stabilized.mov').unlink()
+  parts.wait()
   concat=work/'concat.txt';concat.write_text(''.join(f"file '{p.name}'\n" for p in outputs));joined=work/('joined'+ext)
   job['operation']='クリップを結合中';run(job,['-f','concat','-safe','0','-i',concat,'-c','copy',joined],total,.85,.04)
   overlay_tracks=project.get('overlayTracks',[]);overlay_visible=lambda item:not (len(overlay_tracks)>int(number(item.get('layer'),0,0,2)) and overlay_tracks[int(number(item.get('layer'),0,0,2))].get('hidden'));effects=[e for e in project.get('effects',[]) if overlay_visible(e)]
@@ -670,7 +697,8 @@ def render(job,project,preview=False,_token=None,_size=None):
    graph=f"[0:v]setpts=PTS-STARTPTS[base];[1:v]format=rgba,colorchannelmixer=aa={strength},fade=t={direction}:st={fade_start}:d={fade_duration}:alpha=1,setpts=PTS-STARTPTS+{start}/TB[fx];[base][fx]overlay=eof_action=pass:repeatlast=0:enable='gte(t,{start})*lt(t,{start+d})'[v]"
    job['operation']=f'画面効果 {i+1}/{len(effects)} を合成中'
    run(job,['-i',joined,'-f','lavfi','-t',d,'-i',f'color=c={color}:s={w}x{h}:r={fps}','-filter_complex',graph,'-map','[v]','-map','0:a','-t',total,*video_args,'-c:a','copy',fx],total,.89,0)
-   joined=fx
+   joined=batch_screen_effects(job,fx,effects[i+1:],w,h,fps,total,work,ext,video_args,run,number)
+   break
   caption_plane=any(str(t.get('text','')) and overlay_visible(t) for t in project.get('texts',[])) and any(e.get('type')=='region-zoom' and e.get('zoomTexts') is False for e in effects);picture_joined=joined
   if caption_plane:
    joined=work/'caption-base.mov'
@@ -768,8 +796,10 @@ def render(job,project,preview=False,_token=None,_size=None):
   job['operation']=encoding['label']+'を仕上げ中';run(job,args,total,.89,.09,verify_decode=True)
   return {'file':out.name,'url':('/cache/' if preview else '/exports/')+out.name,'duration':total,'width':w,'height':h,'fps':fps,'preview':preview,'format':'MOV' if ext=='.mov' else 'MP4','codec':encoding['label'],'verified':True,'recoveredOutputs':job.get('recoveredOutputs',0)}
  finally:
-  shutil.rmtree(work,ignore_errors=True)
-  for lower_path in lower_paths.values():lower_path.unlink(missing_ok=True)
+  try:parts.close(aborting=sys.exc_info()[0] is not None)
+  finally:
+   shutil.rmtree(work,ignore_errors=True)
+   for lower_path in lower_paths.values():lower_path.unlink(missing_ok=True)
 
 def material_path_expr(points,key,local,fallback):
  values=[]
