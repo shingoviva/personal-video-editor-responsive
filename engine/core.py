@@ -218,7 +218,7 @@ def _run_once(job,args,duration=1,start=0,span=1,cwd=None):
 def run(job,args,duration=1,start=0,span=1,cwd=None,verify_decode=False):
  """Only expose completed outputs; retry invalid generated media once, never input/config errors."""
  args=list(map(str,args));suffix=pathlib.Path(args[-1]).suffix.lower()
- if suffix not in ('.mp4','.mov','.wav','.jpg','.png'):
+ if suffix not in ('.mp4','.mov','.m4a','.wav','.jpg','.png'):
   return _run_once(job,args,duration,start,span,cwd)
  out=pathlib.Path(args[-1]);out=out if out.is_absolute() else pathlib.Path(cwd or pathlib.Path.cwd())/out
  staged=out.with_name('.'+out.stem+'-'+uuid.uuid4().hex+'.tmp'+suffix)
@@ -230,7 +230,7 @@ def run(job,args,duration=1,start=0,span=1,cwd=None,verify_decode=False):
     job['operation']=original_stage if attempt==0 else original_stage+'（再生成）'
     _run_once(job,call_args,duration,start,span,cwd)
     check(job)
-    if suffix in ('.mp4','.mov','.wav'):
+    if suffix in ('.mp4','.mov','.m4a','.wav'):
      job['operation']='生成ファイルを検証中'
      verified=validate_output(staged,duration,require_audio=verify_decode)
      if verify_decode:
@@ -785,17 +785,23 @@ def render(job,project,preview=False,_token=None,_size=None):
    for path in mixed_tracks:args+=['-i',path];labels.append(f'[{index}:a]');index+=1
    graph.append(''.join(labels)+f'amix=inputs={len(labels)}:duration=longest:normalize=0,alimiter=limit=0.95:level=0:latency=1,apad,atrim=duration={total}[a]')
    args+=['-filter_complex',';'.join(graph),'-map','0:v','-map','[a]']
+  if bg or mixed_tracks:
+   # Finish bounded audio independently: older FFmpeg can stop its encoder
+   # early when output -t is driven by reordered copied video packets.
+   audio_out=work/('final-audio.wav' if ext=='.mov' else 'final-audio.m4a')
+   audio_only=list(args);mapping=audio_only.index('0:v');del audio_only[mapping-1:mapping+1]
+   run(job,[*audio_only,'-vn',*audio_args,'-t',total,audio_out],total,.89,0)
+   if final_vf:
+    picture=work/f'final-picture{ext}'
+    run(job,['-i',joined,'-an','-vf',','.join([*final_vf,video_frame_window(total,fps)]),*video_args,'-t',total,picture],total,.89,0)
+    joined=picture;final_vf=[]
+   args=['-i',joined,'-i',audio_out,'-map','0:v','-map','1:a']
   # Keep the fast copy path when the composed video already has the exact frame count.
   if final_vf or not video_has_frames(joined,max(1,math.ceil(total*fps-1e-8))):
    final_vf.append(video_frame_window(total,fps))
    args+=['-vf',','.join(final_vf),*video_args]
   else:args+=['-c:v','copy']
-  if bg or mixed_tracks:args+=audio_args
-  else:args+=['-c:a','copy']
-  # Mixed audio is sample-trimmed above; old FFmpeg stops its encoder early
-  # when output -t races a copied video's reordered packet timestamps.
-  if not (bg or mixed_tracks):args+=['-t',total]
-  args+=['-movflags','+faststart',out]
+  args+=['-c:a','copy','-t',total,'-movflags','+faststart',out]
   job['operation']=encoding['label']+'を仕上げ中';run(job,args,total,.89,.09,verify_decode=True)
   return {'file':out.name,'url':('/cache/' if preview else '/exports/')+out.name,'duration':total,'width':w,'height':h,'fps':fps,'preview':preview,'format':'MOV' if ext=='.mov' else 'MP4','codec':encoding['label'],'verified':True,'recoveredOutputs':job.get('recoveredOutputs',0)}
  finally:
