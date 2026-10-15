@@ -1,13 +1,23 @@
 """Real native export of analyzed FX paths; audio remains unchanged."""
-import os,sys,pathlib,tempfile,subprocess,copy,array,math
+import os,sys,pathlib,tempfile,subprocess,copy,array,math,json
 with tempfile.TemporaryDirectory(prefix='pve-material-fx-') as tmp:
  os.environ['PVE_DATA']=tmp;sys.path.insert(0,str(pathlib.Path(__file__).resolve().parent.parent/'engine'));import core
+ traces=[];run=core.run
+ def traced(job,args,*a,**kw):
+  result=run(job,args,*a,**kw);path=pathlib.Path(str(args[-1]))
+  if path.suffix in ('.mp4','.mov','.wav'):
+   streams=json.loads(subprocess.check_output([core.FFPROBE,'-v','error','-show_entries','stream=codec_type,start_time,duration,nb_frames,sample_rate','-of','json',path]))
+   traces.append({'output':path.name,'streams':streams,'args':list(map(str,args))})
+  return result
+ core.run=traced
  path=pathlib.Path(tmp)/'target.mp4';core.run({'id':'source','cancel':False},['-f','lavfi','-i','color=c=red:s=160x90:r=24:d=2','-f','lavfi','-i','sine=frequency=440:duration=2','-vf','drawbox=x=80:y=0:w=80:h=90:color=blue:t=fill','-c:v','libx264','-pix_fmt','yuv420p','-c:a','aac','-t','2',path],2)
  m=core.inspect(path,'target',path.name);c={'id':'c','media':m['id'],'in':0,'out':2,'start':0,'layer':0,'speed':1,'endSpeed':1,'curve':'constant','scale':1,'stabilization':'OFF','audio':{'volume':1},'color':{}}
  p={'version':1,'media':[m],'clips':[c],'texts':[],'effects':[],'bgm':{},'aspect':'Original','export':{'fps':'24','resolution':'Source','quality':'High'}}
  reference_audio=None
  def render(name,e):
-  q=copy.deepcopy(p);q['effects']=e if isinstance(e,list) else [e];r=core.render({'id':name,'cancel':False},q);out=core.ROOT/'exports'/r['file'];core.validate_output(out,2,True);audio=array.array('f');audio.frombytes(subprocess.check_output(core.BASE+['-v','error','-i',out,'-map','0:a','-ac','1','-f','f32le','pipe:1']));tail_rms=math.sqrt(sum(v*v for v in audio[91200:96000])/4800);assert len(audio)>=96000 and tail_rms>.04,(name,len(audio),tail_rms)
+  q=copy.deepcopy(p);q['effects']=e if isinstance(e,list) else [e];r=core.render({'id':name,'cancel':False},q);out=core.ROOT/'exports'/r['file'];core.validate_output(out,2,True);audio=array.array('f');audio.frombytes(subprocess.check_output(core.BASE+['-v','error','-i',out,'-map','0:a','-ac','1','-f','f32le','pipe:1']));tail_rms=math.sqrt(sum(v*v for v in audio[91200:96000])/4800)
+  if len(audio)<96000 or tail_rms<=.04:print(json.dumps(traces),flush=True)
+  assert len(audio)>=96000 and tail_rms>.04,(name,len(audio),tail_rms)
   if reference_audio is not None:assert audio.tobytes()==reference_audio,'Video FX must preserve every decoded audio sample'
   return out
  reference=render('reference',[]);reference_audio=subprocess.check_output(core.BASE+['-v','error','-i',reference,'-map','0:a','-ac','1','-f','f32le','pipe:1'])
