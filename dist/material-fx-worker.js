@@ -1,7 +1,7 @@
 import {Input,ALL_FORMATS,BlobSource,UrlSource,CanvasSink,AudioSampleSink} from './vendor/mediabunny.mjs';
-import {audioAccents,trackPatch,compactTrackPath,motionAccents} from './material-fx.js?v=2.2.65';
+import {audioAccents,trackPatch,compactTrackPath,motionAccents} from './material-fx.js?v=2.2.66';
 import {sourceTime} from './mobile-model.js';
-import {timing} from './model.js?v=2.2.65';
+import {timing} from './model.js?v=2.2.66';
 function soften(gray,n){const out=new Float32Array(gray.length);for(let y=0;y<n;y++)for(let x=0;x<n;x++){let sum=0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)sum+=gray[Math.max(0,Math.min(n-1,y+dy))*n+Math.max(0,Math.min(n-1,x+dx))];out[y*n+x]=sum/9}return out}
 import {motionEstimate} from './mobile-stabilize.js';
 onmessage=async({data})=>{let input;try{

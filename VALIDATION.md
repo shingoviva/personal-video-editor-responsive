@@ -1,3 +1,24 @@
+## 2.2.66 — 削除後の描画資源・素材参照の解放（2026-10-15）
+
+- 映像クリップがなくなった時に、主／下位／トランジションの描画資源、静止画bitmap、主・待機videoのソース、動画の未完了読み込みを一度だけ解放。音声の再生系はこの経路では変更せず、音声・テロップ・FXだけのプロジェクトも維持します。全体メモリ解放も同じ画像解放処理を使用し、読み込み世代を進めて古い結果を無効にします。
+- LOOKサムネイル描画器はLOOK以外のタブへ移る時とメモリ解放時にdispose。次に開いた時に再生成します。
+- media-resource-cacheを追加。現在／Undo／Redoに必要な素材を保持し、不要なFile・Blob URL・サムネイル・配置先情報を整理。履歴を増やすcheckpointで、Redoを消す前に確認することで、ドラッグ取消時の復帰を保護します。新規取り込み中は解放を見送り、未登録のサムネイルを消しません。履歴の素材IDは記録・再利用し、全履歴のJSON解析を毎回繰り返しません。履歴が不正なら解放せず安全側に倒します。共有URLを使う現素材やMac素材ID／元ファイルには触れません。
+- 静止画の再読み込み後に必要な再描画を行い、遅着した削除済みクリップの画像は表示しません。
+- 新規resource-lifecycle試験：Undo/Redo、取り消しと旧Redo、履歴失効、新規import、共有URL、native URL、不正履歴、120回の空drawで再解放なし、静止画再取得と再削除、遅着抑止、音声だけのproject、LOOK再生成。既存text-renderの実メモリ解放試験も共通helperを通すよう更新。
+- 公開前npm test・build・diffcheck成功。/tmp/pve66-{npm,build}.log。3,000回の素材追加・削除・Undo／Redoの連続試験で、履歴中の全素材保持と、履歴失効後のURL一回解放を確認。/tmp/pve66-history-stress.log。native/音声の書き出しロジックは非変更。
+- 隔離実ブラウザで画像配置→最後のclipを詰めて削除→Undo→画像復帰、LOOK一覧9枚生成→BASICへ移動→LOOK9枚再生成、音声付き動画の削除→Undo→再生位置5.13秒→6.50秒で停止を確認。console errorなし。音声は自動回帰試験で停止・復帰経路を確認、実機で聴覚による確認は未実施。
+- 公開前ネイティブ20本（映像・音声・LOOK・FX・レイヤー・復元・server・各形式）成功。Mac ZIP CRCとapp／新資源モジュール／engineソース一致を確認。/tmp/pve66-native-results.json、/tmp/pve66-package.log。ローカルFFmpegにない任意機能は利用不可経路を確認し、対応機能の実処理と区別しています。
+- 実iPhone SafariのGPU使用量・長時間編集のメモリ推移は未確認。手ぶれ補正／文字Canvasの下記修正も同じ版へ収録します。
+
+## 手ぶれ補正・テロップの不要リソース解放（2026-10-15・2.2.66）
+
+- StabilizationPreview.reconcileで現在のクリップ・素材ファイル・範囲・補正設定に必要なキーだけを残す。タイムライン更新時に実行し、OFF/削除/静止化/範囲変更/再リンクで不要になったpending worker、cache、failedを除去。ensureで同じclipの旧条件も停止する。
+- 中止後のprogress/done/errorと、clear後に同一キーで再開始した場合の古い結果を、pending workerの同一性で無視。ほかの有効な解析・完成した経路は保持する。
+- プロジェクト読み込みはsanitize成功後に旧解析とテロップ領域を解放。不正なproject拒否時は既存編集・素材URLに触れない既存試験も成功。
+- TextPreviewは空ならレイアウト/Canvas処理へ進まず、要素削除・非表示・1x1への縮小を行う。60空フレームでgetContext/clearRect/リサイズ/レイアウト読取0。再表示・削除・復元とメモリ解放後の再作成を検証。
+- releasePreviewMemoryが補正解析と文字Canvasも解放。previewMemoryReleasedで予約済みの停止フレーム描画がリソースを直後に再作成するのを防止し、明示的なsyncVideoで解除。実app関数をVMで実行して解放・編集保持・描画再開を確認。
+- 最終npm test/build/diffcheck成功。/tmp/pve-resource-cleanup-final-{npm,build}.log。音声・native・書き出しコードは非変更。実機iPhone/Safari・実GPUメモリ量とフレームレートは未検証。2.2.66へ収録。
+
 ## FOCUS削除後のプレビュー負荷（2026-10-15・2.2.65公開前検証）
 
 - ユーザーがiPhoneでFOCUS削除後に重さが戻らないと報告。再生マスクの200vmax、範囲指定枠の100vmaxの巨大な影を廃止し、プレビュー内だけの4矩形に変更。範囲外を暗くする面積は同じ。実機のGPUメモリ残留そのものは未測定であり、原因を完全に断定しない。
