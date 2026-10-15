@@ -761,6 +761,14 @@ def render(job,project,preview=False,_token=None,_size=None):
    joined=composed;final_vf=[]
   else:
    for effect in zooms:final_vf.append(region_zoom_filter(effect,w,h,fps))
+  final_picture=None
+  if zooms and final_vf:
+   # Older FFmpeg schedulers can end the audio mix early while zoompan drains.
+   # Render the same video filters once, then mux against the original audio
+   # inputs. No extra video generation or change to the audio sample clock.
+   final_picture=work/f'final-picture{ext}'
+   run(job,['-i',joined,'-an','-vf',','.join([*final_vf,video_frame_window(total,fps)]),*video_args,'-t',total,final_picture],total,.89,0)
+   final_vf=[]
   out=ROOT/('cache' if preview else 'exports')/(token+ext)
   args=['-i',joined];bg=MEDIA.get(bgm.get('media'));graph=[]
   if bg:
@@ -785,8 +793,12 @@ def render(job,project,preview=False,_token=None,_size=None):
    for path in mixed_tracks:args+=['-i',path];labels.append(f'[{index}:a]');index+=1
    graph.append(''.join(labels)+f'amix=inputs={len(labels)}:duration=first:normalize=0,alimiter=limit=0.95:level=0:latency=1[a]')
    args+=['-filter_complex',';'.join(graph),'-map','0:v','-map','[a]']
+  if final_picture:
+   picture_index=args.count('-i');insert_at=args.index('-filter_complex') if '-filter_complex' in args else len(args);args[insert_at:insert_at]=['-i',final_picture]
+   if '-map' in args:args=[f'{picture_index}:v' if a=='0:v' else a for a in args]
+   else:args+=['-map',f'{picture_index}:v','-map','0:a']
   # Keep the fast copy path when the composed video already has the exact frame count.
-  if final_vf or not video_has_frames(joined,max(1,math.ceil(total*fps-1e-8))):
+  if final_vf or not video_has_frames(final_picture or joined,max(1,math.ceil(total*fps-1e-8))):
    final_vf.append(video_frame_window(total,fps))
    args+=['-vf',','.join(final_vf),*video_args]
   else:args+=['-c:v','copy']
