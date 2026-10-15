@@ -775,7 +775,7 @@ def render(job,project,preview=False,_token=None,_size=None):
    args+=['-stream_loop','-1','-i',bg['path']];vol=number(bgm.get('volume'),.3,0,2);fi=number(bgm.get('fadeIn'),0,0,total/2);fo=number(bgm.get('fadeOut'),0,0,total/2)
    bgexpr=keyframe_expression(bgm.get('gainKeyframes',[]),total,2,'t') if bgm.get('gainKeyframes') else None
    automation=f"volume='{bgexpr}':eval=frame," if bgexpr else ''
-   graph=[f'[1:a]volume={vol},{automation}atrim=duration={total},afade=t=in:d={max(fi,.001)},afade=t=out:st={total-fo}:d={max(fo,.001)}[bg]','[0:a][bg]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.95:level=0:latency=1[a]'];args+=['-filter_complex',';'.join(graph),'-map','0:v','-map','[a]']
+   graph=[f'[1:a]volume={vol},{automation}atrim=duration={total},afade=t=in:d={max(fi,.001)},afade=t=out:st={total-fo}:d={max(fo,.001)}[bg]',f'[0:a][bg]amix=inputs=2:duration=longest:normalize=0,alimiter=limit=0.95:level=0:latency=1,apad,atrim=duration={total}[a]'];args+=['-filter_complex',';'.join(graph),'-map','0:v','-map','[a]']
   independent=render_tracks(job,project,audio_clips,work,total)
   video_audio=[];ends=[0.,0.,0.]
   if not any(t.get('solo') for t in project.get('audioTracks',[])):
@@ -791,7 +791,7 @@ def render(job,project,preview=False,_token=None,_size=None):
     args+=['-stream_loop','-1','-i',bg['path']]
     graph.append(f'[1:a]volume={vol},{automation}atrim=duration={total},afade=t=in:d={max(fi,.001)},afade=t=out:st={total-fo}:d={max(fo,.001)}[bg]');labels.append('[bg]');index+=1
    for path in mixed_tracks:args+=['-i',path];labels.append(f'[{index}:a]');index+=1
-   graph.append(''.join(labels)+f'amix=inputs={len(labels)}:duration=first:normalize=0,alimiter=limit=0.95:level=0:latency=1[a]')
+   graph.append(''.join(labels)+f'amix=inputs={len(labels)}:duration=longest:normalize=0,alimiter=limit=0.95:level=0:latency=1,apad,atrim=duration={total}[a]')
    args+=['-filter_complex',';'.join(graph),'-map','0:v','-map','[a]']
   if final_picture:
    picture_index=args.count('-i');insert_at=args.index('-filter_complex') if '-filter_complex' in args else len(args);args[insert_at:insert_at]=['-i',final_picture]
@@ -804,7 +804,10 @@ def render(job,project,preview=False,_token=None,_size=None):
   else:args+=['-c:v','copy']
   if bg or mixed_tracks:args+=audio_args
   else:args+=['-c:a','copy']
-  args+=['-t',total,'-movflags','+faststart',out]
+  # Mixed audio is sample-trimmed above; old FFmpeg stops its encoder early
+  # when output -t races a copied video's reordered packet timestamps.
+  if not (bg or mixed_tracks):args+=['-t',total]
+  args+=['-movflags','+faststart',out]
   job['operation']=encoding['label']+'を仕上げ中';run(job,args,total,.89,.09,verify_decode=True)
   return {'file':out.name,'url':('/cache/' if preview else '/exports/')+out.name,'duration':total,'width':w,'height':h,'fps':fps,'preview':preview,'format':'MOV' if ext=='.mov' else 'MP4','codec':encoding['label'],'verified':True,'recoveredOutputs':job.get('recoveredOutputs',0)}
  finally:
