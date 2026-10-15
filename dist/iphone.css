@@ -63,7 +63,9 @@ body[data-ui=phone] #playheadHandle{height:26px;min-height:26px}
 body[data-ui=phone] #playheadTime{font-size:10px}
 body[data-ui=phone] .timeline-footer{display:none}
 body[data-ui=phone] .phone-clip-actions{order:2;position:static;flex:0 0 44px;border-top:1px solid #354031;align-items:stretch;justify-content:space-around;padding:0 4px;gap:1px}
-body[data-ui=phone] .phone-clip-actions button{min-width:50px;flex:1}
+body[data-ui=phone] .phone-clip-actions button{min-width:0;flex:1 1 0;white-space:nowrap}
+body[data-ui=phone] .phone-clip-actions button[data-phone-command=ripple]{flex-grow:1.4}
+body[data-ui=phone] .phone-clip-actions #phoneMove{flex-grow:1.6}
 body[data-ui=phone] #phoneMove[aria-pressed=true]{color:#152010;background:var(--accent)}
 body[data-ui=phone] .phone-tools{order:3;position:static;flex:0 0 60px;align-items:stretch;border-top:1px solid #354031;overflow-x:auto}
 body[data-ui=phone] .phone-tools button{display:flex;flex:1;min-width:44px;flex-direction:column;align-items:center;justify-content:center;padding:0 2px;white-space:nowrap}
@@ -403,3 +405,7 @@ body:not([data-ui=phone]) #resetAll>.pve-icon{display:none}
 body[data-ui=phone] #resetAll{display:flex!important;align-items:center;justify-content:center;width:34px;min-width:34px;height:36px;min-height:36px;padding:0;margin-right:4px;border:0;background:transparent;color:var(--muted)}
 body[data-ui=phone] #resetAll>.pve-icon{width:18px;height:18px}
 body[data-ui=phone] #resetAll>.reset-label{display:none}
+
+/* Keep both delete actions legible on compact phones. */
+html[lang=en] body[data-ui=phone] .phone-clip-actions button[data-phone-command=duplicateClip]{flex-grow:1.25}
+@media(max-width:360px){body[data-ui=phone] .phone-clip-actions button,html[lang=en] body[data-ui=phone] .phone-clip-actions button{font-size:10px;padding-inline:2px}}

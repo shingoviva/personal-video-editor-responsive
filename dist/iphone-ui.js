@@ -1,7 +1,7 @@
 import {tabMetadata} from './workspace-ui.js';
-import {uiIcon} from './ui-icons.js?v=2.2.66';
-import {phonePaneSizes} from './phone-playback-clock.js?v=2.2.66';
-import {translate,translateDOM} from './i18n.js?v=2.2.66';
+import {uiIcon} from './ui-icons.js?v=2.2.67';
+import {phonePaneSizes} from './phone-playback-clock.js?v=2.2.67';
+import {translate,translateDOM} from './i18n.js?v=2.2.67';
 export function phoneLayout({width,height,coarse,iphone}){
  return !!iphone||(!!coarse&&Math.min(width,height)<=600)||width<=600;
 }
@@ -30,7 +30,7 @@ export function bindPhoneUI({openTab,command,refresh,pause,getState,getClock,set
  function resizePanes(){if(body.dataset.ui!=='phone')return;const sizes=phonePaneSizes(workspace.clientHeight,paneMode,paneRatio);workspace.style.setProperty('--phone-preview',sizes.preview+'px');body.dataset.phoneView=paneMode;refresh()}
  view.onchange=()=>{paneMode=view.value;resizePanes()};new ResizeObserver(resizePanes).observe(workspace);
  grip.onpointerdown=e=>{e.preventDefault();grip.setPointerCapture(e.pointerId);const y=e.clientY,h=document.querySelector('.viewer-panel').clientHeight,total=Math.max(1,workspace.clientHeight-12);pause();grip.onpointermove=e=>{paneRatio=Math.max(.28,Math.min(.84,(h+e.clientY-y)/total));paneMode='balanced';view.value=paneMode;resizePanes()};const finish=()=>{grip.onpointermove=grip.onpointerup=grip.onpointercancel=null};grip.onpointerup=grip.onpointercancel=finish};
- const actions=document.querySelector('.phone-clip-actions');actions.innerHTML='<button data-phone-command="split">分割</button><button data-phone-command="ripple" title="選択クリップを削除し、同じレイヤーの後続を詰めます">詰めて削除</button><button data-phone-command="duplicateClip">複製</button><button data-phone-panel="cut">範囲</button><button id="phoneMove" data-phone-panel="layers">レイヤー移動</button>';
+ const actions=document.querySelector('.phone-clip-actions');actions.innerHTML='<button data-phone-command="split">分割</button><button data-phone-command="deleteClip" title="削除・空白を残す">削除</button><button data-phone-command="ripple" title="選択クリップを削除し、同じレイヤーの後続を詰めます">詰めて削除</button><button data-phone-command="duplicateClip">複製</button><button data-phone-panel="cut">範囲</button><button id="phoneMove" data-phone-panel="layers">レイヤー移動</button>';
  sequenceBar.onclick=e=>{const b=e.target.closest('[data-phone-item]');if(b){selectItem(b.dataset.kind,b.dataset.phoneItem);sync();if(panel==='clips')dismiss()}};
  $('phoneScrub').oninput=()=>{const value=+$('phoneScrub').value;$('phoneScrubTime').value=(Math.floor(value*100)/100).toFixed(2)+'秒';if(scrubFrame)cancelAnimationFrame(scrubFrame);scrubFrame=requestAnimationFrame(()=>{scrubFrame=0;scrub(value)})};
  function syncClock(){if(body.dataset.ui!=='phone')return;const state=getClock();$('phoneScrub').max=Math.max(state.duration,.001);if(document.activeElement!==$('phoneScrub'))$('phoneScrub').value=state.time;$('phoneScrubTime').value=(Math.floor(state.time*100)/100).toFixed(2)+'秒'}
