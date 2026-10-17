@@ -1,4 +1,4 @@
-import {MAX_TEXT_LAYERS,MAX_EFFECTS,uid} from './model.js?v=2.2.68';
+import {MAX_TEXT_LAYERS,MAX_EFFECTS,uid} from './model.js?v=2.2.69';
 
 const LIMITS={video:200,audio:200,effect:MAX_EFFECTS,text:MAX_TEXT_LAYERS};
 

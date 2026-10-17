@@ -1,4 +1,4 @@
-import {sequence} from './model.js?v=2.2.68';
+import {sequence} from './model.js?v=2.2.69';
 // Avoid copying GPU output through a second canvas when no composition is needed.
 export function directCanvasEligible(project,duration,{texts=[],effects=[]}={}){
  if(texts.length||effects.length)return false;

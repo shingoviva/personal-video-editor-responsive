@@ -1,4 +1,12 @@
 const translations=[
+["一括再リンク", "Relink all"],
+["未接続クリップ", "Offline clips"],
+["未接続素材", "Offline media"],
+["素材をまとめた親フォルダを選択してください。サブフォルダも検索します。", "Select the parent folder containing your media. Subfolders are included."],
+["次の画面に「アップロード」と表示されても、フォルダ内の素材を照合するための選択操作です。", "The next dialog may say “Upload”. This selects files for matching within the folder."],
+["選択した素材は、このMacのローカルエンジンへ取り込みます。", "Selected media is imported into the local engine on this Mac."],
+["素材を外部サーバーへ送信することはありません。", "Your media is not sent to an external server."],
+["フォルダを選択", "Choose folder"],
 ["動画", "Video"],
 ["静止画の表示時間は現在のクリップの長さを保持します。", "The still image keeps the current clip duration."],
 ["縦横比が異なります。構図と画面比率をご確認ください。", "Aspect ratios differ. Check the framing and project aspect ratio."],

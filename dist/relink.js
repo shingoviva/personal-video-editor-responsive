@@ -23,3 +23,8 @@ export function planFolderRelink(missing,files){
  }
  return{matches,unresolved};
 }
+
+export function missingLinkCounts(project,isLinked){
+ const ids=new Set(project.media.filter(m=>!isLinked(m)).map(m=>m.id));
+ return {media:ids.size,clips:[...(project.clips||[]),...(project.audioClips||[])].filter(c=>!c.gap&&ids.has(c.media)).length};
+}

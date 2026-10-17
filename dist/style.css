@@ -614,3 +614,5 @@ html[lang=en] .performance-options label>input{width:auto;flex:0 0 auto}
 #relinkFolder[hidden]{display:none!important}
 
 .replacement-entry{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 0 10px}.replacement-entry>span{font-size:11px;opacity:.65}.replacement-entry button{font-size:12px;padding:7px 10px}.replacement-source{display:grid;gap:6px;min-width:0;padding:10px 12px;border:1px solid #344032;border-radius:7px}.replacement-source span,.replacement-source small{font-size:11px;opacity:.7}.replacement-source strong{overflow-wrap:anywhere;font-size:13px}.replacement-feedback{min-height:2.5em;overflow-wrap:anywhere}.replacement-warning{color:#e9b19d}
+
+.asset-sort{grid-template-columns:minmax(0,1fr) auto auto}.asset-sort>*{min-width:0}.relink-status{display:flex;justify-content:space-between;gap:8px;font:11px var(--mono);color:var(--muted);padding:3px 1px}.relink-status strong{color:var(--accent)}.relink-status[hidden]{display:none}
