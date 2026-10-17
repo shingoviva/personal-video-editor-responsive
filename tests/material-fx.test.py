@@ -25,6 +25,8 @@ with tempfile.TemporaryDirectory(prefix='pve-material-fx-') as tmp:
  base={'type':'region-zoom','start':0,'duration':2,'zoomSize':.4,'zoomX':.25,'zoomY':.5,'zoomIn':0,'zoomReturn':False,'strength':.6}
  focus=render('focus',{**base,'motionKind':'focus'});assert pixel(focus,1,40)[0]>180 and pixel(focus,1,120)[2]<150
  tracking=render('tracking',{**base,'trackPath':[{'time':0,'x':.25,'y':.5},{'time':1,'x':.75,'y':.5}]});assert pixel(tracking,.1,80)[0]>180 and pixel(tracking,1.5,80)[2]>180
+ face=render('face-follow',{**base,'motionKind':'face-follow','trackPath':[{'time':0,'x':.25,'y':.5},{'time':1,'x':.75,'y':.5}]});assert pixel(face,.1,80)[0]>180 and pixel(face,1.5,80)[2]>180
+ empty_face=render('face-unanalysed',{**base,'motionKind':'face-follow','trackPath':[]});assert pixel(empty_face,1,120)[2]>180
  for kind in ['audio-pulse','camera-bump']:
   output=render(kind,{**base,'motionKind':kind,'strength':1,'motionPath':[{'time':0,'scale':1,'x':0,'y':0},{'time':.5,'scale':1.12,'x':.02,'y':0},{'time':1,'scale':1,'x':0,'y':0},{'time':2,'scale':1,'x':0,'y':0}]});assert pixel(output,.5,82)[0]>150
  combined=render('combined',[base,{**base,'motionKind':'focus'}]);assert pixel(combined,1,120)[0]>180

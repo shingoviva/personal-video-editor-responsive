@@ -1,4 +1,4 @@
-import {sequence,audioSequence,timing,trimClip,anchor} from './model.js?v=2.2.70';
+import {sequence,audioSequence,timing,trimClip,anchor} from './model.js?v=2.2.71';
 import {syncLinkedAudio} from './linked-audio.js';
 export function reorderPhoneClip(p,id,direction){
  const c=[...p.clips,...p.audioClips].find(c=>c.id===id);if(!c)return false;

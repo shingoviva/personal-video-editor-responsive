@@ -1,5 +1,5 @@
-import {normalizeRegionZoom} from './region-zoom.js?v=2.2.70';
-import {sanitizeEditMarkers} from './edit-markers.js?v=2.2.70';
+import {normalizeRegionZoom} from './region-zoom.js?v=2.2.71';
+import {sanitizeEditMarkers} from './edit-markers.js?v=2.2.71';
 import {CURVE_KEYS,CURVE_IDENTITY,normalizeCurve} from './tone-curve.js';
 import {normalizeEnvelope,legacyGainEnvelope,splitEnvelope,trimEnvelope} from './clip-envelope.js';
 export const uid=()=>globalThis.crypto?.randomUUID?.()||Date.now().toString(36)+Math.random().toString(36).slice(2);

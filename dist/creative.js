@@ -1,4 +1,4 @@
-import {clamp,timing,sequence,uid,pasteClip,sourceOffset} from './model.js?v=2.2.70';
+import {clamp,timing,sequence,uid,pasteClip,sourceOffset} from './model.js?v=2.2.71';
 export function opacityAt(clip,local,duration=Infinity){
  const points=(clip?.opacityKeyframes||[]).filter(k=>Number.isFinite(+k.time)&&Number.isFinite(+k.value)).map(k=>({time:clamp(+k.time,0,duration),value:clamp(+k.value,0,1)})).sort((a,b)=>a.time-b.time);
  if(!points.length)return clamp(clip?.opacity??1,0,1);if(local<=points[0].time)return points[0].value;if(local>=points.at(-1).time)return points.at(-1).value;
@@ -27,4 +27,4 @@ export function frozenClip(p,id,t,seconds=1){
  const frozen={...structuredClone(c),freezeAt:source,freezeDuration:clamp(seconds,1/30,60),in:source,out:Math.max(source+.001,Math.min(c.out,source+1/30)),hold:0,speed:1,endSpeed:1,curve:'constant',stabilization:'OFF',fadeIn:0,fadeOut:0};
  delete frozen.timingBase;frozen.audio={...c.audio,mute:true};return pasteClip(p,frozen,Math.max(0,t),2);
 }
-export function addEffect(p,type,t){const kind=['audio-pulse','camera-bump','focus'].includes(type)?type:null;if(kind)type='region-zoom';const e={id:uid(),type,start:Math.max(0,t),duration:type==='region-zoom'?Math.max(1,Math.max(0,...sequence(p).map(r=>r.end))-t):type==='flash'?.16:.6,hold:0,strength:1};if(type==='region-zoom')Object.assign(e,{zoomSize:.4,zoomX:.5,zoomY:.5,zoomIn:.2,zoomOut:.3,zoomReturn:true,returnAt:Math.max(.2,e.duration-.3)});if(kind)Object.assign(e,{motionKind:kind,strength:.5,zoomTexts:false,duration:Math.min(30,e.duration)});(p.effects??=[]).push(e);return e}
+export function addEffect(p,type,t){const kind=['audio-pulse','camera-bump','focus','face-follow'].includes(type)?type:null;if(kind)type='region-zoom';const e={id:uid(),type,start:Math.max(0,t),duration:type==='region-zoom'?Math.max(1,Math.max(0,...sequence(p).map(r=>r.end))-t):type==='flash'?.16:.6,hold:0,strength:1};if(type==='region-zoom')Object.assign(e,{zoomSize:.4,zoomX:.5,zoomY:.5,zoomIn:.2,zoomOut:.3,zoomReturn:true,returnAt:Math.max(.2,e.duration-.3)});if(kind)Object.assign(e,{motionKind:kind,strength:.5,zoomTexts:false,duration:Math.min(30,e.duration)});if(kind==='face-follow')Object.assign(e,{zoomSize:.55,zoomReturn:false,zoomIn:.25});(p.effects??=[]).push(e);return e}

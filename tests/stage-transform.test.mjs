@@ -43,3 +43,7 @@ resized.scale=.98;for(let i=0;i<80;i++)events.get('wheel')({ctrlKey:true,deltaY:
 assert.ok(resized.scale>1.1,'small wheel deltas accumulate beyond the snapped value');
 await new Promise(resolve=>setTimeout(resolve,180));assert.equal(guide,null);
 console.log('Wheel resizing escapes frame snap and clears guides after completion PASS');
+
+const single=snapScaleToFrame(1.2,{x:.05,y:.5},{width:400,height:300},{width:800,height:600});assert.equal(single.scale,1.2);assert.equal(single.x,0);assert.deepEqual(single.snapEdges,['left']);
+for(const [pos,edge,key] of [[{x:.95,y:.5},'right','x'],[{x:.5,y:.05},'top','y'],[{x:.5,y:.95},'bottom','y']]){const snap=snapScaleToFrame(1.2,pos,frame,{width:800,height:600});assert(snap.snapEdges.includes(edge));assert.equal(snap[key],edge==='right'||edge==='bottom'?1:0);}
+console.log('Resize can snap a single nearby edge without forcing the opposite edge or changing scale PASS');

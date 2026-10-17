@@ -101,7 +101,7 @@ def capabilities():
  f=subprocess.run([FFMPEG,'-hide_banner','-filters'],capture_output=True,text=True).stdout
  e=subprocess.run([FFMPEG,'-hide_banner','-encoders'],capture_output=True,text=True).stdout
  ready='libx264' in e;stabilization='vidstabtransform' in f;hdr='zscale' in f and 'tonemap' in f;drawtext='drawtext' in f;text_raster='overlay' in f;text=drawtext or text_raster;prores='prores_ks' in e;motion='minterpolate' in f
- return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.70','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
+ return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.71','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
 
 def preflight_render(project,clips=None,caps=None):
  """Fail before rendering when the chosen edit needs a missing FFmpeg feature."""
@@ -824,6 +824,7 @@ def material_path_expr(points,key,local,fallback):
 def region_zoom_filter(e,w,h,fps):
  # Same smoothstep and normalized frame geometry as region-zoom.js.
  kind=e.get('motionKind');start=number(e.get('start'),0,0,86400);duration=number(e.get('duration'),3,1/60,86400);local=f'(in_time-{start})';strength=number(e.get('strength'),.5,0,1)
+ if kind=='face-follow' and not e.get('trackPath'):return 'null'
  if kind in ('audio-pulse','camera-bump'):
   active=f'gte(in_time,{start})*lt(in_time,{start+duration})';scale=material_path_expr(e.get('motionPath'), 'scale',local,1);dx=material_path_expr(e.get('motionPath'),'x',local,0);dy=material_path_expr(e.get('motionPath'),'y',local,0)
   z=f'(1+(({scale})-1)*{strength}*({active}))';x=f'iw*(.5-.5/zoom-({dx})*{strength}*({active})/zoom)';y=f'ih*(.5-.5/zoom-({dy})*{strength}*({active})/zoom)'

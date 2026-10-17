@@ -1,4 +1,10 @@
 const translations=[
+["顔追従は動画素材で解析してください。","Analyze face tracking on a video clip."],
+["FACE FOLLOW：FXで追加し、開始画面で顔を枠に入れて「顔を認識して追従を解析」を押します。1クリップ内・最長30秒の解析結果を保存し、再生時の認識処理はありません。","FACE FOLLOW: Add the FX, frame a face at the start, then choose Analyze face tracking. Up to 30 seconds within one clip is saved; detection does not run during playback."],
+["顔を認識して追従を解析", "Analyze face tracking"],
+["開始画面で追いたい顔を枠に入れて解析します。複数人では枠の中心に近い顔を追います。顔を見失うと直前の位置を保持します。解析は端末内で行い、再生中は顔認識しません。", "Frame the face at the effect start, then analyze. With multiple faces, the one nearest the frame center is followed. Lost faces hold their last position. Analysis stays on device and does not run during playback."],
+["顔追従の解析区間は30秒以内にしてください。", "Keep face tracking analysis within 30 seconds."],
+["顔を検出できませんでした。FX開始画面で顔を枠に入れ、明るさや顔の大きさをご確認ください。", "No face was detected. Frame a face at the effect start and check its lighting and size."],
 ["一括再リンク", "Relink all"],
 ["未接続クリップ", "Offline clips"],
 ["未接続素材", "Offline media"],
