@@ -10,7 +10,7 @@ p.media=[
  {id:'music-bed',name:'bgm.m4a',kind:'audio',duration:120,audio:true}
 ];
 const base={...clip(p.media[0]),id:'v1',start:0,layer:0,out:12,speed:.75,endSpeed:1.25,curve:'ease-in-out',stabilization:'SMOOTH',interpolation:'motion',fadeIn:.5,fadeOut:.6,scaleKeyframes:[{time:0,value:1},{time:6,value:2.25},{time:12,value:1}],opacity:.94,opacityKeyframes:[{time:0,value:0},{time:1.2,value:.94},{time:11,value:.94},{time:12,value:0}],motionPreset:'push-in',motionAmount:.16,color:{...clip(p.media[0]).color,exposure:-.18,contrast:22,highlights:-35,saturation:-8,gamma:8,fade:4,sharpness:12,vignette:16}};
-const cutaway={...clip(p.media[1]),id:'v2',start:2.4,layer:1,out:5,scale:1.12,x:.48,y:.46,opacity:.72,fadeIn:.3,fadeOut:.4,motionPreset:'pan-right',motionAmount:.11};
+const cutaway={...clip(p.media[1]),id:'v2',start:2.4,layer:1,out:5,offsetX:.125,offsetY:-.22,scale:1.12,x:.48,y:.46,opacity:.72,fadeIn:.3,fadeOut:.4,motionPreset:'pan-right',motionAmount:.11};
 const overlay={...clip(p.media[0]),id:'v3',start:6.25,layer:2,in:20,out:24.5,scale:.56,x:.76,y:.28,opacity:.58,fadeIn:.25,fadeOut:.35};
 p.clips=[base,cutaway,overlay];
 p.videoTracks=[{name:'MAIN',hidden:false,volume:.85},{name:'CUTAWAY',hidden:false,volume:.45},{name:'OVERLAY',hidden:true,volume:1.2}];p.overlayTracks=[{name:'CAPTIONS',hidden:false},{name:'TITLES',hidden:false},{name:'FX',hidden:true}];
@@ -42,3 +42,5 @@ assert.equal(restored.clips[0].opacityKeyframes.length,4);assert.deepEqual(resto
 assert.deepEqual(restored.fonts,p.fonts);
 assert.deepEqual(restored.export,{preset:'YOUTUBE',aspect:'AUTO',resolution:'4K',fps:'60',quality:'Maximum',codec:'H.264'});
 console.log('Complex project save/reload round-trip: video, audio, FX, captions, tracks and export state PASS');
+
+assert.equal(restored.clips[1].offsetX,.125);assert.equal(restored.clips[1].offsetY,-.22);

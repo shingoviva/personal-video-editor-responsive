@@ -70,10 +70,20 @@ def scale_keyframe_expression(clip,duration,nodes):
   slope=(y1-y0)/(x1-x0);local=f'if(lt(t,{x1:.9f}),{y0:.9f}+(t-{x0:.9f})*{slope:.9f},{local})'
  return keyframe_expression(points,duration,3,local,.1)
 
-def spatial_filters(width,height,scale_expr,x_expr,y_expr):
+def spatial_filters(width,height,scale_expr,x_expr,y_expr,offset_x=0,offset_y=0,source_aspect=None):
  """Scale from the historical cover=1 baseline, then crop or pad to a fixed black canvas."""
  base_w=f'max({width},{height}*iw/ih)';base_h=f'max({height},{width}*ih/iw)'
  scaled_w=f'max(2,trunc(({base_w})*({scale_expr})/2)*2)';scaled_h=f'max(2,trunc(({base_h})*({scale_expr})/2)*2)'
+ if offset_x or offset_y:
+  # Retain source pixels outside the old crop before translating onto the frame.
+  mx=width*(1+abs(offset_x))+2;my=height*(1+abs(offset_y))+2
+  try:
+   fixed=float(scale_expr)
+   if source_aspect:
+    sw=max(2,math.trunc(max(width,height*source_aspect)*fixed/2)*2);sh=max(2,math.trunc(max(height,width/source_aspect)*fixed/2)*2)
+    mx=max(0,width-sw)+abs(offset_x)*width+2;my=max(0,height-sh)+abs(offset_y)*height+2
+  except (TypeError,ValueError):pass
+  return [f"scale=w='{scaled_w}':h='{scaled_h}':eval=frame:flags=lanczos",f'pad=w=iw+{2*mx}:h=ih+{2*my}:x={mx}:y={my}:color=black:eval=frame',f"crop=w={width}:h={height}:x='{mx}+(iw-{2*mx}-{width})*({x_expr})-{offset_x*width}':y='{my}+(ih-{2*my}-{height})*({y_expr})-{offset_y*height}'",'setsar=1']
  if re.search(r'\bt\b',str(x_expr)+' '+str(y_expr)):
   # pad cannot evaluate t. Put the image on a larger fixed canvas and move
   # the final crop instead, including when a <1x image moves over black.
@@ -101,7 +111,7 @@ def capabilities():
  f=subprocess.run([FFMPEG,'-hide_banner','-filters'],capture_output=True,text=True).stdout
  e=subprocess.run([FFMPEG,'-hide_banner','-encoders'],capture_output=True,text=True).stdout
  ready='libx264' in e;stabilization='vidstabtransform' in f;hdr='zscale' in f and 'tonemap' in f;drawtext='drawtext' in f;text_raster='overlay' in f;text=drawtext or text_raster;prores='prores_ks' in e;motion='minterpolate' in f
- return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.71','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
+ return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.72','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
 
 def preflight_render(project,clips=None,caps=None):
  """Fail before rendering when the chosen edit needs a missing FFmpeg feature."""
@@ -603,7 +613,7 @@ def render(job,project,preview=False,_token=None,_size=None):
    grade=color_filters(c.get('color',{}),number(c.get('lookAmount'),1,0,1.5));vf+=(['format=gbrpf32le']+grade if grade else [])
    if preset=='push-in' and not c.get('scaleKeyframes'):scale_expr=f'min(3,{scale}*(1+{amount}*({ease})))'
    elif preset=='pull-out' and not c.get('scaleKeyframes'):scale_expr=f'min(3,{scale}*(1+{amount}*(1-({ease}))))'
-   vf.extend(spatial_filters(w,h,scale_expr,x_expr,y_expr))
+   vf.extend(spatial_filters(w,h,scale_expr,x_expr,y_expr,number(c.get('offsetX'),0,-4,4),number(c.get('offsetY'),0,-4,4),m['width']/m['height']))
    vf+=['settb=AVTB','setpts=PTS-STARTPTS']
    # Use the same 32-piece integral as the browser timeline. Source PTS handles VFR.
    expr=f'{duration:.9f}'
@@ -673,7 +683,7 @@ def render(job,project,preview=False,_token=None,_size=None):
     if available>1e-4:
      natural_speed=max(.05,number(previous_clip.get('endSpeed'),previous_clip.get('speed',1),.05,20));source_span=min(available,td*natural_speed);tail_speed=max(.05,source_span/td);tail=work/f'clip-{idx:04d}-outgoing{ext}'
      tail_vf=tone(previous_media);tail_grade=color_filters(previous_clip.get('color',{}),number(previous_clip.get('lookAmount'),1,0,1.5));tail_vf+=(['format=gbrpf32le']+tail_grade if tail_grade else [])
-     tail_vf+=spatial_filters(w,h,number(previous_clip.get('scale'),1,.1,3),number(previous_clip.get('x'),.5,0,1),number(previous_clip.get('y'),.5,0,1))
+     tail_vf+=spatial_filters(w,h,number(previous_clip.get('scale'),1,.1,3),number(previous_clip.get('x'),.5,0,1),number(previous_clip.get('y'),.5,0,1),number(previous_clip.get('offsetX'),0,-4,4),number(previous_clip.get('offsetY'),0,-4,4),previous_media['width']/previous_media['height'])
      tagged=all(previous_media.get(k) not in (None,'','unknown') for k in ('transfer','primaries','matrix'));tail_precision='zscale=matrix=709:range=limited:dither=error_diffusion' if caps.get('hdr') and tagged else 'scale=out_color_matrix=bt709:out_range=tv:flags=lanczos+accurate_rnd+full_chroma_int:sws_dither=auto'
      tail_vf+=['settb=AVTB',f'setpts=(PTS-STARTPTS)/{tail_speed:.9f}',f'fps={fps}',f'tpad=stop_mode=clone:stop_duration={td:.9f}',f'trim=duration={td:.9f}',tail_precision,f'format={pixel}','setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709']
      run(job,['-ss',number(previous_clip.get('out'),0),'-t',source_span,'-i',previous_media['path'],'-an','-vf',','.join(tail_vf),*video_args,'-video_track_timescale','90000',tail],td,done/max(total,.001)*.85,0);old_input=['-i',tail]

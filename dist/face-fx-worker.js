@@ -15,7 +15,7 @@ onmessage=async({data})=>{let input,detector;try{
  for(let i=0;i<count;i++){
   const local=Math.min(duration,i/8),frame=await sink.getCanvas(sourceTime(row,start+local));if(!frame)throw Error('映像フレームを取得できません。');
   const sw=frame.canvas.width,sh=frame.canvas.height,cw=Math.min(sw,sh*ar)/(row.clip.scale||1),ch=Math.min(sh,sw/ar)/(row.clip.scale||1);
-  ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(frame.canvas,(sw-cw)*(row.clip.x??.5),(sh-ch)*(row.clip.y??.5),cw,ch,0,0,canvas.width,canvas.height);
+  ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(frame.canvas,(sw-cw)*(row.clip.x??.5)-(row.clip.offsetX||0)*cw,(sh-ch)*(row.clip.y??.5)-(row.clip.offsetY||0)*ch,cw,ch,0,0,canvas.width,canvas.height);
   const faces=detector.detectForVideo(canvas,1+local*1000).detections.map(d=>({x:(d.boundingBox.originX+d.boundingBox.width/2)/canvas.width,y:(d.boundingBox.originY+d.boundingBox.height/2)/canvas.height,width:d.boundingBox.width/canvas.width,height:d.boundingBox.height/canvas.height,score:d.categories[0]?.score||0}));
   const result=followFace(faces,previous,{x:region.zoomX,y:region.zoomY},local,region.zoomSize);previous=result.previous;path.push(result.point);if(result.point.confidence)detected++;else lost++;
   if(i%4===0)postMessage({type:'progress',value:i/count});await new Promise(resolve=>setTimeout(resolve,0));

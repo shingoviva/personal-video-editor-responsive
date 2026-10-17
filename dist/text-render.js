@@ -1,4 +1,4 @@
-import {textPose} from './creative.js?v=2.2.71';
+import {textPose} from './creative.js?v=2.2.72';
 
 const color=(value,fallback='#ffffff')=>/^#[0-9a-f]{6}$/i.test(value||'')?value:fallback;
 const safeFont=value=>String(value||'Sans').replace(/["'`;{}]/g,'').slice(0,80)||'Sans';

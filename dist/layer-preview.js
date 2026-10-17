@@ -1,9 +1,9 @@
-import {needsPreviewSeek,previewMediaEnded} from './playback-sync.js?v=2.2.71';
-import {renderer} from './preview.js?v=2.2.71';
+import {needsPreviewSeek,previewMediaEnded} from './playback-sync.js?v=2.2.72';
+import {renderer} from './preview.js?v=2.2.72';
 import {StillPreview} from './image-media.js';
-import {waitForMedia} from './media-state.js?v=2.2.71';
-import {sourceOffset,timing} from './model.js?v=2.2.71';
-import {clipAlpha} from './creative.js?v=2.2.71';
+import {waitForMedia} from './media-state.js?v=2.2.72';
+import {sourceOffset,timing} from './model.js?v=2.2.72';
+import {clipAlpha} from './creative.js?v=2.2.72';
 import {motionTransform} from './motion-transform.js';
 // A second decoder exists only while an upper layer reveals the lower picture.
 export class LayerPreview{

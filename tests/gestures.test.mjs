@@ -80,3 +80,19 @@ for(const edge of [null,'in','out']){
  el.onpointerup(event(100));assert.equal(finished,1);
 }
 console.log('Direct video/audio move and trim ignore another finger without ending the gesture PASS');
+
+const extended=[{clip:{id:'p'},layer:0,start:0,end:1},{clip:{id:'q'},layer:0,start:2,end:3}];
+const append=equalSpacingStart(4.04,1,{id:'r',layer:0},extended,.01);assert.equal(append.start,4);assert.deepEqual(append.gaps,[[1,2],[3,4]]);
+const prepend=equalSpacingStart(0.04,1,{id:'r',layer:0},extended.map(r=>({...r,start:r.start+2,end:r.end+2})),.01);assert.equal(prepend.start,0);assert.deepEqual(prepend.gaps,[[1,2],[3,4]]);
+assert.equal(equalSpacingStart(4.04,1,{id:'r',layer:1},extended,.01).spacing,false);
+const original=p.clips[0],beforeLate=structuredClone(original);bind();element.onpointerdown(event(0));element.onpointermove(event(60));element.onpointermove(event(100,0,null,true));const lateCopy=p.clips.at(-1);assert.deepEqual(original,beforeLate);assert.notEqual(lateCopy.id,original.id);element.onpointermove(event(120,0,null,true));assert.equal(p.clips.at(-1),lateCopy);element.onpointerup(event(120));
+console.log('Append/prepend equal gaps and Option pressed mid-drag duplicate once while restoring original PASS');
+
+{
+ const first={...clip(m),id:'spacing-first',in:0,out:1,start:0,layer:0},second={...clip(m),id:'spacing-second',in:0,out:1,start:2,layer:0};
+ const rows=[{clip:first,start:0,end:1,duration:1,layer:0},{clip:second,start:2,end:3,duration:1,layer:0}],node={...element,dataset:{clip:second.id},style:{}},area={getBoundingClientRect:()=>({width:1000}),querySelectorAll:()=>[node]};let copy,feedback,cancelled=false;
+ const options={root:area,rows,duration:10,select(){},begin(){},finish(){},cancel(){cancelled=true},preview(c,edge,snapped,spacing){feedback=spacing},media:()=>m,snap:()=>true,getLayer:()=>0};
+ bindTimeline({...options,duplicate:r=>{copy={...r.clip,id:'spacing-copy'};return {...r,clip:copy}}});node.onpointerdown(event(0));node.onpointermove(event(204,0,null,true));assert.equal(second.start,2);assert.equal(copy.start,4);assert.deepEqual(feedback.gaps,[[1,2],[3,4]]);node.onpointerup(event(204));
+ bindTimeline({...options,duplicate:()=>null});node.onpointerdown(event(0,0,null,true));node.onpointermove(event(204,0,null,true));assert.equal(cancelled,true);assert.equal(second.start,2);assert.equal(node.onpointermove,null);
+}
+console.log('Option-copy uses append spacing guides; rejected duplicate cancels without moving original PASS');

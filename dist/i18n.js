@@ -1,4 +1,13 @@
 const translations=[
+["左上をドラッグしてサイズ変更", "Resize from top left"],
+["右上をドラッグしてサイズ変更", "Resize from top right"],
+["左下をドラッグしてサイズ変更", "Resize from bottom left"],
+["右下をドラッグしてサイズ変更", "Resize from bottom right"],
+["横移動", "Horizontal offset"],
+["縦移動", "Vertical offset"],
+["映像をドラッグして移動、四隅をドラッグして縦横比を保ってサイズ変更。Optionを押しながら四隅を動かすと中心から拡大・縮小します。中央と画面枠に吸着します。", "Drag the image to move it. Drag a corner to resize with the aspect ratio locked. Hold Option to resize from the center. Snaps to the frame edges and center."],
+["複製できるクリップ数の上限に達しています。", "The clip duplication limit has been reached."],
+["複製できる項目数の上限に達しています。", "The item duplication limit has been reached."],
 ["顔追従は動画素材で解析してください。","Analyze face tracking on a video clip."],
 ["FACE FOLLOW：FXで追加し、開始画面で顔を枠に入れて「顔を認識して追従を解析」を押します。1クリップ内・最長30秒の解析結果を保存し、再生時の認識処理はありません。","FACE FOLLOW: Add the FX, frame a face at the start, then choose Analyze face tracking. Up to 30 seconds within one clip is saved; detection does not run during playback."],
 ["顔を認識して追従を解析", "Analyze face tracking"],

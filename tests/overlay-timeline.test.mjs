@@ -54,3 +54,8 @@ bindOverlayTimeline({root:guardRoot,effects:[guarded],duration:10,targets:()=>[]
 guardEl.onpointerdown(event(0));guardEl.onpointermove({...event(100),pointerId:2});assert.equal(guarded.start,1);
 guardEl.onpointermove(event(100));guardEl.onpointerup({...event(100),pointerId:2});guardEl.onpointercancel({pointerId:2});assert.equal(ended,0);assert(guardEl.onpointermove);guardEl.onpointerup(event(100));assert.equal(ended,1);
 console.log('FX direct drag ignores other pointers and completes only for its owner PASS');
+
+const originalFx={id:'late-option',start:1,duration:1,layer:0},copyFxElement=makeElement({fx:'late-option'}),copyFxRoot={getBoundingClientRect:()=>({width:1000}),querySelectorAll:()=>[copyFxElement]};let lateFxCopies=0,copiedFx;
+bindOverlayTimeline({root:copyFxRoot,effects:[originalFx],duration:10,targets:()=>[],snap:()=>false,select(){},begin(){},finish(){},cancel(){},preview(){},duplicate:item=>{lateFxCopies++;return copiedFx={...item,id:'late-copy'}}});
+copyFxElement.onpointerdown(event(0));copyFxElement.onpointermove(event(50));copyFxElement.onpointermove({...event(100),altKey:true});assert.equal(originalFx.start,1);assert.equal(copiedFx.start,2);copyFxElement.onpointermove({...event(120),altKey:true});assert.equal(lateFxCopies,1);copyFxElement.onpointerup(event(120));
+console.log('FX/text late Option drag restores source and copies exactly once PASS');

@@ -20,6 +20,8 @@ jobs:
       - run: npm run build
       - name: Native capabilities.test.py
         run: python tests/capabilities.test.py
+      - name: Native preview-transform.test.py
+        run: python tests/preview-transform.test.py
       - name: Native images.test.py
         run: python tests/images.test.py
       - name: Native look-export.test.py

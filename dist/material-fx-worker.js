@@ -1,7 +1,7 @@
 import {Input,ALL_FORMATS,BlobSource,UrlSource,CanvasSink,AudioSampleSink} from './vendor/mediabunny.mjs';
-import {audioAccents,trackPatch,compactTrackPath,motionAccents} from './material-fx.js?v=2.2.71';
+import {audioAccents,trackPatch,compactTrackPath,motionAccents} from './material-fx.js?v=2.2.72';
 import {sourceTime} from './mobile-model.js';
-import {timing} from './model.js?v=2.2.71';
+import {timing} from './model.js?v=2.2.72';
 function soften(gray,n){const out=new Float32Array(gray.length);for(let y=0;y<n;y++)for(let x=0;x<n;x++){let sum=0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)sum+=gray[Math.max(0,Math.min(n-1,y+dy))*n+Math.max(0,Math.min(n-1,x+dx))];out[y*n+x]=sum/9}return out}
 import {motionEstimate} from './mobile-stabilize.js';
 onmessage=async({data})=>{let input;try{
@@ -12,7 +12,7 @@ onmessage=async({data})=>{let input;try{
   const energies=Array.from(bins,(v,i)=>Math.sqrt(v/Math.max(1,counts[i])));postMessage({type:'done',accents:audioAccents(energies),sourceName:data.file?.name||data.sourceName||'Source'});
  }else{
   const track=await input.getPrimaryVideoTrack();if(!track||!await track.canDecode())throw Error('解析できる映像トラックがありません。');const n=96,sink=new CanvasSink(track,{width:n,height:Math.max(2,Math.round(n*track.displayHeight/track.displayWidth)),fit:'fill',poolSize:1}),count=Math.ceil(duration*8)+1,path=[],motions=[];let previous=null,center={x:region.zoomX,y:region.zoomY},lost=0,motion=0,direction={x:0,y:0};
-  for(let i=0;i<count;i++){const local=Math.min(duration,i/8),frame=await sink.getCanvas(sourceTime(row,start+local));if(!frame)throw Error('映像フレームを取得できません。');const picture=new OffscreenCanvas(n,n),ctx=picture.getContext('2d'),sw=frame.canvas.width,sh=frame.canvas.height,ar=data.aspect==='Original'?sw/sh:data.aspect.split(':').map(Number).reduce((a,b)=>a/b),cw=Math.min(sw,sh*ar)/(row.clip.scale||1),ch=Math.min(sh,sw/ar)/(row.clip.scale||1);ctx.drawImage(frame.canvas,(sw-cw)*(row.clip.x??.5),(sh-ch)*(row.clip.y??.5),cw,ch,0,0,n,n);const rgba=ctx.getImageData(0,0,n,n).data,gray=soften(Float32Array.from({length:n*n},(_,k)=>.299*rgba[k*4]+.587*rgba[k*4+1]+.114*rgba[k*4+2]),n);let confidence=1;
+  for(let i=0;i<count;i++){const local=Math.min(duration,i/8),frame=await sink.getCanvas(sourceTime(row,start+local));if(!frame)throw Error('映像フレームを取得できません。');const picture=new OffscreenCanvas(n,n),ctx=picture.getContext('2d'),sw=frame.canvas.width,sh=frame.canvas.height,ar=data.aspect==='Original'?sw/sh:data.aspect.split(':').map(Number).reduce((a,b)=>a/b),cw=Math.min(sw,sh*ar)/(row.clip.scale||1),ch=Math.min(sh,sw/ar)/(row.clip.scale||1);ctx.drawImage(frame.canvas,(sw-cw)*(row.clip.x??.5)-(row.clip.offsetX||0)*cw,(sh-ch)*(row.clip.y??.5)-(row.clip.offsetY||0)*ch,cw,ch,0,0,n,n);const rgba=ctx.getImageData(0,0,n,n).data,gray=soften(Float32Array.from({length:n*n},(_,k)=>.299*rgba[k*4]+.587*rgba[k*4+1]+.114*rgba[k*4+2]),n);let confidence=1;
    if(previous){const camera=motionEstimate(previous,gray,n);motion+=Math.hypot(camera.x,camera.y);direction.x+=camera.x;direction.y+=camera.y;motions.push({time:local,value:Math.hypot(camera.x,camera.y)});const tracked=trackPatch(previous,gray,n,center,region.zoomSize);confidence=tracked.confidence;if(confidence)center={x:tracked.x,y:tracked.y};else lost++}path.push({time:local,x:center.x,y:center.y,confidence});previous=gray;if(i%4===0)postMessage({type:'progress',value:i/count});await new Promise(resolve=>setTimeout(resolve,0));
   }postMessage({type:'done',trackPath:compactTrackPath(path),samples:count,motionEvents:motionAccents(motions),lost,motion:motion/count,direction,sourceName:data.file?.name||data.sourceName||'Source'});
  }
