@@ -66,3 +66,11 @@ for(const dims of [[400,300,800,600],[300,500,1920,1080],[640,360,720,1280]])for
 const fs=await import('node:fs');const css=fs.readFileSync(new URL('../dist/style.css',import.meta.url),'utf8'),app=fs.readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
 assert.match(css,/\.stage-transform-box\{[^}]*border:0;outline:/);assert.doesNotMatch(app,/handle\.style\.(?:left|top)=\(clamp/,'Never move corner handles away from actual image bounds');
 console.log('60 aspect/scale/corner combinations retain opposite anchor; all frame-edge corners and handle geometry agree PASS');
+
+const zoomedFrame={left:-180,top:-120,width:800,height:600},outputFrame={left:20,top:30,width:400,height:300};
+const zoomPose={scale:.4,x:.5,y:.5},zoomBounds=clipPreviewBounds(zoomPose,zoomedFrame,image);
+const zoomResize=resizePreviewClip(zoomPose,'se',43,33,zoomedFrame,image,true,8,outputFrame),zoomAfter=clipPreviewBounds({...zoomPose,...zoomResize},zoomedFrame,image);
+assert.ok(Math.abs(zoomAfter.left-outputFrame.left)<1e-6);assert.ok(Math.abs(zoomAfter.top-outputFrame.top)<1e-6);assert.equal(zoomAfter.width,outputFrame.width);assert.equal(zoomAfter.height,outputFrame.height);assert.deepEqual(zoomResize.snapEdges,['left','right','top','bottom']);
+const zoomMove=movePreviewClip(zoomPose,31,21,zoomedFrame,image,0,outputFrame),zoomMoved=clipPreviewBounds({...zoomPose,...zoomMove},zoomedFrame,image);assert.ok(Math.abs(zoomMoved.left-zoomBounds.left-31)<1e-6);assert.ok(Math.abs(zoomMoved.top-zoomBounds.top-21)<1e-6);
+assert.match(app,/getSnapFrame:\(\)=>\$\('#picture'\)/);assert.match(app,/const frame=\$\('#zoomComposition'\)\.getBoundingClientRect/);
+console.log('Active zoom FX: handles follow displayed image, movement follows pixels, snapping retains output frame PASS');
