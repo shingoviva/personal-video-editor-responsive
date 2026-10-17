@@ -1,4 +1,4 @@
-import {clip,uid,sequence,audioSequence,timing,visibleSequence,clamp,total} from './model.js?v=2.2.69';
+import {clip,uid,sequence,audioSequence,timing,visibleSequence,clamp,total} from './model.js?v=2.2.70';
 const cache=new WeakMap();
 export function audioWindows(p){
  const key=(p.audioClips||[]).map(c=>[c.id,c.start,c.layer,c.in,c.out,c.speed,c.endSpeed,c.curve,c.hold,c.loop,JSON.stringify(c.timingBase)].join(':')).join('|'),old=cache.get(p);

@@ -1,5 +1,5 @@
-import {syncLinkedAudio} from './linked-audio.js?v=2.2.69';
-import {timing} from './model.js?v=2.2.69';
+import {syncLinkedAudio} from './linked-audio.js?v=2.2.70';
+import {timing} from './model.js?v=2.2.70';
 import {remapEnvelope} from './clip-envelope.js';
 export const attributeGroups={color:['color','lookName','lookAmount'],crop:['scale','scaleKeyframes','x','y'],motion:['speed','endSpeed','curve','stabilization','interpolation'],visual:['opacity','opacityKeyframes','fadeIn','fadeOut'],audio:['audio']};
 export const textAttributeKeys=['font','italic','align','weight','color','lineColors','accentWords','accentColor','outline','outlineColor','outerOutline','outerOutlineColor','shadow','shadowColor','shadowOpacity','shadowBlur','shadowX','shadowY','box','boxColor','boxOpacity','boxPadding','boxRadius','size','letterSpacing','lineHeight','x','y','opacity','fadeIn','fadeOut','motion','motionDuration','motionStart','motionEnd','motionScaleFrom','motionScaleTo'];

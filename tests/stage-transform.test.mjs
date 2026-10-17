@@ -21,3 +21,25 @@ handlers.get('lostpointercapture')(event(1));assert.equal(finishes,1);assert.equ
 handlers.get('pointerup')(event(1));assert.equal(finishes,1);
 handlers.get('pointerdown')(event(3));handlers.get('pointermove')(event(3,-20));handlers.get('pointerup')(event(3));assert.ok(Math.abs(target.x-.5)<1e-9);assert.equal(begins,2);assert.equal(finishes,2);
 console.log('Stage transform ignores concurrent presses and recovers after capture loss PASS');
+
+const {snapScaleToFrame}=await import('../dist/stage-transform.js');
+const centered={x:.5,y:.5},frame={width:400,height:300};
+assert.deepEqual(snapScaleToFrame(.98,centered,frame,{width:800,height:600}),{scale:1,snapEdges:['left','right','top','bottom']});
+assert.equal(snapScaleToFrame(.85,centered,frame,{width:800,height:600}).scale,.85);
+assert.equal(snapScaleToFrame(1.02,centered,frame,{width:800,height:600}).scale,1);
+assert.equal(snapScaleToFrame(.99,{x:0,y:1},frame,{width:800,height:600}).scale,1);
+assert.equal(snapScaleToFrame(.8,{x:.001,y:.5},frame,{width:800,height:600}).scale,.8,'nearly anchored edge cannot pull a distant size');
+const wide=snapScaleToFrame(.755,centered,frame,{width:1600,height:900});
+assert.equal(wide.scale,.75);assert.deepEqual(wide.snapEdges,['left','right']);
+const tall=snapScaleToFrame(.56,centered,frame,{width:900,height:1200});assert.equal(tall.scale,.5625);assert.deepEqual(tall.snapEdges,['top','bottom']);
+// Real gesture binding: snapped values reach change; metadata stays in the guide channel.
+const events=new Map(),resized={x:.5,y:.5,scale:.9};let guide=null;
+const surface={addEventListener:(n,f)=>events.set(n,f),setPointerCapture(){},getBoundingClientRect:()=>frame};
+bindStageTransform({root:surface,getClip:()=>resized,getSource:()=>({width:800,height:600}),enabled:()=>true,begin(){},change:next=>{resized.scale=next.scale},finish(){},guides:n=>guide=n,scaleHandle:{contains:()=>true}});
+events.get('pointerdown')(event(9));events.get('pointermove')(event(9,16));assert.equal(resized.scale,1);assert.equal(guide.snapEdges.length,4);
+events.get('pointermove')(event(9,60));assert.ok(resized.scale>1.2,'continued drag escapes snap');events.get('pointerup')(event(9,60));assert.equal(guide,null);
+console.log('Frame-edge resize snapping: all edges, aspect fit, anchored bounds and escape PASS');
+resized.scale=.98;for(let i=0;i<80;i++)events.get('wheel')({ctrlKey:true,deltaY:-1,preventDefault(){}});
+assert.ok(resized.scale>1.1,'small wheel deltas accumulate beyond the snapped value');
+await new Promise(resolve=>setTimeout(resolve,180));assert.equal(guide,null);
+console.log('Wheel resizing escapes frame snap and clears guides after completion PASS');
