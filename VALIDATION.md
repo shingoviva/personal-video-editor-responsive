@@ -1,3 +1,16 @@
+## 2.2.68 — 一括再リンク／クリップ素材差し替え（2026-10-17）
+
+- 属性ペーストの速度変更時、リンク音声の速度・尺を同期し、保持する音量ポイントの時刻を再投影。専用回帰試験で素材・IN/OUT・配置の保持と深いコピーを確認。
+
+- npm test（追加のmedia-replacement試験を含む）／build／diffcheck成功。200素材の上限状態でも既存の実importFilesをVMで動かし、複数targetの接続・単一checkpoint・クリップ追加なしを確認。
+- 階層付きフォルダ照合、同名同容量の重複保留、容量差拒否、保存済み相対位置による重複解消を試験。素材差し替えの速度／時間範囲／フェード／音量エンベロープ保持、選択した1クリップだけの更新、短い素材・異種拒否、リンク音声の追従／独立化、source依存FXの対象限定無効化も確認。
+- 隔離Chromium UIで、親フォルダ配下Audio/sub・Stillsの2素材一致／同名2ファイルの1素材保留を確認し、明示確認後に2素材接続。音声差し替え用の新規ファイル読み込み→確認→選択1クリップ更新、Undo／Redo、再生進行・終端停止、再起動後の接続維持を確認。
+- UI保存.projectを元データと正規化後に比較。対象のmedia IDだけが異なり、その他の全クリップデータは一致。MIX設定のフェード0.40／0.80も表示確認。
+- 差し替え後に端末内H264/AAC MP4を実生成（640x360/30fps/8秒、240フレーム）。Macエンジン実機接続と実機iPhone/Safariでのフォルダ選択・実音確認は未実施。
+- 追加の動画／静止画検証: 位置／拡大／color／keyframe／transition／fadeを含む全設定と兄弟clipの保持を試験。隔離UI8799でCOLORから動画、MOTIONから静止画を同じ確認操作で変更。実UI保存.projectは2クリップともmedia ID以外が正規化後完全一致。静止画Undo／Redo確認、H264/AAC 320x180/30fps/180frames/6秒の生成を確認。出力画素は動画区間green／写真区間cyan、原音880Hzを確認。0.57s動画は必要OUT2.20sのため理由を示して確定を無効化。元のCOLORタブへの復帰、英語種別ラベル、393pxで横overflowなしも確認。証拠export-verification.json参照。実機Safari未検証。
+- 動画／静止画の追加証拠 ../.codex-context/audit-evidence/visual-replacement/。
+- 証拠 ../.codex-context/audit-evidence/relink-replace/。Feature LabとSUMIKA移植成果物は非変更。
+
 ## 2.2.67 — iPhoneの通常削除と詰めて削除
 
 iPhone下部に通常の「削除」を戻し、「詰めて削除」と併設。Macと同じ既存コマンドを使用します。6ボタンの横幅配分を調整し、プレビュー／タイムラインの高さを維持します。

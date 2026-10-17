@@ -9,3 +9,17 @@ export function relinkScore(media,file){
  return{score:Math.min(100,score),reasons};
 }
 export function rankRelinkCandidates(media,files=[]){return files.map(file=>({file,...relinkScore(media,file)})).sort((a,b)=>b.score-a.score||a.file.name.localeCompare(b.file.name));}
+
+// Deliberately stricter than the fuzzy ranking used for manual one-file relinking.
+const exactName=value=>String(value||'').normalize('NFC').toLowerCase();
+export function relativeMediaPath(file){const path=String(file.webkitRelativePath||'');return path.includes('/')?path.split('/').slice(1).join('/'):'';}
+export function planFolderRelink(missing,files){
+ const index=new Map();for(const file of files){const name=exactName(file.name),key=name+'\0'+file.size;let list=index.get(key);if(!list)index.set(key,list=[]);list.push(file);}
+ const matches=[],unresolved=[];
+ for(const media of missing){let candidates=media.size>0?index.get(exactName(media.name)+'\0'+media.size)||[]:[];
+  if(candidates.length>1&&media.sourceRelativePath){const same=candidates.filter(f=>exactName(relativeMediaPath(f))===exactName(media.sourceRelativePath));if(same.length===1)candidates=same;}
+  if(candidates.length===1)matches.push({mediaId:media.id,media,file:candidates[0],relativePath:relativeMediaPath(candidates[0])});
+  else unresolved.push({media,candidates,reason:candidates.length?'同名・同容量の候補が複数あります。':'名前・容量が一致する素材が見つかりません。'});
+ }
+ return{matches,unresolved};
+}

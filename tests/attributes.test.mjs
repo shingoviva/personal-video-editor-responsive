@@ -16,3 +16,13 @@ assert.deepEqual([captionTarget.id,captionTarget.text,captionTarget.start,captio
 assert.deepEqual([captionTarget.font,captionTarget.size,captionTarget.color,captionTarget.outline,captionTarget.outerOutline,captionTarget.shadow,captionTarget.x,captionTarget.y,captionTarget.motion],['Serif',82,'#ff817b',7,4,true,.2,.7,'pop']);
 captionTarget.lineColors[0]='#000000';assert.equal(captionSource.lineColors[0],'#ffffff');assert.ok(textAttributeKeys.length>25);
 console.log('Attributes: isolated category paste preserves media, cuts, position and layers PASS');
+
+const {pasteProjectAttributes}=await import('../dist/attributes.js');
+const v={id:'v',kind:'video',in:0,out:8,start:2,speed:1,audio:{volume:0,gainEnvelope:[{time:0,valueDb:0},{time:8,valueDb:-12}]}};
+const a={id:'a',kind:'audio',sourceClip:'v',linked:true,in:0,out:8,start:2,speed:1,audio:{volume:.7}};
+const project={clips:[v],audioClips:[a]};
+assert.equal(pasteProjectAttributes(project,v,{kind:'video',speed:2,endSpeed:2,curve:'linear'},['motion']),true);
+assert.equal(a.speed,2);assert.equal(a.endSpeed,2);assert.equal(a.start,2);assert.equal(a.audio.volume,.7);
+assert.equal(v.audio.gainEnvelope.at(-1).time,4);
+assert.deepEqual([v.in,v.out,v.start],[0,8,2]);
+console.log('Attribute speed paste keeps linked audio synchronized and remaps retained envelope PASS');

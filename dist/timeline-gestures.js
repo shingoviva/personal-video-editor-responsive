@@ -1,4 +1,4 @@
-import {timing,sourceOffset,clamp,trimClip} from './model.js?v=2.2.67';
+import {timing,sourceOffset,clamp,trimClip} from './model.js?v=2.2.68';
 import {sourceLimit} from './assets.js';
 
 // Match visible lane bounds only; separators keep the last valid destination.

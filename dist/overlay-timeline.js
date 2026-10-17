@@ -1,5 +1,5 @@
-import {clamp} from './model.js?v=2.2.67';
-import {equalSpacingStart} from './timeline-gestures.js?v=2.2.67';
+import {clamp} from './model.js?v=2.2.68';
+import {equalSpacingStart} from './timeline-gestures.js?v=2.2.68';
 
 // Keep overlay items frame-aligned, then magnetize either edge to the playhead
 // or an edit boundary. Twelve screen pixels is forgiving without feeling sticky.

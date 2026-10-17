@@ -1,5 +1,5 @@
-import {clamp} from './model.js?v=2.2.67';
-import {scaleAt} from './creative.js?v=2.2.67';
+import {clamp} from './model.js?v=2.2.68';
+import {scaleAt} from './creative.js?v=2.2.68';
 
 export function motionTransform(clip,local,duration){
  const preset=clip.motionPreset||'none';if(preset==='none'&&!(clip.scaleKeyframes||[]).length)return clip;

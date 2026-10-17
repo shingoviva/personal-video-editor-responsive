@@ -1,7 +1,7 @@
 import {tabMetadata} from './workspace-ui.js';
-import {uiIcon} from './ui-icons.js?v=2.2.67';
-import {phonePaneSizes} from './phone-playback-clock.js?v=2.2.67';
-import {translate,translateDOM} from './i18n.js?v=2.2.67';
+import {uiIcon} from './ui-icons.js?v=2.2.68';
+import {phonePaneSizes} from './phone-playback-clock.js?v=2.2.68';
+import {translate,translateDOM} from './i18n.js?v=2.2.68';
 export function phoneLayout({width,height,coarse,iphone}){
  return !!iphone||(!!coarse&&Math.min(width,height)<=600)||width<=600;
 }
