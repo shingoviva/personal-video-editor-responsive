@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {clip,project,sequence,sanitize} from '../dist/model.js';
-import {normalizeTransition,transitionState,transitionStyles,drawTransitionLayer,outgoingTransitionRow} from '../dist/transition.js';
+import {normalizeTransition,transitionState,transitionStyles,drawTransitionLayer,outgoingTransitionRow,applyTransitionStyles} from '../dist/transition.js';
 
 assert.deepEqual(normalizeTransition({type:'bogus',duration:20,direction:'diagonal'}),{type:'none',duration:2,direction:'left'});
 const p=project(),media={id:'movie',kind:'video',duration:8,width:1920,height:1080};
@@ -48,3 +48,12 @@ const restored=sanitize(JSON.parse(JSON.stringify(p)));
 assert.deepEqual(restored.clips[1].transition,{type:'slide',duration:1,direction:'left'});
 assert.match(await readFile(new URL('../dist/mobile-render-worker.js',import.meta.url),'utf8'),/drawTransitionLayer/);
 console.log('Transitions: model, adjacency, easing, canvas composition and project restore PASS');
+
+// Clearing the transition surface must survive the following style reset.
+const incomingCanvas={style:{opacity:'1'}},outgoingCanvas={style:{opacity:'0'}};
+applyTransitionStyles(incomingCanvas,outgoingCanvas,null);
+assert.equal(outgoingCanvas.style.opacity,'0','Inactive black WebGL transition surface must not cover lower layers');
+applyTransitionStyles(incomingCanvas,outgoingCanvas,{type:'dissolve',progress:.5,direction:'left'});
+assert.equal(outgoingCanvas.style.opacity,'1');assert.equal(incomingCanvas.style.opacity,'0.5');
+applyTransitionStyles(incomingCanvas,outgoingCanvas,null);assert.equal(outgoingCanvas.style.opacity,'0');
+console.log('Inactive transition surface remains transparent before and after a transition PASS');
