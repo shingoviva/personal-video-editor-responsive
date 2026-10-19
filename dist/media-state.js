@@ -20,12 +20,21 @@ export async function seekMedia(media,time,options={}){
 
 // seeked can fire before the newly decoded picture is available to WebGL.
 // Keep the old surface until the requested video frame has been presented.
-const pendingVideoFrames=new WeakSet();
+const pendingVideoFrames=new WeakMap();
+export function cancelVideoFrame(media){pendingVideoFrames.get(media)?.controller.abort()}
 export function videoFrameReady(media){return media.readyState>=2&&!media.seeking&&!pendingVideoFrames.has(media)}
-export async function seekVideoFrame(media,time,{fps=30,timeout=8000,signal}={}){
+export function seekVideoFrame(media,time,options={}){
+ if(options.signal?.aborted)return Promise.reject(new DOMException('処理をキャンセルしました。','AbortError'));
+ const previous=pendingVideoFrames.get(media),controller=new AbortController(),request={controller};previous?.controller.abort();
+ const abort=()=>controller.abort();options.signal?.addEventListener('abort',abort,{once:true});pendingVideoFrames.set(media,request);
+ const run=()=>seekPresentedFrame(media,time,{...options,signal:controller.signal});
+ request.job=(previous?previous.job.catch(()=>{}).then(run):run()).finally(()=>{options.signal?.removeEventListener('abort',abort);if(pendingVideoFrames.get(media)===request)pendingVideoFrames.delete(media)});
+ return request.job;
+}
+async function seekPresentedFrame(media,time,{fps=30,timeout=8000,signal}={}){
   if(signal?.aborted)throw new DOMException('処理をキャンセルしました。','AbortError');
   if(!media.requestVideoFrameCallback||Math.abs(media.currentTime-time)<.00001&&media.readyState>=2&&!media.seeking)return seekMedia(media,time,{timeout,signal});
-  const controller=new AbortController(),abort=()=>controller.abort();signal?.addEventListener('abort',abort,{once:true});pendingVideoFrames.add(media);
+  const controller=new AbortController(),abort=()=>controller.abort();signal?.addEventListener('abort',abort,{once:true});
   let callback,timer,onAbort;
   const frame=new Promise((resolve,reject)=>{
     onAbort=()=>reject(new DOMException('処理をキャンセルしました。','AbortError'));
@@ -39,5 +48,5 @@ export async function seekVideoFrame(media,time,{fps=30,timeout=8000,signal}={})
     callback=media.requestVideoFrameCallback(presented);
   });
   try{await Promise.all([seekMedia(media,time,{timeout,signal:controller.signal}),frame])}
-  finally{clearTimeout(timer);if(callback!==undefined)media.cancelVideoFrameCallback?.(callback);controller.signal.removeEventListener('abort',onAbort);signal?.removeEventListener('abort',abort);controller.abort();pendingVideoFrames.delete(media)}
+  finally{clearTimeout(timer);if(callback!==undefined)media.cancelVideoFrameCallback?.(callback);controller.signal.removeEventListener('abort',onAbort);signal?.removeEventListener('abort',abort);controller.abort()}
 }

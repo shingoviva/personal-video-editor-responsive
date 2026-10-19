@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import {AudioPreview} from '../dist/audio-preview.js';
 import {PlaybackSession} from '../dist/playback-session.js';
 import {seekMedia} from '../dist/media-state.js';
-import {advancePhoneClock} from '../dist/phone-playback-clock.js';
+import {PreviewPlaybackClock} from '../dist/preview-playback-clock.js';
 const flush=()=>new Promise(resolve=>setTimeout(resolve,0));
 globalThis.document={createElement(){return {dataset:{},readyState:4,currentTime:2,paused:true,seeking:false,ended:false,pause(){this.paused=true},play(){return Promise.reject(Error('play denied'))}}}};
 const audio=new AudioPreview(),v=audio.voices[0];v.dataset.key='a';
@@ -11,7 +11,7 @@ audio.startVoice(v);await flush();assert.equal(v._wanted,false);assert.equal(v.m
 audio.beginPlayback({clips:[],audioClips:[],media:[]});v.play=function(){this.paused=false;return Promise.resolve()};audio.startVoice(v);await flush();assert.equal(v._wanted,true);assert.equal(v.paused,false,'retry succeeds');
 audio.stopVoice(v);v.play=()=>{throw Error('sync denied')};audio.startVoice(v);assert.throws(()=>audio.clock(2),/sync denied/);
 let reject;v.play=()=>new Promise((_,r)=>reject=r);audio.startVoice(v);audio.stopVoice(v);v.dataset.key='b';reject(Error('old denied'));await flush();assert.equal(audio.clock(2),null,'stale rejection does not poison next run');
-assert.equal(advancePhoneClock(2,.1,audio.clock(2)),2.1);
+const clock=new PreviewPlaybackClock();clock.start(2,{now:0});assert.equal(audio.clock(2),null);assert.equal(clock.read(100),2.1);
 const app=fs.readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
 const fragment=app.match(/const started=await syncVideo\(true\);if\(!playbackSession.current\(session\)\)return;if\(!started\)\{pause\(\);return\}/)?.[0];assert(fragment);
 const run=new Function('syncVideo','playbackSession','session','pause',`return (async()=>{${fragment}})()`);

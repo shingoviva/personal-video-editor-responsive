@@ -71,7 +71,7 @@ const stabilization=new StabilizationPreview(),stabilizedClip={id:'clip',in:0,ou
 stabilization.ensure(stabilizedClip,m,f);
 const voice=()=>({dataset:{url:'old',key:'old'},pause(){},removeAttribute(){},load(){}});
 const currentProject={name:'Preserve project',texts:[caption]};
-const scope={lookThumbQueue:{cancel(){}},P:currentProject,pause(){paused++},stabilizationPreview:stabilization,textPreview:preview,lowerPreviews:[],transitionPreview:{clear(){}},stillPreview:{clear(){}},painter:{release(){}},loadController:null,loadPromise:null,loadGeneration:0,lookThumbPainter:null,lookThumbCanvas:null,video:voice(),standbyVideo:voice(),audioPreview:{dispose(){audioReleased++}},status(){}};
+const scope={cancelVideoFrame(){},previewPreloader:{cancel(){},claim:async()=>{}},videoSwitch:null,previewTrace:null,playbackPlan:null,lookThumbQueue:{cancel(){}},P:currentProject,pause(){paused++},stabilizationPreview:stabilization,textPreview:preview,lowerPreviews:[],transitionPreview:{clear(){}},stillPreview:{clear(){}},painter:{release(){}},loadController:null,loadPromise:null,loadGeneration:0,lookThumbPainter:null,lookThumbCanvas:null,video:voice(),standbyVideo:voice(),audioPreview:{dispose(){audioReleased++}},status(){}};
 const releaseAction=appSource.split('\n').find(line=>line.startsWith('function releasePreviewMemory('));
 const pictureAction=appSource.split('\n').find(line=>line.startsWith('function releasePictureResources(')),lookAction=appSource.split('\n').find(line=>line.startsWith('function releaseLookThumbnails('));
 runInNewContext(lookAction+';'+pictureAction+';'+releaseAction+';releasePreviewMemory();',scope);

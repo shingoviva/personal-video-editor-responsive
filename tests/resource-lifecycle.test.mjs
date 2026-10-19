@@ -32,7 +32,7 @@ const nodes=new Map(),$=key=>{if(!nodes.has(key))nodes.set(key,{hidden:false,sty
 function voice(){return{src:'blob:old',dataset:{url:'blob:old',key:'old'},pause(){},removeAttribute(name){if(name==='src')this.src=''},load(){counts.load++}}}
 globalThis.createImageBitmap=async()=>({width:1280,height:720,close(){counts.bitmap++}});
 const still=new StillPreview();await still.load('old',async()=>({}),{width:1280,height:720});
-const p=project();const sc={paintStageSelection(){},lookThumbQueue:{cancel(){}},P:p,$,video:voice(),standbyVideo:voice(),painter:{black(){},release(){counts.picture++}},lowerPreviews:[{clear(){counts.lower++}}],transitionPreview:{clear(){counts.transition++}},stillPreview:still,lookThumbPainter:{dispose(){counts.look++}},lookThumbCanvas:{width:144,height:90},loadController:{abort(){counts.abort++}},loadGeneration:1,loadPromise:Promise.resolve(),activeMedia:'old',activeVideoKey:'old',loadedURL:'blob:old',textPreview:{clear(){},update(){}},emptyPictureReleased:false,duration:()=>0,previewRow:()=>null,paintRegionZoom(){},playing:false,tab:'import',selected:null,fxMarkup:'',audioPreview:{dispose(){counts.audio++},sync(){}}};
+const p=project();const sc={cancelVideoFrame(){},previewPreloader:{cancel(){},claim:async()=>{}},videoSwitch:null,previewTrace:null,playbackPlan:null,paintStageSelection(){},lookThumbQueue:{cancel(){}},P:p,$,video:voice(),standbyVideo:voice(),painter:{black(){},release(){counts.picture++}},lowerPreviews:[{clear(){counts.lower++}}],transitionPreview:{clear(){counts.transition++}},stillPreview:still,lookThumbPainter:{dispose(){counts.look++}},lookThumbCanvas:{width:144,height:90},loadController:{abort(){counts.abort++}},loadGeneration:1,loadPromise:Promise.resolve(),activeMedia:'old',activeVideoKey:'old',loadedURL:'blob:old',textPreview:{clear(){},update(){}},emptyPictureReleased:false,duration:()=>0,previewRow:()=>null,paintRegionZoom(){},playing:false,tab:'import',selected:null,fxMarkup:'',audioPreview:{dispose(){counts.audio++},sync(){}}};
 vm.createContext(sc);vm.runInContext(line('function releaseLookThumbnails(')+';'+line('function releasePictureResources(')+';'+section('function paintPreview(){','for(const sourceVideo of [video,standbyVideo])'),sc);
 sc.paintPreview();const afterFirst={...counts};for(let i=0;i<120;i++)sc.paintPreview();assert.deepEqual(counts,afterFirst,'empty frames must not re-release GPU/decoder resources');
 assert.equal(counts.bitmap,1);assert.equal(counts.look,1);assert.equal(counts.abort,1);assert.equal(sc.video.src,'');assert.equal(sc.standbyVideo.src,'');assert.equal(sc.lookThumbPainter,null);assert.equal(sc.loadGeneration,2);assert.equal(counts.audio,0,'picture cleanup cannot dispose audio-only playback');
@@ -50,3 +50,13 @@ assert.match(app,/function renderInspector\(\)\{lookThumbQueue.cancel\(\);if\(ta
 sc.lookThumbPainter={dispose(){counts.look++}};sc.lookThumbCanvas={width:144,height:90};sc.releaseLookThumbnails();sc.releaseLookThumbnails();assert.equal(counts.look,2,'LOOK disposal is idempotent and can be recreated');
 delete globalThis.createImageBitmap;
 console.log('Picture lifecycle: last deletion, 120 idle frames, decoder abort, bitmap/LOOK recreation, stale image rejection and audio-only preservation PASS');
+// Broken still media must stop, rather than leave the output clock running
+// indefinitely behind the new image-presentation gate.
+sc.previewRow=()=>row;sc.playing=true;sc.stillPreview={bitmap:null,load:async()=>{throw Error('broken still')}};
+let imageStops=0,imageErrors=[];sc.pause=()=>{imageStops++;sc.playing=false};sc.toast=message=>imageErrors.push(message);
+assert.equal(await sc.syncVideo(),false);assert.equal(imageStops,1,'A failed current still must stop the playback session');assert.deepEqual(imageErrors,['broken still']);
+// A previous image failure cannot stop a different clip that is now current.
+let rejectOld;sc.playing=true;sc.stillPreview.load=()=>new Promise((_,reject)=>rejectOld=reject);
+const failedOld=sc.syncVideo();sc.previewRow=()=>({clip:{id:'different',media:'other'}});rejectOld(Error('obsolete image'));
+assert.equal(await failedOld,false);assert.equal(imageStops,1);assert.deepEqual(imageErrors,['broken still']);
+console.log('Image failures: stop current playback without poisoning a replacement clip PASS');

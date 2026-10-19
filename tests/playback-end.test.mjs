@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {AudioPreview} from '../dist/audio-preview.js';
-import {advancePhoneClock} from '../dist/phone-playback-clock.js';
+import {PreviewPlaybackClock} from '../dist/preview-playback-clock.js';
 import {previewMediaEnded} from '../dist/playback-sync.js';
 import {project,clip} from '../dist/model.js';
 // HTMLMediaElement.play() restarts an ended non-looping element from zero.
@@ -10,7 +10,7 @@ for(const continuous of [false,true]){
  const endedSample=a.clock(1.99);
  for(let i=0;i<20;i++)a.sync(p,1.99+i*.002,true,()=>'/audio.wav');
  assert.equal(voice.calls,calls,`${continuous?'phone':'Mac'} must not restart ended source during duration mismatch`);assert.equal(endedSample?.ended,true,'decoder end must release the phone clock instead of pinning it');assert.equal(voice.currentTime,2);assert.equal(voice.muted,true);
- let t=1.99;for(let i=0;i<10;i++)t=advancePhoneClock(t,.016,{ended:true,time:2});assert(t>2.05,'clock crosses project end after decoder EOF');
+ const clock=new PreviewPlaybackClock();clock.start(1.99,{now:0});assert(clock.read(160)>2.05,'Decoder EOF cannot pin the output clock');
  a.pause();a.beginPlayback(p);a.sync(p,0,true,()=>'/audio.wav');assert(voice.calls>calls,'explicit replay still works');a.dispose();
 }
 // End latch survives a decoder clearing ended during an unwanted seek.

@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {PreviewPlaybackScheduler} from '../dist/preview-playback-scheduler.js';
+const scheduler=new PreviewPlaybackScheduler();let audio=0,cancel=0,errors=0,oldReject,newResolve,calls=0;
+const step=(now,key,video)=>scheduler.step(now,{key,audio:()=>audio++,video,cancelVideo:()=>cancel++,onError:()=>errors++});
+step(0,'first',()=>{calls++;return new Promise((_,r)=>oldReject=r)});await Promise.resolve();
+step(8,'first',()=>{calls++});assert.equal(calls,1,'Same-clip loading is serialized');
+step(16,'next',()=>{calls++;return new Promise(r=>newResolve=r)});await Promise.resolve();assert.equal(cancel,1);assert.equal(calls,2,'A new clip is not blocked by the previous decode');
+oldReject(Error('obsolete decoder error'));await new Promise(r=>setTimeout(r,0));assert.equal(errors,0);assert(scheduler.pending,'An old completion cannot clear its successor');
+step(80,'next',()=>calls++);assert.equal(audio,2,'Audio stays on its own cadence');assert.equal(calls,2);
+newResolve();await new Promise(r=>setTimeout(r,0));step(90,'next',()=>calls++);await Promise.resolve();assert.equal(calls,3);
+scheduler.reset();step(91,'next',()=>calls++);scheduler.reset();await new Promise(r=>setTimeout(r,0));assert.equal(calls,3,'Stopped sessions do not dispatch queued video work');
+console.log('Playback scheduling: same-clip serialization, immediate retargeting, audio independence, stale failures/completions and stop-before-dispatch PASS');
