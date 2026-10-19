@@ -122,7 +122,7 @@ def batch_screen_effects(job,joined,effects,w,h,fps,total,work,ext,video_args,ru
   args=['-i',joined];graph=['[0:v]setpts=PTS-STARTPTS[base0]'];previous='base0'
   group=active[batch:batch+batch_size]
   for index,e in enumerate(group,1):
-   kind=e['type'];start=number(e.get('start'),0,0,total);d=number(e.get('duration'),.6,1/60,30);hold=number(e.get('hold'),0,0,max(0,d-1/60));strength=number(e.get('strength'),1,0,1)
+   kind=e['type'];start=number(e.get('start'),0,0,total);d=number(e.get('duration'),.6,1/60,86400);hold=number(e.get('hold'),0,0,max(0,d-1/60));strength=number(e.get('strength'),1,0,1)
    color='white' if kind=='flash' else 'black';direction='in' if kind=='black-out' else 'out';fade_start=hold if kind=='black-in' else 0;fade_duration=d if kind=='flash' else max(1/60,d-hold)
    args+=['-f','lavfi','-t',d,'-i',f'color=c={color}:s={w}x{h}:r={fps}']
    graph.append(f'[{index}:v]format=rgba,colorchannelmixer=aa={strength},fade=t={direction}:st={fade_start}:d={fade_duration}:alpha=1,setpts=PTS-STARTPTS+{start}/TB[fx{index}]')

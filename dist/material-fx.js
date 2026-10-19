@@ -24,7 +24,20 @@ export function focusRect(effect,t){const p=pathAt(effect.trackPath,t-effect.sta
 export function drawFocus(ctx,effects,t,w,h){for(const e of effects){if(e.motionKind!=='focus'||t<e.start||t>=e.start+e.duration)continue;const p=focusRect(e,t),x=(p.x-p.size/2)*w,y=(p.y-p.size/2)*h,r=p.size*w,b=p.size*h;ctx.save();ctx.globalAlpha=clamp(e.strength??.45,0,.85);ctx.fillStyle='#000';ctx.fillRect(0,0,w,y);ctx.fillRect(0,y+b,w,h-y-b);ctx.fillRect(0,y,x,b);ctx.fillRect(x+r,y,w-x-r,b);ctx.restore()}}
 
 export function materialSourceStamp(c){return JSON.stringify([c.media,c.in,c.out,c.speed,c.endSpeed,c.curve,c.timingBase,c.start,c.scale,c.x,c.y,c.offsetX,c.offsetY,c.motionPreset,c.stabilization,c.scaleKeyframes])}
-export function invalidateMaterialResults(project){if(!(project.effects||[]).some(e=>e.analysisSource))return;const sources=new Map([...project.clips,...project.audioClips].map(c=>[c.id,c]));for(const e of project.effects||[]){if(!e.analysisSource)continue;if(!e.analysisSource.id){if(e.analysisSource.media!==project.bgm?.media){delete e.motionPath;delete e.analysisInfo;delete e.analysisSource}continue;}const c=sources.get(e.analysisSource.id);if(!c||materialSourceStamp(c)!==e.analysisSource.stamp){delete e.trackPath;delete e.motionPath;delete e.analysisInfo;delete e.analysisSource}}}
+export function materialEffectStamp(e,aspect='Original'){return JSON.stringify([e.start,e.duration,e.zoomX,e.zoomY,e.zoomSize,aspect])}
+export function clearMaterialResult(e){delete e.trackPath;delete e.motionPath;delete e.analysisInfo;delete e.analysisSource}
+export function invalidateMaterialResults(project){
+ const analyzed=(project.effects||[]).filter(e=>e.analysisSource);if(!analyzed.length)return;
+ const sources=new Map([...project.clips,...project.audioClips].map(c=>[c.id,c]));
+ for(const e of analyzed){const ref=e.analysisSource,source=ref.id?sources.get(ref.id):null;
+  const validSource=ref.id?source&&materialSourceStamp(source)===ref.stamp:ref.media===project.bgm?.media;
+  if(!validSource||ref.effectStamp!==undefined&&ref.effectStamp!==materialEffectStamp(e,project.aspect)){clearMaterialResult(e);continue}
+  // Older projects did not store FX geometry. Adopt it before the first edit;
+  // checkpoint() calls this before mutation so legacy analyses remain protected.
+  ref.effectStamp??=materialEffectStamp(e,project.aspect);
+ }
+}
+
 // Keep native filter expressions bounded while preserving the track's turns.
 export function compactTrackPath(points,maximum=80){
  if(!points?.length)return[];let tolerance=.002,result=points;

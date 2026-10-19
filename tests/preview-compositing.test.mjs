@@ -1,3 +1,4 @@
+import {orderedEffects} from '../dist/effect-order.js';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import fs from 'node:fs';
@@ -14,7 +15,7 @@ function scene(clips,time,hidden=[],setup=()=>{}){
  const p=project();p.media=[media];p.clips=clips;p.videoTracks=hidden.map(hidden=>({hidden}));
  const elements=new Map();const $=id=>{if(!elements.has(id))elements.set(id,{style:{},clientHeight:90,classList:{toggle(){}},replaceChildren(){}});return elements.get(id)};
  const lower=[{canvas:{style:{opacity:'0'}},updates:0,clears:0,ready(){return true},update(){this.updates++},clear(){this.clears++}},{canvas:{style:{opacity:'0'}},updates:0,clears:0,ready(){return true},update(){this.updates++},clear(){this.clears++}}];
- const canvas={style:{}},s={previewTrace:null,playbackPlan:null,P:p,time,sequence,clipAlpha,transitionState,outgoingTransitionRow,applyTransitionStyles,canvas,$,lowerPreviews:lower,
+ const canvas={style:{}},s={orderedEffects,previewTrace:null,playbackPlan:null,P:p,time,sequence,clipAlpha,transitionState,outgoingTransitionRow,applyTransitionStyles,canvas,$,lowerPreviews:lower,
   visibleVideoRows:rows=>rows.filter(r=>!p.videoTracks[r.layer]?.hidden),playbackRows:null,duration:()=>4,
   stillPreview:{key:'mock',bitmap:{}},playing:false,selected:'upper',tab:'cut',emptyPictureReleased:false,fxMarkup:'',
   paintRegionZoom(){$('#zoomComposition').style.transform='advanced'},paintStageSelection(){},fit(){},releasePictureResources(){},
@@ -94,3 +95,7 @@ const holdImage=s=>{s.playing=true;s.mediaOf=()=>media;s.linkURL=()=> 'mock';s.s
 s=scene([lower,top],2,[],holdImage);assert.equal(s.zoom,undefined,'A previous bitmap cannot satisfy the new image clip');assert.equal(s.canvas.style.opacity,'.37');
 s=scene([lower,top],2,[],s=>{holdImage(s);s.stillPreview={key:'mock',bitmap:null}});assert.equal(s.zoom,undefined,'A pending image must preserve the last composition');
 console.log('Still-image handoff retains the previous composite until the matching bitmap is ready PASS');
+ctx.time=1;ctx.P.texts=[];const white={id:'high-white',type:'flash',layer:2,start:0,duration:2,strength:1},black={id:'low-black',type:'black-in',layer:0,start:0,duration:2,strength:1};ctx.P.effects=[white,black];ctx.paintPreview();const orderedMarkup=ctx.fxMarkup;assert(orderedMarkup.indexOf('background:black')<orderedMarkup.indexOf('background:white'));
+ctx.P.effects=[black,white];ctx.paintPreview();assert.equal(ctx.fxMarkup,orderedMarkup,'Actual preview color FX follow F/T order regardless of insertion order');
+ctx.P.overlayTracks=[{}, {}, {hidden:true}];ctx.paintPreview();assert(!ctx.fxMarkup.includes('background:white'));
+console.log('Actual preview FX stacking matches F/T order and still respects hidden planes PASS');

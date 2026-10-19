@@ -1,13 +1,14 @@
-import {drawRegionZoom} from './region-zoom.js?v=2.2.77';
+import {orderedEffects} from './effect-order.js?v=2.2.78';
+import {drawRegionZoom} from './region-zoom.js?v=2.2.78';
 import {openRenderFile,writeRenderChunk,storageFailureMessage} from './mobile-storage-output.js';
 import {directCanvasEligible} from './export-direct-canvas.js';
 import {AudioWindowReader} from './streaming-audio.js';
 import {audioWindows,trackGain} from './audio-timeline.js';
 import {Input,ALL_FORMATS,BlobSource,CanvasSink,AudioSampleSink,VideoSampleSink,EncodedPacketSink,Output,Mp4OutputFormat,StreamTarget,CanvasSource,AudioSampleSource,AudioSample,Quality,canEncodeVideo,canEncodeAudio} from './vendor/mediabunny.mjs';
-import {clipAlpha,effectAlpha} from './creative.js?v=2.2.77';
+import {clipAlpha,effectAlpha} from './creative.js?v=2.2.78';
 import {imageBitmap} from './image-media.js';
 import {renderer} from './preview.js';
-import {sequence,visibleSequence,timing,sourceOffset,total} from './model.js?v=2.2.77';
+import {sequence,visibleSequence,timing,sourceOffset,total} from './model.js?v=2.2.78';
 import {outputSettings,sourceTime,gainAt,held,mixWindow,limitStereo,declickGain} from './mobile-model.js';
 import {motionEstimate,smoothPath,correctionAt,stabilizationSampleCount} from './mobile-stabilize.js';
 import {drawTextCanvas,drawTextRasterCanvas} from './text-render.js';
@@ -68,7 +69,7 @@ async function frameReader(row,res,cfg,start=row.start){
  }catch(e){await frames?.close();still?.close();throw e}
 }
 export async function render(p,files,preview,outputPath){const began=performance.now();limiter={gain:1};delayStates.clear();
- const cfg=outputSettings(p,preview),hidden=layer=>!!p.videoTracks?.[layer]?.hidden,overlayHidden=item=>!!p.overlayTracks?.[item.layer||0]?.hidden,videoProject={...p,clips:p.clips.filter(c=>!hidden(c.layer||0)),audioClips:[]},rows=visibleSequence(videoProject),sourceAudioRows=sequence(videoProject),effects=(p.effects||[]).filter(e=>!overlayHidden(e)),texts=(p.texts||[]).filter(t=>!overlayHidden(t)),resources=new Map(),textBitmaps=new Map();let output,handle,fileHandle,root,path,success=false;const activeInputs=[],sessions=[null,null,null],transitionSessions=[null,null,null];let painter;
+ const cfg=outputSettings(p,preview),hidden=layer=>!!p.videoTracks?.[layer]?.hidden,overlayHidden=item=>!!p.overlayTracks?.[item.layer||0]?.hidden,videoProject={...p,clips:p.clips.filter(c=>!hidden(c.layer||0)),audioClips:[]},rows=visibleSequence(videoProject),sourceAudioRows=sequence(videoProject),effects=orderedEffects((p.effects||[]).filter(e=>!overlayHidden(e))),texts=(p.texts||[]).filter(t=>!overlayHidden(t)),resources=new Map(),textBitmaps=new Map();let output,handle,fileHandle,root,path,success=false;const activeInputs=[],sessions=[null,null,null],transitionSessions=[null,null,null];let painter;
  try{
  if(!globalThis.VideoEncoder||!globalThis.AudioEncoder||!globalThis.OffscreenCanvas)throw Error('このブラウザは端末内書き出しに未対応です。最新のiOSのSafariで開いてください。');
  if(!await canEncodeVideo('avc',{width:cfg.width,height:cfg.height,bitrate:cfg.bitrate})||!await canEncodeAudio('aac',{sampleRate:48000,numberOfChannels:2}))throw Error('選択したH.264/AAC設定に端末が対応していません。1080p・30fpsをお試しください。');

@@ -1,3 +1,5 @@
+import {invalidateMaterialResults} from '../dist/material-fx.js';
+import {orderedEffects} from '../dist/effect-order.js';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
@@ -21,7 +23,7 @@ add('invalid-history');assert.deepEqual(resources.prune(project(),['invalid JSON
 add('remote','http://127.0.0.1/media/native');resources.prune(project(),[],[]);assert(!revoked.includes('http://127.0.0.1/media/native'),'do not revoke native URLs');
 // Exercise the actual checkpoint order. Old redo can still be restored by a
 // cancelled gesture; pruning must inspect it before clearing future.
-const h={P:project(),history:[],future:[old],busy:false,mediaResourceCache:resources,serial(){return JSON.stringify(this.P)}};h.serial=()=>JSON.stringify(h.P);
+const h={invalidateMaterialResults,P:project(),history:[],future:[old],busy:false,mediaResourceCache:resources,serial(){return JSON.stringify(this.P)}};h.serial=()=>JSON.stringify(h.P);
 add('old');vm.createContext(h);vm.runInContext(line('function checkpoint(){'),h);h.checkpoint();assert(files.has('old'));h.future=[old];h.checkpoint();assert(files.has('old'));h.checkpoint();assert(!files.has('old'),'abandoned redo can be released on the next edit');
 add('importing');h.busy=true;h.checkpoint();assert(files.has('importing'),'pending import thumbnail/file cannot be pruned');h.busy=false;h.checkpoint();assert(!files.has('importing'));
 add('aged');h.P=project('aged');h.checkpoint();h.P=project();for(let i=0;i<60;i++)h.checkpoint();assert(!files.has('aged'),'expired Undo references are released');
@@ -32,7 +34,7 @@ const nodes=new Map(),$=key=>{if(!nodes.has(key))nodes.set(key,{hidden:false,sty
 function voice(){return{src:'blob:old',dataset:{url:'blob:old',key:'old'},pause(){},removeAttribute(name){if(name==='src')this.src=''},load(){counts.load++}}}
 globalThis.createImageBitmap=async()=>({width:1280,height:720,close(){counts.bitmap++}});
 const still=new StillPreview();await still.load('old',async()=>({}),{width:1280,height:720});
-const p=project();const sc={cancelVideoFrame(){},previewPreloader:{cancel(){},claim:async()=>{}},videoSwitch:null,previewTrace:null,playbackPlan:null,paintStageSelection(){},lookThumbQueue:{cancel(){}},P:p,$,video:voice(),standbyVideo:voice(),painter:{black(){},release(){counts.picture++}},lowerPreviews:[{clear(){counts.lower++}}],transitionPreview:{clear(){counts.transition++}},stillPreview:still,lookThumbPainter:{dispose(){counts.look++}},lookThumbCanvas:{width:144,height:90},loadController:{abort(){counts.abort++}},loadGeneration:1,loadPromise:Promise.resolve(),activeMedia:'old',activeVideoKey:'old',loadedURL:'blob:old',textPreview:{clear(){},update(){}},emptyPictureReleased:false,duration:()=>0,previewRow:()=>null,paintRegionZoom(){},playing:false,tab:'import',selected:null,fxMarkup:'',audioPreview:{dispose(){counts.audio++},sync(){}}};
+const p=project();const sc={orderedEffects,cancelVideoFrame(){},previewPreloader:{cancel(){},claim:async()=>{}},videoSwitch:null,previewTrace:null,playbackPlan:null,paintStageSelection(){},lookThumbQueue:{cancel(){}},P:p,$,video:voice(),standbyVideo:voice(),painter:{black(){},release(){counts.picture++}},lowerPreviews:[{clear(){counts.lower++}}],transitionPreview:{clear(){counts.transition++}},stillPreview:still,lookThumbPainter:{dispose(){counts.look++}},lookThumbCanvas:{width:144,height:90},loadController:{abort(){counts.abort++}},loadGeneration:1,loadPromise:Promise.resolve(),activeMedia:'old',activeVideoKey:'old',loadedURL:'blob:old',textPreview:{clear(){},update(){}},emptyPictureReleased:false,duration:()=>0,previewRow:()=>null,paintRegionZoom(){},playing:false,tab:'import',selected:null,fxMarkup:'',audioPreview:{dispose(){counts.audio++},sync(){}}};
 vm.createContext(sc);vm.runInContext(line('function releaseLookThumbnails(')+';'+line('function releasePictureResources(')+';'+section('function paintPreview(){','for(const sourceVideo of [video,standbyVideo])'),sc);
 sc.paintPreview();const afterFirst={...counts};for(let i=0;i<120;i++)sc.paintPreview();assert.deepEqual(counts,afterFirst,'empty frames must not re-release GPU/decoder resources');
 assert.equal(counts.bitmap,1);assert.equal(counts.look,1);assert.equal(counts.abort,1);assert.equal(sc.video.src,'');assert.equal(sc.standbyVideo.src,'');assert.equal(sc.lookThumbPainter,null);assert.equal(sc.loadGeneration,2);assert.equal(counts.audio,0,'picture cleanup cannot dispose audio-only playback');

@@ -26,6 +26,8 @@ jobs:
         run: python tests/images.test.py
       - name: Native look-export.test.py
         run: python tests/look-export.test.py
+      - name: Native effect-consistency.test.py
+        run: python tests/effect-consistency.test.py
       - name: Native material-fx.test.py
         run: python tests/material-fx.test.py
       - name: Native layers.test.py

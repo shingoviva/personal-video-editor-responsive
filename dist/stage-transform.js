@@ -1,5 +1,5 @@
 import {clipPreviewBounds,movePreviewClip,resizePreviewClip} from './preview-transform-geometry.js';
-import {clamp} from './model.js?v=2.2.77';
+import {clamp} from './model.js?v=2.2.78';
 
 export function centeredTransform(origin,dx,dy,width,height,threshold=8,direction=-1){
  let x=clamp((origin.x??.5)+direction*dx/Math.max(width,1),0,1),y=clamp((origin.y??.5)+direction*dy/Math.max(height,1),0,1),snapX=false,snapY=false;
