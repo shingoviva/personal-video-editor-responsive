@@ -1,49 +1,49 @@
 import {clipPreviewBounds} from './preview-transform-geometry.js';
 import {createLookThumbnailQueue} from './look-thumbnail-queue.js';
 import {createMediaResourceCache} from './media-resource-cache.js';
-import {previewZoomStyle,focusOverlayMarkup} from './preview-effects.js?v=2.2.75';
-import {accentPath,focusRect,materialSourceStamp,invalidateMaterialResults} from './material-fx.js?v=2.2.75';
-import {normalizeRegionZoom,regionZoomTransform} from './region-zoom.js?v=2.2.75';
-import {bindRegionZoomFrame,regionZoomHandlePosition} from './region-zoom-ui.js?v=2.2.75';
+import {previewZoomStyle,focusOverlayMarkup} from './preview-effects.js?v=2.2.76';
+import {accentPath,focusRect,materialSourceStamp,invalidateMaterialResults} from './material-fx.js?v=2.2.76';
+import {normalizeRegionZoom,regionZoomTransform} from './region-zoom.js?v=2.2.76';
+import {bindRegionZoomFrame,regionZoomHandlePosition} from './region-zoom-ui.js?v=2.2.76';
 import {shiftPlaybackShortcut} from './playback-shortcuts.js';
-import {previewMediaEnded,usesVideoClock} from './playback-sync.js?v=2.2.75';
-import {bindEditMarker} from './edit-marker-ui.js?v=2.2.75';
-import {addEditMarker,nextEditMarker,moveEditMarker,removeEditMarker,editMarkerTimes} from './edit-markers.js?v=2.2.75';
-import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.75';
-import {uiIcon} from './ui-icons.js?v=2.2.75';
-import {defaultForSetting,resetMotionAppearance,resetAudioAdjustments} from './setting-resets.js?v=2.2.75';
-import {clipEnvelopeOwnsPointer,clipEnvelopeDoubleTap} from './clip-envelope-ui.js?v=2.2.75';
-import {bindPhoneTouch} from './phone-touch.js?v=2.2.75';
-import {advancePhoneClock} from './phone-playback-clock.js?v=2.2.75';
-import {PhonePreviewBudget} from './phone-preview-budget.js?v=2.2.75';
+import {previewMediaEnded,usesVideoClock} from './playback-sync.js?v=2.2.76';
+import {bindEditMarker} from './edit-marker-ui.js?v=2.2.76';
+import {addEditMarker,nextEditMarker,moveEditMarker,removeEditMarker,editMarkerTimes} from './edit-markers.js?v=2.2.76';
+import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.76';
+import {uiIcon} from './ui-icons.js?v=2.2.76';
+import {defaultForSetting,resetMotionAppearance,resetAudioAdjustments} from './setting-resets.js?v=2.2.76';
+import {clipEnvelopeOwnsPointer,clipEnvelopeDoubleTap} from './clip-envelope-ui.js?v=2.2.76';
+import {bindPhoneTouch} from './phone-touch.js?v=2.2.76';
+import {advancePhoneClock} from './phone-playback-clock.js?v=2.2.76';
+import {PhonePreviewBudget} from './phone-preview-budget.js?v=2.2.76';
 import {PreviewPlaybackScheduler} from './preview-playback-scheduler.js';
 const phonePreviewBudget=new PhonePreviewBudget(),previewPlaybackScheduler=new PreviewPlaybackScheduler();
 const previewLongEdge=()=>document.body.dataset.ui==='phone'&&playing?phonePreviewBudget.longEdge:960;
 import {reorderPhoneClip,trimPhoneClip,movePhoneLayer} from './iphone-edit.js';
 import {PlaybackSession} from './playback-session.js';
-import {bindPhoneUI} from './iphone-ui.js?v=2.2.75';
+import {bindPhoneUI} from './iphone-ui.js?v=2.2.76';
 import {bindTimelineDropGuide} from './timeline-drop-guide.js';
 import {bindTimelineDragScroll} from './timeline-drag-scroll.js';
-import {pasteAttributes,pasteTextAttributes,pasteProjectAttributes} from './attributes.js?v=2.2.75';
-import {audioSequence} from './model.js?v=2.2.75';
+import {pasteAttributes,pasteTextAttributes,pasteProjectAttributes} from './attributes.js?v=2.2.76';
+import {audioSequence} from './model.js?v=2.2.76';
 import {detachAudio,appendAudio,migrateBgm,audioWindows} from './audio-timeline.js';
 import {linkedAudio,linkedVideo,syncLinkedAudio,setAudioLinked,splitLinkedPair,removeLinkedAudio} from './linked-audio.js';
-import {AudioPreview} from './audio-preview.js?v=2.2.75';
-import {clipAlpha,opacityAt,scaleAt,effectAlpha,frozenClip,addEffect} from './creative.js?v=2.2.75';
+import {AudioPreview} from './audio-preview.js?v=2.2.76';
+import {clipAlpha,opacityAt,scaleAt,effectAlpha,frozenClip,addEffect} from './creative.js?v=2.2.76';
 import {lookPresets,lookDescriptions,adaptiveCinematic} from './look.js';
-import {LayerPreview} from './layer-preview.js?v=2.2.75';
-import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.75';
-import {bindTimeline,timelineLaneAtY} from './timeline-gestures.js?v=2.2.75';
+import {LayerPreview} from './layer-preview.js?v=2.2.76';
+import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.76';
+import {bindTimeline,timelineLaneAtY} from './timeline-gestures.js?v=2.2.76';
 import {bindTimelinePinch} from './timeline-zoom.js';
-import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from './timeline-shortcuts.js?v=2.2.75';
-import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js?v=2.2.75';
-import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.75';
+import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from './timeline-shortcuts.js?v=2.2.76';
+import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js?v=2.2.76';
+import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.76';
 import {pasteTimelineItems} from './timeline-paste.js';
-import {currentLanguage,setLanguage,translate,translateDOM,observeTranslations} from './i18n.js?v=2.2.75';
+import {currentLanguage,setLanguage,translate,translateDOM,observeTranslations} from './i18n.js?v=2.2.76';
 import {bindNativeShell} from './native-shell.js';
-import {bindStageTransform} from './stage-transform.js?v=2.2.75';
+import {bindStageTransform} from './stage-transform.js?v=2.2.76';
 import {motionTransform} from './motion-transform.js';
-import {transitionState,applyTransitionStyles,outgoingTransitionRow} from './transition.js?v=2.2.75';
+import {transitionState,applyTransitionStyles,outgoingTransitionRow} from './transition.js?v=2.2.76';
 import {StabilizationPreview} from './stabilization-preview.js';
 import {bindToneCurve,CURVE_IDENTITY} from './tone-curve.js';
 import {timeAtTimelinePoint,canSplitTimelineRow,contextMenuPosition} from './timeline-context.js';
@@ -51,11 +51,11 @@ import {bindTimelineLaneScroll} from './timeline-scroll.js';
 import {mediaKind,assetName,fileKind,usage,filterAssets,removeUnused,sourceLimit} from './assets.js';
 import {bindAssetVideoPreviews,stopAssetVideoPreviews} from './asset-preview.js';
 import {probeImage,StillPreview} from './image-media.js';
-import{renderer}from'./preview.js?v=2.2.75';
+import{renderer}from'./preview.js?v=2.2.76';
 import{TextPreview,withTextRasters}from'./text-render.js';
 import{fontChoices,fontRecord,installFont,restoreFonts,discoverLocalFonts}from'./font-library.js';
-import{rankRelinkCandidates,relinkScore,planFolderRelink,relativeMediaPath,missingLinkCounts}from'./relink.js?v=2.2.75';
-import{replacementCheck,replaceClipMedia,requiredMediaEnd}from'./media-replacement.js?v=2.2.75';
+import{rankRelinkCandidates,relinkScore,planFolderRelink,relativeMediaPath,missingLinkCounts}from'./relink.js?v=2.2.76';
+import{replacementCheck,replaceClipMedia,requiredMediaEnd}from'./media-replacement.js?v=2.2.76';
 import{captionPresets,captionDefaults,applyCaptionPresetStable}from'./caption-presets.js';
 import{applyYoutubeProgram,sequentialCaptions}from'./program-workflow.js';
 import{bindWorkspaceSplitter}from'./workspace-splitter.js';
@@ -63,10 +63,10 @@ import{bindPanelSplitters}from'./panel-splitter.js';
 import{performanceModes,performanceMode,setPerformanceMode,previewFrameInterval,scheduleIdleRelease,cancelIdleRelease,memorySnapshot}from'./preview-performance.js';
 import{videoTabs,tabMetadata,tabForSelection,inspectorHeading}from'./workspace-ui.js';
 import{retainFile,restoreFile,forgetUnused,vaultInfo}from'./media-vault.js';
-import{supportsProjectFolders,createProjectFolder,chooseProjectFolder,openRecentProject,saveFolderProject,saveBrowserProject,listRecentProjects,referencedMediaIds,copyMediaToProject,restoreProjectMediaFile}from'./project-storage.js?v=2.2.75';
-import{deviceSupport,renderOnDevice,showDeviceResult,rememberExport,rememberedExport,deleteRender,cleanOldExports,exportStorageInfo}from'./mobile-export.js?v=2.2.75';
+import{supportsProjectFolders,createProjectFolder,chooseProjectFolder,openRecentProject,saveFolderProject,saveBrowserProject,listRecentProjects,referencedMediaIds,copyMediaToProject,restoreProjectMediaFile}from'./project-storage.js?v=2.2.76';
+import{deviceSupport,renderOnDevice,showDeviceResult,rememberExport,rememberedExport,deleteRender,cleanOldExports,exportStorageInfo}from'./mobile-export.js?v=2.2.76';
 import{outputSettings,gainAt}from'./mobile-model.js';
-import{bindClipEnvelope}from'./clip-envelope-ui.js?v=2.2.75';
+import{bindClipEnvelope}from'./clip-envelope-ui.js?v=2.2.76';
 import{normalizeEnvelope,remapEnvelope,envelopeDbAt,addEnvelopePoint}from'./clip-envelope.js';
 import{shareFile,canShareFile,safeName}from'./device-save.js';
 import{probeFile}from'./media-probe.js';
@@ -80,8 +80,8 @@ const duration=()=>playbackTimeline?.duration??total(P);
 const timelineExtent=()=>Math.min(86400,document.body.dataset.ui==='phone'?Math.max(5,duration()+Math.min(2,Math.max(.5,duration()*.1))):Math.max(10,duration()+10));
 const visibleVideoRows=rows=>rows.filter(r=>!P.videoTracks?.[r.layer]?.hidden);
 const previewRow=()=>locatePreviewRow(playbackRows||visibleVideoRows(sequence(P)),time,duration());
-import{waitForMedia,seekMedia}from'./media-state.js?v=2.2.75';
-import{timelineXAtTime,timelineTimeAtX,timelineLabelShift,locatePreviewRow}from'./timeline-time.js?v=2.2.75';
+import{waitForMedia,seekMedia,seekVideoFrame,videoFrameReady}from'./media-state.js?v=2.2.76';
+import{timelineXAtTime,timelineTimeAtX,timelineLabelShift,locatePreviewRow}from'./timeline-time.js?v=2.2.76';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let draggedMediaKinds=new Set();
 let P=project(),selected=null,tab='import',engine=false,caps={},time=0,playing=false,raf=0,lastTick=0,urls=new Map(),thumbs=new Map(),history=[],future=[],zoom=1,activeMedia=null,activeVideoKey='',compare=false,busy=false,jobID=null,cancelled=false,saveTimer,toastTimer,scanWorker=null,loading=false,loadedURL='',renderPreview=null,localFontNames=[],relinkTarget=null,projectDirectory=null,pendingProjectRecord=null,projectStorageMode='browser';
@@ -163,15 +163,16 @@ async function syncVideo(force=false){previewMemoryReleased=false;if(!playing)au
   if(target.dataset.url!==url){target.pause();target.dataset.url=url;target.src=url;target.load()}target.dataset.key=videoKey;
   loadPromise=waitForMedia(target,'loadeddata',{signal:loadController.signal,ready:()=>target.dataset.url===url&&target.readyState>=2});
   try{await loadPromise}catch(e){if(e.name!=='AbortError'&&generation===loadGeneration){toast(e.message);pause()}return false}
-  if(generation!==loadGeneration)return false;row=previewRow();c=row?.clip;if(!c||c.gap||c.media!==m.id)return false;
-  try{await seekMedia(target,sourcePosition(),{signal:loadController.signal,timeout:8000})}catch(e){if(e.name==='AbortError')return false;throw e}
+  if(generation!==loadGeneration)return false;row=previewRow();c=row?.clip;if(!c||c.gap||c.media!==m.id||c.id+'|'+url!==videoKey)return false;
+  try{await seekVideoFrame(target,sourcePosition(),{signal:loadController.signal,timeout:8000,fps:m.fps||30})}catch(e){if(e.name==='AbortError')return false;throw e}
+  if(generation!==loadGeneration||previewRow()?.clip.id!==c.id)return false;
   previewMediaEnded(target,videoKey,{playing,reset:true});const previous=video;video=target;standbyVideo=previous;activeMedia=m.id;activeVideoKey=videoKey;loadedURL=url;previous.pause();
  }
  const generation=loadGeneration;
  try{await loadPromise}catch(e){if(e.name!=='AbortError'&&generation===loadGeneration){toast(e.message);pause();loadedURL=''}return false}
  if(generation!==loadGeneration)return false;
  row=previewRow();c=row?.clip;if(!c||c.gap){video.pause();video.playbackRate=1;return true}if(c.media!==m.id)return false;
- const reachedEnd=previewMediaEnded(video,activeVideoKey,{playing,reset:force});if(reachedEnd){video.pause();return true}let s=sourcePosition();const tolerance=video.paused?1/(m.fps||30):.1;if(force||(!video.seeking&&Math.abs(video.currentTime-s)>tolerance)){try{await seekMedia(video,s,{timeout:8000})}catch(error){if(error.name==='AbortError')return false;if(!video.seeking)throw error}}
+ const reachedEnd=previewMediaEnded(video,activeVideoKey,{playing,reset:force});if(reachedEnd){video.pause();return true}let s=sourcePosition();const tolerance=video.paused?1/(m.fps||30):.1;if(force||(!video.seeking&&Math.abs(video.currentTime-s)>tolerance)){try{await seekVideoFrame(video,s,{timeout:8000,fps:m.fps||30})}catch(error){if(error.name==='AbortError')return false;if(!video.seeking)throw error}}
  let speed=localSpeed(row,time-row.start),local=time-row.start,d=timing(c).duration;
  video.muted=true;
  if(playing&&!preparingPlayback&&!c.freezeDuration&&speed>=.25&&speed<=4&&local<timing(c).nodes.at(-1)[1]){try{if(video.playbackRate!==speed)video.playbackRate=speed;if(video.paused&&!video.ended)await video.play()}catch{}}else video.pause();
@@ -198,7 +199,7 @@ function tick(now,session){try{tickPlayback(now,session)}catch(error){pause();to
 function tickPlayback(now,session){if(!playing||!playbackSession.current(session))return;let dt=Math.max(0,(now-lastTick)/1000);lastTick=now;{let sample=audioPreview.clock(time);const row=previewRow(),c=row?.clip;if(!sample&&c&&!c.gap&&usesVideoClock(c,localSpeed(row,time-row.start),video)&&mediaOf(c)?.kind!=='image'&&time-row.start<timing(c).nodes.at(-1)[1]&&activeVideoKey===c.id+'|'+linkURL(mediaOf(c))){sample={time:row.start+outputOffset(Math.max(0,video.currentTime-c.in),c),waiting:video.seeking||video.readyState<2,ended:video.ended||video._previewEnded}}time=advancePhoneClock(time,dt,sample)}if(time>=duration()){time=duration();pause();draw();updateClock();return}primeNextVideo();previewPlaybackScheduler.step(now,{audio:()=>audioPreview.sync(P,time,playing,linkURL),video:()=>syncVideo(),onError:error=>{pause();toast(error.message)}});bgmAudio.volume=clamp(gainAt(time,duration(),P.bgm.volume,P.bgm.fadeIn,P.bgm.fadeOut,P.bgm.gainKeyframes),0,1);draw();updateClock();raf=requestAnimationFrame(now=>tick(now,session))}
 let drawnAt=0,fxMarkup='',previewMemoryReleased=false,emptyPictureReleased=false;
 function draw(){if(previewMemoryReleased)return;const phone=document.body.dataset.ui==='phone',started=performance.now();if(playing&&started-drawnAt<Math.max(previewFrameInterval(),phone?phonePreviewBudget.interval:0))return;drawnAt=started;try{paintPreview()}finally{if(phone&&playing)phonePreviewBudget.observe(performance.now()-started)}}
-function paintPreview(){if(!P.clips.some(c=>!c.gap)){if(!emptyPictureReleased){releasePictureResources();emptyPictureReleased=true}}else emptyPictureReleased=false;paintRegionZoom();let row=previewRow(),c=row?.clip;const transformGuides=$('#transformGuides'),showTransform=!playing&&tab!=='text'&&tab!=='fx'&&c&&!c.gap&&c.id===selected;if(transformGuides){transformGuides.hidden=!showTransform;$('#stageScaleHandle').hidden=!showTransform;}const visibleFx=(P.effects||[]).filter(e=>!P.overlayTracks?.[e.layer||0]?.hidden&&e.start<=time&&time<e.start+e.duration),visibleText=(P.texts||[]).filter(t=>!P.overlayTracks?.[t.layer||0]?.hidden&&t.start<=time&&time<t.end);if(!duration()){paintStageSelection(row);video.pause();video.playbackRate=1;painter?.black();if(fxMarkup){fxMarkup='';$('#fxOverlay').replaceChildren()}textPreview.clear();return}$('#picture').style.display='block';$('#emptyState').hidden=true;$('#emptyState').style.display='none';fit();paintStageSelection(row);const allRows=playbackRows||visibleVideoRows(sequence(P)),activeByLayer=[null,null,null];for(const value of allRows)if(!value.clip.gap&&value.start<=time&&value.end>time)activeByLayer[value.layer]=value;const active=activeByLayer.filter(Boolean),transition=transitionState(row,allRows,time);let outgoingAlpha=0;if(transition){const previous=transition.previous,pm=mediaOf(previous.clip),outgoing=outgoingTransitionRow(transition,row,pm?.duration);outgoingAlpha=clipAlpha(outgoing.row,time);transitionPreview.update(outgoing.row,time,pm,pm&&linkURL(pm),localFiles.get(pm?.id),pictureAspect(),compare||lookBypass,playing,stabilizationFor(previous,pm),previewLongEdge())}else transitionPreview.clear();applyTransitionStyles(canvas,$('#transitionCanvas'),transition,outgoingAlpha);for(let k=0;k<2;k++){const lower=active.filter(r=>r.layer===k).at(-1),lm=mediaOf(lower?.clip),covered=active.some(r=>r.layer>k&&clipAlpha(r,time)>=1&&!transitionState(r,allRows,time));if(c&&lower&&k<(c.layer||0)&&!covered)lowerPreviews[k].update(lower,time,lm,lm&&linkURL(lm),localFiles.get(lm?.id),pictureAspect(),compare||lookBypass,playing,stabilizationFor(lower,lm),previewLongEdge());else lowerPreviews[k].clear();}const baseAlpha=c?clipAlpha(row,Math.min(time,row.end-.000001)):1;canvas.style.opacity=String(baseAlpha*(transition?.type==='dissolve'?transition.progress:1));const nextFx=visibleFx.map(e=>{if(e.motionKind==='focus'){const p=focusRect(e,time);return focusOverlayMarkup(p,e.strength??.45)}const a=effectAlpha(e,time);return a?`<div style="position:absolute;inset:0;background:${e.type==='flash'?'white':'black'};opacity:${a}"></div>`:''}).join('');if(nextFx!==fxMarkup){fxMarkup=nextFx;$('#fxOverlay').innerHTML=nextFx}textPreview.update(visibleText,time,$('#picture').clientHeight/1080,playing);if(!c||c.gap){video.pause();video.playbackRate=1;painter?.black();$('#stageNote').hidden=true;$('#viewerMode').textContent='COMPOSITE';$("#viewerTitle").textContent='PREVIEW · TEXT / FX';return}const m=mediaOf(c);if(!m||!linkURL(m)){painter?.black();return}const source=m.kind==='image'?stillPreview.bitmap:video;if(!source||(m.kind!=='image'&&(activeVideoKey!==c.id+"|"+linkURL(m)||video.readyState<2)))return;$('#stageNote').hidden=true;try{if(painter)painter.draw(source,motionTransform(c,time-row.start,row.duration),pictureAspect(),compare||lookBypass,stabilizationFor(row,m),previewLongEdge());else{const ctx=canvas.getContext('2d');if(ctx){canvas.width=source.videoWidth||source.width;canvas.height=source.videoHeight||source.height;ctx.drawImage(source,0,0)}}}catch{}const notes=[];if(m.proxy)notes.push('720p proxy');if(c.stabilization!=='OFF'){const previewState=stabilizationPreview.state(c,m,localFiles.get(m.id));notes.push(engine?'手ぶれ補正は処理プレビューで確認':previewState.status==='ready'?'手ぶれ補正プレビュー適用中':previewState.status==='error'?'手ぶれ補正プレビューを生成できませんでした。':'手ぶれ補正を解析中');}if(['blend','motion','motion-max'].includes(c.interpolation))notes.push('スロー補間は処理プレビューで確認');if(c.speed<.25||c.speed>4)notes.push('極端な速度の試写は近似・原音ミュート');if(!engine&&m.hdr!==false)notes.push('色域・FPSは未検出');if(notes.length){$('#stageNote').hidden=false;$('#stageNote').textContent=translate(notes.join(' · '))}$('#viewerMode').textContent=m.kind==='image'?'STILL':m.proxy?'SDR PROXY':'ORIGINAL';$('#viewerTitle').textContent=assetName(m);$('#previewInfo').textContent=(lookBypass||compare?'BEFORE · SOURCE':'GPU · LOOK '+Math.round((c.lookAmount??1)*100)+'%')+' · '+performanceModes[performanceMode()].label}
+function paintPreview(){if(!P.clips.some(c=>!c.gap)){if(!emptyPictureReleased){releasePictureResources();emptyPictureReleased=true}}else emptyPictureReleased=false;paintRegionZoom();let row=previewRow(),c=row?.clip;const frameMedia=playing&&c?mediaOf(c):null;if(playing&&frameMedia?.kind==='video'&&linkURL(frameMedia)&&(activeVideoKey!==c.id+'|'+linkURL(frameMedia)||!videoFrameReady(video)))return;const transformGuides=$('#transformGuides'),showTransform=!playing&&tab!=='text'&&tab!=='fx'&&c&&!c.gap&&c.id===selected;if(transformGuides){transformGuides.hidden=!showTransform;$('#stageScaleHandle').hidden=!showTransform;}const visibleFx=(P.effects||[]).filter(e=>!P.overlayTracks?.[e.layer||0]?.hidden&&e.start<=time&&time<e.start+e.duration),visibleText=(P.texts||[]).filter(t=>!P.overlayTracks?.[t.layer||0]?.hidden&&t.start<=time&&time<t.end);if(!duration()){paintStageSelection(row);video.pause();video.playbackRate=1;painter?.black();if(fxMarkup){fxMarkup='';$('#fxOverlay').replaceChildren()}textPreview.clear();return}$('#picture').style.display='block';$('#emptyState').hidden=true;$('#emptyState').style.display='none';fit();paintStageSelection(row);const allRows=playbackRows||visibleVideoRows(sequence(P)),activeByLayer=[null,null,null];for(const value of allRows)if(!value.clip.gap&&value.start<=time&&value.end>time)activeByLayer[value.layer]=value;const active=activeByLayer.filter(Boolean),transition=transitionState(row,allRows,time);let outgoingAlpha=0;if(transition){const previous=transition.previous,pm=mediaOf(previous.clip),outgoing=outgoingTransitionRow(transition,row,pm?.duration);outgoingAlpha=clipAlpha(outgoing.row,time);transitionPreview.update(outgoing.row,time,pm,pm&&linkURL(pm),localFiles.get(pm?.id),pictureAspect(),compare||lookBypass,playing,stabilizationFor(previous,pm),previewLongEdge())}else transitionPreview.clear();let layersReady=true;const lowerOpacity=playing?lowerPreviews.map(p=>p.canvas.style.opacity):null,clearLayers=[];for(let k=0;k<2;k++){const lower=active.filter(r=>r.layer===k).at(-1),lm=mediaOf(lower?.clip),covered=active.some(r=>r.layer>k&&clipAlpha(r,time)>=1&&!transitionState(r,allRows,time));if(c&&lower&&k<(c.layer||0)&&!covered){const ready=lowerPreviews[k].ready(lower);lowerPreviews[k].update(lower,time,lm,lm&&linkURL(lm),localFiles.get(lm?.id),pictureAspect(),compare||lookBypass,playing,stabilizationFor(lower,lm),previewLongEdge());if(playing&&lm&&linkURL(lm)&&!ready)layersReady=false}else clearLayers.push(k);}if(!layersReady){lowerPreviews.forEach((p,k)=>p.canvas.style.opacity=lowerOpacity[k]);return}for(const k of clearLayers)lowerPreviews[k].clear();applyTransitionStyles(canvas,$('#transitionCanvas'),transition,outgoingAlpha);const baseAlpha=c?clipAlpha(row,Math.min(time,row.end-.000001)):1;canvas.style.opacity=String(baseAlpha*(transition?.type==='dissolve'?transition.progress:1));const nextFx=visibleFx.map(e=>{if(e.motionKind==='focus'){const p=focusRect(e,time);return focusOverlayMarkup(p,e.strength??.45)}const a=effectAlpha(e,time);return a?`<div style="position:absolute;inset:0;background:${e.type==='flash'?'white':'black'};opacity:${a}"></div>`:''}).join('');if(nextFx!==fxMarkup){fxMarkup=nextFx;$('#fxOverlay').innerHTML=nextFx}textPreview.update(visibleText,time,$('#picture').clientHeight/1080,playing);if(!c||c.gap){video.pause();video.playbackRate=1;painter?.black();$('#stageNote').hidden=true;$('#viewerMode').textContent='COMPOSITE';$("#viewerTitle").textContent='PREVIEW · TEXT / FX';return}const m=mediaOf(c);if(!m||!linkURL(m)){painter?.black();return}const source=m.kind==='image'?stillPreview.bitmap:video;if(!source||(m.kind!=='image'&&(activeVideoKey!==c.id+"|"+linkURL(m)||video.seeking||video.readyState<2)))return;$('#stageNote').hidden=true;try{if(painter)painter.draw(source,motionTransform(c,time-row.start,row.duration),pictureAspect(),compare||lookBypass,stabilizationFor(row,m),previewLongEdge());else{const ctx=canvas.getContext('2d');if(ctx){canvas.width=source.videoWidth||source.width;canvas.height=source.videoHeight||source.height;ctx.drawImage(source,0,0)}}}catch{}const notes=[];if(m.proxy)notes.push('720p proxy');if(c.stabilization!=='OFF'){const previewState=stabilizationPreview.state(c,m,localFiles.get(m.id));notes.push(engine?'手ぶれ補正は処理プレビューで確認':previewState.status==='ready'?'手ぶれ補正プレビュー適用中':previewState.status==='error'?'手ぶれ補正プレビューを生成できませんでした。':'手ぶれ補正を解析中');}if(['blend','motion','motion-max'].includes(c.interpolation))notes.push('スロー補間は処理プレビューで確認');if(c.speed<.25||c.speed>4)notes.push('極端な速度の試写は近似・原音ミュート');if(!engine&&m.hdr!==false)notes.push('色域・FPSは未検出');if(notes.length){$('#stageNote').hidden=false;$('#stageNote').textContent=translate(notes.join(' · '))}$('#viewerMode').textContent=m.kind==='image'?'STILL':m.proxy?'SDR PROXY':'ORIGINAL';$('#viewerTitle').textContent=assetName(m);$('#previewInfo').textContent=(lookBypass||compare?'BEFORE · SOURCE':'GPU · LOOK '+Math.round((c.lookAmount??1)*100)+'%')+' · '+performanceModes[performanceMode()].label}
 for(const sourceVideo of [video,standbyVideo]){sourceVideo.addEventListener('seeked',draw);sourceVideo.addEventListener('loadeddata',draw);sourceVideo.addEventListener('error',()=>{if(sourceVideo.src)toast('ブラウザで再生できない形式です。Mac版でプロキシを生成してください。')})}new ResizeObserver(scheduleWorkspacePaint).observe($('#stage'));
 let lastPhoneClockPaint=0;
 function updateClock(){if(playing&&document.body.dataset.ui==='phone'){const now=performance.now();if(now-lastPhoneClockPaint<100)return;lastPhoneClockPaint=now}const value=format(time),dur=duration(),extent=timelineExtent(),width=$('#timelineContent').clientWidth,x=timelineXAtTime(time,extent,width),head=$('#playhead');$('#sourceTime').textContent=value;$('#outputDuration').textContent=format(dur);$('#playheadTime').textContent=value;head.style.transform='translateX('+x+'px)';head.classList.toggle('near-end',x>width*.88);$('#jumpStart').disabled=!dur||time<=1e-6;$('#jumpEnd').disabled=!dur||time>=dur-1e-6;const scroll=$('#timelineScroll'),handle=$('#playheadHandle');handle.style.setProperty('--timeline-head-shift',timelineLabelShift(x,scroll.scrollLeft,scroll.clientWidth,handle.getBoundingClientRect().width)+'px');if(document.body.dataset.ui==='phone'){window.dispatchEvent(new Event('pve-phone-clock'));if(playing&&(x<scroll.scrollLeft||x>scroll.scrollLeft+scroll.clientWidth-40))scroll.scrollLeft=Math.max(0,x-scroll.clientWidth*.35)}}
@@ -643,7 +644,7 @@ let materialAnalysis=null,materialRequest=0;
 document.addEventListener('pointerdown',e=>{if(materialAnalysis&&!e.target.closest('#inspectorBody'))cancelMaterialAnalysis()},{capture:true});
 function cancelMaterialAnalysis(){materialRequest++;if(materialAnalysis){const job=materialAnalysis;materialAnalysis=null;job.worker.terminate();clearTimeout(job.timer);job.reject(new DOMException('解析を中止しました。','AbortError'));}}
 function materialFXInspector(e){const pulse=e.motionKind==='audio-pulse',bump=e.motionKind==='camera-bump',face=e.motionKind==='face-follow',audioSources=P.media.filter(m=>m.audio||m.kind==='audio'),activeAudio=audioWindows(P).filter(r=>r.start<=e.start&&r.end>e.start).sort((a,b)=>(b.layer===2)-(a.layer===2)),audioDefault=P.bgm.media||activeAudio[0]?.clip.media||audioSources[0]?.id;return `<div class="control-section"><div class="eyebrow">${face?'FACE FOLLOW':'MATERIAL ANALYSIS'}</div>${face?'<p class="small-note">開始画面で追いたい顔を枠に入れて解析します。複数人では枠の中心に近い顔を追います。顔を見失うと直前の位置を保持します。解析は端末内で行い、再生中は顔認識しません。</p>':''}<p class="small-note">解析は最長30秒。再生を開始すると解析を中止します。結果はこのFXに保存し、再生中は解析しません。</p>${!pulse&&!bump?'<button id="materialSeedFrame" class="wide">FX開始画面で枠を指定</button><p class="small-note">追跡はFX開始画面の枠から始まります。</p>':''}${pulse?`<label>解析する音声<select id="materialAudioSource">${audioSources.map(m=>`<option value="${esc(m.id)}" ${m.id===audioDefault?'selected':''}>${esc(m.label||m.name)}</option>`).join('')}</select></label><p class="small-note">選んだ素材はFX開始位置に配置してください。ループはオフで解析します。</p>`:''}${e.motionKind&&!face?slider('effect.strength',e.motionKind==='focus'?'周囲の暗さ':'効果の強さ',e.strength??.5,0,e.motionKind==='focus'?.85:1,.01):''}<button id="analyzeMaterialFX" class="wide">${face?'顔を認識して追従を解析':pulse?'音のアクセントを解析':bump?'映像の動きを解析してバンプ':'指定枠の対象を追跡'}</button><button id="cancelMaterialFX" class="wide">解析を中止</button>${e.analysisInfo?`<p class="small-note" data-no-i18n>${esc(e.analysisInfo)}</p><button id="clearMaterialFX" class="wide">解析結果を外す</button>`:'<p class="small-note">解析するまでは自動的な動きは付きません。追跡が不確かな箇所は直前の位置を保持します。</p>'}</div>`}
-function runMaterialWorker(data){cancelMaterialAnalysis();return new Promise((resolve,reject)=>{const face=data.region?.motionKind==='face-follow',worker=new Worker(new URL(face?'./face-fx-worker.js?v=2.2.75':'./material-fx-worker.js?v=2.2.75',import.meta.url),face?{}:{type:'module'}),job={worker,reject,timer:setTimeout(()=>{if(materialAnalysis===job)cancelMaterialAnalysis()},90000)};materialAnalysis=job;const finish=(error,result)=>{if(materialAnalysis!==job)return;materialAnalysis=null;clearTimeout(job.timer);worker.terminate();error?reject(error):resolve(result)};worker.onmessage=({data})=>{if(materialAnalysis!==job)return;if(data.type==='progress')status('FX解析 · '+Math.round(data.value*100)+'%');else if(data.type==='done')finish(null,data);else finish(Error(data.error||'解析に失敗しました。'))};worker.onerror=e=>finish(Error(e.message));worker.postMessage(data)})}
+function runMaterialWorker(data){cancelMaterialAnalysis();return new Promise((resolve,reject)=>{const face=data.region?.motionKind==='face-follow',worker=new Worker(new URL(face?'./face-fx-worker.js?v=2.2.76':'./material-fx-worker.js?v=2.2.76',import.meta.url),face?{}:{type:'module'}),job={worker,reject,timer:setTimeout(()=>{if(materialAnalysis===job)cancelMaterialAnalysis()},90000)};materialAnalysis=job;const finish=(error,result)=>{if(materialAnalysis!==job)return;materialAnalysis=null;clearTimeout(job.timer);worker.terminate();error?reject(error):resolve(result)};worker.onmessage=({data})=>{if(materialAnalysis!==job)return;if(data.type==='progress')status('FX解析 · '+Math.round(data.value*100)+'%');else if(data.type==='done')finish(null,data);else finish(Error(data.error||'解析に失敗しました。'))};worker.onerror=e=>finish(Error(e.message));worker.postMessage(data)})}
 async function analyzeMaterialFX(){const effect=selectedRegionZoom();if(!effect)return;pause();const signature=JSON.stringify(effect),projectId=P.id,request=materialRequest;try{
  const end=Math.min(effect.start+effect.duration,duration());if(end<=effect.start)throw Error('解析できる区間がありません。');if(end-effect.start>30)throw Error('FXの長さを30秒以内に調整してください。');let row=visibleVideoRows(sequence(P)).filter(r=>r.start<=effect.start&&r.end>effect.start).sort((a,b)=>b.layer-a.layer)[0],mode='video';
  if(effect.motionKind==='audio-pulse'){mode='audio';const mediaId=$('#materialAudioSource')?.value,source=P.media.find(m=>m.id===mediaId);if(!source)throw Error('音声素材を読み込んでください。');const audioRow=audioWindows(P).find(r=>r.clip.media===mediaId&&r.start<=effect.start&&r.end>effect.start);row=audioRow||sequence(P).find(r=>r.clip.media===mediaId&&r.start<=effect.start&&r.end>effect.start);if(!row&&P.bgm.media===mediaId)row={start:0,end:source.duration,duration:source.duration,clip:{...clip(source),kind:'audio'}};if(!row)throw Error('FX開始位置にある音声クリップを選んでください。');}

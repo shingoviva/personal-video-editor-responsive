@@ -1,5 +1,5 @@
 import {waveformFor} from './audio-waveform.js';
-import {sourceOffset} from './model.js?v=2.2.75';
+import {sourceOffset} from './model.js?v=2.2.76';
 import {addEnvelopePoint,envelopeDbAt,normalizeEnvelope,snapEnvelopeDb,ENVELOPE_MIN_DB,ENVELOPE_MAX_DB} from './clip-envelope.js';
 
 export function dbToY(db,height){const value=Math.max(ENVELOPE_MIN_DB,Math.min(ENVELOPE_MAX_DB,+db||0)),ratio=value>=0?.28*(ENVELOPE_MAX_DB-value)/ENVELOPE_MAX_DB:.28+.72*Math.pow(-value/-ENVELOPE_MIN_DB,.5);return 3+ratio*Math.max(1,height-6)}
