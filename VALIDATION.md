@@ -1224,3 +1224,18 @@ Chromeの1440×1000と402×874相当で、レイアウト、工程切り替え�
 - Final60fps decoded audio matches the pre-fix baseline sample-for-sample. Existing clip boundaries, four-track mix, transitions, region zoom, creative effects, material FX, ProRes and still-image native tests pass; npm test/build and diff checks pass.
 - Physical Mac UI/playback/speaker tests could not run while the Mac was locked. Real Safari/iPhone and packaged Mac build remain unverified/unupdated. No publication. AAC near-silent decoded tail observation remains an investigation item, not claimed fixed.
 - Detailed fixtures/logs: workspace `pve-vibe/lifecycle-audit/`.
+
+## 実素材による速度・バンプ・手ぶれ補正の監査（2026-10-20／2.2.79）
+
+- 実写 `IMG_7917.mov` / `IMG_7697.MP4`（SDR・縦位置HEVC）を使用。人物の動きとカメラの構図変更を含みます。元素材は変更せず、書き出し試験でSHA-256の維持を確認しました。
+- 実アプリの読み込み→V1配置→速度変更→プレビューで、2倍速のソース時刻がタイムライン時刻の2倍になること、5.118倍速の近似プレビューが終端で停止することを確認しました。4倍を超える高速域の近似表示／原音ミュートは既存仕様です。
+- 実Macエンジンで0.25／1／2／5.118倍速とease-in-out（0.5→3倍）をH.264/AAC出力。尺・全デコード・各3地点の元映像との時間対応を確認しました。出力180×320／30fpsの処理試験で、画質評価とは区別します。
+- 本番のブラウザワーカーを実素材2本の4〜8秒で実行し、手ぶれ補正72点／素材、バンプ33サンプル／素材の解析を確認。バンプは3箇所／2箇所のアクセントを検出しました。実解析のバンプを書き出した音声は、FXなしの音声とデコード全サンプルが一致しました。
+- 手ぶれ補正＋2倍速のMac書き出しでも、解析→ProRes中間→速度変換→H.264/AACの実処理と全デコードが通過しました。検証用vidstab対応FFmpegを一時フォルダ内だけに用意し、通常のFFmpegは置換していません。
+- 元解像度でのvidstab解析・変換を全9設定×実素材2本で比較し、その後360×640に縮小して保存。OFF込み20本が各120フレーム／30fpsでデコードでき、全面黒フレームはありませんでした。強い旧設定では構図の切り取りが増え、意図したカメラ移動も抑える傾向がありました。静止画の比較も保存しました。
+- 実写フレームのWebGLプレビューとCanvas書き出し変換を縦・横のサイズ、回転0／±0.04radで比較。正方形UVをそのまま回転していた不一致を修正し、RGB平均絶対誤差は回転時5.88〜6.62から0.0044〜0.0049（0〜255）へ低下。回転なしの誤差は維持しました。
+- 手ぶれ補正は新規選択をOFF／WEAK／MEDIUM／STRONGへ整理。旧HANDHELD／NATURAL／GIMBAL／HORIZON／TRIPOD／AGGRESSIVEは保存互換専用です。設定名ほど別々の補正アルゴリズムではなく、水平検出・被写体分離・ローリングシャッター補正はありません。旧プロジェクトの値を読み込み時に変更しない試験を追加しました。
+- プレビューとブラウザ書き出しの重複した解析ループを共通化。元時間の保持、従来計算との一致、キャンセル時のイテレーター解放、空デコードの失敗、旧設定の非再露出を試験。解析完了後にも進捗98%等が残る表示を修正し、実アプリで完了表示を確認しました。
+- 393×852のiPhone幅でも補正選択肢の収まり（横方向のはみ出しなし）と、MEDIUM補正＋0.25倍速の再生進行を確認。実機iPhoneではなくブラウザの表示幅による確認です。
+- `npm test`（85試験スクリプト）／`npm run build`／`git diff --check`が通過。現行設計は `docs/current-architecture.md` に整理し、旧コードの再導入を避ける参照先をAGENTS／READMEへ追加しました。
+- 証拠は作業ルート `.codex-context/audit-evidence/motion-real-2026-10-20/`。人物ポージング中心の素材であり、歩行・大きな手ぶれ・HDR・実機iPhone／Safari本体の評価は未実施です。Mac用vidstabとブラウザ補正は異なる処理のため、両者の補正結果が同一になるとは評価していません。

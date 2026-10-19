@@ -1,16 +1,16 @@
-import {orderedEffects} from './effect-order.js?v=2.2.78';
-import {drawRegionZoom} from './region-zoom.js?v=2.2.78';
+import {orderedEffects} from './effect-order.js?v=2.2.79';
+import {drawRegionZoom} from './region-zoom.js?v=2.2.79';
 import {openRenderFile,writeRenderChunk,storageFailureMessage} from './mobile-storage-output.js';
 import {directCanvasEligible} from './export-direct-canvas.js';
 import {AudioWindowReader} from './streaming-audio.js';
 import {audioWindows,trackGain} from './audio-timeline.js';
 import {Input,ALL_FORMATS,BlobSource,CanvasSink,AudioSampleSink,VideoSampleSink,EncodedPacketSink,Output,Mp4OutputFormat,StreamTarget,CanvasSource,AudioSampleSource,AudioSample,Quality,canEncodeVideo,canEncodeAudio} from './vendor/mediabunny.mjs';
-import {clipAlpha,effectAlpha} from './creative.js?v=2.2.78';
+import {clipAlpha,effectAlpha} from './creative.js?v=2.2.79';
 import {imageBitmap} from './image-media.js';
-import {renderer} from './preview.js';
-import {sequence,visibleSequence,timing,sourceOffset,total} from './model.js?v=2.2.78';
+import {renderer} from './preview.js?v=2.2.79';
+import {sequence,visibleSequence,timing,sourceOffset,total} from './model.js?v=2.2.79';
 import {outputSettings,sourceTime,gainAt,held,mixWindow,limitStereo,declickGain} from './mobile-model.js';
-import {motionEstimate,smoothPath,correctionAt,stabilizationSampleCount} from './mobile-stabilize.js';
+import {stabilizationPathFromFrames,correctionAt,stabilizationSampleCount} from './mobile-stabilize.js?v=2.2.79';
 import {drawTextCanvas,drawTextRasterCanvas} from './text-render.js';
 import {motionTransform} from './motion-transform.js';
 import {streamingFrames} from './streaming-frames.js';
@@ -45,9 +45,9 @@ export async function mixAudio(rows,resources,p,start,end){
  limitStereo(data,limiter,rate);return new AudioSample({data,format:'f32-planar',numberOfChannels:2,sampleRate:rate,timestamp:start});
 }
 async function stabilize(track,c,onProgress){
- const size=72,sink=new CanvasSink(track,{width:size,height:size,fit:'fill',poolSize:1});let last=null,x=0,y=0,angle=0;const points=[];const count=stabilizationSampleCount(c.out-c.in);function* stamps(){for(let i=0;i<count;i++)yield c.in+i*(c.out-c.in)/count}
- for await(const frame of sink.canvasesAtTimestamps(stamps())){check();if(!frame)continue;const pixels=frame.canvas.getContext('2d').getImageData(0,0,size,size).data,gray=new Float32Array(size*size);for(let i=0;i<gray.length;i++)gray[i]=.299*pixels[4*i]+.587*pixels[4*i+1]+.114*pixels[4*i+2];if(last){const motion=motionEstimate(last,gray,size);x+=motion.x;y+=motion.y;angle+=motion.angle}points.push({time:frame.timestamp,x,y,angle});last=gray;if(points.length%24===0)onProgress(points.length/count);}
- return smoothPath(points,c.stabilization);
+ const size=72,sink=new CanvasSink(track,{width:size,height:size,fit:'fill',poolSize:1}),count=stabilizationSampleCount(c.out-c.in);
+ function* stamps(){for(let i=0;i<count;i++)yield c.in+i*(c.out-c.in)/count}
+ return stabilizationPathFromFrames(sink.canvasesAtTimestamps(stamps()),c.stabilization,{size,count,check,onProgress});
 }
 async function frameReader(row,res,cfg,start=row.start){
  const c=row.clip;let still,pathData,blend,stable,frames;

@@ -111,7 +111,7 @@ def capabilities():
  f=subprocess.run([FFMPEG,'-hide_banner','-filters'],capture_output=True,text=True).stdout
  e=subprocess.run([FFMPEG,'-hide_banner','-encoders'],capture_output=True,text=True).stdout
  ready='libx264' in e;stabilization='vidstabtransform' in f;hdr='zscale' in f and 'tonemap' in f;drawtext='drawtext' in f;text_raster='overlay' in f;text=drawtext or text_raster;prores='prores_ks' in e;motion='minterpolate' in f
- return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.78','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
+ return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.79','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
 
 def preflight_render(project,clips=None,caps=None):
  """Fail before rendering when the chosen edit needs a missing FFmpeg feature."""
@@ -488,6 +488,8 @@ def motion_interpolation_filter(fps, aggressive=False):
  return f'minterpolate=fps={fps}:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:me=umh:mb_size={block}:search_param={search}:vsbmc=1:scd=fdiff:scd_threshold=10'
 
 def stabilization_filters(mode,trf='motion.trf'):
+ # COMPATIBILITY ONLY: named legacy profiles preserve saved-project rendering.
+ # New UI strengths are OFF/WEAK/MEDIUM/STRONG; do not expose legacy names again.
  """High accuracy detection plus conservative, profile-specific camera smoothing."""
  profiles={
   'WEAK':(3,6,0.28),'MEDIUM':(5,14,0.20),'STRONG':(8,28,0.12),

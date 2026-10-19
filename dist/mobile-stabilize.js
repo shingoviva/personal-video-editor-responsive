@@ -5,6 +5,8 @@ const median=a=>{const s=[...a].sort((x,y)=>x-y),m=s.length>>1;return s.length%2
 export function motionEstimate(a,b,n=48){const shifts=[],centers=n>=64?[.18,.38,.62,.82]:[.23,.5,.77],radius=Math.max(4,Math.round(n*.09)),search=Math.max(4,Math.round(n*.085));for(const py of centers)for(const px of centers){if(Math.abs(px-.5)<.08&&Math.abs(py-.5)<.08)continue;const cx=Math.round(px*n),cy=Math.round(py*n),v=match(a,b,n,cx-radius,cx+radius+1,cy-radius,cy+radius+1,search);if(v)shifts.push({x:cx-n/2,y:cy-n/2,dx:v[0],dy:v[1],cost:v[2]})}if(shifts.length<3){const value=match(a,b,n,search+2,n-search-2,search+2,n-search-2,search);return value?{x:value[0]/n,y:value[1]/n,angle:0,confidence:.25}:{x:0,y:0,angle:0,confidence:0}}const tx=median(shifts.map(value=>value.dx)),ty=median(shifts.map(value=>value.dy)),inliers=shifts.filter(value=>Math.hypot(value.dx-tx,value.dy-ty)<=Math.max(2,n*.045));let num=0,den=0;for(const value of inliers){num+=-value.y*(value.dx-tx)+value.x*(value.dy-ty);den+=value.x*value.x+value.y*value.y}const angle=Math.max(-.045,Math.min(.045,den?num/den:0));return{x:tx/n,y:ty/n,angle,confidence:inliers.length/shifts.length}}
 export function translation(a,b,n=48){const value=motionEstimate(a,b,n);return[value.x,value.y]}
 
+// COMPATIBILITY ONLY: named legacy profiles below must remain readable for saved
+// projects; new edits use stabilization-presets.js. Do not restore them to menus.
 // Points are already the accumulated camera path. A local linear fit removes
 // jitter while retaining a deliberate constant pan; TRIPOD fits a fixed path.
 export function smoothPath(points,strength){const radius={WEAK:2,HANDHELD:3,MEDIUM:5,NATURAL:6,STRONG:11,GIMBAL:12,HORIZON:16,TRIPOD:20,AGGRESSIVE:30}[strength]||5,tripod=strength==='TRIPOD',lockAngle=['HORIZON','TRIPOD'].includes(strength);let max=0,maxAngle=0;const result=points.map((p,i)=>{let sw=0,st=0,sx=0,sy=0,sa=0,stt=0,stx=0,sty=0,sta=0;for(let j=Math.max(0,i-radius);j<=Math.min(points.length-1,i+radius);j++){const q=points[j],w=radius+1-Math.abs(j-i),t=q.time-p.time;sw+=w;st+=w*t;sx+=w*q.x;sy+=w*q.y;sa+=w*(q.angle||0);stt+=w*t*t;stx+=w*t*q.x;sty+=w*t*q.y;sta+=w*t*(q.angle||0)}const den=sw*stt-st*st,fit=(sum,sumt,constant=false)=>tripod||constant?sum/sw:(den>1e-12?(sum*stt-st*sumt)/den:sum/sw);const x=Math.max(-.1,Math.min(.1,fit(sx,stx)-p.x)),y=Math.max(-.1,Math.min(.1,fit(sy,sty)-p.y)),angle=Math.max(-.065,Math.min(.065,fit(sa,sta,lockAngle)-(p.angle||0)));max=Math.max(max,Math.abs(x),Math.abs(y));maxAngle=Math.max(maxAngle,Math.abs(angle));return{time:p.time,x,y,angle}});const border=Math.min(.22,2*max+.72*maxAngle),scale=1/Math.max(.78,1-border)+.008;return{points:result,scale,crop:1-1/scale,rotation:maxAngle}}
@@ -12,3 +14,19 @@ export function correctionAt(path,t){const p=path.points;if(!p.length)return{x:0
 
 // Analyze faster camera shake at a higher temporal rate, with a fixed cap for long sources.
 export function stabilizationSampleCount(duration,fps=18,maximum=18000){return Math.min(maximum,Math.max(1,Math.ceil(Math.max(0,duration)*fps)))}
+
+// Shared by preview analysis and browser export. Decode ownership stays with the
+// caller; source timestamps (not speed-adjusted timeline time) index this path.
+export async function stabilizationPathFromFrames(frames,strength,{size=72,count=1,check=()=>{},onProgress=()=>{}}={}){
+ const points=[];let last=null,x=0,y=0,angle=0;
+ for await(const frame of frames){
+  check();if(!frame)continue;
+  const pixels=frame.canvas.getContext('2d').getImageData(0,0,size,size).data,gray=new Float32Array(size*size);
+  for(let i=0;i<gray.length;i++)gray[i]=.299*pixels[4*i]+.587*pixels[4*i+1]+.114*pixels[4*i+2];
+  if(last){const motion=motionEstimate(last,gray,size);x+=motion.x;y+=motion.y;angle+=motion.angle}
+  points.push({time:frame.timestamp,x,y,angle});last=gray;
+  if(points.length%24===0)onProgress(Math.min(1,points.length/count));
+ }
+ check();if(!points.length)throw Error('No decodable stabilization frames.');
+ return smoothPath(points,strength);
+}

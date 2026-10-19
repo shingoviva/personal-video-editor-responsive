@@ -6,3 +6,5 @@
 - 着手時に`git status`を確認し、既存変更を上書きしない。検索は`rg`を使う。
 - 変更に直結する試験を先に実行し、完了前に`npm test`と`npm run build`を通す。公開時はPython動画処理試験とMacパッケージ検証も行う。
 - Safari、実写HDR、長時間編集など未実施の実機検証は、制約として明記する。
+
+- 再生・FX・手ぶれ補正の変更前に `docs/current-architecture.md` の該当項目を確認する。旧リリース記録・ベンチマーク・Labは現行実装の転記元にしない。`COMPATIBILITY ONLY` は保存互換専用で、新規UIへ戻さない。

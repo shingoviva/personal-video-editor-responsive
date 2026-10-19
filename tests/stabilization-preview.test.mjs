@@ -44,3 +44,41 @@ const other={...clip,id:'other'};managed.ensure(other,media,file);const kept=Del
 managed.reconcile([other],()=>media,()=>({...file,lastModified:8}));assert.equal(kept.terminated,true,'relinking the same media ID invalidates its old source');
 managed.ensure({...other,freezeDuration:2},media,file);assert.equal(managed.pending.size,0);managed.clear();delete globalThis.Worker;
 console.log('Stabilization resource lifecycle: OFF/delete/range/relink, stale completion, cache reuse and re-enable PASS');
+
+// New menus are deliberately small; old projects retain their exact setting.
+const {stabilizationOptions,STABILIZATION_MODES,LEGACY_STABILIZATION_MODES}=await import('../dist/stabilization-presets.js');
+assert.deepEqual(STABILIZATION_MODES,['OFF','WEAK','MEDIUM','STRONG']);
+for(const mode of [...STABILIZATION_MODES,...LEGACY_STABILIZATION_MODES]){
+ const options=stabilizationOptions(mode);assert.deepEqual(options.slice(0,4).map(v=>v[0]),STABILIZATION_MODES);
+ assert.equal(options.length,LEGACY_STABILIZATION_MODES.includes(mode)?5:4);
+ if(options.length===5)assert.equal(options.at(-1)[0],mode,'only the saved legacy setting is retained');
+}
+assert.equal(stabilizationOptions('UNKNOWN').length,4);
+const {stabilizationPathFromFrames,smoothPath,motionEstimate}=await import('../dist/mobile-stabilize.js');
+const size=72,frames=[],raw=[];
+for(let n=0;n<30;n++){
+ const data=new Uint8ClampedArray(size*size*4),gray=new Float32Array(size*size);
+ for(let y=0;y<size;y++)for(let x=0;x<size;x++){const i=y*size+x,value=((x+(n%3))*17+y*31+(x*y)%23)%240;data.set([value,value,value,255],i*4);gray[i]=.299*value+.587*value+.114*value}
+ raw.push(gray);frames.push({timestamp:4+n/18,canvas:{getContext:()=>({getImageData:()=>({data})})}});
+}
+let x=0,y=0,angle=0;const expected=[];
+for(let i=0;i<raw.length;i++){if(i){const m=motionEstimate(raw[i-1],raw[i],size);x+=m.x;y+=m.y;angle+=m.angle}expected.push({time:frames[i].timestamp,x,y,angle})}
+const progress=[],pathShared=await stabilizationPathFromFrames(frames,'MEDIUM',{size,count:30,onProgress:v=>progress.push(v)});
+assert.deepEqual(pathShared,smoothPath(expected,'MEDIUM'),'shared path retains the established algorithm and source timestamps');assert.deepEqual(progress,[.8]);
+await assert.rejects(stabilizationPathFromFrames([],'WEAK'),/No decodable/);
+let closed=false,checks=0;async function* cancellable(){try{for(const frame of frames)yield frame}finally{closed=true}}
+await assert.rejects(stabilizationPathFromFrames(cancellable(),'WEAK',{check:()=>{if(++checks===3)throw Error('cancelled')}}),/cancelled/);assert.equal(closed,true,'cancellation closes the frame iterator');
+const {readFile}=await import('node:fs/promises');
+const shaderSource=await readFile(new URL('../dist/preview.js',import.meta.url),'utf8');
+assert.match(shaderSource,/sn\*centered\.y\*\(texel\.x\/texel\.y\)/,'portrait rotation uses physical pixels');
+assert.match(shaderSource,/-sn\*centered\.x\*\(texel\.y\/texel\.x\)/,'landscape rotation uses physical pixels');
+for(const worker of ['stabilization-preview-worker.js','mobile-render-worker.js']){
+ const source=await readFile(new URL('../dist/'+worker,import.meta.url),'utf8');assert.match(source,/stabilizationPathFromFrames\(/);assert.doesNotMatch(source,/motionEstimate\(/,'workers cannot restore divergent analysis copies');
+}
+console.log('Stabilization shared analysis: legacy compatibility, cancellation, empty decode and aspect-correct rendering PASS');
+
+const {project,sanitize,clip:makeClip}=await import('../dist/model.js');
+const legacyMedia={id:'legacy-media',name:'camera.mov',kind:'video',duration:8,width:1080,height:1920,fps:60};
+for(const mode of LEGACY_STABILIZATION_MODES){const p=project();p.media.push(legacyMedia);p.clips.push({...makeClip(legacyMedia),stabilization:mode});assert.equal(sanitize(JSON.parse(JSON.stringify(p))).clips[0].stabilization,mode,'saved legacy stabilization must not change on reload')}
+const appSource=await readFile(new URL('../dist/app.js',import.meta.url),'utf8');
+assert.match(appSource,/if\(state==='ready'\)\{if\(id===selected\)status\('手ぶれ補正の解析が完了しました。'\);draw\(\)\}/,'successful analysis replaces the last progress percentage');

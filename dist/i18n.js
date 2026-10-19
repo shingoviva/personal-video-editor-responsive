@@ -1,4 +1,6 @@
 const translations=[
+["手ぶれ補正の解析が完了しました。", "Stabilization analysis complete."],
+["弱・中・強の順に揺れを抑えます。強い補正ほど画角が狭くなります。被写体の動きや大きな揺れは補正できない場合があります。処理プレビューで確認してください。", "WEAK, MEDIUM and STRONG progressively reduce shake. Stronger correction crops more of the image. Subject motion and large shakes may not be corrected. Check the processed preview."],
 ["左上をドラッグしてサイズ変更", "Resize from top left"],
 ["右上をドラッグしてサイズ変更", "Resize from top right"],
 ["左下をドラッグしてサイズ変更", "Resize from bottom left"],

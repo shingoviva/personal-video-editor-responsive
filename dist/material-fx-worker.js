@@ -1,9 +1,9 @@
 import {Input,ALL_FORMATS,BlobSource,UrlSource,CanvasSink,AudioSampleSink} from './vendor/mediabunny.mjs';
-import {audioAccents,trackPatch,compactTrackPath,motionAccents} from './material-fx.js?v=2.2.78';
+import {audioAccents,trackPatch,compactTrackPath,motionAccents} from './material-fx.js?v=2.2.79';
 import {sourceTime} from './mobile-model.js';
-import {timing} from './model.js?v=2.2.78';
+import {timing} from './model.js?v=2.2.79';
 function soften(gray,n){const out=new Float32Array(gray.length);for(let y=0;y<n;y++)for(let x=0;x<n;x++){let sum=0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)sum+=gray[Math.max(0,Math.min(n-1,y+dy))*n+Math.max(0,Math.min(n-1,x+dx))];out[y*n+x]=sum/9}return out}
-import {motionEstimate} from './mobile-stabilize.js';
+import {motionEstimate} from './mobile-stabilize.js?v=2.2.79';
 onmessage=async({data})=>{let input;try{
  input=new Input({formats:ALL_FORMATS,source:data.file?new BlobSource(data.file):new UrlSource(data.url)});const {row,start,duration,mode,region}=data;if(duration>30||duration<=0)throw Error('解析区間は30秒以内にしてください。');
  if(mode==='audio'){
