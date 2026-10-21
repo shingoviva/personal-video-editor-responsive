@@ -47,13 +47,13 @@ class Handler(http.server.BaseHTTPRequestHandler):
     if p.startswith(prefix):
      f=(folder/urllib.parse.unquote(p[len(prefix):])).resolve()
      if f.parent!=folder.resolve():return self.send_json({'error':'Forbidden'},403)
-     return self.serve(f)
+     return self.serve(f,query.get('filename',[None])[0],query.get('download',[''])[0]=='1')
    f=(APP/('index.html' if p=='/' else urllib.parse.unquote(p.lstrip('/')))).resolve()
    if not f.is_relative_to(APP):return self.send_json({'error':'Forbidden'},403)
    self.serve(f)
   except (BrokenPipeError,ConnectionResetError):pass
   except Exception as e:self.send_json({'error':str(e)},400)
- def serve(self,p):
+ def serve(self,p,download_name=None,attachment=False):
   if not p.is_file():return self.send_json({'error':'Not found'},404)
   import mimetypes
   size=p.stat().st_size;start=0;end=size-1;partial=False;r=self.headers.get('Range','');match=re.fullmatch(r'bytes=(\d*)-(\d*)',r)
@@ -64,6 +64,11 @@ class Handler(http.server.BaseHTTPRequestHandler):
     self.send_response(416);self.send_header('Content-Range',f'bytes */{size}');self.send_header('Content-Length','0');self.end_headers();return
    partial=True
   self.send_response(206 if partial else 200);self.send_header('Content-Type',mimetypes.guess_type(str(p))[0] or 'application/octet-stream');self.send_header('Accept-Ranges','bytes');self.send_header('Content-Length',str(end-start+1));self.send_header('X-Content-Type-Options','nosniff')
+  if download_name and p.suffix.lower() in ('.mp4','.mov'):
+   name=core.export_file_name({'name':download_name},p.suffix.lower())
+   fallback=name if name.isascii() else 'Personal film'+p.suffix.lower()
+   disposition='attachment' if attachment else 'inline'
+   self.send_header('Content-Disposition',f"{disposition}; filename=\"{fallback}\"; filename*=UTF-8''{urllib.parse.quote(name,safe='')}")
   if partial:self.send_header('Content-Range',f'bytes {start}-{end}/{size}')
   if p.suffix in ('.mp4','.mov','.m4a','.json'):self.send_header('Cache-Control','no-store')
   self.end_headers()

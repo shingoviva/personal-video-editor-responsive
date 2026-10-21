@@ -1,9 +1,9 @@
-import {downloadable,canShareFile,shareFile,safeName} from './device-save.js';
+import {downloadable,canShareFile,shareFile,movieName} from './device-save.js?v=2.2.80';
 export function deviceSupport(){return!!(globalThis.VideoEncoder&&globalThis.AudioEncoder&&globalThis.Worker&&globalThis.OffscreenCanvas&&navigator.storage?.getDirectory);}
 export async function renderOnDevice(project,files,{preview=false,signal,onProgress=()=>{}}={}){
  if(!deviceSupport())throw Error('このブラウザは端末内書き出しに未対応です。最新のiOSのSafariで開いてください。');
  const outputPath='render-'+crypto.randomUUID()+'.mp4';let completed=false;
- const worker=new Worker(new URL('./mobile-render-worker.js?v=2.2.79',import.meta.url),{type:'module'});let wake,timer,abortTimer,ended=false;const notes=[];
+ const worker=new Worker(new URL('./mobile-render-worker.js?v=2.2.80',import.meta.url),{type:'module'});let wake,timer,abortTimer,ended=false;const notes=[];
  try{
  wake=await navigator.wakeLock?.request?.('screen').catch(()=>null);
  return await new Promise((resolve,reject)=>{
@@ -31,7 +31,7 @@ export function confirmDeviceResultClose({modal,restore,onReturn=()=>{},dialog=d
  document.querySelector('#confirmCloseExportResult').onclick=()=>{for(const media of (dialog.querySelectorAll?.('video,audio')||[]))media.pause();onReturn();dialog.close()};
 }
 export function showDeviceResult(result,name,{modal,head,esc,status,onReturn}){
- activeDownload?.dispose();const file=new File([result.file],safeName(name,'mp4'),{type:'video/mp4'});activeDownload=downloadable(file);const url=activeDownload.url;
+ activeDownload?.dispose();const file=new File([result.file],movieName(name,'mp4'),{type:'video/mp4'});activeDownload=downloadable(file);const url=activeDownload.url;
  const content=head('MP4を作成しました')+`<video controls playsinline src="${url}" style="width:100%;max-height:40dvh;background:#000"></video><p class="mono">${result.width} × ${result.height} · ${result.fps} FPS · ${(result.file.size/1e6).toFixed(1)} MB</p>${Number.isFinite(result.elapsedSeconds)?`<p class="small-note">処理時間 ${result.elapsedSeconds.toFixed(1)}秒</p>`:''}${(result.notes||[]).map(note=>`<p class="small-note">${esc(note)}</p>`).join('')}<div class="save-actions"><button id="shareMovie" class="primary">写真・ファイルへ保存</button><a class="download-link" href="${url}" download="${esc(file.name)}">ファイルとして保存 ↓</a></div><p id="deviceSaveStatus" role="status" class="small-note">共有画面で「ビデオを保存」を選ぶと「写真」へ、「ファイルに保存」を選ぶと本体やiCloud Driveへ保存できます。項目はiOSとブラウザにより異なります。</p>${result.test?'':'<p class="small-note">端末内に直近の書き出しを保持しています。再度開くにはIMPORTの「前回のMP4を開く」。</p>'}`;
  const showResult=()=>{modal(content);const button=document.querySelector('#shareMovie');if(!canShareFile(file)){button.disabled=true;document.querySelector('#deviceSaveStatus').textContent='共有保存に未対応です。「ファイルとして保存」を選んでください。iPhoneではSafariで開くと共有保存を利用できる場合があります。'}
   button.onclick=async()=>{try{await shareFile(file);document.querySelector('#deviceSaveStatus').textContent='共有先で保存をご確認ください。';}catch(e){if(e.name!=='AbortError')document.querySelector('#deviceSaveStatus').textContent=e.message;}};

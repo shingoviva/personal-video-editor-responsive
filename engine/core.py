@@ -1,3 +1,4 @@
+import urllib.parse, unicodedata
 from audio_engine import validate_audio,extent as audio_extent,render_tracks
 """Bounded-memory, non-destructive native media pipeline. Python standard library only."""
 from color_engine import filters as matched_color_filters
@@ -14,6 +15,12 @@ JOBS={}; MEDIA={}; GATE=threading.Lock()
 for f in (ROOT/'media').glob('*.json'):
  try: MEDIA[f.stem]=json.loads(f.read_text())
  except Exception: pass
+
+def export_file_name(project,extension='.mp4'):
+ name=str(project.get('export',{}).get('fileName') or '').strip() or str(project.get('name') or '').strip()
+ name=re.sub(r'\.(mp4|mov)$','',unicodedata.normalize('NFC',name),flags=re.I).strip() or 'Untitled film'
+ name=''.join(ch if ch.isalnum() or ch in ' _-' else '_' for ch in name[:80])
+ return name+'.'+extension.lstrip('.')
 
 def number(v,default=0,lo=-1e9,hi=1e9):
  try: n=float(v); return max(lo,min(hi,n)) if math.isfinite(n) else default
@@ -111,7 +118,7 @@ def capabilities():
  f=subprocess.run([FFMPEG,'-hide_banner','-filters'],capture_output=True,text=True).stdout
  e=subprocess.run([FFMPEG,'-hide_banner','-encoders'],capture_output=True,text=True).stdout
  ready='libx264' in e;stabilization='vidstabtransform' in f;hdr='zscale' in f and 'tonemap' in f;drawtext='drawtext' in f;text_raster='overlay' in f;text=drawtext or text_raster;prores='prores_ks' in e;motion='minterpolate' in f
- return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.79','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
+ return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.80','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
 
 def preflight_render(project,clips=None,caps=None):
  """Fail before rendering when the chosen edit needs a missing FFmpeg feature."""
@@ -815,7 +822,7 @@ def render(job,project,preview=False,_token=None,_size=None):
   else:args+=['-c:v','copy']
   args+=['-c:a','copy','-t',total,'-movflags','+faststart',out]
   job['operation']=encoding['label']+'を仕上げ中';run(job,args,total,.89,.09,verify_decode=True)
-  return {'file':out.name,'url':('/cache/' if preview else '/exports/')+out.name,'duration':total,'width':w,'height':h,'fps':fps,'preview':preview,'format':'MOV' if ext=='.mov' else 'MP4','codec':encoding['label'],'verified':True,'recoveredOutputs':job.get('recoveredOutputs',0)}
+  return {'file':out.name,'url':('/cache/' if preview else '/exports/')+out.name+'?filename='+urllib.parse.quote(export_file_name(project,ext),safe=''),'duration':total,'width':w,'height':h,'fps':fps,'preview':preview,'format':'MOV' if ext=='.mov' else 'MP4','codec':encoding['label'],'verified':True,'recoveredOutputs':job.get('recoveredOutputs',0)}
  finally:
   try:parts.close(aborting=sys.exc_info()[0] is not None)
   finally:

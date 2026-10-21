@@ -1,4 +1,4 @@
-import {normalizeRegionZoom} from './region-zoom.js?v=2.2.79';
+import {normalizeRegionZoom} from './region-zoom.js?v=2.2.80';
 export function regionZoomDrag(initial,dx,dy,resize=false){return normalizeRegionZoom({...initial,...(resize?{zoomSize:initial.zoomSize+2*(Math.abs(dx)>Math.abs(dy)?dx:dy)}:{zoomX:initial.zoomX+dx,zoomY:initial.zoomY+dy})})}
 // Keep the phone's full touch target inside the picture, even at 10× zoom.
 export function regionZoomHandlePosition(effect,width,height,target=44){

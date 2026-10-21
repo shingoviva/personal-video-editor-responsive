@@ -1,4 +1,4 @@
-import {sequence,total,timing,sourceOffset,clamp} from './model.js?v=2.2.79';
+import {sequence,total,timing,sourceOffset,clamp} from './model.js?v=2.2.80';
 import {envelopeGainAt} from './clip-envelope.js';
 export function outputSettings(p,preview=false){
  const m=p.media.find(m=>m.id===p.clips.find(c=>!c.gap)?.media)||{width:1920,height:1080,fps:30};
