@@ -1,4 +1,4 @@
-import {activeDiagnostics} from './preview-diagnostics.js?v=2.2.81';
+import {activeDiagnostics} from './preview-diagnostics.js?v=2.2.82';
 // Audio automation runs independently from video loading. A clip identity
 // change cancels the old video request; it never waits behind an obsolete seek.
 export class PreviewPlaybackScheduler {

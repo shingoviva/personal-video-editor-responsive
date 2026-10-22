@@ -1,5 +1,5 @@
-import {activeDiagnostics} from './preview-diagnostics.js?v=2.2.81';
-import {textPose} from './creative.js?v=2.2.81';
+import {activeDiagnostics} from './preview-diagnostics.js?v=2.2.82';
+import {textPose} from './creative.js?v=2.2.82';
 
 const color=(value,fallback='#ffffff')=>/^#[0-9a-f]{6}$/i.test(value||'')?value:fallback;
 const safeFont=value=>String(value||'Sans').replace(/["'`;{}]/g,'').slice(0,80)||'Sans';

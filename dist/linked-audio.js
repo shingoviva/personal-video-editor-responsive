@@ -1,4 +1,4 @@
-import {sequence,splitClip,sourceOffset,timing} from './model.js?v=2.2.81';
+import {sequence,splitClip,sourceOffset,timing} from './model.js?v=2.2.82';
 import {remapEnvelope} from './clip-envelope.js';
 
 export function linkedAudio(project,videoId){

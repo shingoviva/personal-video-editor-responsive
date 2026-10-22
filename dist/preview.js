@@ -1,4 +1,4 @@
-import {diagnosticsController} from './preview-diagnostics.js?v=2.2.81';
+import {diagnosticsController} from './preview-diagnostics.js?v=2.2.82';
 import {curveLUT} from './tone-curve.js';
 export function previewDimensions(sw,sh,aspect,{width,height,phone=false,longEdge=960}={}){
  if(width)return {width:Math.round(width),height:Math.round(height)};

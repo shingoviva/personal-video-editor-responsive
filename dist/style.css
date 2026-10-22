@@ -640,3 +640,11 @@ body[data-ui=phone] .stage-transform-box [data-transform-handle]{width:32px;heig
 
 /* Output frame stays visible while the image itself moves or scales. UI only. */
 .picture::before{content:'';position:absolute;inset:0;z-index:7;box-sizing:border-box;border:1px solid #d8e0d22e;box-shadow:inset 0 0 0 1px #0003;pointer-events:none}
+/* Library destination is explicit on every device; retain compact desktop rows. */
+.asset-actions:has(.asset-destination){grid-template-columns:minmax(78px,1fr) 42px 28px 28px;align-items:stretch}
+.asset-destination{display:flex;align-items:center;gap:4px;padding:0 5px;min-width:0;font-size:9px;color:var(--muted)}
+.asset-destination select{width:44px;min-width:0;height:26px;margin:0;padding:0 12px 0 3px;font-size:10px;color:var(--accent);border:0;background:transparent}
+.asset-detail-video{width:100%;max-height:220px;background:#050705}
+.asset-menu-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(min-width:801px){body:not([data-ui=phone]) .transport .play-button{width:32px;height:32px;padding:0;font-size:12px;outline-offset:1px}}
+.transport .play-button.looping{background:#34452b;box-shadow:inset 0 0 0 2px #dce9a9}

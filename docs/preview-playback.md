@@ -61,3 +61,14 @@ trace is flushed to `#previewDiagnostics` when paused. Normal use allocates no
 trace. Record only timings and local clip identities, never file URLs or content.
 Do not time playback by repeatedly taking screenshots: capture overhead can itself
 cause stalls. Real Safari/iPhone hardware remains a separate acceptance check.
+
+## Explicit user seeking and looping
+
+`createPreviewSeek` owns user-seek generations and resume intent. A playing seek
+closes old gates/session before positioning, and only the latest prepared seek
+may start a fresh clock epoch. Manual stop, project load/reset and explicit play
+invalidate old callbacks. Paused seeks stay paused. Dragging the playhead uses
+this same path, not an independent decoder seek. Seeking to/past project EOF
+stops without unexpectedly rewinding. Normal EOF still stops. Explicit loop
+mode (Shift-click Play / Shift-Space) seeks to zero through this coordinator;
+stopping clears loop mode. Never change export/audio-clip loop semantics.

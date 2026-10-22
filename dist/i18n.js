@@ -1,4 +1,14 @@
 const translations=[
+["Shift Space / Shift＋再生ボタン", "Shift-Space / Shift-click Play"],
+["プレビュー・詳細", "Preview / details"],
+["名前を変更", "Rename"],
+["へ配置", "Place here"],
+["ループ再生", "Loop playback"],
+["ループ再生中（クリックで停止）", "Looping (click to stop)"],
+["再生 / 停止 · Shift＋クリックでループ再生", "Play / pause · Shift-click to loop"],
+["読み込んだ素材は一覧から選びます。各素材カードの「配置先」でV1〜V3（音声はA1〜A4）を選び、その隣の「配置」を押します。", "Choose imported media in the library. Choose V1–V3 (audio: A1–A4) on each card, then choose Place."],
+["再生中にヘッドを動かすと、新しい位置から再生を続けます。Shift＋再生ボタン／Shift＋Spaceで全体をループ再生します。停止するとループも解除されます。", "Move the playhead while playing to continue from the new position. Shift-click Play or press Shift-Space to loop the project. Stopping also turns looping off."],
+
 ["手ぶれ補正の解析が完了しました。", "Stabilization analysis complete."],
 ["弱・中・強の順に揺れを抑えます。強い補正ほど画角が狭くなります。被写体の動きや大きな揺れは補正できない場合があります。処理プレビューで確認してください。", "WEAK, MEDIUM and STRONG progressively reduce shake. Stronger correction crops more of the image. Subject motion and large shakes may not be corrected. Check the processed preview."],
 ["左上をドラッグしてサイズ変更", "Resize from top left"],

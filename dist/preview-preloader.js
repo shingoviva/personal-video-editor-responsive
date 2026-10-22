@@ -1,4 +1,4 @@
-import {waitForMedia,seekVideoFrame} from './media-state.js?v=2.2.81';
+import {waitForMedia,seekVideoFrame} from './media-state.js?v=2.2.82';
 // Owns only the standby decoder. Claiming it cancels and drains the old
 // preparation before playback may write its src/currentTime.
 export class PreviewPreloader{
