@@ -10,3 +10,6 @@ export function bindAssetVideoPreviews(root=document){
  for(const video of videos){video.onpointerenter=()=>startAssetVideoPreview(video);video.onpointerleave=()=>stopAssetVideoPreview(video);video.onfocus=()=>startAssetVideoPreview(video);video.onblur=()=>stopAssetVideoPreview(video)}
  return videos.length;
 }
+
+// Release inspector auditions before replacing their DOM; detached media can keep playing.
+export function releaseAssetAudition(root){const media=root.querySelector('#assetAudition');if(media){media.pause();media.removeAttribute('src');media.load()}}

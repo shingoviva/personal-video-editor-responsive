@@ -2,6 +2,7 @@
 
 - npm test 89スクリプト/build、Python実動画・音声・HTTP22本PASS。seekの最新世代/停止取消/古い成功・失敗/停止中seek/FXの明示再生とダイアログ復帰の回帰試験を追加。音量188,584計算は引き続き旧式と一致。
 - Chrome実操作：再生中ルーラーseek・ヘッドdragで自動resume、末尾seekは巻き戻さず停止、Shift-click/Shift-SpaceでEOFからloop、停止で解除、Shift単独再生停止維持。32pxのMac playとfocus ringはviewer内に収まる。
+- 素材の詳細動画を再生して別タブへ移ったとき、旧HTMLMediaElementを停止しsrc解放する回帰確認を追加。
 - 動画/静止画V1–V3、音声A1–A4のカード指定と実配置、右クリック/Shift-F10、rename、詳細動画preview、使用中素材remove無効を確認。WebKitスマホ寸法で同じレイヤー指定/配置を確認。
 - Chromeで4音声レーン付き保存→reset→restore→再生/seek/停止再開→端末内1080p30 H264/AAC実worker書き出し・全decode成功。通常URLの診断UI/observer/GPUtimer/worker hookは起動なし。
 - 実機iPhone/Safari、スピーカーでの連続loop/seek聴音は未実施。Playwright WebKitの外部font load待ちを試験の初期化条件から外し、UI初期化で再試験。公開とMac ZIPはclean candidateから生成しLabを除外。

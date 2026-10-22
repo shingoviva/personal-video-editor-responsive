@@ -47,3 +47,8 @@ stable duplicate ordering, operation order, envelope hold ramps, curve sample
 positions and AudioParam scheduling/gates. The independent old implementation in
 `tests/fixtures/audio-automation-reference.mjs` is a test oracle only, not a
 production implementation to restore. See [optimization 01](pve-volume-automation-optimization-01.md).
+
+Inspector media ownership: call `releaseAssetAudition` before replacing inspector
+DOM. Detached HTML audio/video may continue playing; pause and remove its source
+without revoking the project's shared media URL. Card hover previews retain their
+separate `asset-preview.js` lifecycle.
