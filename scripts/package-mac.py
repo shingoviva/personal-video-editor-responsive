@@ -5,7 +5,7 @@ import json
 root = Path(__file__).resolve().parent.parent
 version = json.loads((root / 'package.json').read_text())['version']
 output = root / 'dist/personal-video-editor-mac.zip'
-entries = ['dist', 'engine', 'tests', 'validation', 'scripts', 'README.md', 'VALIDATION.md', 'Launch.command', 'package.json', 'package-lock.json', 'vite.config.mjs']
+entries = ['dist', 'engine', 'tests', 'validation', 'scripts', 'docs/schemas', 'README.md', 'VALIDATION.md', 'Launch.command', 'package.json', 'package-lock.json', 'vite.config.mjs']
 with ZipFile(output, 'w', ZIP_DEFLATED, compresslevel=9) as archive:
     for entry in entries:
         base = root / entry
@@ -16,6 +16,7 @@ with ZipFile(output, 'w', ZIP_DEFLATED, compresslevel=9) as archive:
             archive.write(path, 'Personal-Video-Editor/' + path.relative_to(root).as_posix())
 with ZipFile(output) as archive:
     assert archive.testzip() is None
+    assert 'Personal-Video-Editor/docs/schemas/pve-performance-diagnostics-v1.schema.json' in archive.namelist()
     assert 'Personal-Video-Editor/dist/timeline-gestures.js' in archive.namelist()
     assert 'Personal-Video-Editor/dist/timeline-zoom.js' in archive.namelist()
     assert 'Personal-Video-Editor/dist/timeline-context.js' in archive.namelist()

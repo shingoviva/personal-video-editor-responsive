@@ -1,0 +1,448 @@
+{
+  "comparable": true,
+  "warnings": [
+    "Single runs cannot establish significance. Compare at least three repeats; small changes are inconclusive."
+  ],
+  "rows": [
+    {
+      "path": "playbackMetrics.drawIntervals.p95",
+      "before": 48,
+      "after": 45.099999994039536,
+      "changePercent": -6.041666679084301,
+      "assessment": "改善",
+      "reason": ">=3 repeats; >5% median difference; non-overlapping observed ranges (not a significance test)",
+      "beforeRange": {
+        "median": 48,
+        "min": 46.5,
+        "max": 48.599999994039536
+      },
+      "afterRange": {
+        "median": 45.099999994039536,
+        "min": 44.70000000298023,
+        "max": 45.29999999701977
+      }
+    },
+    {
+      "path": "playbackMetrics.deadlineExceedances.value",
+      "before": 2,
+      "after": 0,
+      "changePercent": -100,
+      "assessment": "改善",
+      "reason": ">=3 repeats; >5% median difference; non-overlapping observed ranges (not a significance test)",
+      "beforeRange": {
+        "median": 2,
+        "min": 2,
+        "max": 5
+      },
+      "afterRange": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "path": "playbackMetrics.holdDuration.value",
+      "before": 16,
+      "after": 15.5,
+      "changePercent": -3.125,
+      "assessment": "判断保留",
+      "reason": "fewer than 3 repeats, <=5% change or repeat ranges overlap",
+      "beforeRange": {
+        "median": 16,
+        "min": 0,
+        "max": 17.799999997019768
+      },
+      "afterRange": {
+        "median": 15.5,
+        "min": 0,
+        "max": 20
+      }
+    },
+    {
+      "path": "playbackMetrics.seekLatency.p95",
+      "before": 106.6000000089407,
+      "after": 111,
+      "changePercent": 4.1275797286025036,
+      "assessment": "判断保留",
+      "reason": "fewer than 3 repeats, <=5% change or repeat ranges overlap",
+      "beforeRange": {
+        "median": 106.6000000089407,
+        "min": 75.20000000298023,
+        "max": 108
+      },
+      "afterRange": {
+        "median": 111,
+        "min": 106.40000000596046,
+        "max": 118.40000000596046
+      }
+    },
+    {
+      "path": "gpuMetrics.duration.p95",
+      "before": 1.345374,
+      "after": 0.876458,
+      "changePercent": -34.85395139195496,
+      "assessment": "判断保留",
+      "reason": "fewer than 3 repeats, <=5% change or repeat ranges overlap",
+      "beforeRange": {
+        "median": 1.345374,
+        "min": 1.275375,
+        "max": 1.746124
+      },
+      "afterRange": {
+        "median": 0.876458,
+        "min": 0.717833,
+        "max": 1.411083
+      }
+    },
+    {
+      "path": "gpuMetrics.textureUploads.value",
+      "before": 388,
+      "after": 387,
+      "changePercent": -0.25773195876288657,
+      "assessment": "判断保留",
+      "reason": "fewer than 3 repeats, <=5% change or repeat ranges overlap",
+      "beforeRange": {
+        "median": 388,
+        "min": 384,
+        "max": 391
+      },
+      "afterRange": {
+        "median": 387,
+        "min": 384,
+        "max": 389
+      }
+    },
+    {
+      "path": "gpuMetrics.repeatedUploads.value",
+      "before": 38,
+      "after": 49,
+      "changePercent": 28.947368421052634,
+      "assessment": "悪化",
+      "reason": ">=3 repeats; >5% median difference; non-overlapping observed ranges (not a significance test)",
+      "beforeRange": {
+        "median": 38,
+        "min": 36,
+        "max": 39
+      },
+      "afterRange": {
+        "median": 49,
+        "min": 41,
+        "max": 51
+      }
+    },
+    {
+      "path": "gpuMetrics.staticTextRedraws.value",
+      "before": 121,
+      "after": 120,
+      "changePercent": -0.8264462809917356,
+      "assessment": "判断保留",
+      "reason": "fewer than 3 repeats, <=5% change or repeat ranges overlap",
+      "beforeRange": {
+        "median": 121,
+        "min": 119,
+        "max": 122
+      },
+      "afterRange": {
+        "median": 120,
+        "min": 119,
+        "max": 121
+      }
+    },
+    {
+      "path": "gpuMetrics.shaderDraws.value",
+      "before": 387,
+      "after": 385,
+      "changePercent": -0.516795865633075,
+      "assessment": "判断保留",
+      "reason": "fewer than 3 repeats, <=5% change or repeat ranges overlap",
+      "beforeRange": {
+        "median": 387,
+        "min": 383,
+        "max": 392
+      },
+      "afterRange": {
+        "median": 385,
+        "min": 382,
+        "max": 388
+      }
+    },
+    {
+      "path": "gpuMetrics.estimatedUploadBytes.value",
+      "before": 3201654784,
+      "after": 3193360384,
+      "changePercent": null,
+      "assessment": "判断保留",
+      "reason": "estimated",
+      "beforeRange": {
+        "median": 3201654784,
+        "min": 3168477184,
+        "max": 3226537984
+      },
+      "afterRange": {
+        "median": 3193360384,
+        "min": 3168477184,
+        "max": 3209949184
+      }
+    },
+    {
+      "path": "memoryMetrics.resources.canvases",
+      "before": 9,
+      "after": 9,
+      "changePercent": 0,
+      "assessment": "判断保留",
+      "reason": "fewer than 3 repeats, <=5% change or repeat ranges overlap",
+      "beforeRange": {
+        "median": 9,
+        "min": 9,
+        "max": 9
+      },
+      "afterRange": {
+        "median": 9,
+        "min": 9,
+        "max": 9
+      }
+    },
+    {
+      "path": "memoryMetrics.resources.textures",
+      "before": 8,
+      "after": 8,
+      "changePercent": 0,
+      "assessment": "判断保留",
+      "reason": "fewer than 3 repeats, <=5% change or repeat ranges overlap",
+      "beforeRange": {
+        "median": 8,
+        "min": 8,
+        "max": 8
+      },
+      "afterRange": {
+        "median": 8,
+        "min": 8,
+        "max": 8
+      }
+    },
+    {
+      "path": "cpuMetrics.evaluation.opacity.mean",
+      "before": 0.0007692307615891481,
+      "after": 0.0002525252374735746,
+      "changePercent": -67.17171880231564,
+      "assessment": "判断保留",
+      "reason": "fewer than 3 repeats, <=5% change or repeat ranges overlap",
+      "beforeRange": {
+        "median": 0.0007692307615891481,
+        "min": 0.00037974683167059213,
+        "max": 0.0008771930048639016
+      },
+      "afterRange": {
+        "median": 0.0002525252374735746,
+        "min": 0.00012755101280553,
+        "max": 0.0007712082568661413
+      }
+    },
+    {
+      "path": "cpuMetrics.evaluation.scaleMotion.mean",
+      "before": 0.000261096629087981,
+      "after": 0,
+      "changePercent": -100,
+      "assessment": "判断保留",
+      "reason": "fewer than 3 repeats, <=5% change or repeat ranges overlap",
+      "beforeRange": {
+        "median": 0.000261096629087981,
+        "min": 0,
+        "max": 0.0007653061528595127
+      },
+      "afterRange": {
+        "median": 0,
+        "min": 0,
+        "max": 0.0002617801281170071
+      }
+    },
+    {
+      "path": "cpuMetrics.audio.automation.mean",
+      "before": 0.6936708860112789,
+      "after": 0.5904761902960666,
+      "changePercent": -14.876607595368277,
+      "assessment": "改善",
+      "reason": ">=3 repeats; >5% median difference; non-overlapping observed ranges (not a significance test)",
+      "beforeRange": {
+        "median": 0.6936708860112789,
+        "min": 0.6684981683344194,
+        "max": 0.7261904761904762
+      },
+      "afterRange": {
+        "median": 0.5904761902960666,
+        "min": 0.5712430427932562,
+        "max": 0.6263157894512764
+      }
+    },
+    {
+      "path": "cpuMetrics.sync.control.mean",
+      "before": 1.5693877547979356,
+      "after": 1.3305785125814193,
+      "changePercent": -15.216713746263668,
+      "assessment": "改善",
+      "reason": ">=3 repeats; >5% median difference; non-overlapping observed ranges (not a significance test)",
+      "beforeRange": {
+        "median": 1.5693877547979356,
+        "min": 1.4926229503433235,
+        "max": 1.6154471547380695
+      },
+      "afterRange": {
+        "median": 1.3305785125814193,
+        "min": 1.271487603256525,
+        "max": 1.3654320984465596
+      }
+    },
+    {
+      "path": "cpuMetrics.fx.extract.mean",
+      "before": 0.004065040529258852,
+      "after": 0.00499999982615312,
+      "changePercent": 22.999999389052387,
+      "assessment": "判断保留",
+      "reason": "fewer than 3 repeats, <=5% change or repeat ranges overlap",
+      "beforeRange": {
+        "median": 0.004065040529258852,
+        "min": 0.001639344286723215,
+        "max": 0.004166666666666667
+      },
+      "afterRange": {
+        "median": 0.00499999982615312,
+        "min": 0,
+        "max": 0.005785124237872352
+      }
+    },
+    {
+      "path": "cpuMetrics.layers.visibility.mean",
+      "before": 0.3908333332588275,
+      "after": 0.34180327907937474,
+      "changePercent": -12.545003203957236,
+      "assessment": "改善",
+      "reason": ">=3 repeats; >5% median difference; non-overlapping observed ranges (not a significance test)",
+      "beforeRange": {
+        "median": 0.3908333332588275,
+        "min": 0.3696721318315287,
+        "max": 0.4138211386232841
+      },
+      "afterRange": {
+        "median": 0.34180327907937474,
+        "min": 0.34049586803952525,
+        "max": 0.3458333338300387
+      }
+    },
+    {
+      "path": "cpuMetrics.fx.update.mean",
+      "before": 0.06916666701436043,
+      "after": 0.062295080696950195,
+      "changePercent": -9.934823541495144,
+      "assessment": "改善",
+      "reason": ">=3 repeats; >5% median difference; non-overlapping observed ranges (not a significance test)",
+      "beforeRange": {
+        "median": 0.06916666701436043,
+        "min": 0.06504065028535641,
+        "max": 0.07131147421285754
+      },
+      "afterRange": {
+        "median": 0.062295080696950195,
+        "min": 0.06033057824146649,
+        "max": 0.06249999950329463
+      }
+    },
+    {
+      "path": "cpuMetrics.text.redraw.mean",
+      "before": 0.16910569066923808,
+      "after": 0.17704917930188727,
+      "changePercent": 4.697351461806351,
+      "assessment": "判断保留",
+      "reason": "fewer than 3 repeats, <=5% change or repeat ranges overlap",
+      "beforeRange": {
+        "median": 0.16910569066923808,
+        "min": 0.1581967222641726,
+        "max": 0.17999999970197678
+      },
+      "afterRange": {
+        "median": 0.17704917930188727,
+        "min": 0.16859504198732456,
+        "max": 0.17749999972681205
+      }
+    },
+    {
+      "path": "cpuMetrics.paintPreview.mean",
+      "before": 1.007438017193936,
+      "after": 0.9162601631104461,
+      "changePercent": -9.0504678726987,
+      "assessment": "改善",
+      "reason": ">=3 repeats; >5% median difference; non-overlapping observed ranges (not a significance test)",
+      "beforeRange": {
+        "median": 1.007438017193936,
+        "min": 0.9590163939311857,
+        "max": 1.0241935483870968
+      },
+      "afterRange": {
+        "median": 0.9162601631104461,
+        "min": 0.9024793389907553,
+        "max": 0.9198347105960215
+      }
+    },
+    {
+      "path": "cpuMetrics.dom.clock.mean",
+      "before": 0.25691056826977227,
+      "after": 0.2520661153946041,
+      "changePercent": -1.8856572961534142,
+      "assessment": "判断保留",
+      "reason": "fewer than 3 repeats, <=5% change or repeat ranges overlap",
+      "beforeRange": {
+        "median": 0.25691056826977227,
+        "min": 0.2557377048813906,
+        "max": 0.2612244897959184
+      },
+      "afterRange": {
+        "median": 0.2520661153946041,
+        "min": 0.2481481476453106,
+        "max": 0.2566115706543292
+      }
+    },
+    {
+      "path": "cpuMetrics.tickPlayback.mean",
+      "before": 2.3995918363332747,
+      "after": 2.081818181744292,
+      "changePercent": -13.242821123885834,
+      "assessment": "改善",
+      "reason": ">=3 repeats; >5% median difference; non-overlapping observed ranges (not a significance test)",
+      "beforeRange": {
+        "median": 2.3995918363332747,
+        "min": 2.2704918031565477,
+        "max": 2.4036585365126775
+      },
+      "afterRange": {
+        "median": 2.081818181744292,
+        "min": 2.016528925866135,
+        "max": 2.1181069952225
+      }
+    },
+    {
+      "path": "cpuMetrics.main.longTasks.mean",
+      "before": null,
+      "after": null,
+      "changePercent": null,
+      "assessment": "判断保留",
+      "reason": "not observed"
+    },
+    {
+      "path": "cpuMetrics.main.longTaskCount.value",
+      "before": 0,
+      "after": 0,
+      "changePercent": null,
+      "assessment": "判断保留",
+      "reason": "zero baseline",
+      "beforeRange": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      },
+      "afterRange": {
+        "median": 0,
+        "min": 0,
+        "max": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"result":"PASS","doubleComparisons":188584,"maxAbsoluteError":0,"float32CurvesCompared":108,"curveSamples":7200,"compilationsPerCurve":1,"semantics":"duplicates, clamps, fades, hold, seek, pause/resume, lane gains, edits and Undo/import snapshots"}

@@ -1,7 +1,8 @@
-import {clamp} from './model.js?v=2.2.80';
-import {scaleAt} from './creative.js?v=2.2.80';
+import {activeDiagnostics} from './preview-diagnostics.js?v=2.2.81';
+import {clamp} from './model.js?v=2.2.81';
+import {scaleAt} from './creative.js?v=2.2.81';
 
-export function motionTransform(clip,local,duration){
+export function motionTransform(clip,local,duration){const diagnosticStart=activeDiagnostics?.begin('evaluation.scaleMotion');try{
  const preset=clip.motionPreset||'none';if(preset==='none'&&!(clip.scaleKeyframes||[]).length)return clip;
  const u=clamp(local/Math.max(duration,1/60),0,1),ease=u*u*(3-2*u),amount=clamp(clip.motionAmount??.12,0,.5),next={...clip};
  if(preset==='push-in')next.scale=clamp((clip.scale||1)*(1+amount*ease),.1,3);
@@ -12,4 +13,4 @@ export function motionTransform(clip,local,duration){
  else if(preset==='pan-down')next.y=clamp((clip.y??.5)+amount*(ease-.5),0,1);
  if((clip.scaleKeyframes||[]).length)next.scale=scaleAt(clip,local,duration);
  return next;
-}
+}finally{activeDiagnostics?.end('evaluation.scaleMotion',diagnosticStart)}}

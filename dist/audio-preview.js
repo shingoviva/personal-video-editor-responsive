@@ -1,8 +1,9 @@
+import {activeDiagnostics} from './preview-diagnostics.js?v=2.2.81';
 import {silenceOutput,openOutput,createDelayEffect,resetDelayEffect} from './audio-preview-output.js';
-import {waitForMedia,seekMedia} from './media-state.js?v=2.2.80';
+import {waitForMedia,seekMedia} from './media-state.js?v=2.2.81';
 import {audioWindows,trackGain} from './audio-timeline.js';
-import {sourceTime,gainAt,held,declickGain} from './mobile-model.js';
-import {sequence,timing,outputOffset} from './model.js?v=2.2.80';
+import {sourceTime,gainAt,compileGainKeyframes,gainAtCompiled,held,declickGain} from './mobile-model.js';
+import {sequence,timing,outputOffset} from './model.js?v=2.2.81';
 const mediaVoice=()=>{const value=document.createElement('audio');value.preload='auto';value.preservesPitch=false;value.muted=true;return value};
 export const previewDriftTolerance=playing=>playing?.32:.035;
 const keyFor=(row,url)=>row&&url?`${row.clip.id}|${url}`:'';
@@ -85,7 +86,7 @@ export class AudioPreview{
  }else this.stopVoice(voice);
  }
 
- scheduleGain(graph,c,local,duration,trackVolume,playing){const now=this.context.currentTime,key=JSON.stringify([c.audio,trackVolume,duration]);if(!playing||graph.gainKey!==key||Math.abs(local-(graph.local+(now-graph.clock)))>.03||now>=graph.until-.04){const param=graph.output.gain;param.cancelScheduledValues(now);const span=playing?Math.min(.15,Math.max(.001,duration-local)):.001,count=Math.max(2,Math.ceil(span*48000)),curve=new Float32Array(count);for(let i=0;i<count;i++){const at=local+span*i/(count-1);curve[i]=trackVolume*gainAt(at,duration,c.audio.volume,c.audio.fadeIn,c.audio.fadeOut,c.audio.gainKeyframes,c.audio.gainEnvelope)*declickGain(at,duration)}if(playing)param.setValueCurveAtTime(curve,now,span);else param.setValueAtTime(curve[0],now);graph.gainKey=key;graph.local=local;graph.clock=now;graph.until=now+span}}
+ scheduleGain(graph,c,local,duration,trackVolume,playing){const diagnosticStart=activeDiagnostics?.begin('audio.automation');try{const now=this.context.currentTime,key=JSON.stringify([c.audio,trackVolume,duration]);if(!playing||graph.gainKey!==key||Math.abs(local-(graph.local+(now-graph.clock)))>.03||now>=graph.until-.04){const param=graph.output.gain;param.cancelScheduledValues(now);const span=playing?Math.min(.15,Math.max(.001,duration-local)):.001,count=Math.max(2,Math.ceil(span*48000)),curve=new Float32Array(count),points=compileGainKeyframes(c.audio.gainKeyframes);for(let i=0;i<count;i++){const at=local+span*i/(count-1);curve[i]=trackVolume*gainAtCompiled(at,duration,c.audio.volume,c.audio.fadeIn,c.audio.fadeOut,points,c.audio.gainEnvelope)*declickGain(at,duration)}if(playing)param.setValueCurveAtTime(curve,now,span);else param.setValueAtTime(curve[0],now);graph.gainKey=key;graph.local=local;graph.clock=now;graph.until=now+span}}finally{activeDiagnostics?.end('audio.automation',diagnosticStart)}}
  primeNext(lane,rows,p,t,urlOf){const next=nextRow(rows,t);if(next)this.prepare(lane,next,p,urlOf)}
  // Structural edits pause playback first; never reuse windows after pause/export.
  beginPlayback(p){this.playbackError=null;this.playbackProject=p;this.playbackAudio=groupRows(audioWindows(p),4);this.playbackVideo=groupRows(sequence(p).filter(value=>!value.clip.gap),3)}

@@ -1,4 +1,4 @@
-import {clamp} from './model.js?v=2.2.80';
+import {clamp} from './model.js?v=2.2.81';
 
 export function timeAtTimelinePoint(row,clientX,rect){
  return row.start+clamp((clientX-rect.left)/Math.max(rect.width,1),0,1)*row.duration;

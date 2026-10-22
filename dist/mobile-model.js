@@ -1,4 +1,4 @@
-import {sequence,total,timing,sourceOffset,clamp} from './model.js?v=2.2.80';
+import {sequence,total,timing,sourceOffset,clamp} from './model.js?v=2.2.81';
 import {envelopeGainAt} from './clip-envelope.js';
 export function outputSettings(p,preview=false){
  const m=p.media.find(m=>m.id===p.clips.find(c=>!c.gap)?.media)||{width:1920,height:1080,fps:30};
@@ -14,7 +14,11 @@ export function outputSettings(p,preview=false){
  return {width,height,fps,duration,frames:Math.ceil(duration*fps),bitrate,audioBitrate};
 }
 export function sourceTime(row,t){const c=row.clip;if(c.freezeDuration)return c.freezeAt??c.in;const nodes=(row._timing??=timing(c)).nodes;const dt=Math.max(0,t-row.start+(row.offset||0));for(let i=1;i<nodes.length;i++){const [x0,y0]=nodes[i-1],[x1,y1]=nodes[i];if(dt<=y1)return Math.min(c.out-1e-6,c.in+x0+(dt-y0)*(x1-x0)/(y1-y0));}return c.out-1e-6;}
-export function gainAt(t,duration,volume=1,fadeIn=0,fadeOut=0,keyframes=[],gainEnvelope=[]){let keyed=1;const points=(keyframes||[]).filter(k=>Number.isFinite(+k.time)&&Number.isFinite(+k.value)).map(k=>({time:Math.max(0,+k.time),value:Math.max(0,Math.min(2,+k.value))})).sort((a,b)=>a.time-b.time);if(points.length){if(t<=points[0].time)keyed=points[0].value;else if(t>=points.at(-1).time)keyed=points.at(-1).value;else for(let i=1;i<points.length;i++)if(t<=points[i].time){const a=points[i-1],b=points[i],u=Math.max(0,Math.min(1,(t-a.time)/Math.max(1e-6,b.time-a.time)));keyed=a.value+(b.value-a.value)*u;break}}return Math.max(0,volume)*keyed*envelopeGainAt(t,gainEnvelope)*Math.max(0,Math.min(1,fadeIn?t/fadeIn:1,fadeOut?(duration-t)/fadeOut:1));}
+// Compile only for one scheduled curve: edits/Undo/import always read fresh points.
+// Stable sorting and duplicate-time points intentionally retain gainAt semantics.
+export function compileGainKeyframes(keyframes=[]){const points=(keyframes||[]).filter(k=>Number.isFinite(+k.time)&&Number.isFinite(+k.value)).map(k=>({time:Math.max(0,+k.time),value:Math.max(0,Math.min(2,+k.value))})).sort((a,b)=>a.time-b.time);return points;}
+export function gainAtCompiled(t,duration,volume=1,fadeIn=0,fadeOut=0,points=[],gainEnvelope=[]){let keyed=1;if(points.length){if(t<=points[0].time)keyed=points[0].value;else if(t>=points.at(-1).time)keyed=points.at(-1).value;else for(let i=1;i<points.length;i++)if(t<=points[i].time){const a=points[i-1],b=points[i],u=Math.max(0,Math.min(1,(t-a.time)/Math.max(1e-6,b.time-a.time)));keyed=a.value+(b.value-a.value)*u;break}}return Math.max(0,volume)*keyed*envelopeGainAt(t,gainEnvelope)*Math.max(0,Math.min(1,fadeIn?t/fadeIn:1,fadeOut?(duration-t)/fadeOut:1));}
+export function gainAt(t,duration,volume=1,fadeIn=0,fadeOut=0,keyframes=[],gainEnvelope=[]){return gainAtCompiled(t,duration,volume,fadeIn,fadeOut,compileGainKeyframes(keyframes),gainEnvelope);}
 export function declickGain(t,duration,edge=.008){const fade=Math.min(edge,Math.max(0,duration)/2);return fade?Math.max(0,Math.min(1,t/fade,(duration-t)/fade)):1}
 export function held(row,t){return !!row.clip.freezeDuration||t-row.start+(row.offset||0)>=timing(row.clip).nodes.at(-1)[1];}
 // Stereo resampling. Fast playback uses a short windowed-sinc low-pass filter

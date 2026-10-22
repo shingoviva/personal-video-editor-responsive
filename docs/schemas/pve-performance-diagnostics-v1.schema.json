@@ -1,0 +1,289 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pve:performance-diagnostics:1",
+  "title": "PVE performance diagnostics 1.x report",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "appVersion",
+    "buildCommit",
+    "environment",
+    "capabilities",
+    "projectProfile",
+    "scenario",
+    "measurementConfig",
+    "playbackMetrics",
+    "cpuMetrics",
+    "gpuMetrics",
+    "mediaMetrics",
+    "memoryMetrics",
+    "resourceLifecycle",
+    "events",
+    "warnings",
+    "measurementLimitations"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^1\\.[0-9]+\\.[0-9]+$"
+    },
+    "appVersion": {
+      "type": "string"
+    },
+    "buildCommit": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "scenario": {
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "environment": {
+      "type": "object"
+    },
+    "capabilities": {
+      "type": "object"
+    },
+    "projectProfile": {
+      "type": "object"
+    },
+    "measurementConfig": {
+      "type": "object",
+      "required": [
+        "mode",
+        "start",
+        "end",
+        "finishedRange"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "off",
+            "light",
+            "detailed"
+          ]
+        },
+        "start": {
+          "type": "number"
+        },
+        "end": {
+          "type": "number"
+        },
+        "finishedRange": {
+          "type": "boolean"
+        }
+      }
+    },
+    "playbackMetrics": {
+      "type": "object",
+      "properties": {
+        "targetFps": {
+          "$ref": "#/$defs/metric"
+        },
+        "drawAttempts": {
+          "$ref": "#/$defs/metric"
+        },
+        "drawCompletions": {
+          "$ref": "#/$defs/metric"
+        },
+        "pausedDrawCompletions": {
+          "$ref": "#/$defs/metric"
+        },
+        "drawSubmissionRate": {
+          "$ref": "#/$defs/metric"
+        },
+        "drawIntervals": {
+          "$ref": "#/$defs/metric"
+        },
+        "videoElementIntervals": {
+          "$ref": "#/$defs/metric"
+        },
+        "presentFps": {
+          "$ref": "#/$defs/metric"
+        },
+        "deadlineExceedances": {
+          "$ref": "#/$defs/metric"
+        },
+        "longStalls": {
+          "$ref": "#/$defs/metric"
+        },
+        "firstFrameLatency": {
+          "$ref": "#/$defs/metric"
+        },
+        "seekLatency": {
+          "$ref": "#/$defs/metric"
+        },
+        "holdCount": {
+          "$ref": "#/$defs/metric"
+        },
+        "holdAttempts": {
+          "$ref": "#/$defs/metric"
+        },
+        "holdDuration": {
+          "$ref": "#/$defs/metric"
+        },
+        "syncError": {
+          "$ref": "#/$defs/metric"
+        }
+      }
+    },
+    "cpuMetrics": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/metric"
+      }
+    },
+    "gpuMetrics": {
+      "type": "object",
+      "properties": {
+        "duration": {
+          "$ref": "#/$defs/metric"
+        },
+        "textureUploads": {
+          "$ref": "#/$defs/metric"
+        },
+        "repeatedUploads": {
+          "$ref": "#/$defs/metric"
+        },
+        "estimatedUploadBytes": {
+          "$ref": "#/$defs/metric"
+        },
+        "shaderDraws": {
+          "$ref": "#/$defs/metric"
+        },
+        "textRedraws": {
+          "$ref": "#/$defs/metric"
+        },
+        "staticTextRedraws": {
+          "$ref": "#/$defs/metric"
+        },
+        "disjointSamples": {
+          "$ref": "#/$defs/metric"
+        }
+      }
+    },
+    "mediaMetrics": {
+      "type": "object",
+      "properties": {
+        "videoElements": {
+          "$ref": "#/$defs/metric"
+        },
+        "playingVideoElements": {
+          "$ref": "#/$defs/metric"
+        },
+        "visibleLayers": {
+          "$ref": "#/$defs/metric"
+        },
+        "seekRequests": {
+          "$ref": "#/$defs/metric"
+        },
+        "nativeSeekEvents": {
+          "$ref": "#/$defs/metric"
+        },
+        "nativeWaitingEvents": {
+          "$ref": "#/$defs/metric"
+        },
+        "sourceSwitches": {
+          "$ref": "#/$defs/metric"
+        },
+        "preloadSuccess": {
+          "$ref": "#/$defs/metric"
+        },
+        "preloadWait": {
+          "$ref": "#/$defs/metric"
+        },
+        "videoElementCallbacks": {
+          "$ref": "#/$defs/metric"
+        },
+        "decodeTime": {
+          "$ref": "#/$defs/metric"
+        }
+      }
+    },
+    "memoryMetrics": {
+      "type": "object",
+      "properties": {
+        "jsHeap": {
+          "$ref": "#/$defs/metric"
+        },
+        "browserRAM": {
+          "$ref": "#/$defs/metric"
+        },
+        "gpuMemory": {
+          "$ref": "#/$defs/metric"
+        }
+      }
+    },
+    "resourceLifecycle": {
+      "type": "object"
+    },
+    "events": {
+      "type": "array",
+      "maxItems": 1200,
+      "items": {
+        "type": "object"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "measurementLimitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "metric": {
+      "type": "object",
+      "required": [
+        "value",
+        "unit",
+        "method",
+        "status",
+        "sampleCount"
+      ],
+      "properties": {
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "unit": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "observed",
+            "estimated",
+            "unsupported",
+            "not_measured"
+          ]
+        },
+        "sampleCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

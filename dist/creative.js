@@ -1,10 +1,11 @@
-import {clamp,timing,sequence,uid,pasteClip,sourceOffset} from './model.js?v=2.2.80';
-export function opacityAt(clip,local,duration=Infinity){
+import {activeDiagnostics} from './preview-diagnostics.js?v=2.2.81';
+import {clamp,timing,sequence,uid,pasteClip,sourceOffset} from './model.js?v=2.2.81';
+export function opacityAt(clip,local,duration=Infinity){const diagnosticStart=activeDiagnostics?.begin('evaluation.opacity');try{
  const points=(clip?.opacityKeyframes||[]).filter(k=>Number.isFinite(+k.time)&&Number.isFinite(+k.value)).map(k=>({time:clamp(+k.time,0,duration),value:clamp(+k.value,0,1)})).sort((a,b)=>a.time-b.time);
  if(!points.length)return clamp(clip?.opacity??1,0,1);if(local<=points[0].time)return points[0].value;if(local>=points.at(-1).time)return points.at(-1).value;
  for(let i=1;i<points.length;i++)if(local<=points[i].time){const a=points[i-1],b=points[i],u=clamp((local-a.time)/Math.max(1e-6,b.time-a.time),0,1),ease=u*u*(3-2*u);return a.value+(b.value-a.value)*ease}
  return points.at(-1).value;
-}
+}finally{activeDiagnostics?.end('evaluation.opacity',diagnosticStart)}}
 export function scaleAt(clip,local,duration=Infinity){
  const points=(clip?.scaleKeyframes||[]).filter(k=>Number.isFinite(+k.time)&&Number.isFinite(+k.value)).map(k=>({time:clamp(+k.time,0,duration),value:clamp(+k.value,1,3)})).sort((a,b)=>a.time-b.time);
  if(!points.length)return clamp(clip?.scale??1,1,3);if(local<=points[0].time)return points[0].value;if(local>=points.at(-1).time)return points.at(-1).value;

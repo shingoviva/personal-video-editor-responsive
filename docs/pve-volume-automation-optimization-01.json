@@ -1,0 +1,898 @@
+{
+  "date": "2026-10-22",
+  "published": false,
+  "baseCommit": "54c7cf28889eecd79b9d4a7491314f9b6213f7ea",
+  "appVersion": "2.2.80 (unpublished diagnostics + optimization)",
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "platform": "macOS",
+    "screen": {
+      "width": 1440,
+      "height": 900
+    },
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "devicePixelRatio": 1,
+    "visibility": "visible"
+  },
+  "measurementConfig": {
+    "mode": "detailed",
+    "start": 1,
+    "end": 5,
+    "warmup": 0.5,
+    "gpuTiming": true,
+    "repeatGroup": "range",
+    "sampleLimit": 2048
+  },
+  "method": "3 repeats per scenario per version, isolated headless Chrome; medians/min/max, not significance testing; source-position sync is not output latency",
+  "fixture": {
+    "format": "synthetic 8s 1920x1080 30fps H264/AAC48k",
+    "sha256": "836adcbbf9b21156c845069622c26ab7e18a2ab04782ab456046e8331baa7dce"
+  },
+  "effectiveResolutions": [
+    "1280x720"
+  ],
+  "scenarios": {
+    "F": {
+      "comparable": true,
+      "metrics": {
+        "audio.automation.mean": {
+          "before": {
+            "values": [
+              0.6936708860112789,
+              0.7261904761904762,
+              0.6684981683344194
+            ],
+            "median": 0.6936708860112789,
+            "min": 0.6684981683344194,
+            "max": 0.7261904761904762
+          },
+          "after": {
+            "values": [
+              0.5712430427932562,
+              0.5904761902960666,
+              0.6263157894512764
+            ],
+            "median": 0.5904761902960666,
+            "min": 0.5712430427932562,
+            "max": 0.6263157894512764
+          },
+          "changePercent": -14.876607595368274,
+          "assessment": "改善"
+        },
+        "audio.automation.total": {
+          "before": {
+            "values": [
+              383.5999999642372,
+              396.5,
+              364.99999991059303
+            ],
+            "median": 383.5999999642372,
+            "min": 364.99999991059303,
+            "max": 396.5
+          },
+          "after": {
+            "values": [
+              307.9000000655651,
+              322.39999990165234,
+              333.19999998807907
+            ],
+            "median": 322.39999990165234,
+            "min": 307.9000000655651,
+            "max": 333.19999998807907
+          },
+          "changePercent": -15.954118891629431,
+          "assessment": "改善"
+        },
+        "audio.automation.p95": {
+          "before": {
+            "values": [
+              2.0999999940395355,
+              2.0999999940395355,
+              2
+            ],
+            "median": 2.0999999940395355,
+            "min": 2,
+            "max": 2.0999999940395355
+          },
+          "after": {
+            "values": [
+              1.7999999970197678,
+              1.7999999970197678,
+              1.7999999970197678
+            ],
+            "median": 1.7999999970197678,
+            "min": 1.7999999970197678,
+            "max": 1.7999999970197678
+          },
+          "changePercent": -14.285714184345844,
+          "assessment": "改善"
+        },
+        "audio.automation.calls": {
+          "before": {
+            "values": [
+              553,
+              546,
+              546
+            ],
+            "median": 546,
+            "min": 546,
+            "max": 553
+          },
+          "after": {
+            "values": [
+              539,
+              546,
+              532
+            ],
+            "median": 539,
+            "min": 532,
+            "max": 546
+          },
+          "changePercent": null,
+          "assessment": "判断保留／動作指標"
+        },
+        "tickPlayback.mean": {
+          "before": {
+            "values": [
+              2.3995918363332747,
+              2.4036585365126775,
+              2.2704918031565477
+            ],
+            "median": 2.3995918363332747,
+            "min": 2.2704918031565477,
+            "max": 2.4036585365126775
+          },
+          "after": {
+            "values": [
+              2.016528925866135,
+              2.081818181744292,
+              2.1181069952225
+            ],
+            "median": 2.081818181744292,
+            "min": 2.016528925866135,
+            "max": 2.1181069952225
+          },
+          "changePercent": -13.242821123885829,
+          "assessment": "改善"
+        },
+        "tickPlayback.total": {
+          "before": {
+            "values": [
+              587.8999999016523,
+              591.2999999821186,
+              553.9999999701977
+            ],
+            "median": 587.8999999016523,
+            "min": 553.9999999701977,
+            "max": 591.2999999821186
+          },
+          "after": {
+            "values": [
+              488.00000005960464,
+              503.7999999821186,
+              514.6999998390675
+            ],
+            "median": 503.7999999821186,
+            "min": 488.00000005960464,
+            "max": 514.6999998390675
+          },
+          "changePercent": -14.305153926450508,
+          "assessment": "改善"
+        },
+        "drawInterval.p95": {
+          "before": {
+            "values": [
+              46.5,
+              48.599999994039536,
+              48
+            ],
+            "median": 48,
+            "min": 46.5,
+            "max": 48.599999994039536
+          },
+          "after": {
+            "values": [
+              44.70000000298023,
+              45.099999994039536,
+              45.29999999701977
+            ],
+            "median": 45.099999994039536,
+            "min": 44.70000000298023,
+            "max": 45.29999999701977
+          },
+          "changePercent": -6.041666679084301,
+          "assessment": "改善"
+        },
+        "deadlineExceedances": {
+          "before": {
+            "values": [
+              2,
+              5,
+              2
+            ],
+            "median": 2,
+            "min": 2,
+            "max": 5
+          },
+          "after": {
+            "values": [
+              0,
+              0,
+              0
+            ],
+            "median": 0,
+            "min": 0,
+            "max": 0
+          },
+          "changePercent": -100.0,
+          "assessment": "改善"
+        },
+        "syncError.signedMean": {
+          "before": {
+            "values": [
+              -46.56618699187002,
+              -44.52937222222256,
+              -43.997065573771124
+            ],
+            "median": -44.52937222222256,
+            "min": -46.56618699187002,
+            "max": -43.997065573771124
+          },
+          "after": {
+            "values": [
+              -46.48139118457302,
+              -46.223625000000176,
+              -45.70696448087378
+            ],
+            "median": -46.223625000000176,
+            "min": -46.48139118457302,
+            "max": -45.70696448087378
+          },
+          "changePercent": null,
+          "assessment": "判断保留／動作指標"
+        },
+        "syncError.signedP95": {
+          "before": {
+            "values": [
+              -28.32166666666658,
+              -30.434000000000516,
+              -29.04333333333442
+            ],
+            "median": -29.04333333333442,
+            "min": -30.434000000000516,
+            "max": -28.32166666666658
+          },
+          "after": {
+            "values": [
+              -29.115333333333382,
+              -25.394666666666676,
+              -25.115333333332934
+            ],
+            "median": -25.394666666666676,
+            "min": -29.115333333333382,
+            "max": -25.115333333332934
+          },
+          "changePercent": null,
+          "assessment": "判断保留／動作指標"
+        },
+        "holdDuration": {
+          "before": {
+            "values": [
+              16,
+              17.799999997019768,
+              0
+            ],
+            "median": 16,
+            "min": 0,
+            "max": 17.799999997019768
+          },
+          "after": {
+            "values": [
+              0,
+              20,
+              15.5
+            ],
+            "median": 15.5,
+            "min": 0,
+            "max": 20
+          },
+          "changePercent": -3.125,
+          "assessment": "判断保留／動作指標"
+        },
+        "longStalls": {
+          "before": {
+            "values": [
+              0,
+              0,
+              0
+            ],
+            "median": 0,
+            "min": 0,
+            "max": 0
+          },
+          "after": {
+            "values": [
+              0,
+              0,
+              0
+            ],
+            "median": 0,
+            "min": 0,
+            "max": 0
+          },
+          "changePercent": null,
+          "assessment": "判断保留／動作指標"
+        }
+      },
+      "observedRanges": {
+        "before": [
+          [
+            1,
+            5.058666666666666
+          ],
+          [
+            1,
+            5.085333333333333
+          ],
+          [
+            1,
+            5.048
+          ]
+        ],
+        "after": [
+          [
+            1,
+            5.010666666666666
+          ],
+          [
+            1,
+            5.005333333333333
+          ],
+          [
+            1,
+            5.032
+          ]
+        ]
+      }
+    },
+    "G": {
+      "comparable": true,
+      "metrics": {
+        "audio.automation.mean": {
+          "before": {
+            "values": [
+              0.8212499999627471,
+              0.8099999998509884,
+              0.8079487178570185
+            ],
+            "median": 0.8099999998509884,
+            "min": 0.8079487178570185,
+            "max": 0.8212499999627471
+          },
+          "after": {
+            "values": [
+              0.6485714283856479,
+              0.6487179487561568,
+              0.6495999998251597
+            ],
+            "median": 0.6487179487561568,
+            "min": 0.6485714283856479,
+            "max": 0.6495999998251597
+          },
+          "changePercent": -19.91136433635824,
+          "assessment": "改善"
+        },
+        "audio.automation.total": {
+          "before": {
+            "values": [
+              328.49999998509884,
+              323.99999994039536,
+              315.0999999642372
+            ],
+            "median": 323.99999994039536,
+            "min": 315.0999999642372,
+            "max": 328.49999998509884
+          },
+          "after": {
+            "values": [
+              249.69999992847443,
+              253.00000001490116,
+              243.5999999344349
+            ],
+            "median": 249.69999992847443,
+            "min": 243.5999999344349,
+            "max": 253.00000001490116
+          },
+          "changePercent": -22.9320987733301,
+          "assessment": "改善"
+        },
+        "audio.automation.p95": {
+          "before": {
+            "values": [
+              2.4000000059604645,
+              2.3999999910593033,
+              2.3999999910593033
+            ],
+            "median": 2.3999999910593033,
+            "min": 2.3999999910593033,
+            "max": 2.4000000059604645
+          },
+          "after": {
+            "values": [
+              1.9000000059604645,
+              1.9000000059604645,
+              1.8999999910593033
+            ],
+            "median": 1.9000000059604645,
+            "min": 1.8999999910593033,
+            "max": 1.9000000059604645
+          },
+          "changePercent": -20.83333279006183,
+          "assessment": "改善"
+        },
+        "audio.automation.calls": {
+          "before": {
+            "values": [
+              400,
+              400,
+              390
+            ],
+            "median": 400,
+            "min": 390,
+            "max": 400
+          },
+          "after": {
+            "values": [
+              385,
+              390,
+              375
+            ],
+            "median": 385,
+            "min": 375,
+            "max": 390
+          },
+          "changePercent": null,
+          "assessment": "判断保留／動作指標"
+        },
+        "tickPlayback.mean": {
+          "before": {
+            "values": [
+              1.8487804877927634,
+              1.8485596709781222,
+              1.7987603308740727
+            ],
+            "median": 1.8485596709781222,
+            "min": 1.7987603308740727,
+            "max": 1.8487804877927634
+          },
+          "after": {
+            "values": [
+              1.5132780084347823,
+              1.5040650405292588,
+              1.502066115271454
+            ],
+            "median": 1.5040650405292588,
+            "min": 1.502066115271454,
+            "max": 1.5132780084347823
+          },
+          "changePercent": -18.63584042524211,
+          "assessment": "改善"
+        },
+        "tickPlayback.total": {
+          "before": {
+            "values": [
+              454.79999999701977,
+              449.2000000476837,
+              435.3000000715256
+            ],
+            "median": 449.2000000476837,
+            "min": 435.3000000715256,
+            "max": 454.79999999701977
+          },
+          "after": {
+            "values": [
+              364.70000003278255,
+              369.9999999701977,
+              363.4999998956919
+            ],
+            "median": 364.70000003278255,
+            "min": 363.4999998956919,
+            "max": 369.9999999701977
+          },
+          "changePercent": -18.811219947892088,
+          "assessment": "改善"
+        },
+        "drawInterval.p95": {
+          "before": {
+            "values": [
+              45.900000005960464,
+              46.69999998807907,
+              44.5
+            ],
+            "median": 45.900000005960464,
+            "min": 44.5,
+            "max": 46.69999998807907
+          },
+          "after": {
+            "values": [
+              42.400000005960464,
+              42.6000000089407,
+              42.29999999701977
+            ],
+            "median": 42.400000005960464,
+            "min": 42.29999999701977,
+            "max": 42.6000000089407
+          },
+          "changePercent": -7.62527233016449,
+          "assessment": "改善"
+        },
+        "deadlineExceedances": {
+          "before": {
+            "values": [
+              0,
+              0,
+              0
+            ],
+            "median": 0,
+            "min": 0,
+            "max": 0
+          },
+          "after": {
+            "values": [
+              0,
+              0,
+              0
+            ],
+            "median": 0,
+            "min": 0,
+            "max": 0
+          },
+          "changePercent": null,
+          "assessment": "判断保留／動作指標"
+        },
+        "syncError.signedMean": {
+          "before": {
+            "values": [
+              -47.49502710027105,
+              -37.783978142076386,
+              -37.94579338842903
+            ],
+            "median": -37.94579338842903,
+            "min": -47.49502710027105,
+            "max": -37.783978142076386
+          },
+          "after": {
+            "values": [
+              -43.12390909090916,
+              -36.89539566395692,
+              -37.45920765027314
+            ],
+            "median": -37.45920765027314,
+            "min": -43.12390909090916,
+            "max": -36.89539566395692
+          },
+          "changePercent": null,
+          "assessment": "判断保留／動作指標"
+        },
+        "syncError.signedP95": {
+          "before": {
+            "values": [
+              -30.81233333333344,
+              -26.136666666666475,
+              -25.850999999998514
+            ],
+            "median": -26.136666666666475,
+            "min": -30.81233333333344,
+            "max": -25.850999999998514
+          },
+          "after": {
+            "values": [
+              -23.126000000000424,
+              -23.549000000000486,
+              -25.410333333333313
+            ],
+            "median": -23.549000000000486,
+            "min": -25.410333333333313,
+            "max": -23.126000000000424
+          },
+          "changePercent": null,
+          "assessment": "判断保留／動作指標"
+        },
+        "holdDuration": {
+          "before": {
+            "values": [
+              0,
+              0,
+              0
+            ],
+            "median": 0,
+            "min": 0,
+            "max": 0
+          },
+          "after": {
+            "values": [
+              0,
+              0,
+              0
+            ],
+            "median": 0,
+            "min": 0,
+            "max": 0
+          },
+          "changePercent": null,
+          "assessment": "判断保留／動作指標"
+        },
+        "longStalls": {
+          "before": {
+            "values": [
+              0,
+              0,
+              0
+            ],
+            "median": 0,
+            "min": 0,
+            "max": 0
+          },
+          "after": {
+            "values": [
+              0,
+              0,
+              0
+            ],
+            "median": 0,
+            "min": 0,
+            "max": 0
+          },
+          "changePercent": null,
+          "assessment": "判断保留／動作指標"
+        }
+      },
+      "observedRanges": {
+        "before": [
+          [
+            1,
+            5.074666666666667
+          ],
+          [
+            1,
+            5.021333333333333
+          ],
+          [
+            1,
+            5.005333333333333
+          ]
+        ],
+        "after": [
+          [
+            1,
+            5.005333333333333
+          ],
+          [
+            1,
+            5.069333333333334
+          ],
+          [
+            1,
+            5.021333333333333
+          ]
+        ]
+      }
+    }
+  },
+  "numerical": {
+    "result": "PASS",
+    "doubleComparisons": 188584,
+    "maxAbsoluteError": 0,
+    "float32CurvesCompared": 108,
+    "curveSamples": 7200,
+    "compilationsPerCurve": 1,
+    "semantics": "duplicates, clamps, fades, hold, seek, pause/resume, lane gains, edits and Undo/import snapshots"
+  },
+  "pcm": {
+    "reports": [
+      {
+        "browser": "chromium",
+        "result": "PASS exact per-lane PCM and fixed-order sums",
+        "pcmSamples": 1008000,
+        "maxAbsoluteError": 0,
+        "rate": 48000,
+        "channelsPerLane": 2,
+        "lanes": 7,
+        "cases": [
+          {
+            "local": 0,
+            "lanes": {
+              "maxAbsoluteError": 0,
+              "differingSamples": 0,
+              "samples": 336000
+            },
+            "fixedOrderSumMaxError": 0,
+            "nativeMixBeforeAfter": {
+              "maxAbsoluteError": 3.725290298461914e-09,
+              "differingSamples": 29096,
+              "samples": 48000
+            },
+            "nativeMixBeforeBefore": {
+              "maxAbsoluteError": 3.725290298461914e-09,
+              "differingSamples": 29569,
+              "samples": 48000
+            }
+          },
+          {
+            "local": 1.997,
+            "lanes": {
+              "maxAbsoluteError": 0,
+              "differingSamples": 0,
+              "samples": 336000
+            },
+            "fixedOrderSumMaxError": 0,
+            "nativeMixBeforeAfter": {
+              "maxAbsoluteError": 2.9802322387695312e-08,
+              "differingSamples": 19656,
+              "samples": 48000
+            },
+            "nativeMixBeforeBefore": {
+              "maxAbsoluteError": 2.9802322387695312e-08,
+              "differingSamples": 22502,
+              "samples": 48000
+            }
+          },
+          {
+            "local": 7.8,
+            "lanes": {
+              "maxAbsoluteError": 0,
+              "differingSamples": 0,
+              "samples": 336000
+            },
+            "fixedOrderSumMaxError": 0,
+            "nativeMixBeforeAfter": {
+              "maxAbsoluteError": 1.862645149230957e-09,
+              "differingSamples": 8095,
+              "samples": 48000
+            },
+            "nativeMixBeforeBefore": {
+              "maxAbsoluteError": 3.725290298461914e-09,
+              "differingSamples": 11854,
+              "samples": 48000
+            }
+          }
+        ],
+        "method": "OfflineAudioContext, actual incremental scheduling at suspended render quantum boundaries; deterministic stereo sources; native mixer old/old control recorded separately; not a live listening/latency test"
+      },
+      {
+        "browser": "webkit",
+        "result": "PASS exact per-lane PCM and fixed-order sums",
+        "pcmSamples": 1008000,
+        "maxAbsoluteError": 0,
+        "rate": 48000,
+        "channelsPerLane": 2,
+        "lanes": 7,
+        "cases": [
+          {
+            "local": 0,
+            "lanes": {
+              "maxAbsoluteError": 0,
+              "differingSamples": 0,
+              "samples": 336000
+            },
+            "fixedOrderSumMaxError": 0,
+            "nativeMixBeforeAfter": {
+              "maxAbsoluteError": 0,
+              "differingSamples": 0,
+              "samples": 48000
+            },
+            "nativeMixBeforeBefore": {
+              "maxAbsoluteError": 0,
+              "differingSamples": 0,
+              "samples": 48000
+            }
+          },
+          {
+            "local": 1.997,
+            "lanes": {
+              "maxAbsoluteError": 0,
+              "differingSamples": 0,
+              "samples": 336000
+            },
+            "fixedOrderSumMaxError": 0,
+            "nativeMixBeforeAfter": {
+              "maxAbsoluteError": 0,
+              "differingSamples": 0,
+              "samples": 48000
+            },
+            "nativeMixBeforeBefore": {
+              "maxAbsoluteError": 0,
+              "differingSamples": 0,
+              "samples": 48000
+            }
+          },
+          {
+            "local": 7.8,
+            "lanes": {
+              "maxAbsoluteError": 0,
+              "differingSamples": 0,
+              "samples": 336000
+            },
+            "fixedOrderSumMaxError": 0,
+            "nativeMixBeforeAfter": {
+              "maxAbsoluteError": 0,
+              "differingSamples": 0,
+              "samples": 48000
+            },
+            "nativeMixBeforeBefore": {
+              "maxAbsoluteError": 0,
+              "differingSamples": 0,
+              "samples": 48000
+            }
+          }
+        ],
+        "method": "OfflineAudioContext, actual incremental scheduling at suspended render quantum boundaries; deterministic stereo sources; native mixer old/old control recorded separately; not a live listening/latency test"
+      }
+    ]
+  },
+  "allocationAnalysis": {
+    "measurement": "source-level counts and instrumentation of compilation, NOT heap allocation/GC profiling",
+    "perFullCurve": {
+      "samples": 7200,
+      "filteredArraysBefore": 7200,
+      "filteredArraysAfter": 1,
+      "mappedArraysBefore": 7200,
+      "mappedArraysAfter": 1,
+      "sortCallsBefore": 7200,
+      "sortCallsAfter": 1,
+      "pointObjectsWith3ValidKeysBefore": 21600,
+      "pointObjectsWith3ValidKeysAfter": 3,
+      "float32PayloadBytesBoth": 28800
+    },
+    "sortScratchBytes": "unmeasured",
+    "gcPauseDifference": "unmeasured"
+  },
+  "validation": {
+    "npmTest": "PASS, 88 scripts; added boundary test rerun after fixture extraction and extra cases",
+    "npmBuild": "PASS",
+    "schema": "PASS, 12 reports",
+    "browserQA": [
+      {
+        "browser": "chromium",
+        "normalNoDiagnosticUI": true,
+        "idlePicturePixelsIdentical": true,
+        "finishedRange": true,
+        "jsonExport": true,
+        "markdownExport": true,
+        "clear": true,
+        "scope": "complex synthetic F",
+        "ui": "desktop",
+        "errors": []
+      },
+      {
+        "browser": "webkit",
+        "normalNoDiagnosticUI": null,
+        "idlePicturePixelsIdentical": null,
+        "finishedRange": true,
+        "jsonExport": true,
+        "markdownExport": true,
+        "clear": true,
+        "scope": "single in-memory video, mobile viewport emulation; persistence excluded",
+        "ui": "phone",
+        "errors": []
+      }
+    ],
+    "actualIPhoneSafari": "not tested",
+    "physicalAudioLatencyAndListening": "not tested",
+    "nativeFFmpegExport": "not executed; unchanged native path"
+  },
+  "sourceHashes": {
+    "before": {
+      "audio-preview.js": "a5f38cfa2260369efc503cd454f7db7ac7bac3a72afc7a4ad06a03be5e000601",
+      "mobile-model.js": "3014f8d028fb7d3e7071d205a1761cb9cda6d2e98fa3b558c298ed0d3a2a77a8"
+    },
+    "after": {
+      "audio-preview.js": "f78a3fe63f9e9cbb4a093862bc90e608f38098006d8543247324ebd8e2fdc4e1",
+      "mobile-model.js": "e73888319c84fe94db96d6002557efa8140086cf50bd968777e25e4b51a2e59b"
+    }
+  },
+  "evidenceDirectory": "performance-evidence/optimization-01"
+}

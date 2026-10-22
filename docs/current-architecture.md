@@ -31,3 +31,19 @@ not source implementations to copy back into the application.
 For changes here, run the focused regression tests and the normal test/build
 commands. A passing synthetic test does not establish real-camera image quality.
 Record actual footage, durations, resolutions and untested devices in VALIDATION.
+
+Developer performance instrumentation extends the existing `?previewDiagnostics`
+entry point; see [pve-performance-diagnostics.md](pve-performance-diagnostics.md).
+The normal URL must not create observers, GPU queries or measurement histories.
+Keep inclusive CPU submission timings separate from asynchronous GPU timings and
+physical presentation (unavailable). Preserve clocks, readiness and composition
+ordering when moving or adding observation points. The comparison schema and
+baseline are evidence for controlled experiments, not proof of faster rendering.
+
+Audio automation: `mobile-model.js` owns `compileGainKeyframes`, `gainAtCompiled`
+and the compatible `gainAt` wrapper. `audio-preview.js:scheduleGain` compiles once
+per newly scheduled curve, never caches sorted points across curves. Preserve
+stable duplicate ordering, operation order, envelope hold ramps, curve sample
+positions and AudioParam scheduling/gates. The independent old implementation in
+`tests/fixtures/audio-automation-reference.mjs` is a test oracle only, not a
+production implementation to restore. See [optimization 01](pve-volume-automation-optimization-01.md).

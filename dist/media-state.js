@@ -1,3 +1,4 @@
+import {activeDiagnostics} from './preview-diagnostics.js?v=2.2.81';
 // Media lifecycle helpers. Register before changing src / currentTime.
 export function waitForMedia(media,event,{signal,timeout=20000,ready,start}={}){
   if(signal?.aborted)return Promise.reject(new DOMException('処理をキャンセルしました。','AbortError'));
@@ -24,11 +25,12 @@ const pendingVideoFrames=new WeakMap();
 export function cancelVideoFrame(media){pendingVideoFrames.get(media)?.controller.abort()}
 export function videoFrameReady(media){return media.readyState>=2&&!media.seeking&&!pendingVideoFrames.has(media)}
 export function seekVideoFrame(media,time,options={}){
+ const diagnostic=activeDiagnostics,diagnosticStart=diagnostic?performance.now():null,diagnosticRun=diagnostic?.active?.id;diagnostic?.count('seekRequests');
  if(options.signal?.aborted)return Promise.reject(new DOMException('処理をキャンセルしました。','AbortError'));
  const previous=pendingVideoFrames.get(media),controller=new AbortController(),request={controller};previous?.controller.abort();
  const abort=()=>controller.abort();options.signal?.addEventListener('abort',abort,{once:true});pendingVideoFrames.set(media,request);
  const run=()=>seekPresentedFrame(media,time,{...options,signal:controller.signal});
- request.job=(previous?previous.job.catch(()=>{}).then(run):run()).finally(()=>{options.signal?.removeEventListener('abort',abort);if(pendingVideoFrames.get(media)===request)pendingVideoFrames.delete(media)});
+ request.job=(previous?previous.job.catch(()=>{}).then(run):run()).then(value=>{if(diagnostic?.measuring&&activeDiagnostics===diagnostic&&diagnostic.active.id===diagnosticRun)diagnostic.sample('seekLatency',performance.now()-diagnosticStart);return value}).finally(()=>{options.signal?.removeEventListener('abort',abort);if(pendingVideoFrames.get(media)===request)pendingVideoFrames.delete(media)});
  return request.job;
 }
 async function seekPresentedFrame(media,time,{fps=30,timeout=8000,signal}={}){

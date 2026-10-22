@@ -1,0 +1,142 @@
+{
+  "reports": [
+    {
+      "browser": "chromium",
+      "result": "PASS exact per-lane PCM and fixed-order sums",
+      "pcmSamples": 1008000,
+      "maxAbsoluteError": 0,
+      "rate": 48000,
+      "channelsPerLane": 2,
+      "lanes": 7,
+      "cases": [
+        {
+          "local": 0,
+          "lanes": {
+            "maxAbsoluteError": 0,
+            "differingSamples": 0,
+            "samples": 336000
+          },
+          "fixedOrderSumMaxError": 0,
+          "nativeMixBeforeAfter": {
+            "maxAbsoluteError": 3.725290298461914e-9,
+            "differingSamples": 29096,
+            "samples": 48000
+          },
+          "nativeMixBeforeBefore": {
+            "maxAbsoluteError": 3.725290298461914e-9,
+            "differingSamples": 29569,
+            "samples": 48000
+          }
+        },
+        {
+          "local": 1.997,
+          "lanes": {
+            "maxAbsoluteError": 0,
+            "differingSamples": 0,
+            "samples": 336000
+          },
+          "fixedOrderSumMaxError": 0,
+          "nativeMixBeforeAfter": {
+            "maxAbsoluteError": 2.9802322387695312e-8,
+            "differingSamples": 19656,
+            "samples": 48000
+          },
+          "nativeMixBeforeBefore": {
+            "maxAbsoluteError": 2.9802322387695312e-8,
+            "differingSamples": 22502,
+            "samples": 48000
+          }
+        },
+        {
+          "local": 7.8,
+          "lanes": {
+            "maxAbsoluteError": 0,
+            "differingSamples": 0,
+            "samples": 336000
+          },
+          "fixedOrderSumMaxError": 0,
+          "nativeMixBeforeAfter": {
+            "maxAbsoluteError": 1.862645149230957e-9,
+            "differingSamples": 8095,
+            "samples": 48000
+          },
+          "nativeMixBeforeBefore": {
+            "maxAbsoluteError": 3.725290298461914e-9,
+            "differingSamples": 11854,
+            "samples": 48000
+          }
+        }
+      ],
+      "method": "OfflineAudioContext, actual incremental scheduling at suspended render quantum boundaries; deterministic stereo sources; native mixer old/old control recorded separately; not a live listening/latency test"
+    },
+    {
+      "browser": "webkit",
+      "result": "PASS exact per-lane PCM and fixed-order sums",
+      "pcmSamples": 1008000,
+      "maxAbsoluteError": 0,
+      "rate": 48000,
+      "channelsPerLane": 2,
+      "lanes": 7,
+      "cases": [
+        {
+          "local": 0,
+          "lanes": {
+            "maxAbsoluteError": 0,
+            "differingSamples": 0,
+            "samples": 336000
+          },
+          "fixedOrderSumMaxError": 0,
+          "nativeMixBeforeAfter": {
+            "maxAbsoluteError": 0,
+            "differingSamples": 0,
+            "samples": 48000
+          },
+          "nativeMixBeforeBefore": {
+            "maxAbsoluteError": 0,
+            "differingSamples": 0,
+            "samples": 48000
+          }
+        },
+        {
+          "local": 1.997,
+          "lanes": {
+            "maxAbsoluteError": 0,
+            "differingSamples": 0,
+            "samples": 336000
+          },
+          "fixedOrderSumMaxError": 0,
+          "nativeMixBeforeAfter": {
+            "maxAbsoluteError": 0,
+            "differingSamples": 0,
+            "samples": 48000
+          },
+          "nativeMixBeforeBefore": {
+            "maxAbsoluteError": 0,
+            "differingSamples": 0,
+            "samples": 48000
+          }
+        },
+        {
+          "local": 7.8,
+          "lanes": {
+            "maxAbsoluteError": 0,
+            "differingSamples": 0,
+            "samples": 336000
+          },
+          "fixedOrderSumMaxError": 0,
+          "nativeMixBeforeAfter": {
+            "maxAbsoluteError": 0,
+            "differingSamples": 0,
+            "samples": 48000
+          },
+          "nativeMixBeforeBefore": {
+            "maxAbsoluteError": 0,
+            "differingSamples": 0,
+            "samples": 48000
+          }
+        }
+      ],
+      "method": "OfflineAudioContext, actual incremental scheduling at suspended render quantum boundaries; deterministic stereo sources; native mixer old/old control recorded separately; not a live listening/latency test"
+    }
+  ]
+}

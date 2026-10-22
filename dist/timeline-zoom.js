@@ -1,4 +1,4 @@
-import {clamp} from './model.js?v=2.2.80';
+import {clamp} from './model.js?v=2.2.81';
 
 export function zoomFromPinch(startZoom,startDistance,currentDistance,min=1,max=10){
  return clamp(startZoom*Math.max(currentDistance,1)/Math.max(startDistance,1),min,max);
