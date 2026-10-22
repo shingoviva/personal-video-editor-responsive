@@ -1,4 +1,4 @@
-import {clamp,uid,total,MAX_TEXT_LAYERS} from './model.js?v=2.2.82';
+import {clamp,uid,total,MAX_TEXT_LAYERS} from './model.js?v=2.2.83';
 import {captionDefaults} from './caption-presets.js';
 
 export function dialogueLines(value){return String(value||'').split(/\r?\n/).map(value=>value.trim()).filter(Boolean).slice(0,MAX_TEXT_LAYERS)}

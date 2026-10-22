@@ -1,3 +1,14 @@
+## 2.2.83 音量ライン・タイムライン縮小（2026-10-22）
+
+- 公開候補は2.2.82から音量ラインUIと時間軸縮小のみを選別。静的文字最適化02、Feature Lab、開発環境整理は除外。音声DSP・保存schema・書き出し処理は変更なし。
+- npm test全89スクリプト/build PASS。音量188,584計算の既存一致試験、境界点確定前後1601点完全一致、表示のみでは保存/履歴を変えないこと、hold/上限256/タッチ二重発火抑止を確認。
+- Chrome Mac/Chromeスマホ寸法（native CDP touch）/WebKitスマホ寸法（mouse drag+native touch doubletap）：動画原音/音声の水平±gain、始終端固定、フェード、中間点、Undo/Redo、横drag移譲、上部trimとの分離、英語案内を確認、pageerrorなし。
+- Chrome Mac/スマホ寸法：1%でもレーン幅を維持、10%で素材幅1/10、遠い配置（Mac90秒・スマホ約43.87秒、既存吸着あり）、Undo/Redo、再読込で時刻保持。スマホnative2点touchの100→25%を確認。表示上限24時間の単体検証追加。
+- Chromeで通常プレビュー、再生中seek/ヘッドdrag継続、Shift loop、素材右クリック/配置先を確認。WebKitはパネル遷移待ちを補った同手順でV3/A4配置を確認。
+- 4音声レーン付き保存→reset→restore、Undo/Redo、再生/seek/停止再開、端末内1080p30 H264/AAC実worker出力と全decode PASS。通常URLの診断UI/observer/GPUtimer/worker hook起動なし。
+- Python実動画/音声/HTTP22試験PASS。初回のNode共有ライブラリ起動失敗は正常なNode24 PATHで失敗箇所以降を再検証。バージョン固定UI試験を83へ更新。
+- 実機iPhone/Safari本体、スピーカーでの聴音、長時間連続編集は今回未確認。WebKit自動試験を実機認証と扱わない。
+
 ## 2.2.82 再生とライブラリ（2026-10-22）
 
 - npm test 89スクリプト/build、Python実動画・音声・HTTP22本PASS。seekの最新世代/停止取消/古い成功・失敗/停止中seek/FXの明示再生とダイアログ復帰の回帰試験を追加。音量188,584計算は引き続き旧式と一致。

@@ -3,7 +3,9 @@ import {zoomFromPinch,anchoredScroll,bindTimelinePinch} from '../dist/timeline-z
 
 assert.equal(zoomFromPinch(2,100,150),3);
 assert.equal(zoomFromPinch(9,100,200),10);
-assert.equal(zoomFromPinch(1.5,100,20),1);
+assert.equal(zoomFromPinch(1.5,100,20),.3);
+assert.equal(zoomFromPinch(1,100,1),.01);
+assert.equal(zoomFromPinch(.25,100,200),.5);
 assert.equal(anchoredScroll(.5,2000,200,400),800);
 assert.equal(anchoredScroll(0,2000,200,400),0);
 assert.equal(anchoredScroll(1,2000,200,400),1600);
@@ -30,3 +32,23 @@ assert.equal(root.scrollLeft,200);
 let wheelPrevented=false;root.emit('wheel',{ctrlKey:true,metaKey:false,deltaY:-10,clientX:120,preventDefault(){wheelPrevented=true}});assert.ok(zoom>3);assert.ok(renders>1);assert.equal(wheelPrevented,true);
 const wheelZoom=zoom;root.emit('gesturestart',{clientX:220,scale:1});root.emit('gesturechange',{clientX:220,scale:.5});root.emit('gestureend',{clientX:220,scale:.5});assert.ok(zoom<wheelZoom);
 console.log('Timeline pinch zoom: limits, pointer binding and focal-point scroll anchoring PASS');
+
+// A wider time range at fixed viewport width keeps the gesture anchored in time.
+const rangeRoot=new FakeTimeline();rangeRoot.scrollLeft=0;rangeRoot.scrollWidth=400;
+let rangeZoom=1;
+bindTimelinePinch({root:rangeRoot,getZoom:()=>rangeZoom,getExtent:()=>10/Math.min(1,rangeZoom),setZoom:v=>rangeZoom=v,render(){}});
+rangeRoot.emit('wheel',{ctrlKey:true,deltaY:Math.log(2)*100,clientX:220});
+assert.ok(Math.abs(rangeZoom-.5)<1e-12);
+assert.equal(rangeRoot.scrollLeft,0);
+
+const {readFileSync}=await import('node:fs');
+const {runInNewContext}=await import('node:vm');
+const app=readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
+const extentSource=app.match(/const timelineExtent=(\(\)=>[^;\n]+);/)[1];
+for(const ui of ['phone','desktop'])for(const zoom of [1,.1,.01,10]){
+ const extent=runInNewContext('('+extentSource+')',{Math,zoom,duration:()=>8,document:{body:{dataset:{ui}}}})();
+ assert.equal(extent,(ui==='phone'?8.8:18)/Math.min(1,zoom));
+}
+assert.equal(runInNewContext('('+extentSource+')',{Math,zoom:.01,duration:()=>86400,document:{body:{dataset:{ui:'phone'}}}})(),86400);
+assert.match(app,/clientWidth\)\*Math.max\(1,zoom\)/);
+console.log('Zoom-out expands editable time while retaining full lane width and the 24-hour bound PASS');

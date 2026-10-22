@@ -409,3 +409,8 @@ body[data-ui=phone] #resetAll>.reset-label{display:none}
 /* Keep both delete actions legible on compact phones. */
 html[lang=en] body[data-ui=phone] .phone-clip-actions button[data-phone-command=duplicateClip]{flex-grow:1.25}
 @media(max-width:360px){body[data-ui=phone] .phone-clip-actions button,html[lang=en] body[data-ui=phone] .phone-clip-actions button{font-size:10px;padding-inline:2px}}
+
+/* Video gain strip keeps its own header, outside the point-editing area. */
+body[data-ui=phone] .video-audio-clip.clip-block>span:not(.trim-handle){left:8px;right:120px;margin-inline:0;max-width:none;font-size:11px}
+body[data-ui=phone] .video-audio-clip.clip-block>small:not(.waveform-progress){left:auto;right:20px;margin-inline:0;max-width:96px;font-size:9px}
+body[data-ui=phone] .video-audio-clip.compact-envelope>span:not(.trim-handle){right:20px}

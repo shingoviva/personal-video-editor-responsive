@@ -436,6 +436,8 @@ const translations=[
 
 
  ["クリップの音量ポイント", "Clip gain points"],
+ ['水平ラインは上下ドラッグで全体音量を調整できます。両端の点は時刻固定で、上下に動かしてフェードを作れます。途中の点はダブルクリック／ダブルタップで追加します。', 'Drag a horizontal line up or down to adjust its overall gain. The start and end handles stay at fixed times; drag them vertically to create fades. Double-click or double-tap to add interior points.'],
+ ['音量ポイントは256個までです。', 'A clip supports up to 256 gain points.'],
  ["カラー・ルックを初期値に戻す", "Reset color and look"],
  ["位置・サイズを初期値に戻す", "Reset position and size"],
  ["速度を1×に戻す", "Reset speed to 1×"],

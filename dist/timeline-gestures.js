@@ -1,4 +1,4 @@
-import {timing,sourceOffset,clamp,trimClip} from './model.js?v=2.2.82';
+import {timing,sourceOffset,clamp,trimClip} from './model.js?v=2.2.83';
 import {sourceLimit} from './assets.js';
 
 // Match visible lane bounds only; separators keep the last valid destination.
@@ -41,7 +41,7 @@ export function bindTimeline({root,rows,duration,select,begin,finish,cancel,prev
    let row=rowById.get(el.dataset.clip);if(!row)return;const elementById=new Map([...timelineRoot.querySelectorAll('[data-clip],[data-fx],[data-text-chip]')].map(node=>[node.dataset.clip||node.dataset.fx||node.dataset.textChip,node]));
    const rawEdge=e.target.closest('[data-edge]')?.dataset.edge;
    const edge=globalThis.document?.body?.dataset.ui==='phone'&&!globalThis.document.body.classList.contains('phone-moving')&&!el.classList.contains?.('selected')?null:rawEdge;
-   const phoneScroll=e.pointerType==='touch'&&globalThis.document?.body?.dataset.ui==='phone'&&!edge&&!globalThis.document.body.classList.contains('phone-moving');
+   const phoneScroll=!e.timelineEnvelopeMove&&e.pointerType==='touch'&&globalThis.document?.body?.dataset.ui==='phone'&&!edge&&!globalThis.document.body.classList.contains('phone-moving');
    const origin=structuredClone(row.clip),x=e.clientX,y=e.clientY;
    let moved=false,copied=false,lastPreview=0,ghost=null,companions=[],others=[],feedbackLayer=null;const sourceRow=row;
    if(e.pointerType!=='touch')e.preventDefault?.();select(row.clip.id,e);if(!e.timelineTouchManaged)el.setPointerCapture(e.pointerId);
