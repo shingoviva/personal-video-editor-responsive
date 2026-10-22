@@ -4,6 +4,7 @@
 - Chrome/Playwright WebKit：7レーン×ステレオ、各1,008,000レーン別PCMと固定順合算が誤差0。Chrome native mixerの別context間では旧/旧でも最大2.98e-8の丸め差あり。詳細は最適化01レポート。
 - Python実動画・音声処理試験22本PASS。H.264/AAC・ProRes・フェード・トランジション・重ね合成・字幕・FX・速度・複数音声・実HTTP配信を含む。localhost試験はsandbox loopback制限による失敗後、必要権限で再実行してPASS。
 - 隔離Chrome通常URL：音声4レーン付き.project保存→リセット→再読み込み→プレビュー→シーク・停止・再開、Undo/Redo成功。端末内WebCodecs/workerで1080p30、36フレームの実H.264/AAC書き出し・全フレームdecode成功。
+- 音量モジュールの依存URLも2.2.81へ統一し、旧unversioned mobile-modelが残る状況を再現して起動/再生/保存復元/端末書き出しを確認。依存URLの版番号一致を回帰試験へ追加。
 - 通常URLで診断panel/global/controller/activeなし、PerformanceObserver生成0、GPU timer extension要求0、Worker/getContextフックなし、診断UI module未読込。診断URLの複合F再生・JSON/Markdown出力・clear成功。JSON schema12レポート・比較CLIの利用を維持。
 - Mac ZIPを公開対象だけから生成し、2.2.81・schema同梱・Feature Lab非混入を確認。展開したZIPで新音量試験・診断試験PASS。
 - 実機iPhone/Safari本体、実スピーカー聴音・出力遅延、長時間編集、Mac Launch.commandのGUI操作は未検証。Playwright WebKitの素材永続化は既知の一時環境制限のためメモリー内素材経路だけを確認。

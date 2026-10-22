@@ -11,7 +11,7 @@
 - 音量最適化：dist/audio-preview.js、dist/mobile-model.js。
 - 診断：preview-diagnostics/performance-report/performance-diagnostics-uiとapp/creative/media-state/motion-transform/preview-playback-scheduler/preview/text-renderの計測hook。
 - 回帰試験、診断用fixture・schema・計測/比較CLI、設計/診断/最適化資料、before/after生JSONをdocs/performance-evidence/optimization-01へ保存。
-- package.json/lock、distの版付き参照、engine/core.pyのbuild表記を2.2.81へ統一。ui-polish試験の固定cache期待値も更新。
+- package.json/lock、distの版付き参照、engine/core.pyのbuild表記を2.2.81へ統一。ui-polish試験の固定cache期待値も更新。audio-preview/mobile-render-worker/material-fx-workerのmobile-model依存URLにも版番号を付け、旧キャッシュに新しいexportがない問題を予防。旧unversioned応答を残した実ブラウザー回帰と依存URL試験を追加。
 - README/VALIDATION/GITHUB_PUBLISHINGに履歴。Mac ZIPとpackage-mac.pyに新診断試験が必要とするschemaを同梱。
 - 対象外：Feature Lab HTML/dist/lab、setup-feature-lab.py、feature-lab.test.mjs、test:feature-labコマンド、Lab用.gitignore変更。これらは元の作業ツリーに保持し、cleanな公開候補へ含めません。
 
@@ -33,4 +33,4 @@ Safari本体/iPhone実機、実音声の聴音と出力latency、長時間編集
 
 mainの対象差分を明示ステージしてcommitし、同一HEADを既存GitHub repoとSites sourceへ通常push。Validate editor成功を確認後、手動Pages workflowと既存public Sitesへ配信。Sitesのaccess policyは変更しません。公開URLの2.2.81配信・通常画面・保存復元・再生・書き出しを確認します。公開結果のcommit/Actions/deployment IDは最終報告へ記録します。
 
-問題時はユーザーに.project保存を案内してから、履歴を改変せず対象リリースcommitをgit revertし、同じValidate→Pages公開手順で戻します。元の安定HEADは54c7cf28889eecd79b9d4a7491314f9b6213f7ea（2.2.80）。Sitesはversion72を既存public audienceへ再deployできます。ブラウザー保存領域は消去しません。Mac ZIPも直前版へ戻し、キャッシュ解消のため再読み込みを案内します。データschemaは変更していません。
+問題時はユーザーに.project保存を案内してから、履歴を改変せず2.2.81の2コミットを新しい順（依存URL対策→最適化本体）にgit revertし、同じValidate→Pages公開手順で戻します。元の安定HEADは54c7cf28889eecd79b9d4a7491314f9b6213f7ea（2.2.80）。Sitesはversion72を既存public audienceへ再deployできます。ブラウザー保存領域は消去しません。Mac ZIPも直前版へ戻し、キャッシュ解消のため再読み込みを案内します。データschemaは変更していません。

@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {gainAt,gainAtCompiled,compileGainKeyframes,declickGain} from '../dist/mobile-model.js';
 import {AudioPreview} from '../dist/audio-preview.js';
@@ -35,3 +36,7 @@ const saved=structuredClone(editable);schedule(editable,1);editable.gainKeyframe
 let filters=0;const keys=[{time:0,value:.5},{time:8,value:1}];keys.filter=function(...args){filters++;return Array.prototype.filter.apply(this,args)};
 const g=makeGraph(),c={audio:{volume:1,fadeIn:0,fadeOut:0,gainKeyframes:keys}};context.currentTime=100;AudioPreview.prototype.scheduleGain.call(receiver,g,c,1,8,1,true);assert.equal(filters,1);const curve=g.output.gain.events.at(-1)[1];assert.equal(curve.length,7200);context.currentTime+=.01;AudioPreview.prototype.scheduleGain.call(receiver,g,c,1.01,8,1,true);assert.equal(filters,1);c.audio.gainKeyframes[0].value=0;AudioPreview.prototype.scheduleGain.call(receiver,g,c,1.01,8,1,true);assert.equal(filters,2);
 assert.equal(maxError,0);console.log(JSON.stringify({result:'PASS',doubleComparisons:samples,maxAbsoluteError:maxError,float32CurvesCompared:curves,curveSamples:7200,compilationsPerCurve:1,semantics:'duplicates, clamps, fades, hold, seek, pause/resume, lane gains, edits and Undo/import snapshots'}));
+
+// A cached pre-compile mobile-model module must not satisfy a new release import.
+const version=JSON.parse(fs.readFileSync(new URL('../package.json',import.meta.url))).version;
+for(const name of ['audio-preview.js','mobile-render-worker.js','material-fx-worker.js'])assert(fs.readFileSync(new URL('../dist/'+name,import.meta.url),'utf8').includes("from './mobile-model.js?v="+version+"'"),'Versioned gain module dependency: '+name);

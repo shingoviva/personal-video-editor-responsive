@@ -9,7 +9,7 @@ import {clipAlpha,effectAlpha} from './creative.js?v=2.2.81';
 import {imageBitmap} from './image-media.js';
 import {renderer} from './preview.js?v=2.2.81';
 import {sequence,visibleSequence,timing,sourceOffset,total} from './model.js?v=2.2.81';
-import {outputSettings,sourceTime,gainAt,held,mixWindow,limitStereo,declickGain} from './mobile-model.js';
+import {outputSettings,sourceTime,gainAt,held,mixWindow,limitStereo,declickGain} from './mobile-model.js?v=2.2.81';
 import {stabilizationPathFromFrames,correctionAt,stabilizationSampleCount} from './mobile-stabilize.js?v=2.2.81';
 import {drawTextCanvas,drawTextRasterCanvas} from './text-render.js';
 import {motionTransform} from './motion-transform.js';
