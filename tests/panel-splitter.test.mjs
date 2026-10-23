@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {panelWidths,bindPanelSplitters} from '../dist/panel-splitter.js';
+import {panelWidths,bindPanelSplitters} from '../dist/panel-splitter.js?v=2.2.84';
 
 assert.deepEqual(panelWidths(260,0,1200),{media:260,inspector:690});
 assert.equal(panelWidths(20,0,900).media,150);
@@ -27,7 +27,7 @@ try{
 }finally{globalThis.document=previousDocument}
 console.log('Column resize pointer ownership, interrupted rollback and subsequent save PASS');
 
-const {bindWorkspaceSplitter}=await import('../dist/workspace-splitter.js');
+const {bindWorkspaceSplitter}=await import('../dist/workspace-splitter.js?v=2.2.84');
 const oldWindow=globalThis.window,oldDocument=globalThis.document;
 globalThis.window={addEventListener(){},removeEventListener(){}};globalThis.document={body:{classList:classes()}};
 try{

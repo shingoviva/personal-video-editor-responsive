@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import {project,clip,sequence,timing,sanitize} from '../dist/model.js';
-import {detachAudio} from '../dist/audio-timeline.js';
-import {linkedAudio,syncLinkedAudio,setAudioLinked,splitLinkedPair,removeLinkedAudio} from '../dist/linked-audio.js';
+import {project,clip,sequence,timing,sanitize} from '../dist/model.js?v=2.2.84';
+import {detachAudio} from '../dist/audio-timeline.js?v=2.2.84';
+import {linkedAudio,syncLinkedAudio,setAudioLinked,splitLinkedPair,removeLinkedAudio} from '../dist/linked-audio.js?v=2.2.84';
 const media={id:'source',name:'source.mov',kind:'video',duration:12,width:1920,height:1080,audio:true};
 const p=project();p.media=[media];const video=clip(media);video.start=1;video.in=2;video.out=10;p.clips=[video];
 const audio=detachAudio(p,video.id,1);assert(audio?.linked);assert.equal(audio.sourceClip,video.id);assert.equal(video.audioDetached,audio.id);

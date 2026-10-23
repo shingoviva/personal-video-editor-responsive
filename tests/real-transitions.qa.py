@@ -4,13 +4,26 @@ from PIL import Image,ImageDraw
 import numpy as np
 
 repo=pathlib.Path(__file__).resolve().parent.parent
-sources=[repo/'.qa-media/real/IMG_7917.mov',repo/'.qa-media/real/IMG_7697.MP4']
+qa_media=pathlib.Path(os.environ.get('PVE_QA_MEDIA_DIR',str(repo/'.qa-media/real')))
+sources=[qa_media/'IMG_7917.mov',qa_media/'IMG_7697.MP4']
 if not all(path.is_file() for path in sources):
  print('SKIP: place IMG_7917.mov and IMG_7697.MP4 in .qa-media/real/');raise SystemExit(0)
-artifact=pathlib.Path('/tmp/pve-real-transition-qa');shutil.rmtree(artifact,ignore_errors=True);artifact.mkdir()
+artifact=pathlib.Path(tempfile.mkdtemp(prefix='pve-real-transition-qa-'))
 
 with tempfile.TemporaryDirectory(prefix='pve-real-transition-engine-') as data:
  os.environ['PVE_DATA']=data;sys.path.insert(0,str(repo/'engine'));import core
+ clock_checks=[];original_run=core.run
+ def checked_run(job,args,*rest,**kwargs):
+  # B4 regression: a timestamp-only video encode must never return.
+  assert pathlib.Path(str(args[-1])).stem!='timed','B4 lossy timing repair returned'
+  result=original_run(job,args,*rest,**kwargs)
+  if pathlib.Path(str(args[-1])).stem=='joined':
+   fps=60 if 'final' in job['id'] else 30;frames=math.ceil(rest[0]*fps-1e-8)
+   assert '-vf' not in args and args[args.index('-c')+1]=='copy'
+   assert core.video_timing_matches(args[-1],frames,fps)
+   clock_checks.append({'job':job['id'],'fps':fps,'frames':frames,'copyWithoutVideoFilter':True,'allPacketClockValid':True})
+  return result
+ core.run=checked_run
  media=[core.inspect(path,f'real-{i}',path.name) for i,path in enumerate(sources)]
  specs=[
   (media[0],2,4,None),(media[1],5,7,{'type':'dissolve','duration':.8,'direction':'left'}),
@@ -93,6 +106,6 @@ with tempfile.TemporaryDirectory(prefix='pve-real-transition-engine-') as data:
  cols=3;tw,th=thumbs[0].size;sheet=Image.new('RGB',(tw*cols,th*math.ceil(len(thumbs)/cols)),(8,10,9))
  for i,image in enumerate(thumbs):sheet.paste(image,((i%cols)*tw,(i//cols)*th))
  sheet.save(artifact/'transition-contact-sheet.jpg',quality=92)
- report={'sources':[{'name':m['name'],'codec':m['codec'],'fps':m['fps'],'rotation':m['rotation'],'duration':m['duration']} for m in media],'preview':test_result,'final':final_result,'checks':checks}
+ report={'nativeClockChecks':clock_checks,'clockOnlyVideoEncodes':0,'sources':[{'name':m['name'],'codec':m['codec'],'fps':m['fps'],'rotation':m['rotation'],'duration':m['duration']} for m in media],'preview':test_result,'final':final_result,'checks':checks}
  (artifact/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))
  print('Real transition QA PASS');print(json.dumps(report,ensure_ascii=False,indent=2));print('ARTIFACT',artifact)

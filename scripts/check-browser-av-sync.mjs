@@ -1,0 +1,31 @@
+// Real macOS Chrome WebCodecs export. Pair with check-browser-av-sync.py.
+import fs from 'node:fs/promises';import {pathToFileURL} from 'node:url';
+const [base,output]=process.argv.slice(2),{chromium,webkit}=await import(pathToFileURL(process.env.PVE_PLAYWRIGHT_MODULE));
+const filter=process.argv[4],engine=process.env.PVE_BROWSER==='webkit'?webkit:chromium;const persistent=process.env.PVE_PERSISTENT_PROFILE?await engine.launchPersistentContext(process.env.PVE_PERSISTENT_PROFILE,{...(process.env.PVE_BROWSER==='webkit'?{}:{channel:'chrome'}),headless:true}):null;const browser=persistent?.browser()||await engine.launch({...(process.env.PVE_BROWSER==='webkit'?{}:{channel:'chrome'}),headless:true});let rows=[];if(filter){try{rows=JSON.parse(await fs.readFile(output+'/renders.json','utf8')).rows.filter(r=>!new RegExp(filter).test(r.case.mode+':'+r.case.id))}catch(e){if(e.code!=='ENOENT')throw e}}
+try{
+ const context=persistent||await browser.newContext();let inputs=[];
+ await context.route('**/mobile-render-worker.js*',async route=>{const response=await route.fetch();let body=await response.text();const instrument=`const _AudioEncoder=globalThis.AudioEncoder;globalThis.AudioEncoder=class extends _AudioEncoder{encode(sample){const plane=new Float32Array(sample.numberOfFrames);sample.copyTo(plane,{planeIndex:0,format:'f32-planar'});let s='';for(const b of new Uint8Array(plane.buffer))s+=String.fromCharCode(b);console.log('PVEINPUT'+JSON.stringify({timestamp:sample.timestamp,frames:sample.numberOfFrames,rate:sample.sampleRate,plane:btoa(s)}));super.encode(sample)}};\n`;await route.fulfill({response,body:instrument+body})});
+ const page=await context.newPage();page.on('console',msg=>{const text=msg.text();if(text.startsWith('PVEINPUT'))inputs.push(JSON.parse(text.slice(8)))});await page.goto(base);
+ const cases=await page.evaluate(async()=>await(await fetch('/qa-browser-sync/manifest.json')).json());
+ for(const original of cases.filter(c=>!filter||new RegExp(filter).test(c.mode+':'+c.id))){const c={...original,referencePCM:process.env.PVE_REFERENCE_PCM==='1'};inputs=[];const began=performance.now();const data=await page.evaluate(async c=>{
+  const {project,clip}=await import('/dist/model.js'),{renderOnDevice,deleteRender}=await import('/dist/mobile-export.js');
+  const video={id:'v',kind:'video',name:'synthetic.mp4',width:96,height:54,fps:60,duration:c.duration,audio:true};const p=project();p.media=[video];p.clips=[clip(video)];p.clips[0].audio.volume=.4;
+  const referencePCM=!!c.referencePCM;const videoPath=referencePCM&&c.codec==='aac'&&c.mode==='linked'?c.source.replace('.mp4','-decoded.mov'):c.codec==='pcm'&&c.mode==='linked'?c.source.replace('.mp4','.mov'):c.source;const files=[{id:'v',file:new File([await(await fetch('/qa-browser-sync/'+videoPath)).blob()],'synthetic.mp4')}];
+  if((referencePCM&&c.codec==='aac'&&c.mode!=='linked')||(c.codec==='pcm'&&c.mode!=='linked')||['trim','multi','envelope','split'].includes(c.mode)){
+   p.clips[0].audio.mute=true;const audio={id:'a',kind:'audio',name:c.media,duration:c.duration,audio:true};p.media.push(audio);files.push({id:'a',file:new File([await(await fetch('/qa-browser-sync/'+(referencePCM&&c.codec==='aac'?c.source.replace('.mp4','-decoded.wav'):c.media))).blob()],c.media)});
+   p.audioClips=[{...clip(audio),start:0,layer:0}];p.audioClips[0].audio.volume=.4;
+  }
+  const target=p.audioClips[0]||p.clips[0];
+  if(c.mode==='trim'){Object.assign(target,{in:.123,out:1.877,start:.211});}
+  if(c.mode==='multi'){p.audioClips.push({...structuredClone(target),id:'lane2',layer:1,audio:{...target.audio,volume:.2}});}
+  if(c.mode==='envelope'){target.audio.gainEnvelope=[{time:0,valueDb:-6,interpolation:'hold'},{time:.5007,valueDb:2,interpolation:'linear'},{time:1.003,valueDb:-4,interpolation:'hold'},{time:1.5,valueDb:1,interpolation:'linear'},{time:2,valueDb:-3,interpolation:'linear'}]}
+  if(c.mode==='split'){/* Use the public envelope splitter; source times remain exact. */const {splitEnvelope}=await import('/dist/clip-envelope.js');target.audio.gainEnvelope=[{time:0,valueDb:-6,interpolation:'hold'},{time:.5,valueDb:2,interpolation:'linear'},{time:2,valueDb:-2,interpolation:'linear'}];const split=.498;const env=splitEnvelope(target.audio.gainEnvelope,split,2);const right=structuredClone(target);right.id='right';right.in=split;right.start=split;target.out=split;target.audio.gainEnvelope=env[0];right.audio.gainEnvelope=env[1];p.audioClips.push(right)}
+  if(c.mode==='linked'){const {detachAudio}=await import('/dist/audio-timeline.js');const detached=detachAudio(p,p.clips[0].id);if(!detached)throw Error('linked fixture failed');}
+  p.export={...p.export,fps:c.fps,resolution:'Source',quality:'High',audioBitrate:c.bitrate?String(c.bitrate):'Auto'};const before=JSON.stringify(p),result=await renderOnDevice(p,files);if(JSON.stringify(p)!==before)throw Error('project mutated');
+  const dir=await(await navigator.storage.getDirectory()).getDirectoryHandle('pve-iphone-renders');const f=await(await dir.getFileHandle(result.path)).getFile();const bytes=Array.from(new Uint8Array(await f.arrayBuffer()));await deleteRender(result.path);return{bytes,result};
+ },c);
+ await fs.writeFile(output+'/'+c.id+'.mp4',Buffer.from(data.bytes));await fs.writeFile(output+'/'+c.id+'-inputs.json',JSON.stringify(inputs));rows.push({case:c,result:data.result,elapsedSeconds:(performance.now()-began)/1000});console.log(c.id+' priming='+data.result.audioTiming.primingSamples);await fs.writeFile(output+'/renders.json',JSON.stringify({variant:'fixed',browser:browser.version(),platform:process.platform,rows},null,2));
+ }
+ await context.close();
+}finally{await browser.close()}
+let webkitReport;try{const b=await webkit.launch({headless:true});try{const page=await b.newPage();await page.goto(base);webkitReport=await page.evaluate(async()=>({userAgent:navigator.userAgent,AudioEncoder:!!globalThis.AudioEncoder,VideoEncoder:!!globalThis.VideoEncoder,aac:globalThis.AudioEncoder?await AudioEncoder.isConfigSupported({codec:'mp4a.40.2',sampleRate:48000,numberOfChannels:2,bitrate:192000}):null}));}finally{await b.close()}}catch(e){webkitReport={unavailable:e.message}}await fs.writeFile(output+'/webkit.json',JSON.stringify(webkitReport,null,2));

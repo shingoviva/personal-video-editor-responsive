@@ -1,5 +1,5 @@
-import {sequence,audioSequence,timing,trimClip,anchor} from './model.js?v=2.2.83';
-import {syncLinkedAudio} from './linked-audio.js';
+import {sequence,audioSequence,timing,trimClip,anchor} from './model.js?v=2.2.84';
+import {syncLinkedAudio} from './linked-audio.js?v=2.2.84';
 export function reorderPhoneClip(p,id,direction){
  const c=[...p.clips,...p.audioClips].find(c=>c.id===id);if(!c)return false;
  const rows=(c.kind==='audio'?audioSequence(p):sequence(p)).filter(r=>r.layer===(c.layer||0)).sort((a,b)=>a.start-b.start),i=rows.findIndex(r=>r.clip.id===id),other=rows[i+direction];if(!other)return false;

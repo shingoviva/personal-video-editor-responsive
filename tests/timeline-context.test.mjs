@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {timeAtTimelinePoint,canSplitTimelineRow,contextMenuPosition} from '../dist/timeline-context.js';
+import {timeAtTimelinePoint,canSplitTimelineRow,contextMenuPosition} from '../dist/timeline-context.js?v=2.2.84';
 
 const row={start:4,end:10,duration:6,clip:{}},rect={left:100,width:600};
 assert.equal(timeAtTimelinePoint(row,100,rect),4);

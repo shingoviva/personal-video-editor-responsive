@@ -1,11 +1,11 @@
-import {invalidateMaterialResults} from '../dist/material-fx.js';
-import {orderedEffects} from '../dist/effect-order.js';
+import {invalidateMaterialResults} from '../dist/material-fx.js?v=2.2.84';
+import {orderedEffects} from '../dist/effect-order.js?v=2.2.84';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-import {createMediaResourceCache} from '../dist/media-resource-cache.js';
-import {StillPreview} from '../dist/image-media.js';
-const app=fs.readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
+import {createMediaResourceCache} from '../dist/media-resource-cache.js?v=2.2.84';
+import {StillPreview} from '../dist/image-media.js?v=2.2.84';
+const app=fs.readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
 const section=(start,end)=>{const i=app.indexOf(start),j=app.indexOf(end,i+start.length);assert(i>=0&&j>i,start);return app.slice(i,j)};
 const line=start=>app.split('\n').find(l=>l.startsWith(start));
 const project=(...ids)=>({media:ids.map(id=>({id})),clips:[],effects:[],texts:[],name:'Resource test'});

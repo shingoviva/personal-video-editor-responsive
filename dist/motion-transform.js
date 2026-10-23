@@ -1,6 +1,6 @@
-import {activeDiagnostics} from './preview-diagnostics.js?v=2.2.83';
-import {clamp} from './model.js?v=2.2.83';
-import {scaleAt} from './creative.js?v=2.2.83';
+import {activeDiagnostics} from './preview-diagnostics.js?v=2.2.84';
+import {clamp} from './model.js?v=2.2.84';
+import {scaleAt} from './creative.js?v=2.2.84';
 
 export function motionTransform(clip,local,duration){const diagnosticStart=activeDiagnostics?.begin('evaluation.scaleMotion');try{
  const preset=clip.motionPreset||'none';if(preset==='none'&&!(clip.scaleKeyframes||[]).length)return clip;

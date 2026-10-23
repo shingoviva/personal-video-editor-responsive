@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {shouldBlockBrowserZoom,isBrowserZoomShortcut,bindNativeShell} from '../dist/native-shell.js';
+import {shouldBlockBrowserZoom,isBrowserZoomShortcut,bindNativeShell} from '../dist/native-shell.js?v=2.2.84';
 
 const timelineTarget={},outside={},timeline={contains:target=>target===timelineTarget,getBoundingClientRect:()=>({left:100,right:500,top:600,bottom:900})};
 assert.equal(shouldBlockBrowserZoom({type:'wheel',ctrlKey:true,target:outside},timeline),true);

@@ -1,6 +1,6 @@
-import {clipAlpha} from './creative.js?v=2.2.83';
-import {timing} from './model.js?v=2.2.83';
-import {transitionState,normalizeTransition} from './transition.js?v=2.2.83';
+import {clipAlpha} from './creative.js?v=2.2.84';
+import {timing} from './model.js?v=2.2.84';
+import {transitionState,normalizeTransition} from './transition.js?v=2.2.84';
 // Compile once per playback, not per animation frame. Includes brief fades and
 // opacity points that a single look-ahead sample could miss.
 export function compilePreviewPlan(rows,end){

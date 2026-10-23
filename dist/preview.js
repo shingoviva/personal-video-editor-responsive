@@ -1,5 +1,5 @@
-import {diagnosticsController} from './preview-diagnostics.js?v=2.2.83';
-import {curveLUT} from './tone-curve.js';
+import {diagnosticsController} from './preview-diagnostics.js?v=2.2.84';
+import {curveLUT} from './tone-curve.js?v=2.2.84';
 export function previewDimensions(sw,sh,aspect,{width,height,phone=false,longEdge=960}={}){
  if(width)return {width:Math.round(width),height:Math.round(height)};
  const ar=aspect==='Original'?sw/sh:aspect.split(':').map(Number).reduce((a,b)=>a/b);

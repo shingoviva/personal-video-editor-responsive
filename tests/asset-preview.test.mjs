@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {bindAssetVideoPreviews,startAssetVideoPreview,stopAssetVideoPreviews,releaseAssetAudition} from '../dist/asset-preview.js';
+import {bindAssetVideoPreviews,startAssetVideoPreview,stopAssetVideoPreviews,releaseAssetAudition} from '../dist/asset-preview.js?v=2.2.84';
 
 const video={muted:false,playsInline:false,duration:3,currentTime:0,played:0,paused:0,async play(){this.played++},pause(){this.paused++}};
 const root={querySelectorAll:()=>[video]};

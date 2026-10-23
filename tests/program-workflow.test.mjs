@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
-import {project,clip,sanitize} from '../dist/model.js';
-import {effectAlpha} from '../dist/creative.js';
-import {sequentialCaptions,youtubeProgramPlan,applyYoutubeProgram} from '../dist/program-workflow.js';
-import {captionPresets} from '../dist/caption-presets.js';
-import {clampTimelineHeight,timelineRatio} from '../dist/workspace-splitter.js';
+import {project,clip,sanitize} from '../dist/model.js?v=2.2.84';
+import {effectAlpha} from '../dist/creative.js?v=2.2.84';
+import {sequentialCaptions,youtubeProgramPlan,applyYoutubeProgram} from '../dist/program-workflow.js?v=2.2.84';
+import {captionPresets} from '../dist/caption-presets.js?v=2.2.84';
+import {clampTimelineHeight,timelineRatio} from '../dist/workspace-splitter.js?v=2.2.84';
 
 const ids=['a','b','c'];
 const captions=sequentialCaptions('最初のセリフ\n\n次のセリフ\n強調',{start:2,duration:1.5,gap:.1,limit:8,id:()=>ids.shift(),style:captionPresets.varietyYellow.style});

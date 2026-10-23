@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {createLookThumbnailQueue} from '../dist/look-thumbnail-queue.js';
+import {createLookThumbnailQueue} from '../dist/look-thumbnail-queue.js?v=2.2.84';
 let id=0;const frames=new Map(),painted=[];
 const queue=createLookThumbnailQueue({request:fn=>{frames.set(++id,fn);return id},cancel:n=>frames.delete(n)});
 const step=()=>{const [n,fn]=frames.entries().next().value;frames.delete(n);fn()};
@@ -9,7 +9,7 @@ let valid=true;queue.start([4,5],v=>painted.push(v),()=>valid);valid=false;step(
 queue.start([6,7],v=>painted.push(v));queue.start([8],v=>painted.push(v));step();assert.deepEqual(painted,[1,8]);assert.equal(frames.size,0);
 console.log('LOOK samples: one readback per frame, tab cancellation, stale work and replacement PASS');
 const {readFileSync}=await import('node:fs');const vm=await import('node:vm');
-const app=readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
+const app=readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
 const body=app.slice(app.indexOf('function drawLookThumbnails(){'),app.indexOf('\nfunction useAudio'));
 let draws=0,encodes=0;const imgs=[0,1,2].map(()=>({isConnected:true,hidden:true})),source={readyState:2,currentTime:1,videoWidth:3840,videoHeight:2160},clip={id:'c',scale:1,x:.5,y:.5};
 const canvases=[];const scope={tab:'look',playing:false,selected:'c',previewRow:()=>({clip}),current:()=>clip,mediaOf:()=>({id:'m',kind:'video'}),video:source,getPresets:()=>({a:{},b:{},c:{}}),lookThumbCanvas:null,lookThumbPainter:null,lookThumbCache:null,lookThumbQueue:queue,renderer:()=>({draw(){draws++}}),document:{querySelector:s=>imgs[Number(s.match(/"(\d+)"/)[1])],createElement:()=>{const c={width:0,height:0,getContext:()=>({drawImage(){}}),toDataURL(){encodes++;return 'sample'+encodes}};canvases.push(c);return c}}};

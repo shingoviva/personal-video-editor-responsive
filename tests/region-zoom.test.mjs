@@ -1,8 +1,8 @@
-import {regionZoomDrag} from '../dist/region-zoom-ui.js';
+import {regionZoomDrag} from '../dist/region-zoom-ui.js?v=2.2.84';
 import assert from 'node:assert/strict';
-import {normalizeRegionZoom,regionZoomPose,regionZoomTransform,drawRegionZoom} from '../dist/region-zoom.js';
-import {project,sanitize} from '../dist/model.js';
-import {addEffect,effectAlpha} from '../dist/creative.js';
+import {normalizeRegionZoom,regionZoomPose,regionZoomTransform,drawRegionZoom} from '../dist/region-zoom.js?v=2.2.84';
+import {project,sanitize} from '../dist/model.js?v=2.2.84';
+import {addEffect,effectAlpha} from '../dist/creative.js?v=2.2.84';
 const e={type:'region-zoom',start:2,duration:4,zoomSize:.25,zoomX:.25,zoomY:.75,zoomIn:.2,zoomOut:.4,returnAt:2,zoomReturn:true};
 assert.equal(regionZoomPose(e,1).scale,1);assert.equal(regionZoomPose(e,2).scale,1);assert.ok(Math.abs(regionZoomPose(e,2.1).scale-2.5)<1e-9);assert.equal(regionZoomPose(e,3).scale,4);assert.equal(regionZoomPose(e,4.4).scale,1);assert.equal(regionZoomPose({...e,zoomReturn:false},5.99).scale,4);assert.equal(regionZoomPose(e,6).scale,1);
 const pose=regionZoomPose(e,3);assert.equal((.25-.5)*pose.scale+.5+pose.x, .5);assert.equal((.75-.5)*pose.scale+.5+pose.y,.5);
@@ -16,7 +16,7 @@ console.log('Region zoom geometry, timing, instant/return/hold, bounds, persiste
 
 // A phone touch owns only its pointer, blocks sheet scroll and rolls back when
 // Safari cancels capture. The next gesture must remain usable.
-const {bindRegionZoomFrame,regionZoomHandlePosition}=await import('../dist/region-zoom-ui.js');
+const {bindRegionZoomFrame,regionZoomHandlePosition}=await import('../dist/region-zoom-ui.js?v=2.2.84');
 let down,changes=[],starts=0,ends=[],capture;
 const frame={parentElement:{getBoundingClientRect:()=>({width:400,height:200})},addEventListener:(name,fn)=>{if(name==='pointerdown')down=fn},setPointerCapture:id=>capture=id,releasePointerCapture:id=>{assert.equal(id,capture)}};
 bindRegionZoomFrame(frame,{getEffect:()=>({...e,zoomSize:.4,zoomX:.5,zoomY:.5}),begin:()=>starts++,change:value=>changes.push(value),finish:(cancel,initial)=>ends.push({cancel,initial})});
@@ -36,7 +36,7 @@ for(const target of [{zoomSize:.1,zoomX:.05,zoomY:.05},{zoomSize:.1,zoomX:.95,zo
 console.log('Phone region frame touch move/resize, scroll exclusion, lost capture recovery and edge handle bounds PASS');
 
 // Removing the last zoom must release the transform compositor, including undo/redo.
-const {previewZoomStyle,focusOverlayMarkup}=await import('../dist/preview-effects.js');
+const {previewZoomStyle,focusOverlayMarkup}=await import('../dist/preview-effects.js?v=2.2.84');
 assert.equal(previewZoomStyle(regionZoomTransform([e],3)).includes('scale(4)'),true);
 assert.equal(previewZoomStyle(regionZoomTransform([],3)),'none');
 assert.equal(previewZoomStyle(regionZoomTransform([e],7)),'none');

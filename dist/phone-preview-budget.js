@@ -12,4 +12,4 @@ export class PhonePreviewBudget {
  }
 }
 // Preserve the phone module API while desktop uses the same scheduler.
-export {PreviewPlaybackScheduler as PhonePlaybackScheduler} from './preview-playback-scheduler.js';
+export {PreviewPlaybackScheduler as PhonePlaybackScheduler} from './preview-playback-scheduler.js?v=2.2.84';

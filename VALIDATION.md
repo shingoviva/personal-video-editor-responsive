@@ -1,3 +1,12 @@
+## 2.2.84 安定化候補（公開承認待ち）
+
+- 隔離release/pve-2.2.84で全93JS/build、Python/FFmpeg/HTTP29本PASS。研究用free fixture testを配布から外し、正式muxの構造／失敗・取消・再試行を維持。
+- 新規Chrome47＋WebKit47、独立282比較／1314markerでlag/drift0sample。既知AAC品質FAILは元基準のまま記録し、新規悪化なし。
+- B1〜B4実操作・保存復元・OPFS、Mac等速44／B4時計32・10bit、実写transition24比較PASS（dissolve+.2s MAE 3.138）。
+- package/lock/UI/engine/cacheを84統一、200JS/Worker参照を検査。依存MediaBunny1.56.0維持、patch再適用／未知版停止を確認。
+- 元のtext02/Labと未公開差分を保持。ユーザーがMac/Chrome/iPhone-Safariを実機受入済みと申告。物理2msのagent測定ではない。
+- 詳細 [リリース報告](docs/PVE-2.2.84-RELEASE-REPORT.md)。push/tag/公開は承認まで未実施。
+
 ## 2.2.83 音量ライン・タイムライン縮小（2026-10-22）
 
 - 公開候補は2.2.82から音量ラインUIと時間軸縮小のみを選別。静的文字最適化02、Feature Lab、開発環境整理は除外。音声DSP・保存schema・書き出し処理は変更なし。

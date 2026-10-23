@@ -1,7 +1,7 @@
 // Classic worker permits MediaPipe's WASM loader; model is loaded only on Analyze.
 onmessage=async({data})=>{let input,detector;try{
  const [{Input,ALL_FORMATS,BlobSource,UrlSource,CanvasSink},{FilesetResolver,FaceDetector},{sourceTime},{followFace},{compactTrackPath}]=await Promise.all([
- import('./vendor/mediabunny.mjs'),import('./vendor/face/vision_bundle.mjs'),import('./mobile-model.js'),import('./face-follow.js'),import('./material-fx.js')]);
+ import('./vendor/mediabunny.mjs?v=2.2.84'),import('./vendor/face/vision_bundle.mjs?v=2.2.84'),import('./mobile-model.js?v=2.2.84'),import('./face-follow.js?v=2.2.84'),import('./material-fx.js?v=2.2.84')]);
  const {row,start,duration,region}=data;if(duration<=0||duration>30)throw Error('顔追従の解析区間は30秒以内にしてください。');
  postMessage({type:'progress',value:0});
  const files=await FilesetResolver.forVisionTasks(new URL('./vendor/face/wasm/',self.location.href).href);

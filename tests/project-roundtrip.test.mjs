@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {clip,project,sanitize} from '../dist/model.js';
-import {captionDefaults} from '../dist/caption-presets.js';
+import {clip,project,sanitize} from '../dist/model.js?v=2.2.84';
+import {captionDefaults} from '../dist/caption-presets.js?v=2.2.84';
 
 const p=project();
 p.id='complex-roundtrip';p.name='YouTube variety edit';p.aspect='16:9';p.intent='CINEMATIC';

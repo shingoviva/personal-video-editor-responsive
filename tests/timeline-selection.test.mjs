@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {normalizedRect,rectsIntersect,idsInRect,bindTimelineMarquee} from '../dist/timeline-selection.js';
+import {normalizedRect,rectsIntersect,idsInRect,bindTimelineMarquee} from '../dist/timeline-selection.js?v=2.2.84';
 
 assert.deepEqual(normalizedRect({x:80,y:70},{x:20,y:10}),{left:20,top:10,right:80,bottom:70,width:60,height:60});
 assert.equal(rectsIntersect({left:0,top:0,right:20,bottom:20},{left:20,top:20,right:30,bottom:30}),true);

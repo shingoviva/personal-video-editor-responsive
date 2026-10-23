@@ -1,4 +1,4 @@
-import{mediaKind}from'./assets.js';
+import{mediaKind}from'./assets.js?v=2.2.84';
 // Only the selected timeline occurrence is replaced; source and edit settings stay intact.
 export function replacementCheck(project,id,media){
  const video=project.clips.find(c=>c.id===id),clip=video||project.audioClips.find(c=>c.id===id);

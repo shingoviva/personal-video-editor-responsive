@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import {PhonePreviewBudget,PhonePlaybackScheduler} from '../dist/phone-preview-budget.js';
-import {previewDimensions} from '../dist/preview.js';
-import {AudioPreview} from '../dist/audio-preview.js';
-import {project,clip} from '../dist/model.js';
+import {PhonePreviewBudget,PhonePlaybackScheduler} from '../dist/phone-preview-budget.js?v=2.2.84';
+import {previewDimensions} from '../dist/preview.js?v=2.2.84';
+import {AudioPreview} from '../dist/audio-preview.js?v=2.2.84';
+import {project,clip} from '../dist/model.js?v=2.2.84';
 const budget=new PhonePreviewBudget();assert.equal(budget.longEdge,960);
 for(let i=0;i<2;i++)budget.observe(40);assert.equal(budget.longEdge,960,'one or two slow frames do not blur preview');
 budget.observe(40);assert.equal(budget.longEdge,720);assert.equal(budget.interval,50);

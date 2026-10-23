@@ -1,0 +1,415 @@
+{
+  "chrome": {
+    "encoderPathPass": [],
+    "sourceDecodePass": [
+      "bitrate-96"
+    ],
+    "baselineMinCorrelations": {
+      "44100-aac-2-base-24": {
+        "markers": 0.9999961544253461,
+        "sourceMarkers": 0.9570388434548504
+      },
+      "44100-aac-2-base-29.97": {
+        "markers": 0.9999961544253461,
+        "sourceMarkers": 0.9570388434548504
+      },
+      "44100-aac-2-base-30": {
+        "markers": 0.9999961544253461,
+        "sourceMarkers": 0.9570388434548504
+      },
+      "44100-aac-2-base-60": {
+        "markers": 0.9999961544253461,
+        "sourceMarkers": 0.9570388434548504
+      },
+      "44100-aac-2-trim-30": {
+        "markers": 0.999997738819324,
+        "sourceMarkers": 0.9358203290503441
+      },
+      "44100-aac-2-multi-30": {
+        "markers": 0.9999925924163222,
+        "sourceMarkers": 0.9570567785370527
+      },
+      "44100-aac-2-envelope-30": {
+        "markers": 0.9999952284205709,
+        "sourceMarkers": 0.9570939265810934
+      },
+      "44100-aac-2-linked-30": {
+        "markers": 0.9999961544253461,
+        "sourceMarkers": 0.9570388434548504
+      },
+      "44100-aac-2-split-30": {
+        "markers": 0.9999971845530163,
+        "sourceMarkers": 0.933747930448689
+      },
+      "44100-pcm-2-base-24": {
+        "markers": 0.9999973442721424,
+        "sourceMarkers": 0.9572450437339398
+      },
+      "44100-pcm-2-base-29.97": {
+        "markers": 0.9999973442721424,
+        "sourceMarkers": 0.9572450437339398
+      },
+      "44100-pcm-2-base-30": {
+        "markers": 0.9999973442721424,
+        "sourceMarkers": 0.9572450437339398
+      },
+      "44100-pcm-2-base-60": {
+        "markers": 0.9999973442721424,
+        "sourceMarkers": 0.9572450437339398
+      },
+      "44100-pcm-2-trim-30": {
+        "markers": 0.9999983490936062,
+        "sourceMarkers": 0.9359632207487948
+      },
+      "44100-pcm-2-multi-30": {
+        "markers": 0.999997240536902,
+        "sourceMarkers": 0.9572169511977414
+      },
+      "44100-pcm-2-envelope-30": {
+        "markers": 0.9999933525470744,
+        "sourceMarkers": 0.9572222925354908
+      },
+      "44100-pcm-2-linked-30": {
+        "markers": 0.9999973442721424,
+        "sourceMarkers": 0.9572450437339398
+      },
+      "44100-pcm-2-split-30": {
+        "markers": 0.9999933525470744,
+        "sourceMarkers": 0.9335140103262961
+      },
+      "44100-aac-0.04-short-30": {
+        "markers": 0.9999926346364115,
+        "sourceMarkers": 0.9578920782196352
+      },
+      "44100-pcm-0.04-short-30": {
+        "markers": 0.9999882392101154,
+        "sourceMarkers": 0.9573826820503748
+      },
+      "44100-aac-60-long-30": {
+        "markers": 0.9999961544253461,
+        "sourceMarkers": 0.9566875957118096
+      },
+      "44100-pcm-60-long-30": {
+        "markers": 0.9999973442721424,
+        "sourceMarkers": 0.9572322639768404
+      },
+      "48000-aac-2-base-24": {
+        "markers": 0.9999953421671104,
+        "sourceMarkers": 0.9999953421639631
+      },
+      "48000-aac-2-base-29.97": {
+        "markers": 0.9999953421671104,
+        "sourceMarkers": 0.9999953421639631
+      },
+      "48000-aac-2-base-30": {
+        "markers": 0.9999953421671104,
+        "sourceMarkers": 0.9999953421639631
+      },
+      "48000-aac-2-base-60": {
+        "markers": 0.9999953421671104,
+        "sourceMarkers": 0.9999953421639631
+      },
+      "48000-aac-2-trim-30": {
+        "markers": 0.9999983034024543,
+        "sourceMarkers": 0.9999983033818077
+      },
+      "48000-aac-2-multi-30": {
+        "markers": 0.9999866837091189,
+        "sourceMarkers": 0.9999866837341982
+      },
+      "48000-aac-2-envelope-30": {
+        "markers": 0.9999964766127071,
+        "sourceMarkers": 0.9979194943379424
+      },
+      "48000-aac-2-linked-30": {
+        "markers": 0.9999953421671104,
+        "sourceMarkers": 0.9999953421639631
+      },
+      "48000-aac-2-split-30": {
+        "markers": 0.9999958529129984,
+        "sourceMarkers": 0.9802565176325818
+      },
+      "48000-pcm-2-base-24": {
+        "markers": 0.9999954630029745,
+        "sourceMarkers": 0.9999954630012055
+      },
+      "48000-pcm-2-base-29.97": {
+        "markers": 0.9999954630029745,
+        "sourceMarkers": 0.9999954630012055
+      },
+      "48000-pcm-2-base-30": {
+        "markers": 0.9999954630029745,
+        "sourceMarkers": 0.9999954630012055
+      },
+      "48000-pcm-2-base-60": {
+        "markers": 0.9999954630029745,
+        "sourceMarkers": 0.9999954630012055
+      },
+      "48000-pcm-2-trim-30": {
+        "markers": 0.9999991633295519,
+        "sourceMarkers": 0.9999991633359503
+      },
+      "48000-pcm-2-multi-30": {
+        "markers": 0.9999923210432797,
+        "sourceMarkers": 0.9999923210435885
+      },
+      "48000-pcm-2-envelope-30": {
+        "markers": 0.9999947970399361,
+        "sourceMarkers": 0.9979178415037243
+      },
+      "48000-pcm-2-linked-30": {
+        "markers": 0.9999954630029745,
+        "sourceMarkers": 0.9999954630012055
+      },
+      "48000-pcm-2-split-30": {
+        "markers": 0.999995665550157,
+        "sourceMarkers": 0.9802190342299648
+      },
+      "48000-aac-0.04-short-30": {
+        "markers": 0.9999858211341571,
+        "sourceMarkers": 0.9999858211185062
+      },
+      "48000-pcm-0.04-short-30": {
+        "markers": 0.9999886451177147,
+        "sourceMarkers": 0.9999886451199878
+      },
+      "48000-aac-60-long-30": {
+        "markers": 0.9999953421671104,
+        "sourceMarkers": 0.9999953421639631
+      },
+      "48000-pcm-60-long-30": {
+        "markers": 0.9999954630029745,
+        "sourceMarkers": 0.9999954630012055
+      },
+      "bitrate-96": {
+        "markers": 0.8343170356272371,
+        "sourceMarkers": 0.7940905823214539
+      },
+      "bitrate-128": {
+        "markers": 0.8935074764605243,
+        "sourceMarkers": 0.85148071360389
+      },
+      "bitrate-256": {
+        "markers": 0.9579644269725738,
+        "sourceMarkers": 0.9606949152119735
+      }
+    }
+  },
+  "webkit": {
+    "encoderPathPass": [
+      "48000-aac-2-base-24",
+      "48000-aac-2-base-29.97",
+      "48000-aac-2-base-30",
+      "48000-aac-2-base-60",
+      "48000-aac-2-multi-30",
+      "48000-aac-2-envelope-30",
+      "48000-aac-2-linked-30",
+      "48000-aac-2-split-30",
+      "48000-pcm-2-multi-30",
+      "48000-aac-60-long-30"
+    ],
+    "sourceDecodePass": [
+      "44100-aac-0.04-short-30",
+      "48000-aac-2-base-24",
+      "48000-aac-2-base-29.97",
+      "48000-aac-2-base-30",
+      "48000-aac-2-base-60",
+      "48000-aac-2-multi-30",
+      "48000-aac-2-envelope-30",
+      "48000-aac-2-linked-30",
+      "48000-aac-2-split-30",
+      "48000-pcm-2-multi-30",
+      "48000-aac-60-long-30"
+    ],
+    "baselineMinCorrelations": {
+      "44100-aac-2-base-24": {
+        "markers": 0.8920462845534995,
+        "sourceMarkers": 0.8471404005590941
+      },
+      "44100-aac-2-base-29.97": {
+        "markers": 0.8920462845534995,
+        "sourceMarkers": 0.8471404005590941
+      },
+      "44100-aac-2-base-30": {
+        "markers": 0.8920462845534995,
+        "sourceMarkers": 0.8471404005590941
+      },
+      "44100-aac-2-base-60": {
+        "markers": 0.8920462845534995,
+        "sourceMarkers": 0.8471404005590941
+      },
+      "44100-aac-2-trim-30": {
+        "markers": 0.9234960262930733,
+        "sourceMarkers": 0.8462235708196907
+      },
+      "44100-aac-2-multi-30": {
+        "markers": 0.8924321329577687,
+        "sourceMarkers": 0.8478808754388597
+      },
+      "44100-aac-2-envelope-30": {
+        "markers": 0.8929396906056188,
+        "sourceMarkers": 0.8477914412903107
+      },
+      "44100-aac-2-linked-30": {
+        "markers": 0.8920462845534995,
+        "sourceMarkers": 0.8471404005590941
+      },
+      "44100-aac-2-split-30": {
+        "markers": 0.8924770613083212,
+        "sourceMarkers": 0.8489067612595762
+      },
+      "44100-pcm-2-base-24": {
+        "markers": 0.8866691831809174,
+        "sourceMarkers": 0.8435234399988928
+      },
+      "44100-pcm-2-base-29.97": {
+        "markers": 0.8866691831809174,
+        "sourceMarkers": 0.8435234399988928
+      },
+      "44100-pcm-2-base-30": {
+        "markers": 0.8866691831809174,
+        "sourceMarkers": 0.8435234399988928
+      },
+      "44100-pcm-2-base-60": {
+        "markers": 0.8866691831809174,
+        "sourceMarkers": 0.8435234399988928
+      },
+      "44100-pcm-2-trim-30": {
+        "markers": 0.9261699549916387,
+        "sourceMarkers": 0.848655308044589
+      },
+      "44100-pcm-2-multi-30": {
+        "markers": 0.8910400679959432,
+        "sourceMarkers": 0.8486155543351398
+      },
+      "44100-pcm-2-envelope-30": {
+        "markers": 0.8909402339045103,
+        "sourceMarkers": 0.8481327539614913
+      },
+      "44100-pcm-2-linked-30": {
+        "markers": 0.8866691831809174,
+        "sourceMarkers": 0.8435234399988928
+      },
+      "44100-pcm-2-split-30": {
+        "markers": 0.8889822711042507,
+        "sourceMarkers": 0.8472057594836283
+      },
+      "44100-aac-0.04-short-30": {
+        "markers": 0.9128273442636321,
+        "sourceMarkers": 0.6378851120847271
+      },
+      "44100-pcm-0.04-short-30": {
+        "markers": 0.8976779757031798,
+        "sourceMarkers": 0.8738246978683087
+      },
+      "44100-aac-60-long-30": {
+        "markers": 0.8782957750966884,
+        "sourceMarkers": 0.8287044556887766
+      },
+      "44100-pcm-60-long-30": {
+        "markers": 0.8858207954320501,
+        "sourceMarkers": 0.8392601471363226
+      },
+      "48000-aac-2-base-24": {
+        "markers": 0.7856888251478977,
+        "sourceMarkers": 0.7692747688059167
+      },
+      "48000-aac-2-base-29.97": {
+        "markers": 0.7856888251478977,
+        "sourceMarkers": 0.7692747688059167
+      },
+      "48000-aac-2-base-30": {
+        "markers": 0.7856888251478977,
+        "sourceMarkers": 0.7692747688059167
+      },
+      "48000-aac-2-base-60": {
+        "markers": 0.7856888251478977,
+        "sourceMarkers": 0.7692747688059167
+      },
+      "48000-aac-2-trim-30": {
+        "markers": 0.8399590499285686,
+        "sourceMarkers": 0.8399590504172139
+      },
+      "48000-aac-2-multi-30": {
+        "markers": 0.7875333871893854,
+        "sourceMarkers": 0.7719401015126733
+      },
+      "48000-aac-2-envelope-30": {
+        "markers": 0.7722724922799905,
+        "sourceMarkers": 0.7590292234976356
+      },
+      "48000-aac-2-linked-30": {
+        "markers": 0.7856888251478977,
+        "sourceMarkers": 0.7692747688059167
+      },
+      "48000-aac-2-split-30": {
+        "markers": 0.7722724922799905,
+        "sourceMarkers": 0.7590292234976356
+      },
+      "48000-pcm-2-base-24": {
+        "markers": 0.8034847462461124,
+        "sourceMarkers": 0.803484746098473
+      },
+      "48000-pcm-2-base-29.97": {
+        "markers": 0.8034847462461124,
+        "sourceMarkers": 0.803484746098473
+      },
+      "48000-pcm-2-base-30": {
+        "markers": 0.8034847462461124,
+        "sourceMarkers": 0.803484746098473
+      },
+      "48000-pcm-2-base-60": {
+        "markers": 0.8034847462461124,
+        "sourceMarkers": 0.803484746098473
+      },
+      "48000-pcm-2-trim-30": {
+        "markers": 0.8390215350631514,
+        "sourceMarkers": 0.8390215342206256
+      },
+      "48000-pcm-2-multi-30": {
+        "markers": 0.7995291012684951,
+        "sourceMarkers": 0.7995291007174213
+      },
+      "48000-pcm-2-envelope-30": {
+        "markers": 0.8082652017817392,
+        "sourceMarkers": 0.8082652019314339
+      },
+      "48000-pcm-2-linked-30": {
+        "markers": 0.8034847462461124,
+        "sourceMarkers": 0.803484746098473
+      },
+      "48000-pcm-2-split-30": {
+        "markers": 0.8082652017817392,
+        "sourceMarkers": 0.8082652019314339
+      },
+      "48000-aac-0.04-short-30": {
+        "markers": 0.8273843472879583,
+        "sourceMarkers": 0.8063978081229196
+      },
+      "48000-pcm-0.04-short-30": {
+        "markers": 0.8037491965948341,
+        "sourceMarkers": 0.8037491964848764
+      },
+      "48000-aac-60-long-30": {
+        "markers": 0.7856888251478977,
+        "sourceMarkers": 0.7692747688059167
+      },
+      "48000-pcm-60-long-30": {
+        "markers": 0.8034847462461124,
+        "sourceMarkers": 0.803484746098473
+      },
+      "bitrate-96": {
+        "markers": 0.8920462845534995,
+        "sourceMarkers": 0.8471404005590941
+      },
+      "bitrate-128": {
+        "markers": 0.8920462845534995,
+        "sourceMarkers": 0.8471404005590941
+      },
+      "bitrate-256": {
+        "markers": 0.8920462845534995,
+        "sourceMarkers": 0.8471404005590941
+      }
+    }
+  }
+}

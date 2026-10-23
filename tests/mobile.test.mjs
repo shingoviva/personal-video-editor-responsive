@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
-import {project,clip,sequence,sourceOffset,timing} from '../dist/model.js';
-import {outputSettings,sourceTime,gainAt,mixWindow,limitStereo} from '../dist/mobile-model.js';
-import {translation,motionEstimate,smoothPath,correctionAt,stabilizationSampleCount} from '../dist/mobile-stabilize.js';
-import {safeName} from '../dist/device-save.js';
-import {confirmDeviceResultClose} from '../dist/mobile-export.js';
+import {project,clip,sequence,sourceOffset,timing} from '../dist/model.js?v=2.2.84';
+import {outputSettings,sourceTime,gainAt,mixWindow,limitStereo} from '../dist/mobile-model.js?v=2.2.84';
+import {translation,motionEstimate,smoothPath,correctionAt,stabilizationSampleCount} from '../dist/mobile-stabilize.js?v=2.2.84';
+import {safeName} from '../dist/device-save.js?v=2.2.84';
+import {confirmDeviceResultClose} from '../dist/mobile-export.js?v=2.2.84';
 const p=project(),m={id:'source',width:3840,height:2160,fps:240,duration:12};p.media=[m];p.clips=[clip(m)];
 p.aspect='9:16';assert.deepEqual([outputSettings(p).width,outputSettings(p).height],[1080,1920]);p.export.fps='Source';assert.equal(outputSettings(p).fps,60);
 p.export.resolution='1440p';assert.deepEqual([outputSettings(p).width,outputSettings(p).height],[1440,2560]);

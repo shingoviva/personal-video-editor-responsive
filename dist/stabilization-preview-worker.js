@@ -1,5 +1,5 @@
-import {Input,ALL_FORMATS,BlobSource,CanvasSink} from './vendor/mediabunny.mjs';
-import {stabilizationPathFromFrames,stabilizationSampleCount} from './mobile-stabilize.js?v=2.2.83';
+import {Input,ALL_FORMATS,BlobSource,CanvasSink} from './vendor/mediabunny.mjs?v=2.2.84';
+import {stabilizationPathFromFrames,stabilizationSampleCount} from './mobile-stabilize.js?v=2.2.84';
 
 onmessage=async({data})=>{
  let input;

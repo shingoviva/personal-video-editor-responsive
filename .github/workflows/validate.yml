@@ -34,6 +34,10 @@ jobs:
         run: python tests/layers.test.py
       - name: Native export-optimizations.test.py
         run: python tests/export-optimizations.test.py
+      - name: Native av-sync.test.py
+        run: python tests/av-sync.test.py
+      - name: Native output-timing.test.py
+        run: python tests/output-timing.test.py
       - name: Native frame-window.test.py
         run: python tests/frame-window.test.py
       - name: Native clip-boundary.test.py

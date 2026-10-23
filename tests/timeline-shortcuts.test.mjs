@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {clip,project,sequence} from '../dist/model.js';
-import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from '../dist/timeline-shortcuts.js';
+import {clip,project,sequence} from '../dist/model.js?v=2.2.84';
+import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from '../dist/timeline-shortcuts.js?v=2.2.84';
 
 const p=project(),media={id:'video',kind:'video',duration:12,fps:60};p.media=[media];
 const first={...clip(media),id:'first',start:0,out:4},second={...clip(media),id:'second',start:4,in:4,out:8};p.clips=[first,second];

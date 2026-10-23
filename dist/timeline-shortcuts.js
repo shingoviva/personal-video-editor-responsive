@@ -1,5 +1,5 @@
-import {syncLinkedAudio} from './linked-audio.js';
-import {anchor,audioSequence,sequence,sourceOffset,timing,total,trimClip} from './model.js?v=2.2.83';
+import {syncLinkedAudio} from './linked-audio.js?v=2.2.84';
+import {anchor,audioSequence,sequence,sourceOffset,timing,total,trimClip} from './model.js?v=2.2.84';
 
 const EPSILON=1e-6;
 

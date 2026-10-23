@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {seekVideoFrame,videoFrameReady,cancelVideoFrame} from '../dist/media-state.js';
+import {seekVideoFrame,videoFrameReady,cancelVideoFrame} from '../dist/media-state.js?v=2.2.84';
 class Video extends EventTarget{
  constructor(){super();this.readyState=4;this.seeking=false;this._time=1;this.callbacks=new Map();this.next=0;this.cancelled=0}
  get currentTime(){return this._time}set currentTime(t){this._time=t;this.seeking=true}
@@ -30,8 +30,8 @@ const cancelled=seekVideoFrame(racing,4,{timeout:100});cancelVideoFrame(racing);
 console.log('Frame-seek ownership: replacement, stale frames, successor readiness and pause cleanup PASS');
 // Exercise LayerPreview's actual event handlers; a seeked event with an old
 // picture must not repaint a layer that has just moved beneath a fading clip.
-const {LayerPreview}=await import('../dist/layer-preview.js');
-const {clip}=await import('../dist/model.js');
+const {LayerPreview}=await import('../dist/layer-preview.js?v=2.2.84');
+const {clip}=await import('../dist/model.js?v=2.2.84');
 let decoded=1,draws=[];
 const lv=new Video();lv.paused=true;lv.muted=true;lv.src='mock';lv.getAttribute=()=>lv.src;
 lv.pause=()=>lv.paused=true;lv.play=async()=>{lv.paused=false};lv.removeAttribute=()=>{};lv.load=()=>{};
@@ -52,7 +52,7 @@ console.log('Layer presentation: no seeked flash, matching decoded frame, deleti
 // An async handoff must not install a now-expired clip, even when the next
 // clip uses the exact same media file (a common three-layer fade setup).
 const fs=await import('node:fs'),vm=await import('node:vm');
-const app=fs.readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
+const app=fs.readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
 const a=app.indexOf('async function syncVideo('),b=app.indexOf('\nfunction localSpeed(',a);
 const first={clip:{id:'first',media:'m'}},next={clip:{id:'next',media:'m'}};
 let current=first,completeFrame,frameStarted;

@@ -1,4 +1,9 @@
 const translations=[
+['編集fps','Editing fps'],
+['編集グリッドとフレーム送り。素材・書き出しfpsとは独立','Editing grid and frame stepping, independent of source and export fps'],
+['ON: 編集グリッド・編集点・等間隔へ吸着 / OFF: 自由配置（音声は常にサブフレーム）','ON: snap to editing grid, edit points and equal spacing / OFF: free placement (audio always uses subframes)'],
+['編集フレーム送り','Editing frame step'],
+['編集fpsを変更しました。既存時刻と書き出しfpsは維持します。','Editing fps changed. Existing times and export fps are preserved.'],
 ["Shift Space / Shift＋再生ボタン", "Shift-Space / Shift-click Play"],
 ["プレビュー・詳細", "Preview / details"],
 ["名前を変更", "Rename"],

@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import {sanitizeTexts,MAX_TEXT_LAYERS} from '../dist/model.js';
-import {textStyle,textRasterPlacement} from '../dist/text-render.js';
-import {captionPresets,captionDefaults,applyCaptionPreset,applyCaptionPresetStable} from '../dist/caption-presets.js';
-import {textPose} from '../dist/creative.js';
+import {sanitizeTexts,MAX_TEXT_LAYERS} from '../dist/model.js?v=2.2.84';
+import {textStyle,textRasterPlacement} from '../dist/text-render.js?v=2.2.84';
+import {captionPresets,captionDefaults,applyCaptionPreset,applyCaptionPresetStable} from '../dist/caption-presets.js?v=2.2.84';
+import {textPose} from '../dist/creative.js?v=2.2.84';
 
 const [text]=sanitizeTexts([{id:'title',text:'東京\nNIGHT',font:'Serif',align:'right',weight:'800',color:'#f2c8b0',box:'dark',outline:12,size:500,x:2,y:-1,opacity:2,fadeIn:8,fadeOut:-2,motion:'rise',motionDuration:4,start:1,end:0}]);
 assert.equal(text.text,'東京\nNIGHT');
@@ -36,7 +36,7 @@ const popText={text:'POP',start:0,end:3,motion:'pop',motionDuration:.3};assert.o
 console.log('Text layers: 300 captions, decoration, presets, validation and persisted raster exclusion PASS');
 
 // Empty preview frames must not allocate, read layout or clear a full-size canvas.
-const {TextPreview}=await import('../dist/text-render.js');
+const {TextPreview}=await import('../dist/text-render.js?v=2.2.84');
 let contextReads=0,clears=0,draws=0,resizes=0,layoutReads=0;
 const context=new Proxy({measureText:s=>({width:s.length*20}),clearRect(){clears++},fillText(){draws++}},{get:(o,k)=>o[k]??(()=>{})});
 class NodeStub{
@@ -62,8 +62,8 @@ console.log('Caption resource lifecycle: zero empty-frame canvas work, release, 
 
 // The application's actual memory-release action must reach both resource owners.
 const {readFile}=await import('node:fs/promises'),{runInNewContext}=await import('node:vm');
-const {StabilizationPreview}=await import('../dist/stabilization-preview.js');
-const appSource=await readFile(new URL('../dist/app.js',import.meta.url),'utf8');
+const {StabilizationPreview}=await import('../dist/stabilization-preview.js?v=2.2.84');
+const appSource=await readFile(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
 assert.match(appSource,/function renderTimeline\(\)\{\s*stabilizationPreview\.reconcile\(P\.clips,mediaOf/);
 let terminated=0,paused=0,audioReleased=0;
 globalThis.Worker=class{postMessage(){}terminate(){terminated++}};

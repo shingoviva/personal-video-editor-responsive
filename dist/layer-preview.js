@@ -1,10 +1,10 @@
-import {needsPreviewSeek,previewMediaEnded,previewPlaybackRate} from './playback-sync.js?v=2.2.83';
-import {renderer} from './preview.js?v=2.2.83';
-import {StillPreview} from './image-media.js';
-import {waitForMedia,seekVideoFrame,cancelVideoFrame} from './media-state.js?v=2.2.83';
-import {sourceOffset,timing} from './model.js?v=2.2.83';
-import {clipAlpha} from './creative.js?v=2.2.83';
-import {motionTransform} from './motion-transform.js';
+import {needsPreviewSeek,previewMediaEnded,previewPlaybackRate} from './playback-sync.js?v=2.2.84';
+import {renderer} from './preview.js?v=2.2.84';
+import {StillPreview} from './image-media.js?v=2.2.84';
+import {waitForMedia,seekVideoFrame,cancelVideoFrame} from './media-state.js?v=2.2.84';
+import {sourceOffset,timing} from './model.js?v=2.2.84';
+import {clipAlpha} from './creative.js?v=2.2.84';
+import {motionTransform} from './motion-transform.js?v=2.2.84';
 // A second decoder exists only while an upper layer reveals the lower picture.
 export class LayerPreview{
  constructor(canvas){this.generation=0;this.cleared=true;this.canvas=canvas;canvas.style.opacity='0';this.painter=renderer(canvas);this.still=new StillPreview();this.video=document.createElement('video');this.video.muted=true;this.video.playsInline=true;this.video.preload='auto';this.video.onseeked=()=>this.paint();this.video.onloadeddata=()=>this.paint();}

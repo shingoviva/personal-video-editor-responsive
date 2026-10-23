@@ -1,6 +1,6 @@
-import {syncLinkedAudio} from './linked-audio.js?v=2.2.83';
-import {timing} from './model.js?v=2.2.83';
-import {remapEnvelope} from './clip-envelope.js';
+import {syncLinkedAudio} from './linked-audio.js?v=2.2.84';
+import {timing} from './model.js?v=2.2.84';
+import {remapEnvelope} from './clip-envelope.js?v=2.2.84';
 export const attributeGroups={color:['color','lookName','lookAmount'],crop:['scale','scaleKeyframes','x','y','offsetX','offsetY'],motion:['speed','endSpeed','curve','stabilization','interpolation'],visual:['opacity','opacityKeyframes','fadeIn','fadeOut'],audio:['audio']};
 export const textAttributeKeys=['font','italic','align','weight','color','lineColors','accentWords','accentColor','outline','outlineColor','outerOutline','outerOutlineColor','shadow','shadowColor','shadowOpacity','shadowBlur','shadowX','shadowY','box','boxColor','boxOpacity','boxPadding','boxRadius','size','letterSpacing','lineHeight','x','y','opacity','fadeIn','fadeOut','motion','motionDuration','motionStart','motionEnd','motionScaleFrom','motionScaleTo'];
 export function pasteTextAttributes(target,source){

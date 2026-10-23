@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import {phonePaneSizes} from '../dist/phone-pane-layout.js';
-import {PreviewPlaybackClock} from '../dist/preview-playback-clock.js';
-import {AudioPreview} from '../dist/audio-preview.js';
-import {project,clip} from '../dist/model.js';
+import {phonePaneSizes} from '../dist/phone-pane-layout.js?v=2.2.84';
+import {PreviewPlaybackClock} from '../dist/preview-playback-clock.js?v=2.2.84';
+import {AudioPreview} from '../dist/audio-preview.js?v=2.2.84';
+import {project,clip} from '../dist/model.js?v=2.2.84';
 for(const height of [300,400,480,650,800])for(const mode of ['balanced','preview','timeline']){const {preview,timeline}=phonePaneSizes(height,mode);assert(Math.abs(preview+timeline-(height-12))<=1);assert(preview>=80);assert(timeline>=Math.min(mode==='timeline'?224:152,(height-12)*.55)-1)}
 assert(phonePaneSizes(480,'timeline').timeline>phonePaneSizes(480).timeline);
 assert(phonePaneSizes(480,'preview').preview>phonePaneSizes(480).preview);

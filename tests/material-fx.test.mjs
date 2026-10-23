@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import {audioAccents,accentPath,trackPatch,pathAt,drawFocus,materialSourceStamp,invalidateMaterialResults,compactTrackPath,motionAccents} from '../dist/material-fx.js';
-import {regionZoomPose,normalizeRegionZoom} from '../dist/region-zoom.js';
-import {project,sanitize} from '../dist/model.js';
-import {addEffect} from '../dist/creative.js';
+import {audioAccents,accentPath,trackPatch,pathAt,drawFocus,materialSourceStamp,invalidateMaterialResults,compactTrackPath,motionAccents} from '../dist/material-fx.js?v=2.2.84';
+import {regionZoomPose,normalizeRegionZoom} from '../dist/region-zoom.js?v=2.2.84';
+import {project,sanitize} from '../dist/model.js?v=2.2.84';
+import {addEffect} from '../dist/creative.js?v=2.2.84';
 assert.deepEqual(audioAccents(Array(100).fill(0)),[]);assert.deepEqual(audioAccents(Array(100).fill(.1)),[]);
 const energies=Array(200).fill(.01);for(const i of [25,75,125])energies[i]=.5;const accents=audioAccents(energies);assert.equal(accents.length,3);assert.equal(accents[0].time,.5);
 const path=accentPath(accents,4,{strength:1});assert.equal(pathAt(path,0).scale,1);assert(pathAt(path,.57).scale>1);assert.equal(pathAt(path,.9).scale,1);

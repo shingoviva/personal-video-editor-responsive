@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import{waitForMedia,seekMedia}from'../dist/media-state.js';
+import{waitForMedia,seekMedia}from'../dist/media-state.js?v=2.2.84';
 // EventTarget reproduces event ordering, not decoding or browser rendering.
 class Media extends EventTarget{readyState=0;_time=0;get currentTime(){return this._time}set currentTime(t){this._time=t;this.dispatchEvent(new Event('seeked'))}}
 let media=new Media();let p=waitForMedia(media,'loadedmetadata');media.dispatchEvent(new Event('loadedmetadata'));await p;

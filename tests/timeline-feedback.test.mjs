@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {createWaveformJobs} from '../dist/waveform-jobs.js';
-import {dropFamilies} from '../dist/timeline-drop-guide.js';
+import {createWaveformJobs} from '../dist/waveform-jobs.js?v=2.2.84';
+import {dropFamilies} from '../dist/timeline-drop-guide.js?v=2.2.84';
 assert.deepEqual(dropFamilies(['application/x-pve-media'],['audio']),['audio']);
 assert.deepEqual(dropFamilies(['application/x-pve-media'],['video','audio']),['video','audio']);
 assert.deepEqual(dropFamilies(['application/x-pve-text']),['overlay']);

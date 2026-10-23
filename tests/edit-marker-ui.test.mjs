@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {bindEditMarker} from '../dist/edit-marker-ui.js';
+import {bindEditMarker} from '../dist/edit-marker-ui.js?v=2.2.84';
 for(const pointerType of ['mouse','touch']){
  let time=2,selected=0,begun=0,finished=[],cancelled=0,edited=0;
  const el={setPointerCapture(){},releasePointerCapture(){}},event=x=>({button:0,pointerId:1,pointerType,clientX:x,preventDefault(){},stopPropagation(){}});

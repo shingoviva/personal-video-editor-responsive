@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import{project,clip,timing,sourceOffset,outputOffset,sequence,total,sanitize,speedToSliderPosition,sliderPositionToSpeed}from'../dist/model.js';
+import{project,clip,timing,sourceOffset,outputOffset,sequence,total,sanitize,speedToSliderPosition,sliderPositionToSpeed}from'../dist/model.js?v=2.2.84';
 const m={id:'m',duration:12,width:1920,height:1080};
 assert.equal(sliderPositionToSpeed(0),.05);assert.equal(sliderPositionToSpeed(1000),1);assert.equal(sliderPositionToSpeed(2000),20);let previous=.05;for(let i=1;i<=2000;i++){const speed=sliderPositionToSpeed(i);assert.ok(speed>=previous&&speed<=20);previous=speed}assert.equal(speedToSliderPosition(.05),0);assert.equal(speedToSliderPosition(1),1000);assert.equal(speedToSliderPosition(20),2000);assert.ok(Math.abs(sliderPositionToSpeed(speedToSliderPosition(1.2375))-1.2375)<.002);
 for(const curve of ['constant','linear','ease-in','ease-out','ease-in-out']){let c={...clip(m),speed:.05,endSpeed:20,curve};const d=timing(c).duration;assert.ok(d>0);for(let i=0;i<=100;i++){let s=12*i/100;assert.ok(Math.abs(sourceOffset(outputOffset(s,c),c)-s)<1e-8)}if(curve==='constant')assert.equal(d,240)}

@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
-import {bindOverlayTimeline,snapOverlayStart} from '../dist/overlay-timeline.js';
+import {bindOverlayTimeline,snapOverlayStart} from '../dist/overlay-timeline.js?v=2.2.84';
 
 let result=snapOverlayStart(4.94,.5,{duration:10,pixels:1000,targets:[5]});
 assert.equal(result.start,5);assert.equal(result.snapped,true);assert.equal(result.target,5);
 result=snapOverlayStart(4.45,.5,{duration:10,pixels:1000,targets:[5]});
 assert.equal(result.start,4.5);assert.equal(result.snapped,true);
 result=snapOverlayStart(4.94,.5,{duration:10,pixels:1000,targets:[5],bypass:true});
-assert.equal(result.snapped,false);assert.ok(Math.abs(result.start-4.933333333333334)<1e-8);
+assert.equal(result.snapped,false);assert.ok(Math.abs(result.start-4.94)<1e-8);
 assert.equal(snapOverlayStart(9.8,1,{duration:10,pixels:1000}).start,9);
 
 const effect={id:'fx',start:1,duration:.5},text={id:'text',start:2,end:3};

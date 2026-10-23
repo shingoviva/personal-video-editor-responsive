@@ -1,4 +1,14 @@
-import {AudioSampleSink} from './vendor/mediabunny.mjs';
+import {AudioSampleSink,EncodedPacketSink} from './vendor/mediabunny.mjs?v=2.2.84';
+// AAC-LC packet "key" status does not include the previous overlap block.
+// Decode its actual predecessor as preroll; keep original sample timestamps.
+export async function audioDecodeStart(track,start){
+ const requested=Math.max(0,start);
+ if(track.codec!=='aac'||(await track.getDecoderConfig())?.codec!=='mp4a.40.2')return requested;
+ const sink=new EncodedPacketSink(track),options={metadataOnly:true},packet=await sink.getPacket(requested,options);
+ if(!packet)return requested;
+ const previous=await sink.getPacket(packet.timestamp-1/track.sampleRate,options);
+ return previous&&previous.sequenceNumber<packet.sequenceNumber?previous.timestamp:packet.timestamp;
+}
 // Keep a bounded PCM window and one decoder per active clip instead of reopening
 // the same source for every quarter-second mix block.
 export class AudioWindowReader{
@@ -6,7 +16,7 @@ export class AudioWindowReader{
  async close(){await this.iterator?.return?.();this.iterator=null;this.chunks=[];this.done=false}
  async read(start,end){
  const rate=this.track.sampleRate,length=Math.ceil((end-start)*rate)+2;if(length>rate*6)throw Error('音声処理の区間が長すぎます。');
- const tail=this.chunks.at(-1);if(!this.iterator||start<this.start-1e-6||(tail&&start>tail.end+1)){await this.close();this.iterator=new AudioSampleSink(this.track).samples(Math.max(0,start));}
+ const tail=this.chunks.at(-1);if(!this.iterator||start<this.start-1e-6||(tail&&start>tail.end+1)){await this.close();this.iterator=new AudioSampleSink(this.track).samples(await audioDecodeStart(this.track,start));}
  this.start=start;this.chunks=this.chunks.filter(c=>c.end>=start-.05);
  while(!this.done&&(!this.chunks.length||this.chunks.at(-1).end<end)){
   const next=await this.iterator.next();if(next.done){this.done=true;break}const sample=next.value;

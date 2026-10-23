@@ -1,5 +1,6 @@
-import {timing,sourceOffset,clamp,trimClip} from './model.js?v=2.2.83';
-import {sourceLimit} from './assets.js';
+import {quantizeTimelineTime} from './timeline-time.js?v=2.2.84';
+import {timing,sourceOffset,clamp,trimClip} from './model.js?v=2.2.84';
+import {sourceLimit} from './assets.js?v=2.2.84';
 
 // Match visible lane bounds only; separators keep the last valid destination.
 export function timelineLaneAtY(y,lanes){return lanes.find(({element})=>{const r=element?.getBoundingClientRect();return r&&r.height>0&&y>=r.top&&y<=r.bottom})?.layer}
@@ -25,13 +26,13 @@ export function equalSpacingStart(value,span,row,rows,secondsPerPixel){
 }
 
 // Magnetize either end when moving, and the edited edge when trimming.
-export function snapClipPosition(value,span,{targets=[],enabled=true,threshold=0}={}){
- let start=Math.max(0,Math.round(value*30)/30),target=null,best=Infinity;
+export function snapClipPosition(value,span,{targets=[],enabled=true,threshold=0,rate=30}={}){
+ let start=Math.max(0,enabled&&rate!==null?quantizeTimelineTime(value,rate):value),target=null,best=Infinity;
  if(enabled)for(const point of new Set(targets.filter(Number.isFinite)))for(const edge of [0,Math.max(0,span)]){const candidate=point-edge,distance=Math.abs(candidate-value);if(candidate>=0&&distance<=threshold&&distance<best){start=candidate;target=point;best=distance}}
  return{start,snapped:target!==null,target};
 }
 
-export function bindTimeline({root,rows,duration,select,begin,finish,cancel,preview,media,snap,getLayer,duplicate,groupRows=()=>[],groupOthers=()=>[],timelineRoot=root,snapTargets=()=>[]}){
+export function bindTimeline({root,rows,duration,select,begin,finish,cancel,preview,media,snap,getLayer,duplicate,groupRows=()=>[],groupOthers=()=>[],timelineRoot=root,snapTargets=()=>[],rate=30}){
  const pixels=root.getBoundingClientRect().width;
  const secondsPerPixel=Math.max(duration,.001)/Math.max(pixels,1);
  const rowById=new Map(rows.map(row=>[row.clip.id,row]));
@@ -61,7 +62,7 @@ export function bindTimeline({root,rows,duration,select,begin,finish,cancel,prev
     }
     let delta=(ev.clientX-x)*secondsPerPixel;
     const selectedIds=new Set([row.clip.id,...companions.map(g=>g.row.clip.id),...others.map(v=>v.item.id)]),targets=[0,...snapTargets(selectedIds),...rows.filter(r=>r!==row&&!selectedIds.has(r.clip.id)).flatMap(r=>[r.start,r.end])];let didSnap=false,snapPoint=null;
-    let spacingResult={spacing:false};const snapped=(t,span=0)=>{const result=snapClipPosition(t,span,{targets,enabled:snap(),threshold:secondsPerPixel*12});didSnap=result.snapped;snapPoint=result.target;return result.start};
+    let spacingResult={spacing:false};const snapped=(t,span=0)=>{const result=snapClipPosition(t,span,{targets,enabled:snap(),threshold:secondsPerPixel*12,rate:row.clip.kind==='audio'?null:rate});didSnap=result.snapped;snapPoint=result.target;return result.start};
     const c=row.clip;
     const laneTop=(kind,layer)=>globalThis.document?.getElementById?.(kind==='audio'?'audioTrack'+layer:['videoTrack','videoTrackUpper','videoTrackTop'][layer])?.getBoundingClientRect().top;
     const laneDelta=(kind,from,to)=>{const a=laneTop(kind,from),b=laneTop(kind,to);return Number.isFinite(a)&&Number.isFinite(b)?b-a:(to-from)*(kind==='audio'?44:-52)};
@@ -74,6 +75,7 @@ export function bindTimeline({root,rows,duration,select,begin,finish,cancel,prev
     }else{
      Object.assign(c,structuredClone(origin));c.start=row.start;c.layer=row.layer;
      const d=timing(origin).nodes.at(-1)[1],sourceAt=t=>t<0?t*origin.speed:t>d?origin.out-origin.in+(t-d)*(origin.curve==='constant'?origin.speed:origin.endSpeed):sourceOffset(t,origin);
+     // The existing 33.333ms freeze minimum is a duration constraint, not a grid.
      if(origin.freezeDuration){
       if(edge==='in'){c.start=clamp(snapped(row.start+delta),Math.max(0,row.end-60),row.end-1/30);c.freezeDuration=row.end-c.start}
       else c.freezeDuration=clamp(snapped(row.end+delta)-row.start,1/30,60);

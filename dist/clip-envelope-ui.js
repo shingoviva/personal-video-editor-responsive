@@ -1,6 +1,6 @@
-import {waveformFor} from './audio-waveform.js';
-import {sourceOffset} from './model.js?v=2.2.83';
-import {addEnvelopePoint,envelopeDbAt,normalizeEnvelope,snapEnvelopeDb,MAX_ENVELOPE_POINTS,ENVELOPE_MIN_DB,ENVELOPE_MAX_DB} from './clip-envelope.js';
+import {waveformFor} from './audio-waveform.js?v=2.2.84';
+import {sourceOffset} from './model.js?v=2.2.84';
+import {addEnvelopePoint,envelopeDbAt,normalizeEnvelope,snapEnvelopeDb,MAX_ENVELOPE_POINTS,ENVELOPE_MIN_DB,ENVELOPE_MAX_DB} from './clip-envelope.js?v=2.2.84';
 
 export function dbToY(db,height){const value=Math.max(ENVELOPE_MIN_DB,Math.min(ENVELOPE_MAX_DB,+db||0)),ratio=value>=0?.28*(ENVELOPE_MAX_DB-value)/ENVELOPE_MAX_DB:.28+.72*Math.pow(-value/-ENVELOPE_MIN_DB,.5);return 3+ratio*Math.max(1,height-6)}
 export function yToDb(y,height){const ratio=Math.max(0,Math.min(1,(y-3)/Math.max(1,height-6)));return ratio<=.28?ENVELOPE_MAX_DB*(1-ratio/.28):ENVELOPE_MIN_DB*Math.pow((ratio-.28)/.72,2)}
@@ -25,8 +25,9 @@ export function envelopeHandles(points,duration){
 }
 export const envelopeHandleX=(point,duration,width)=>point.boundary?Math.max(Math.min(6,width/3),Math.min(width-Math.min(6,width/3),xAt(point.time,duration,width))):xAt(point.time,duration,width);
 function materialize(points,duration){
- const handles=envelopeHandles(points,duration);if(handles.length>MAX_ENVELOPE_POINTS)return null;
- let result=normalizeEnvelope(points,duration);for(const point of handles)if(point.virtual)result=addEnvelopePoint(result,point.time,point.valueDb,point.interpolation);return result;
+ const handles=envelopeHandles(points,duration),result=normalizeEnvelope(points,duration);
+ for(const point of handles)if(point.virtual)result.push({...point,id:globalThis.crypto?.randomUUID?.()||`gain-${Date.now()}-${Math.random()}`,editBoundary:true});
+ return normalizeEnvelope(result,duration);
 }
 const flatEnvelope=points=>!points.length||points.every(point=>Math.abs(point.valueDb-points[0].valueDb)<1e-9);
 
@@ -81,7 +82,6 @@ export function bindClipEnvelope(element,{loadWaveform=true,file,url,getClip,get
     element.onpointerdown?.({...original,timelineEnvelopeMove:true});element.onpointermove?.(event);return;
    }
   }
-  if(drag.mode==='line'&&!drag.began&&envelopeHandles(getPoints(),duration()).length>MAX_ENVELOPE_POINTS){onLimit?.();drag=null;clean();return}
   if(!drag.began){onBegin?.();drag.began=true}
   const snapped=snapEnvelopeDrag(event.shiftKey?drag.startDb-dy*.025:yToDb(pos.y-drag.grabY,pos.height),pos.height,drag.latched,event.shiftKey);drag.latched=snapped.latched;
   let points=normalizeEnvelope(getPoints(),duration()),changed;
@@ -90,7 +90,9 @@ export function bindClipEnvelope(element,{loadWaveform=true,file,url,getClip,get
    points=points.map(point=>({...point,valueDb:snapped.valueDb}));changed={time:0,valueDb:snapped.valueDb};
   }else{
    const index=points.findIndex(point=>point.id===drag.id);if(index<0)return;
-   const min=index?points[index-1].time+.001:0,max=index<points.length-1?points[index+1].time-.001:duration();
+   const old=points[index].time,previous=points[index-1]?.time,next=points[index+1]?.time;
+   let min=index?previous+Math.min(.001,(old-previous)/2):0,max=index<points.length-1?next-Math.min(.001,(next-old)/2):duration();
+   if(index&&min<=previous)min=old;if(index<points.length-1&&max>=next)max=old;
    let at=drag.boundary==='start'?0:drag.boundary==='end'?duration():timeAt(pos.x-drag.grabX,duration(),pos.width);
    if(!drag.boundary){if(!index&&at/Math.max(duration(),1e-6)*pos.width<6)at=0;if(index===points.length-1&&(duration()-at)/Math.max(duration(),1e-6)*pos.width<6)at=duration()}
    changed=points[index]={...points[index],time:Math.max(min,Math.min(max,at)),valueDb:snapped.valueDb};
@@ -115,11 +117,11 @@ export function bindClipEnvelope(element,{loadWaveform=true,file,url,getClip,get
  },true);
  const doubleClick=event=>{
   const point=pointAt(event);if(movingClip()||event.altKey||event.target.closest('[data-edge]')&&!point?.boundary||!point&&!lineHit(event))return;
-  event.preventDefault();event.stopImmediatePropagation();let points=point&&!point.virtual?normalizeEnvelope(getPoints(),duration()):materialize(getPoints(),duration());if(!points){onLimit?.();return}
+  event.preventDefault();event.stopImmediatePropagation();let points=normalizeEnvelope(getPoints(),duration());
   const pos=local(event),at=point?.boundary==='start'?0:point?.boundary==='end'?duration():point?.time??timeAt(pos.x,duration(),pos.width);
   if(!point&&points.length>=MAX_ENVELOPE_POINTS){onLimit?.();return}
+  if(point&&!point.virtual){points=points.map(value=>value.id===point.id?{...value,valueDb:0}:value)}else if(point?.virtual){points=materialize(points,duration());points=addEnvelopePoint(points,at,envelopeDbAt(at,points,0))}else points=materialize(addEnvelopePoint(points,at,envelopeDbAt(at,points,0)),duration());
   onBegin?.();
-  if(point&&!point.virtual){points=points.map(value=>value.id===point.id?{...value,valueDb:0}:value)}else points=addEnvelopePoint(points,at,envelopeDbAt(at,points,0));
   setPoints(points);setSelected(points.reduce((best,value)=>Math.abs(value.time-at)<Math.abs(best.time-at)?value:best).id);onCommit?.();render();return true;
  };
  envelopeDoubleTaps.set(element,doubleClick);element.addEventListener('dblclick',event=>{if(performance.now()<ignoreDoubleUntil){event.preventDefault();event.stopImmediatePropagation();return}doubleClick(event)},true);

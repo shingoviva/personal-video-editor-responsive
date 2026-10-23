@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {project,MAX_EFFECTS,MAX_TEXT_LAYERS} from '../dist/model.js';
-import {pasteTimelineItems} from '../dist/timeline-paste.js';
+import {project,MAX_EFFECTS,MAX_TEXT_LAYERS} from '../dist/model.js?v=2.2.84';
+import {pasteTimelineItems} from '../dist/timeline-paste.js?v=2.2.84';
 
 let serial=0;const next=()=>`copy-${++serial}`,p=project();
 p.effects=Array.from({length:MAX_EFFECTS},(_,i)=>({id:`fx-${i}`}));

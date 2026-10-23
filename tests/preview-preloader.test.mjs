@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {PreviewPreloader} from '../dist/preview-preloader.js';
+import {PreviewPreloader} from '../dist/preview-preloader.js?v=2.2.84';
 class Video extends EventTarget{
  dataset={};readyState=0;paused=true;seeking=false;_time=0;callbacks=new Map();serial=0;listeners=0;seeks=[];
  set src(v){this._src=v;this.readyState=0}get src(){return this._src}
@@ -21,7 +21,7 @@ assert.equal(b.currentTime,4);await preloader.cancel();assert.equal(preloader.re
 console.log('Standby ownership: deduplication, frame-ready preload, claim cancellation, late loadeddata, decoder swap and cleanup PASS');
 // The application must not use standby for the following clip while it is
 // still about to adopt standby as the *current* clip at a layer boundary.
-const fs=await import('node:fs'),vm=await import('node:vm'),source=fs.readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
+const fs=await import('node:fs'),vm=await import('node:vm'),source=fs.readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
 const start=source.indexOf('function primeNextVideo(){'),end=source.indexOf('\nfunction tick(',start);let primes=0;
 const current={clip:{id:'now'}},future={clip:{id:'later'}};
 const scope={playbackPlan:{next:()=>({at:2,row:future})},time:1,previewRow:()=>current,mediaOf:()=>({kind:'video',fps:30}),linkURL:()=> 'url',sourcePositionFor:()=>2,activeVideoKey:'old|url',standbyVideo:{},videoSwitch:null,previewPreloader:{prime(){primes++}}};

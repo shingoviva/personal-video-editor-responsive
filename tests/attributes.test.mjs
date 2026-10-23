@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {pasteAttributes,pasteTextAttributes,textAttributeKeys} from '../dist/attributes.js';
+import {pasteAttributes,pasteTextAttributes,textAttributeKeys} from '../dist/attributes.js?v=2.2.84';
 
 const source={id:'source',media:'a',kind:'video',in:1,out:8,start:2,layer:0,speed:.2,endSpeed:3,curve:'ease-in-out',timingBase:{in:0},scale:1.4,x:.2,y:.8,offsetX:.15,offsetY:-.2,color:{exposure:.5},audio:{volume:.4,mute:true},opacity:.7,opacityKeyframes:[{time:0,value:0},{time:2,value:1}]};
 const target={id:'target',media:'b',kind:'video',in:4,out:9,start:11,layer:2,speed:1,timingBase:{in:4},scale:1,x:.5,y:.5,color:{exposure:0},audio:{volume:1,mute:false},opacity:1};
@@ -17,7 +17,7 @@ assert.deepEqual([captionTarget.font,captionTarget.size,captionTarget.color,capt
 captionTarget.lineColors[0]='#000000';assert.equal(captionSource.lineColors[0],'#ffffff');assert.ok(textAttributeKeys.length>25);
 console.log('Attributes: isolated category paste preserves media, cuts, position and layers PASS');
 
-const {pasteProjectAttributes}=await import('../dist/attributes.js');
+const {pasteProjectAttributes}=await import('../dist/attributes.js?v=2.2.84');
 const v={id:'v',kind:'video',in:0,out:8,start:2,speed:1,audio:{volume:0,gainEnvelope:[{time:0,valueDb:0},{time:8,valueDb:-12}]}};
 const a={id:'a',kind:'audio',sourceClip:'v',linked:true,in:0,out:8,start:2,speed:1,audio:{volume:.7}};
 const project={clips:[v],audioClips:[a]};

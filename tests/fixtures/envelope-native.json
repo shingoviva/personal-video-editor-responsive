@@ -1,0 +1,5186 @@
+[
+  {
+    "name": "reported-5ms",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.1,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.1",
+        "time": 0.1,
+        "valueDb": -12,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.1",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044,
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 0.9,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 1.9,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.99,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.99",
+        "time": 0.99,
+        "valueDb": -12,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.99",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044,
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 0.010000000000000009,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 1.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.994999999,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.994999999",
+        "time": 0.994999999,
+        "valueDb": -12,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.994999999",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044,
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 0.005000000999999976,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 1.005000001,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.995,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.995",
+        "time": 0.995,
+        "valueDb": -12,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.995",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044,
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 0.0050000000000000044,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 1.005,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.995000001,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999999717180685e-10
+      },
+      {
+        "id": "split-left-0.995000001",
+        "time": 0.995000001,
+        "valueDb": -11.999997600000068,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.995000001",
+        "time": 0,
+        "valueDb": -11.999997600000068,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.004999999000000033,
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 0.004999999000000033,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 1.004999999,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.9975,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0025000000000000577
+      },
+      {
+        "id": "split-left-0.9975",
+        "time": 0.9975,
+        "valueDb": -5.9999999999998614,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.9975",
+        "time": 0,
+        "valueDb": -5.9999999999998614,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0024999999999999467,
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 0.0024999999999999467,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 1.0025,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.998,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0030000000000000027
+      },
+      {
+        "id": "split-left-0.998",
+        "time": 0.998,
+        "valueDb": -4.799999999999994,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.998",
+        "time": 0,
+        "valueDb": -4.799999999999994,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0020000000000000018,
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 0.0020000000000000018,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 1.002,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.999999999,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.004999999000000033
+      },
+      {
+        "id": "split-left-0.999999999",
+        "time": 0.999999999,
+        "valueDb": -0.0000023999999214652235,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.999999999",
+        "time": 0,
+        "valueDb": -0.0000023999999214652235,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999999717180685e-10,
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 9.999999717180685e-10,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 1.000000001,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 1,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 1.0658141036401503e-14,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "p-1-right",
+        "time": 0,
+        "valueDb": 1.0658141036401503e-14,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-2",
+        "time": 1,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 1.000000001,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "split-left-1.000000001",
+        "time": 1.000000001,
+        "valueDb": -6.000000496442226e-9,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-1.000000001",
+        "time": 0,
+        "valueDb": -6.000000496442226e-9,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-2",
+        "time": 0.9999999989999999,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 1.2,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "split-left-1.2",
+        "time": 1.2,
+        "valueDb": -1.1999999999999997,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-1.2",
+        "time": 0,
+        "valueDb": -1.1999999999999997,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-2",
+        "time": 0.8,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "from": 0,
+    "to": 0.998,
+    "points": [
+      {
+        "id": "trim-start-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0030000000000000027,
+        "editBoundary": true
+      },
+      {
+        "id": "trim-end-0.998",
+        "time": 0.998,
+        "valueDb": -4.799999999999994,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "from": 0.998,
+    "to": 2,
+    "points": [
+      {
+        "id": "trim-start-0.998",
+        "time": 0,
+        "valueDb": -4.799999999999994,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0020000000000000018,
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 0.0020000000000000018,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "trim-end-2",
+        "time": 1.002,
+        "valueDb": -6,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "from": 0.992,
+    "to": 0.999,
+    "points": [
+      {
+        "id": "trim-start-0.992",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0040000000000000036,
+        "editBoundary": true
+      },
+      {
+        "id": "trim-end-0.999",
+        "time": 0.007000000000000006,
+        "valueDb": -2.3999999999999915,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "from": 0.996,
+    "to": 0.999,
+    "points": [
+      {
+        "id": "trim-start-0.996",
+        "time": 0,
+        "valueDb": -9.599999999999998,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0030000000000000027,
+        "editBoundary": true
+      },
+      {
+        "id": "trim-end-0.999",
+        "time": 0.0030000000000000027,
+        "valueDb": -2.3999999999999915,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "from": 0.999999999,
+    "to": 1.000000001,
+    "points": [
+      {
+        "id": "trim-start-0.999999999",
+        "time": 0,
+        "valueDb": -0.0000023999999214652235,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999999717180685e-10,
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 9.999999717180685e-10,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "trim-end-1.000000001",
+        "time": 2.0000000544584395e-9,
+        "valueDb": -6.000000496442226e-9,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "reported-5ms",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "from": 0.2,
+    "to": 1.4,
+    "points": [
+      {
+        "id": "trim-start-0.2",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044,
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 0.8,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "trim-end-1.4",
+        "time": 1.2,
+        "valueDb": -2.3999999999999995,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "short-half-span",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.008,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.008,
+    "cut": 0.0001,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.0001",
+        "time": 0.0001,
+        "valueDb": -60,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.0001",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.0039000000000000003,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.0079,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "short-half-span",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.008,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.008,
+    "cut": 0.0019,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.0019",
+        "time": 0.0019,
+        "valueDb": -60,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.0019",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.0021000000000000003,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.0061,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "short-half-span",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.008,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.008,
+    "cut": 0.002,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.002",
+        "time": 0.002,
+        "valueDb": -60,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.002",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.002,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.006,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "short-half-span",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.008,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.008,
+    "cut": 0.002000001,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.99999999907325e-10
+      },
+      {
+        "id": "split-left-0.002000001",
+        "time": 0.002000001,
+        "valueDb": -59.999964000000006,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.002000001",
+        "time": 0,
+        "valueDb": -59.999964000000006,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.001999999,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.001999999,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.005999999000000001,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "short-half-span",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.008,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.008,
+    "cut": 0.003999999,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0019999989999999997
+      },
+      {
+        "id": "split-left-0.003999999",
+        "time": 0.003999999,
+        "valueDb": 11.999963999999991,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.003999999",
+        "time": 0,
+        "valueDb": 11.999963999999991,
+        "interpolation": "hold",
+        "holdRampSeconds": 1.0000000003410059e-9,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.004",
+        "time": 1.0000000003410059e-9,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.004000001,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "short-half-span",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.008,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.008,
+    "cut": 0.004,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "p-0.004-right",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.004,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "short-half-span",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.008,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.008,
+    "cut": 0.004000001,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.004000001",
+        "time": 0.004000001,
+        "valueDb": 12,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.004000001",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.003999999,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "short-half-span",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.008,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.008,
+    "cut": 0.0059,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.0059",
+        "time": 0.0059,
+        "valueDb": 12,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.0059",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.0021000000000000003,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "short-half-span",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.008,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.008,
+    "cut": 0.006,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.006",
+        "time": 0.006,
+        "valueDb": 12,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.006",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.002,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "short-half-span",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.008,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.008,
+    "cut": 0.0079,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0019000000000000006
+      },
+      {
+        "id": "split-left-0.0079",
+        "time": 0.0079,
+        "valueDb": -22.20000000000001,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.0079",
+        "time": 0,
+        "valueDb": -22.20000000000001,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0000999999999999994,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.0000999999999999994,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "short-half-span",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.008,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.008,
+    "from": 0,
+    "to": 0.003,
+    "points": [
+      {
+        "id": "trim-start-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.001,
+        "editBoundary": true
+      },
+      {
+        "id": "trim-end-0.003",
+        "time": 0.003,
+        "valueDb": -24,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "short-half-span",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.008,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.008,
+    "from": 0.001,
+    "to": 0.003,
+    "points": [
+      {
+        "id": "trim-start-0.001",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.001,
+        "editBoundary": true
+      },
+      {
+        "id": "trim-end-0.003",
+        "time": 0.002,
+        "valueDb": -24,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "short-half-span",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.008,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.008,
+    "from": 0.003,
+    "to": 0.005,
+    "points": [
+      {
+        "id": "trim-start-0.003",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.001,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.001,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "trim-end-0.005",
+        "time": 0.002,
+        "valueDb": 12,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "short-half-span",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -60,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.008",
+        "time": 0.008,
+        "valueDb": -24,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.008,
+    "from": 0.004000001,
+    "to": 0.0079,
+    "points": [
+      {
+        "id": "trim-start-0.004000001",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0019000000000000006,
+        "editBoundary": true
+      },
+      {
+        "id": "trim-end-0.0079",
+        "time": 0.0038999990000000003,
+        "valueDb": -22.20000000000001,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "four-microseconds",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.000002,
+        "valueDb": 0,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.000004,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.000004,
+    "cut": 1e-9,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-1e-9",
+        "time": 1e-9,
+        "valueDb": -24,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-1e-9",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.000001,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.000001999,
+        "valueDb": 0,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999999999999997e-7
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.000003999,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "four-microseconds",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.000002,
+        "valueDb": 0,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.000004,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.000004,
+    "cut": 9.99e-7,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-9.99e-7",
+        "time": 9.99e-7,
+        "valueDb": -24,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-9.99e-7",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.000001,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.0000010009999999999998,
+        "valueDb": 0,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999999999999997e-7
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.0000030009999999999997,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "four-microseconds",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.000002,
+        "valueDb": 0,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.000004,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.000004,
+    "cut": 0.000001,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.000001",
+        "time": 0.000001,
+        "valueDb": -24,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.000001",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.000001,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.000001,
+        "valueDb": 0,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999999999999997e-7
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.000003,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "four-microseconds",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.000002,
+        "valueDb": 0,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.000004,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.000004,
+    "cut": 0.000001999999,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999990000000001e-7
+      },
+      {
+        "id": "split-left-0.000001999999",
+        "time": 0.000001999999,
+        "valueDb": -0.000023999999996249244,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.000001999999",
+        "time": 0,
+        "valueDb": -0.000023999999996249244,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999999998158455e-13,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.000002",
+        "time": 9.999999998158455e-13,
+        "valueDb": 0,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999999999999997e-7
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.0000020000009999999997,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "four-microseconds",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.000002,
+        "valueDb": 0,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.000004,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.000004,
+    "cut": 0.000002,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.000001
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.000002,
+        "valueDb": 0,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "p-0.000002-right",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999999999999997e-7,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.000002,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "four-microseconds",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.000002,
+        "valueDb": 0,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.000004,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.000004,
+    "cut": 0.000002000001,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.000001
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.000002,
+        "valueDb": 0,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.000002000001",
+        "time": 0.000002000001,
+        "valueDb": 0,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.000002000001",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999999999999997e-7,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.0000019999989999999997,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "four-microseconds",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.000002,
+        "valueDb": 0,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.000004,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.000004,
+    "cut": 0.000003,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.000001
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.000002,
+        "valueDb": 0,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.000003",
+        "time": 0.000003,
+        "valueDb": 0,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.000003",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999999999999997e-7,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.000004",
+        "time": 9.999999999999997e-7,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "four-microseconds",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.000002,
+        "valueDb": 0,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.000004,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.000004,
+    "from": 5e-7,
+    "to": 0.0000025,
+    "points": [
+      {
+        "id": "trim-start-5e-7",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.000001,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.0000015,
+        "valueDb": 0,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "trim-end-0.0000025",
+        "time": 0.0000020000000000000003,
+        "valueDb": 0,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "four-microseconds",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": -24,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000002",
+        "time": 0.000002,
+        "valueDb": 0,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.000004",
+        "time": 0.000004,
+        "valueDb": -60,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.000004,
+    "from": 0.000001999999,
+    "to": 0.000002000001,
+    "points": [
+      {
+        "id": "trim-start-0.000001999999",
+        "time": 0,
+        "valueDb": -0.000023999999996249244,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999999998158455e-13,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.000002",
+        "time": 9.999999998158455e-13,
+        "valueDb": 0,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "trim-end-0.000002000001",
+        "time": 2.0000000000552074e-12,
+        "valueDb": 0,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "consecutive-mixed",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.04,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.04,
+    "cut": 0.002,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.002",
+        "time": 0.002,
+        "valueDb": 12,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.002",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.002,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.003
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.008,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.017,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0049999999999999975
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.038,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "consecutive-mixed",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.04,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.04,
+    "cut": 0.003999999,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0019999989999999997
+      },
+      {
+        "id": "split-left-0.003999999",
+        "time": 0.003999999,
+        "valueDb": -95.99994599999998,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.003999999",
+        "time": 0,
+        "valueDb": -95.99994599999998,
+        "interpolation": "hold",
+        "holdRampSeconds": 1.0000000003410059e-9,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.004",
+        "time": 1.0000000003410059e-9,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.003
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.0060000010000000005,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.015000000999999999,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0049999999999999975
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.036000001000000004,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "consecutive-mixed",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.04,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.04,
+    "cut": 0.004000001,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.004000001",
+        "time": 0.004000001,
+        "valueDb": -96,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.004000001",
+        "time": 0,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.003,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.005999999,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.014999999,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0049999999999999975
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.035999999,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "consecutive-mixed",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.04,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.04,
+    "cut": 0.007,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.007",
+        "time": 0.007,
+        "valueDb": -96,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.007",
+        "time": 0,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.003,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.003,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.012,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0049999999999999975
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.033,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "consecutive-mixed",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.04,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.04,
+    "cut": 0.009999999,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0029999990000000006
+      },
+      {
+        "id": "split-left-0.009999999",
+        "time": 0.009999999,
+        "valueDb": -6.000029999999981,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.009999999",
+        "time": 0,
+        "valueDb": -6.000029999999981,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999999994736442e-10,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.01",
+        "time": 9.999999994736442e-10,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.009000000999999999,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0049999999999999975
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.030000001,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "consecutive-mixed",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.04,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.04,
+    "cut": 0.010000001,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.003
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "split-left-0.010000001",
+        "time": 0.010000001,
+        "valueDb": -5.9999980000000015,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.010000001",
+        "time": 0,
+        "valueDb": -5.9999980000000015,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.008999999,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0049999999999999975
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.029999999,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "consecutive-mixed",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.04,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.04,
+    "cut": 0.018999999,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.003
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "split-left-0.018999999",
+        "time": 0.018999999,
+        "valueDb": 11.999998000000001,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.018999999",
+        "time": 0,
+        "valueDb": 11.999998000000001,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.019",
+        "time": 9.999999994736442e-10,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0049999999999999975
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.021000001,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "consecutive-mixed",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.04,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.04,
+    "cut": 0.019000001,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.003
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.019000001",
+        "time": 0.019000001,
+        "valueDb": 12,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.019000001",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0049999999999999975,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.020999999000000002,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "consecutive-mixed",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.04,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.04,
+    "cut": 0.035,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.003
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.035",
+        "time": 0.035,
+        "valueDb": 12,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.035",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0049999999999999975,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.0049999999999999975,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "consecutive-mixed",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.04,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.04,
+    "cut": 0.039999999,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.003
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.004999998999999998
+      },
+      {
+        "id": "split-left-0.039999999",
+        "time": 0.039999999,
+        "valueDb": -35.99999039999998,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.039999999",
+        "time": 0,
+        "valueDb": -35.99999039999998,
+        "interpolation": "hold",
+        "holdRampSeconds": 9.999999994736442e-10,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.04",
+        "time": 9.999999994736442e-10,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "consecutive-mixed",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.04,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.04,
+    "from": 0.001,
+    "to": 0.039,
+    "points": [
+      {
+        "id": "trim-start-0.001",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.002,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.003,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.003
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.009000000000000001,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.018,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.003999999999999997
+      },
+      {
+        "id": "trim-end-0.039",
+        "time": 0.038,
+        "valueDb": -26.399999999999963,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "consecutive-mixed",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.04,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.04,
+    "from": 0.003,
+    "to": 0.008,
+    "points": [
+      {
+        "id": "trim-start-0.003",
+        "time": 0,
+        "valueDb": -42,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.001,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.001,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.001
+      },
+      {
+        "id": "trim-end-0.008",
+        "time": 0.005,
+        "valueDb": -66,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "consecutive-mixed",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.04,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.04,
+    "from": 0.005,
+    "to": 0.016,
+    "points": [
+      {
+        "id": "trim-start-0.005",
+        "time": 0,
+        "valueDb": -96,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.003,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.005,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "trim-end-0.016",
+        "time": 0.011,
+        "valueDb": 6.000000000000002,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "consecutive-mixed",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.004",
+        "time": 0.004,
+        "valueDb": -96,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.01",
+        "time": 0.01,
+        "valueDb": -6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.019,
+        "valueDb": 12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.04",
+        "time": 0.04,
+        "valueDb": -36,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 0.04,
+    "from": 0.018,
+    "to": 0.036,
+    "points": [
+      {
+        "id": "trim-start-0.018",
+        "time": 0,
+        "valueDb": 9.999999999999996,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.019",
+        "time": 0.0010000000000000009,
+        "valueDb": 12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.000999999999999994
+      },
+      {
+        "id": "trim-end-0.036",
+        "time": 0.018,
+        "valueDb": 2.400000000000059,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "constant-before-and-after",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0,
+    "left": [
+      {
+        "id": "split-left-0",
+        "time": 0,
+        "valueDb": -36,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0",
+        "time": 0,
+        "valueDb": -36,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.004999999999999893
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "constant-before-and-after",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.1,
+    "left": [
+      {
+        "id": "split-left-0.1",
+        "time": 0.1,
+        "valueDb": -36,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.1",
+        "time": 0,
+        "valueDb": -36,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.2",
+        "time": 0.1,
+        "valueDb": -36,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.30000000000000004,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 0.9,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.004999999999999893
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.0999999999999999,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "constant-before-and-after",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.199999999,
+    "left": [
+      {
+        "id": "split-left-0.199999999",
+        "time": 0.199999999,
+        "valueDb": -36,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.199999999",
+        "time": 0,
+        "valueDb": -36,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.2",
+        "time": 9.999999994736442e-10,
+        "valueDb": -36,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.200000001,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 0.800000001,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.004999999999999893
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.0000000009999999,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "constant-before-and-after",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.2,
+    "left": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "p-0.2-right",
+        "time": 0,
+        "valueDb": -36,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.2,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 0.8,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.004999999999999893
+      },
+      {
+        "id": "p-1.2",
+        "time": 1,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "constant-before-and-after",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.200000001,
+    "left": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "split-left-0.200000001",
+        "time": 0.200000001,
+        "valueDb": -36,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.200000001",
+        "time": 0,
+        "valueDb": -36,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.199999999,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 0.799999999,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.004999999999999893
+      },
+      {
+        "id": "p-1.2",
+        "time": 0.9999999989999999,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "constant-before-and-after",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.398,
+    "left": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0030000000000000027
+      },
+      {
+        "id": "split-left-0.398",
+        "time": 0.398,
+        "valueDb": -14.39999999999998,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.398",
+        "time": 0,
+        "valueDb": -14.39999999999998,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0020000000000000018,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.0020000000000000018,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 0.602,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.004999999999999893
+      },
+      {
+        "id": "p-1.2",
+        "time": 0.8019999999999999,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "constant-before-and-after",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.5,
+    "left": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "split-left-0.5",
+        "time": 0.5,
+        "valueDb": -1.9999999999999996,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.5",
+        "time": 0,
+        "valueDb": -1.9999999999999996,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.004999999999999893
+      },
+      {
+        "id": "p-1.2",
+        "time": 0.7,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "constant-before-and-after",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 1.198,
+    "left": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0029999999999998916
+      },
+      {
+        "id": "split-left-1.198",
+        "time": 1.198,
+        "valueDb": -1.20000000000039,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-1.198",
+        "time": 0,
+        "valueDb": -1.20000000000039,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0020000000000000018,
+        "editBoundary": true
+      },
+      {
+        "id": "p-1.2",
+        "time": 0.0020000000000000018,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "constant-before-and-after",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 1.4,
+    "left": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.004999999999999893
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "split-left-1.4",
+        "time": 1.4,
+        "valueDb": 6,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-1.4",
+        "time": 0,
+        "valueDb": 6,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "constant-before-and-after",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 2,
+    "left": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0050000000000000044
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.004999999999999893
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "split-left-2",
+        "time": 2,
+        "valueDb": 6,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-2",
+        "time": 0,
+        "valueDb": 6,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "constant-before-and-after",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "from": 0,
+    "to": 0.1,
+    "points": [
+      {
+        "id": "trim-start-0",
+        "time": 0,
+        "valueDb": -36,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "trim-end-0.1",
+        "time": 0.1,
+        "valueDb": -36,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "constant-before-and-after",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "from": 0.1,
+    "to": 0.3,
+    "points": [
+      {
+        "id": "trim-start-0.1",
+        "time": 0,
+        "valueDb": -36,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.2",
+        "time": 0.1,
+        "valueDb": -36,
+        "interpolation": "hold",
+        "holdRampSeconds": 0
+      },
+      {
+        "id": "trim-end-0.3",
+        "time": 0.19999999999999998,
+        "valueDb": -36,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "constant-before-and-after",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "from": 0.399,
+    "to": 1.199,
+    "points": [
+      {
+        "id": "trim-start-0.399",
+        "time": 0,
+        "valueDb": -7.199999999999974,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0010000000000000009,
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.0010000000000000009,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 0.601,
+        "valueDb": -12,
+        "interpolation": "hold",
+        "holdRampSeconds": 0.0040000000000000036
+      },
+      {
+        "id": "trim-end-1.199",
+        "time": 0.8,
+        "valueDb": 2.400000000000013,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "constant-before-and-after",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0.2",
+        "time": 0.2,
+        "valueDb": -36,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-0.4",
+        "time": 0.4,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": -12,
+        "interpolation": "hold"
+      },
+      {
+        "id": "p-1.2",
+        "time": 1.2,
+        "valueDb": 6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "from": 1.4,
+    "to": 2,
+    "points": [
+      {
+        "id": "trim-start-1.4",
+        "time": 0,
+        "valueDb": 6,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "trim-end-2",
+        "time": 0.6000000000000001,
+        "valueDb": 6,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "linear-only",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.1,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "split-left-0.1",
+        "time": 0.1,
+        "valueDb": -2.4000000000000004,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.1",
+        "time": 0,
+        "valueDb": -2.4000000000000004,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.4,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 0.9,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 1.9,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "linear-only",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.499999999,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "split-left-0.499999999",
+        "time": 0.499999999,
+        "valueDb": -11.999999976,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.499999999",
+        "time": 0,
+        "valueDb": -11.999999976,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.5",
+        "time": 1.0000000272292198e-9,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 0.5000000010000001,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 1.500000001,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "linear-only",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.5,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "p-0.5-right",
+        "time": 0,
+        "valueDb": -12,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 0.5,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 1.5,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "linear-only",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.500000001,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "split-left-0.500000001",
+        "time": 0.500000001,
+        "valueDb": -11.999999964,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.500000001",
+        "time": 0,
+        "valueDb": -11.999999964,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 0.49999999900000003,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 1.499999999,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "linear-only",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 0.999999999,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "split-left-0.999999999",
+        "time": 0.999999999,
+        "valueDb": 5.999999964000001,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-0.999999999",
+        "time": 0,
+        "valueDb": 5.999999964000001,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-1",
+        "time": 9.999999717180685e-10,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 1.000000001,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "linear-only",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 1,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 6,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "p-1-right",
+        "time": 0,
+        "valueDb": 6,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-2",
+        "time": 1,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "linear-only",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 1.000000001,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "split-left-1.000000001",
+        "time": 1.000000001,
+        "valueDb": 5.999999987999999,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-1.000000001",
+        "time": 0,
+        "valueDb": 5.999999987999999,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-2",
+        "time": 0.9999999989999999,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "linear-only",
+    "kind": "split",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "cut": 1.9,
+    "left": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "split-left-1.9",
+        "time": 1.9,
+        "valueDb": -4.799999999999999,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ],
+    "right": [
+      {
+        "id": "split-right-1.9",
+        "time": 0,
+        "valueDb": -4.799999999999999,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-2",
+        "time": 0.10000000000000009,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ]
+  },
+  {
+    "name": "linear-only",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "from": 0.499999999,
+    "to": 0.500000001,
+    "points": [
+      {
+        "id": "trim-start-0.499999999",
+        "time": 0,
+        "valueDb": -11.999999976,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.5",
+        "time": 1.0000000272292198e-9,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "trim-end-0.500000001",
+        "time": 1.9999999989472883e-9,
+        "valueDb": -11.999999964,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  },
+  {
+    "name": "linear-only",
+    "kind": "trim",
+    "source": [
+      {
+        "id": "p-0",
+        "time": 0,
+        "valueDb": 0,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.5,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 1,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-2",
+        "time": 2,
+        "valueDb": -6,
+        "interpolation": "linear"
+      }
+    ],
+    "duration": 2,
+    "from": 0.3,
+    "to": 1.7,
+    "points": [
+      {
+        "id": "trim-start-0.3",
+        "time": 0,
+        "valueDb": -7.199999999999999,
+        "interpolation": "linear",
+        "editBoundary": true
+      },
+      {
+        "id": "p-0.5",
+        "time": 0.2,
+        "valueDb": -12,
+        "interpolation": "linear"
+      },
+      {
+        "id": "p-1",
+        "time": 0.7,
+        "valueDb": 6,
+        "interpolation": "linear"
+      },
+      {
+        "id": "trim-end-1.7",
+        "time": 1.4,
+        "valueDb": -2.3999999999999986,
+        "interpolation": "linear",
+        "editBoundary": true
+      }
+    ]
+  }
+]

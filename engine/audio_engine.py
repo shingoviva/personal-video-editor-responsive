@@ -53,7 +53,18 @@ def render_tracks(job,project,clips,work,total,track_key='audioTracks',layers=4,
    if fi:af+=f',afade=t=in:d={fi}'
    if fo:af+=f',afade=t=out:st={duration+hold-fo}:d={fo}'
    af+=f',atrim=start={offset}:duration={d},asetpts=N/SR/TB,apad,atrim=duration={d}'
-   core.run(job,['-i',joined,'-af',af,'-c:a','pcm_f32le',part],d,.9,0)
+   # Dense automation can exceed the OS's per-argument limit. FFmpeg's option
+   # file syntax reads the identical filter string; it changes no DSP behavior.
+   filter_file=None;filter_args=['-af',af]
+   if len(af)>32768:
+    filter_file=folder/f'gain-{n}.filter';filter_args=['-/filter:a',filter_file]
+   try:
+    if filter_file:filter_file.write_text(af)
+    core.run(job,['-i',joined,*filter_args,'-c:a','pcm_f32le',part],d,.9,0)
+   finally:
+    if filter_file:
+     try:filter_file.unlink()
+     except OSError:pass
    for segment in segments:segment.unlink()
    joined.unlink()
   listing=folder/'track.txt';listing.write_text(''.join(f"file '{p.name}'\n" for p in files));out=work/f'{prefix}-track-{layer}.wav'

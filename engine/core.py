@@ -51,22 +51,37 @@ def keyframe_expression(points,duration,maximum=3,time_expr='t',minimum=0):
 
 def gain_envelope_expression(points,duration,time_expr='t',step_ramp=.005):
  values=[]
- for point in (points or [])[:256]:
-  if isinstance(point,dict):values.append((number(point.get('time'),0,0,duration),number(point.get('valueDb',point.get('db')),0,-96,12),'hold' if point.get('interpolation')=='hold' or point.get('curve')=='hold' else 'linear'))
- values=sorted({time:(db,curve) for time,db,curve in values}.items())
+ for point in (points or []):
+  if isinstance(point,dict):
+   ramp=number(point.get('holdRampSeconds'),-1,0,86400)
+   values.append((number(point.get('time'),0,0,duration),number(point.get('valueDb',point.get('db')),0,-96,12),'hold' if point.get('interpolation')=='hold' or point.get('curve')=='hold' else 'linear',ramp,point.get('editBoundary') is True))
+ values=sorted({time:(db,curve,ramp,boundary) for time,db,curve,ramp,boundary in values}.items())
  if not values:return '1'
- gain=lambda db:f'pow(10,{db:.9f}/20)'
- expr=gain(values[-1][1][0])
- for (a,(av,curve)),(b,(bv,_)) in reversed(list(zip(values,values[1:]))):
-  span=max(1e-6,b-a)
+ # Only edited curves need sub-microsecond boundaries; preserve legacy strings.
+ precise=any(value[2]>=0 or value[3] for _,value in values)
+ fmt=lambda value:format(value,'.17g' if precise else '.9f')
+ gain=lambda db:f'pow(10,{fmt(db)}/20)'
+ expr=gain(values[-1][1][0]);segments=[]
+ for (a,(av,curve,stored_ramp,ab)),(b,(bv,_,__,bb)) in reversed(list(zip(values,values[1:]))):
+  span=max(1e-300 if ab or bb else 1e-6,b-a)
   if curve=='hold':
-   ramp=min(max(0,step_ramp),span/2);start=b-ramp
-   if ramp:segment=f'if(lt({time_expr},{start:.9f}),{gain(av)},pow(10,({av:.9f}+({bv-av:.9f})*max(0,min(1,(({time_expr})-{start:.9f})/{ramp:.9f})))/20))'
+   ramp=0 if step_ramp<=0 else min(stored_ramp,span) if stored_ramp>=0 else min(max(0,step_ramp),span/2);start=b-ramp
+   if ramp:segment=f'if(lt({time_expr},{fmt(start)}),{gain(av)},pow(10,({fmt(av)}+({fmt(bv-av)})*max(0,min(1,(({time_expr})-{fmt(start)})/{fmt(ramp)})))/20))'
    else:segment=gain(av)
   else:
-   u=f'max(0,min(1,(({time_expr})-{a:.9f})/{span:.9f}))';segment=f'pow(10,({av:.9f}+({bv-av:.9f})*({u}))/20)'
-  expr=f'if(lt({time_expr},{b:.9f}),{segment},{expr})'
- return f'if(lt({time_expr},{values[0][0]:.9f}),{gain(values[0][1][0])},{expr})'
+   u=f'max(0,min(1,(({time_expr})-{fmt(a)})/{fmt(span)}))';segment=f'pow(10,({fmt(av)}+({fmt(bv-av)})*({u}))/20)'
+  if len(values)<=32:expr=f'if(lt({time_expr},{fmt(b)}),{segment},{expr})'
+  else:segments.append((b,segment))
+ if segments:
+  # Same interval expressions and strict boundary comparisons, in a balanced
+  # decision tree so dense curves do not exhaust FFmpeg's expression depth.
+  leaves=list(reversed(segments))+[(None,expr)]
+  def branch(lo,hi):
+   if lo==hi:return leaves[lo][1]
+   mid=(lo+hi)//2
+   return f'if(lt({time_expr},{fmt(leaves[mid][0])}),{branch(lo,mid)},{branch(mid+1,hi)})'
+  expr=branch(0,len(leaves)-1)
+ return f'if(lt({time_expr},{fmt(values[0][0])}),{gain(values[0][1][0])},{expr})'
 
 def scale_keyframe_expression(clip,duration,nodes):
  points=clip.get('scaleKeyframes',[])[:32]
@@ -118,7 +133,7 @@ def capabilities():
  f=subprocess.run([FFMPEG,'-hide_banner','-filters'],capture_output=True,text=True).stdout
  e=subprocess.run([FFMPEG,'-hide_banner','-encoders'],capture_output=True,text=True).stdout
  ready='libx264' in e;stabilization='vidstabtransform' in f;hdr='zscale' in f and 'tonemap' in f;drawtext='drawtext' in f;text_raster='overlay' in f;text=drawtext or text_raster;prores='prores_ks' in e;motion='minterpolate' in f
- return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.83','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
+ return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.84','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
 
 def preflight_render(project,clips=None,caps=None):
  """Fail before rendering when the chosen edit needs a missing FFmpeg feature."""
@@ -417,6 +432,9 @@ def output_size(project,m,preview=False):
  return (max(2,round((short*ar if ar>=1 else short)/2)*2),max(2,round((short if ar>=1 else short/ar)/2)*2))
 
 def atempo(speed):
+ # WSOLA is not an identity transform at tempo=1: even a unit-tempo pass
+ # can move transients. Preserve decoded samples when no retiming is needed.
+ if speed==1:return 'anull'
  filters=[]
  while speed<.5:filters.append('atempo=0.5');speed/=.5
  while speed>2:filters.append('atempo=2');speed/=2
@@ -562,13 +580,59 @@ def video_has_frames(path,frames):
  result=subprocess.run([FFPROBE,'-v','error','-select_streams','v:0','-show_entries','stream=nb_frames','-of','csv=p=0',str(path)],capture_output=True,text=True,timeout=60)
  return result.returncode==0 and result.stdout.strip()==str(frames)
 
+def video_packet_clock(path,frames,fps,check_summary=False):
+ """Validate every presentation slot and decode order without decoding/re-encoding.
+
+ PVE emits one packet per picture (H.264/ProRes). Return the required global
+ reorder delay, measured from packet order, rather than assuming two B frames.
+ Unknown/missing/duplicate/off-grid timestamps are errors, never repair inputs.
+ """
+ result=subprocess.run([FFPROBE,'-v','error','-select_streams','v:0','-show_entries','stream=time_base,nb_frames,start_time,duration,avg_frame_rate','-of','json',str(path)],capture_output=True,text=True,timeout=60)
+ try:
+  stream=json.loads(result.stdout)['streams'][0];tick=ratio(stream['time_base'])
+  if result.returncode or int(stream['nb_frames'])!=frames or tick<=0:raise ValueError()
+  # Short intermediate edit lists use the muxer's millisecond movie clock.
+  # Their packets remain authoritative; delivered movies use our exact clock.
+  if check_summary and (abs(float(stream['start_time']))>tick or abs(float(stream['duration'])-frames/fps)>tick*2 or abs(ratio(stream['avg_frame_rate'])-fps)>1e-7):raise ValueError()
+ except (KeyError,ValueError,IndexError,TypeError):raise ValueError('映像のフレーム情報を確認できません。')
+ step=1/(fps*tick);seen=bytearray(frames);count=0;delay=0;previous_dts=None
+ # File-backed probe output bounds memory for long exports; no decoded pixels.
+ import tempfile
+ with tempfile.TemporaryFile(mode='w+t') as packets:
+  result=subprocess.run([FFPROBE,'-v','error','-select_streams','v:0','-show_packets','-show_entries','packet=pts,dts,duration','-of','compact=p=0:nk=0',str(path)],stdout=packets,stderr=subprocess.PIPE,text=True,timeout=240)
+  if result.returncode:raise ValueError('映像のパケット時刻を確認できません。')
+  packets.seek(0)
+  for line in packets:
+   if not line.strip():continue
+   try:
+    packet=dict(field.split('=',1) for field in line.strip().split('|') if '=' in field)
+    pts=int(packet['pts']);dts=int(packet['dts']);duration=int(packet['duration']);index=round(pts/step)
+    if not 0<=index<frames or seen[index] or pts!=round(index*step) or abs(duration-step)>1.000001 or dts>pts or (previous_dts is not None and dts<=previous_dts):raise ValueError()
+   except (KeyError,ValueError):raise ValueError('映像のフレーム時刻が不正です。再エンコードせず書き出しを中止しました。')
+   seen[index]=1;delay=max(delay,count-index);count+=1;previous_dts=dts
+ if count!=frames:raise ValueError('映像のフレームが欠落しています。')
+ return delay
+
+def video_timing_matches(path,frames,fps):
+ try:video_packet_clock(path,frames,fps,check_summary=True);return True
+ except (ValueError,subprocess.TimeoutExpired):return False
+
+def export_video_timescale(fps):
+ # Preserve the 90k clock where exact; NTSC 24/60 need a divisible clock.
+ return 360000 if abs(fps-24000/1001)<1e-7 else 180000 if abs(fps-60000/1001)<1e-7 else 90000
+
+def export_frame_rate(value):
+ # Standard decimal labels denote rational cadence; source estimates stay separate.
+ return {'23.976':24000/1001,'29.97':30000/1001,'59.94':60000/1001}.get(str(value),value)
+
 def render(job,project,preview=False,_token=None,_size=None):
  audio_clips=validate_audio(project)
  overlay_end=max([0]+[number(e.get('start'),0,0,86400)+number(e.get('duration'),.6,1/60,86400) for e in project.get('effects',[])]+[number(t.get('end'),0,0,86400) for t in project.get('texts',[])])
  render_project=project if project.get('clips') else {**project,'clips':[{'gap':max(overlay_end,audio_extent(audio_clips),1/30),'start':0}]}
- source_clips=validate(render_project);timeline_end=max([overlay_end]+[c['_at']+c['_window'][1] for c in visible_clips(source_clips)]);tracks=project.get('videoTracks',[]);clips=[c for c in source_clips if not (len(tracks)>int(number(c.get('layer'),0,0,2)) and tracks[int(number(c.get('layer'),0,0,2))].get('hidden'))];caps=capabilities();preflight_render(project,clips,caps=caps);first=next((MEDIA[c['media']] for c in clips if c.get('media') in MEDIA),next((MEDIA[c['media']] for c in source_clips if c.get('media') in MEDIA),{'width':1920,'height':1080,'fps':30}));w,h=_size or output_size(project,first,preview);exp=project.get('export',{});fps=number(exp.get('fps'),(first['fps'] or 30) if exp.get('fps')=='Source' else 30,1,240)
+ source_clips=validate(render_project);timeline_end=max([overlay_end]+[c['_at']+c['_window'][1] for c in visible_clips(source_clips)]);tracks=project.get('videoTracks',[]);clips=[c for c in source_clips if not (len(tracks)>int(number(c.get('layer'),0,0,2)) and tracks[int(number(c.get('layer'),0,0,2))].get('hidden'))];caps=capabilities();preflight_render(project,clips,caps=caps);first=next((MEDIA[c['media']] for c in clips if c.get('media') in MEDIA),next((MEDIA[c['media']] for c in source_clips if c.get('media') in MEDIA),{'width':1920,'height':1080,'fps':30}));w,h=_size or output_size(project,first,preview);exp=project.get('export',{});fps=number(export_frame_rate(exp.get('fps')),(first['fps'] or 30) if exp.get('fps')=='Source' else 30,1,240)
  if preview:fps=min(30,fps)
  fps=min(60,fps) # SNS V1 delivery contract
+ timescale=export_video_timescale(fps)
  video_end=max([0]+[c['_at']+c['_window'][1] for c in visible_clips(clips)]);required_end=max(timeline_end,audio_extent(audio_clips))
  if required_end>video_end+1e-8:clips=[*clips,{'gap':required_end-video_end,'start':video_end}]
  raw_clips=copy.deepcopy(clips)
@@ -594,7 +658,7 @@ def render(job,project,preview=False,_token=None,_size=None):
    if c.get('gap'):
     parts.wait()
     d=c['_window'][1];part=work/f'clip-{idx:04d}{ext}';outputs.append(part);job['operation']='空白区間を生成中'
-    run(job,['-f','lavfi','-i',f'color=c=black:s={w}x{h}:r={fps}','-f','lavfi','-i','anullsrc=r=48000:cl=stereo','-t',d,*video_args,*audio_args,'-video_track_timescale','90000',part],d,done/max(total,.001)*.85,d/max(total,.001)*.85)
+    run(job,['-f','lavfi','-i',f'color=c=black:s={w}x{h}:r={fps}','-f','lavfi','-i','anullsrc=r=48000:cl=stereo','-t',d,*video_args,*audio_args,'-video_track_timescale',str(timescale),part],d,done/max(total,.001)*.85,d/max(total,.001)*.85)
     done+=d;continue
    check(job);m=MEDIA[c['media']];nodes,pieces=timing(c);duration=nodes[-1][1];hold=number(c.get('hold'),0,0,10);vf=tone(m);source=m['path'];source_duration=c['out']-c['in'];seek=c['in'];audio_source=source;audio_seek=seek;job['operation']=f'クリップ {idx+1}/{len(clips)} を処理中'
    stabil='OFF' if m.get('kind')=='image' or c.get('freezeDuration') else c.get('stabilization','OFF')
@@ -679,7 +743,7 @@ def render(job,project,preview=False,_token=None,_size=None):
    part=work/f'clip-{idx:04d}{ext}';outputs.append(part)
    script=work/'graph.txt';script.write_text(';\n'.join(graph))
    job['operation']=f'クリップ {idx+1}/{len(clips)} を書き出し中'
-   parts.submit(input_args+['-filter_complex_script',script,'-map','[vout]','-map','[a]',*video_args,*audio_args,'-color_primaries','bt709','-color_trc','bt709','-colorspace','bt709','-video_track_timescale','90000',part],window_duration,done/max(total,.001)*.85,window_duration/max(total,.001)*.85)
+   parts.submit(input_args+['-filter_complex_script',script,'-map','[vout]','-map','[a]',*video_args,*audio_args,'-color_primaries','bt709','-color_trc','bt709','-colorspace','bt709','-video_track_timescale',str(timescale),part],window_duration,done/max(total,.001)*.85,window_duration/max(total,.001)*.85)
    transition=clip_transition(c,raw_clips,fps)
    if transition and len(outputs)>1 and offset<1/fps+1e-7:
     parts.wait()
@@ -695,16 +759,26 @@ def render(job,project,preview=False,_token=None,_size=None):
      tail_vf+=spatial_filters(w,h,number(previous_clip.get('scale'),1,.1,3),number(previous_clip.get('x'),.5,0,1),number(previous_clip.get('y'),.5,0,1),number(previous_clip.get('offsetX'),0,-4,4),number(previous_clip.get('offsetY'),0,-4,4),previous_media['width']/previous_media['height'])
      tagged=all(previous_media.get(k) not in (None,'','unknown') for k in ('transfer','primaries','matrix'));tail_precision='zscale=matrix=709:range=limited:dither=error_diffusion' if caps.get('hdr') and tagged else 'scale=out_color_matrix=bt709:out_range=tv:flags=lanczos+accurate_rnd+full_chroma_int:sws_dither=auto'
      tail_vf+=['settb=AVTB',f'setpts=(PTS-STARTPTS)/{tail_speed:.9f}',f'fps={fps}',f'tpad=stop_mode=clone:stop_duration={td:.9f}',f'trim=duration={td:.9f}',tail_precision,f'format={pixel}','setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709']
-     run(job,['-ss',number(previous_clip.get('out'),0),'-t',source_span,'-i',previous_media['path'],'-an','-vf',','.join(tail_vf),*video_args,'-video_track_timescale','90000',tail],td,done/max(total,.001)*.85,0);old_input=['-i',tail]
+     run(job,['-ss',number(previous_clip.get('out'),0),'-t',source_span,'-i',previous_media['path'],'-an','-vf',','.join(tail_vf),*video_args,'-video_track_timescale',str(timescale),tail],td,done/max(total,.001)*.85,0);old_input=['-i',tail]
     graph=transition_video_graph(transition,td,window_duration,w,h,fps,pixel)
     job['operation']=f"トランジション {idx+1}/{len(clips)} を合成中"
-    run(job,[*old_input,'-i',part,'-filter_complex',graph,'-map','[v]','-map','1:a?',*video_args,'-c:a','copy','-color_primaries','bt709','-color_trc','bt709','-colorspace','bt709','-video_track_timescale','90000',blended],window_duration,done/max(total,.001)*.85,0)
+    run(job,[*old_input,'-i',part,'-filter_complex',graph,'-map','[v]','-map','1:a?',*video_args,'-c:a','copy','-color_primaries','bt709','-color_trc','bt709','-colorspace','bt709','-video_track_timescale',str(timescale),blended],window_duration,done/max(total,.001)*.85,0)
     part.unlink();blended.replace(part)
    done+=window_duration
    if (work/'stabilized.mov').exists():(work/'stabilized.mov').unlink()
   parts.wait()
-  concat=work/'concat.txt';concat.write_text(''.join(f"file '{p.name}'\n" for p in outputs));joined=work/('joined'+ext)
-  job['operation']='クリップを結合中';run(job,['-f','concat','-safe','0','-i',concat,'-c','copy',joined],total,.85,.04)
+  # Concat must use the picture clock, not AAC priming/container durations.
+  lines=[];elapsed=0;previous_us=0;reorder=0
+  for path,c in zip(outputs,clips):
+   frame_count=max(1,math.ceil(c['_window'][1]*fps-1e-8))
+   reorder=max(reorder,video_packet_clock(path,frame_count,fps))
+   elapsed+=frame_count;end_us=round(elapsed/fps*1000000)
+   lines.append(f"file '{path.name}'\nduration {(end_us-previous_us)/1000000:.6f}\n");previous_us=end_us
+  concat=work/'concat.txt';concat.write_text(''.join(lines));joined=work/('joined'+ext)
+  # Decode-order packets are unchanged. A measured global delay makes DTS
+  # monotonic even across one-frame/non-B and reordered GOP boundaries.
+  job['operation']='クリップを結合中';run(job,['-copyts','-f','concat','-safe','0','-i',concat,'-c','copy','-bsf:v',f'setts=pts=PTS:dts=(N-{reorder})/({fps}*TB):duration=1/({fps}*TB)','-video_track_timescale',str(timescale),'-movie_timescale',str(timescale),joined],total,.85,.04)
+  if not video_timing_matches(joined,max(1,math.ceil(total*fps-1e-8)),fps):raise ValueError('結合後の映像時刻が不正です。再エンコードせず書き出しを中止しました。')
   overlay_tracks=project.get('overlayTracks',[]);overlay_visible=lambda item:not (len(overlay_tracks)>int(number(item.get('layer'),0,0,2)) and overlay_tracks[int(number(item.get('layer'),0,0,2))].get('hidden'));effects=sorted([e for e in project.get('effects',[]) if overlay_visible(e)],key=lambda e:number(e.get('layer'),0,0,2))
   if len(effects)>100:raise ValueError('画面効果は最大100個です。')
   for i,e in enumerate(effects):
@@ -815,13 +889,18 @@ def render(job,project,preview=False,_token=None,_size=None):
     run(job,['-i',joined,'-an','-vf',','.join([*final_vf,video_frame_window(total,fps)]),*video_args,'-t',total,picture],total,.89,0)
     joined=picture;final_vf=[]
    args=['-i',joined,'-i',audio_out,'-map','0:v','-map','1:a']
-  # Keep the fast copy path when the composed video already has the exact frame count.
-  if final_vf or not video_has_frames(joined,max(1,math.ceil(total*fps-1e-8))):
+  # Effects may require a final picture pass. A clock/count error alone must
+  # never trigger another lossy video generation.
+  if not final_vf and not video_has_frames(joined,max(1,math.ceil(total*fps-1e-8))):
+   raise ValueError('合成後の映像フレーム数が不正です。')
+  if final_vf:
    final_vf.append(video_frame_window(total,fps))
    args+=['-vf',','.join(final_vf),*video_args]
   else:args+=['-c:v','copy']
-  args+=['-c:a','copy','-t',total,'-movflags','+faststart',out]
+  args+=['-c:a','copy','-video_track_timescale',str(timescale),'-movie_timescale',str(timescale),'-t',total,'-movflags','+faststart',out]
   job['operation']=encoding['label']+'を仕上げ中';run(job,args,total,.89,.09,verify_decode=True)
+  if not video_timing_matches(out,max(1,math.ceil(total*fps-1e-8)),fps):
+   out.unlink(missing_ok=True);raise ValueError('出力映像の時刻検証に失敗しました。')
   return {'file':out.name,'url':('/cache/' if preview else '/exports/')+out.name+'?filename='+urllib.parse.quote(export_file_name(project,ext),safe=''),'duration':total,'width':w,'height':h,'fps':fps,'preview':preview,'format':'MOV' if ext=='.mov' else 'MP4','codec':encoding['label'],'verified':True,'recoveredOutputs':job.get('recoveredOutputs',0)}
  finally:
   try:parts.close(aborting=sys.exc_info()[0] is not None)

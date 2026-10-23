@@ -5,13 +5,13 @@ import json
 root = Path(__file__).resolve().parent.parent
 version = json.loads((root / 'package.json').read_text())['version']
 output = root / 'dist/personal-video-editor-mac.zip'
-entries = ['dist', 'engine', 'tests', 'validation', 'scripts', 'docs/schemas', 'README.md', 'VALIDATION.md', 'Launch.command', 'package.json', 'package-lock.json', 'vite.config.mjs']
+entries = ['dist', 'engine', 'tests', 'validation', 'scripts', 'docs/schemas', 'docs/PVE-2.2.84-RELEASE-NOTES.md', 'docs/PVE-2.2.84-RELEASE-REPORT.md', 'docs/PVE-2.2.84-SELECTION.json', 'docs/PVE-2.2.84-CACHE-MANIFEST.json', 'docs/PVE-2.2.84-VALIDATION.json', 'docs/PVE-2.2.84-FILES.json', 'README.md', 'VALIDATION.md', 'Launch.command', 'package.json', 'package-lock.json', 'vite.config.mjs']
 with ZipFile(output, 'w', ZIP_DEFLATED, compresslevel=9) as archive:
     for entry in entries:
         base = root / entry
         files = sorted(base.rglob('*')) if base.is_dir() else [base]
         for path in files:
-            if not path.is_file() or path == output or '__pycache__' in path.parts or '.vite' in path.parts or (path.suffix in ('.pyc', '.mp4', '.mov') and path.name != 'device-test.mp4'):
+            if not path.is_file() or path == output or '__pycache__' in path.parts or '.vite' in path.parts or (path.suffix in ('.pyc', '.log', '.f32', '.mp4', '.mov') and path.name != 'device-test.mp4' and not (path.relative_to(root).as_posix().startswith('tests/fixtures/mp4/') and path.name in {'formal-chrome-two.mp4','chrome-two.mp4','ffmpeg-44100.mp4','ffmpeg-48000.mp4'})):
                 continue
             archive.write(path, 'Personal-Video-Editor/' + path.relative_to(root).as_posix())
 with ZipFile(output) as archive:

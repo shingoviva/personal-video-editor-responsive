@@ -1,0 +1,6 @@
+// Preserve original FAIL results; detect newly failing cases without weakening gates.
+import fs from'node:fs';import path from'node:path';import assert from'node:assert/strict';
+const root=process.argv[2],baseline=JSON.parse(fs.readFileSync(new URL('../tests/fixtures/aac-known-quality.json',import.meta.url))),rows=[];
+for(const engine of['chrome','webkit']){const report=JSON.parse(fs.readFileSync(path.join(root,engine,'verified.json')));assert.equal(report.rows.length,47);for(const key of['encoderPathPass','sourceDecodePass']){const bad=report.rows.filter(r=>!r[key]).map(r=>r.case.id);assert(bad.every(id=>baseline[engine][key].includes(id)),engine+' new quality failure: '+bad);rows.push({engine,gate:key,status:bad.length?'KNOWN FAIL (not PASS)':'PASS',failedCases:bad})}
+ for(const r of report.rows){for(const key of['markers','sourceMarkers']){const minimum=Math.min(...r[key].map(x=>x.correlation));assert(minimum>=baseline[engine].baselineMinCorrelations[r.case.id][key]-1e-6,engine+' worse correlation '+r.case.id);assert(r[key].every(x=>Math.abs(x.lagSeconds)<=.002),engine+' new sync error')}}}
+const result={regressionComparedToPhase1j:'PASS',originalCorrelationAnd2msGates:'unchanged',qualityFailuresRemain:true,rows};fs.writeFileSync(path.join(root,'known-quality-comparison.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));

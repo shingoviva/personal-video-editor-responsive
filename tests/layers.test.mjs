@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {project,clip,total,sequence,visibleSequence,compileTimeline,anchor,pasteClip,deleteClip,timing,trimClip,sanitize,splitClip,sourceOffset} from '../dist/model.js';
-import {sourceTime} from '../dist/mobile-model.js';
+import {project,clip,total,sequence,visibleSequence,compileTimeline,anchor,pasteClip,deleteClip,timing,trimClip,sanitize,splitClip,sourceOffset} from '../dist/model.js?v=2.2.84';
+import {sourceTime} from '../dist/mobile-model.js?v=2.2.84';
 const m={id:'source',duration:20,width:160,height:90};
 const p=project();p.media=[m];const base={...clip(m),out:4,start:0,layer:0};
 const upper={...clip(m),in:5,out:6,start:1,layer:1};

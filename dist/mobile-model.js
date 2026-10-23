@@ -1,11 +1,12 @@
-import {sequence,total,timing,sourceOffset,clamp} from './model.js?v=2.2.83';
-import {envelopeGainAt} from './clip-envelope.js';
+import {frameRateValue} from './timeline-time.js?v=2.2.84';
+import {sequence,total,timing,sourceOffset,clamp} from './model.js?v=2.2.84';
+import {envelopeGainAt} from './clip-envelope.js?v=2.2.84';
 export function outputSettings(p,preview=false){
  const m=p.media.find(m=>m.id===p.clips.find(c=>!c.gap)?.media)||{width:1920,height:1080,fps:30};
  const ar=p.aspect==='Original'?m.width/m.height:p.aspect.split(':').map(Number).reduce((a,b)=>a/b);
  const edge=preview?540:p.export.resolution==='4K'?2160:p.export.resolution==='1440p'?1440:p.export.resolution==='Source'?Math.min(m.width,m.height):1080;
  const width=2*Math.max(1,Math.round((ar>=1?edge*ar:edge)/2)),height=2*Math.max(1,Math.round((ar>=1?edge:edge/ar)/2));
- const fps=p.export.fps==='Source'?clamp(m.fps||30,1,60):clamp(p.export.fps||30,1,60);
+ const fps=p.export.fps==='Source'?clamp(m.fps||30,1,60):clamp(frameRateValue(p.export.fps||30),1,60);
  const duration=total(p);if(!Number.isFinite(duration)||duration<=0)throw Error('書き出し時間が無効です。');
  const youtube=p.export.preset==='YOUTUBE',automaticAudio=youtube&&['High','Maximum'].includes(p.export.quality)?320000:192000;
  const requestedVideo=Number(p.export.videoBitrate),requestedAudio=Number(p.export.audioBitrate);

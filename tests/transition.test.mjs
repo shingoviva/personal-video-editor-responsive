@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {clip,project,sequence,sanitize} from '../dist/model.js';
-import {normalizeTransition,transitionState,transitionStyles,drawTransitionLayer,outgoingTransitionRow,applyTransitionStyles} from '../dist/transition.js';
+import {clip,project,sequence,sanitize} from '../dist/model.js?v=2.2.84';
+import {normalizeTransition,transitionState,transitionStyles,drawTransitionLayer,outgoingTransitionRow,applyTransitionStyles} from '../dist/transition.js?v=2.2.84';
 
 assert.deepEqual(normalizeTransition({type:'bogus',duration:20,direction:'diagonal'}),{type:'none',duration:2,direction:'left'});
 const p=project(),media={id:'movie',kind:'video',duration:8,width:1920,height:1080};
@@ -46,7 +46,7 @@ assert.equal(ctx.globalAlpha,.4);assert.equal(calls.filter(v=>Array.isArray(v)&&
 
 const restored=sanitize(JSON.parse(JSON.stringify(p)));
 assert.deepEqual(restored.clips[1].transition,{type:'slide',duration:1,direction:'left'});
-assert.match(await readFile(new URL('../dist/mobile-render-worker.js',import.meta.url),'utf8'),/drawTransitionLayer/);
+assert.match(await readFile(new URL('../dist/mobile-render-worker.js?v=2.2.84',import.meta.url),'utf8'),/drawTransitionLayer/);
 console.log('Transitions: model, adjacency, easing, canvas composition and project restore PASS');
 
 // Clearing the transition surface must survive the following style reset.

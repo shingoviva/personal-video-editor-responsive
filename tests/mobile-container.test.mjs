@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {execFileSync}from'node:child_process';
-import{Input,ALL_FORMATS,BlobSource,Output,Mp4OutputFormat,StreamTarget,EncodedPacketSink,EncodedVideoPacketSource,EncodedAudioPacketSource}from'../dist/vendor/mediabunny.mjs';
-import{probeFile}from'../dist/media-probe.js';
+import{Input,ALL_FORMATS,BlobSource,Output,Mp4OutputFormat,StreamTarget,EncodedPacketSink,EncodedVideoPacketSource,EncodedAudioPacketSource}from'../dist/vendor/mediabunny.mjs?v=2.2.84';
+import{probeFile}from'../dist/media-probe.js?v=2.2.84';
 const dir=fs.mkdtempSync(path.join(os.tmpdir(),'pve-mobile-mux-'));let input;
 try{
 const source=path.join(dir,'source.mp4');execFileSync('ffmpeg',['-v','error','-f','lavfi','-i','testsrc2=size=160x90:rate=30:duration=1','-f','lavfi','-i','sine=frequency=440:duration=1','-map','1:a','-map','0:v','-c:v','libx264','-threads','2','-c:a','aac','-shortest',source]);

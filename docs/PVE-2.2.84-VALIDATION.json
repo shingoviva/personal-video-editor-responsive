@@ -1,0 +1,78 @@
+{
+  "version": "2.2.84",
+  "state": "local candidate; approval pending",
+  "baselineSHA": "9b2f10aeb573e237b85fef4a0fb0d533e5ccd28d",
+  "npmTestEntries": 93,
+  "nativePythonSuites": 29,
+  "nativeCommandsAllPass": true,
+  "researchFixtureSuiteExcluded": true,
+  "build": "PASS; static assets, release/cache and vendor reapply checks",
+  "browserExports": 94,
+  "independentDecode": {
+    "result": "PASS",
+    "files": 94,
+    "comparisons": 282,
+    "markers": 1314,
+    "maxLagSamples": 0,
+    "maxDriftSamples": 0,
+    "minimumCorrelation": 0.9999999999915444
+  },
+  "failureCancellationRetry": {
+    "chrome": 9,
+    "webkit": 9,
+    "result": "PASS"
+  },
+  "browserControls": [
+    {
+      "script": "check-project-storage-browser.mjs",
+      "dest": "b1.json",
+      "exitCode": 0,
+      "seconds": 1.961836458
+    },
+    {
+      "script": "check-release-storage-growth.mjs",
+      "dest": "growth.json",
+      "exitCode": 0,
+      "seconds": 0.9853408750000001
+    },
+    {
+      "script": "check-envelope-edit-browser.mjs",
+      "dest": "b2",
+      "exitCode": 0,
+      "seconds": 8.907874708
+    },
+    {
+      "script": "check-envelope-limit-browser.mjs",
+      "dest": "b3",
+      "exitCode": 0,
+      "seconds": 11.513470833
+    },
+    {
+      "script": "check-timeline-timing-browser.mjs",
+      "dest": "b4",
+      "exitCode": 0,
+      "seconds": 61.77663824999999
+    },
+    {
+      "script": "check-timeline-export-browser.mjs",
+      "dest": "b4-export",
+      "exitCode": 0,
+      "seconds": 2.347093375
+    }
+  ],
+  "realTransition": {
+    "result": "PASS",
+    "previewDissolveAt02MAE": 3.138,
+    "unchangedThresholdLessThan": 9,
+    "checks": 24
+  },
+  "knownAACQuality": "original FAIL preserved; no new failures or worse correlations vs Phase1j",
+  "userDeviceAcceptance": {
+    "source": "user release instructions section 0",
+    "Mac": "reported accepted",
+    "Chrome": "reported accepted",
+    "iPhoneSafari": "reported accepted",
+    "agentPhysical2msMeasurement": false
+  },
+  "published": false
+}

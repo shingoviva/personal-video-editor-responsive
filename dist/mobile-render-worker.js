@@ -1,20 +1,23 @@
-import {orderedEffects} from './effect-order.js?v=2.2.83';
-import {drawRegionZoom} from './region-zoom.js?v=2.2.83';
-import {openRenderFile,writeRenderChunk,storageFailureMessage} from './mobile-storage-output.js';
-import {directCanvasEligible} from './export-direct-canvas.js';
-import {AudioWindowReader} from './streaming-audio.js';
-import {audioWindows,trackGain} from './audio-timeline.js';
-import {Input,ALL_FORMATS,BlobSource,CanvasSink,AudioSampleSink,VideoSampleSink,EncodedPacketSink,Output,Mp4OutputFormat,StreamTarget,CanvasSource,AudioSampleSource,AudioSample,Quality,canEncodeVideo,canEncodeAudio} from './vendor/mediabunny.mjs';
-import {clipAlpha,effectAlpha} from './creative.js?v=2.2.83';
-import {imageBitmap} from './image-media.js';
-import {renderer} from './preview.js?v=2.2.83';
-import {sequence,visibleSequence,timing,sourceOffset,total} from './model.js?v=2.2.83';
-import {outputSettings,sourceTime,gainAt,held,mixWindow,limitStereo,declickGain} from './mobile-model.js?v=2.2.83';
-import {stabilizationPathFromFrames,correctionAt,stabilizationSampleCount} from './mobile-stabilize.js?v=2.2.83';
-import {drawTextCanvas,drawTextRasterCanvas} from './text-render.js';
-import {motionTransform} from './motion-transform.js';
-import {streamingFrames} from './streaming-frames.js';
-import {transitionState,drawTransitionLayer,outgoingTransitionRow} from './transition.js';
+import {AacPrimingMux,verifyAacPrimingFile} from './mp4-aac-roll.js?v=2.2.84';
+import {webkitVideoOptions} from './webkit-export-compat.js?v=2.2.84';
+import {BrowserAudioOutput} from './browser-audio-output.js?v=2.2.84';
+import {orderedEffects} from './effect-order.js?v=2.2.84';
+import {drawRegionZoom} from './region-zoom.js?v=2.2.84';
+import {openRenderFile,writeRenderChunk,storageFailureMessage} from './mobile-storage-output.js?v=2.2.84';
+import {directCanvasEligible} from './export-direct-canvas.js?v=2.2.84';
+import {AudioWindowReader,audioDecodeStart} from './streaming-audio.js?v=2.2.84';
+import {audioWindows,trackGain} from './audio-timeline.js?v=2.2.84';
+import {Input,ALL_FORMATS,BlobSource,CanvasSink,AudioSampleSink,VideoSampleSink,EncodedPacketSink,Output,Mp4OutputFormat,StreamTarget,CanvasSource,AudioSample,Quality,canEncodeVideo,canEncodeAudio} from './vendor/mediabunny.mjs?v=2.2.84';
+import {clipAlpha,effectAlpha} from './creative.js?v=2.2.84';
+import {imageBitmap} from './image-media.js?v=2.2.84';
+import {renderer} from './preview.js?v=2.2.84';
+import {sequence,visibleSequence,timing,sourceOffset,total} from './model.js?v=2.2.84';
+import {outputSettings,sourceTime,gainAt,held,mixWindow,limitStereo,declickGain} from './mobile-model.js?v=2.2.84';
+import {stabilizationPathFromFrames,correctionAt,stabilizationSampleCount} from './mobile-stabilize.js?v=2.2.84';
+import {drawTextCanvas,drawTextRasterCanvas} from './text-render.js?v=2.2.84';
+import {motionTransform} from './motion-transform.js?v=2.2.84';
+import {streamingFrames} from './streaming-frames.js?v=2.2.84';
+import {transitionState,drawTransitionLayer,outgoingTransitionRow} from './transition.js?v=2.2.84';
 let cancelled=false,limiter={gain:1};
 const check=()=>{if(cancelled)throw new DOMException('書き出しを中止しました。','AbortError')};
 const progress=(operation,value)=>postMessage({type:'progress',operation,value});
@@ -23,7 +26,7 @@ const canvas=(w,h)=>new OffscreenCanvas(w,h);
 export const isHDRColor=(flag,color={})=>!!flag||['smpte2084','arib-std-b67','pq','hlg'].includes(color?.transfer);
 export async function audioRange(track,start,end){
  const rate=track.sampleRate,length=Math.ceil((end-start)*rate)+2;if(length>rate*6)throw Error('音声処理の区間が長すぎます。');const planes=[new Float32Array(length),new Float32Array(length)];
- const sink=new AudioSampleSink(track);for await(const sample of sink.samples(Math.max(0,start),end)){try{check();const offset=Math.round((sample.timestamp-start)*rate);for(let ch=0;ch<2;ch++){const data=new Float32Array(sample.numberOfFrames);sample.copyTo(data,{planeIndex:Math.min(ch,sample.numberOfChannels-1),format:'f32-planar'});const a=Math.max(0,-offset),b=Math.min(data.length,length-offset);if(b>a)planes[ch].set(data.subarray(a,b),offset+a)}}finally{sample.close()}}
+ const sink=new AudioSampleSink(track);for await(const sample of sink.samples(await audioDecodeStart(track,start),end)){try{check();const offset=Math.round((sample.timestamp-start)*rate);for(let ch=0;ch<2;ch++){const data=new Float32Array(sample.numberOfFrames);sample.copyTo(data,{planeIndex:Math.min(ch,sample.numberOfChannels-1),format:'f32-planar'});const a=Math.max(0,-offset),b=Math.min(data.length,length-offset);if(b>a)planes[ch].set(data.subarray(a,b),offset+a)}}finally{sample.close()}}
  return{planes,rate,start};
 }
 const delayStates=new Map();
@@ -69,7 +72,7 @@ async function frameReader(row,res,cfg,start=row.start){
  }catch(e){await frames?.close();still?.close();throw e}
 }
 export async function render(p,files,preview,outputPath){const began=performance.now();limiter={gain:1};delayStates.clear();
- const cfg=outputSettings(p,preview),hidden=layer=>!!p.videoTracks?.[layer]?.hidden,overlayHidden=item=>!!p.overlayTracks?.[item.layer||0]?.hidden,videoProject={...p,clips:p.clips.filter(c=>!hidden(c.layer||0)),audioClips:[]},rows=visibleSequence(videoProject),sourceAudioRows=sequence(videoProject),effects=orderedEffects((p.effects||[]).filter(e=>!overlayHidden(e))),texts=(p.texts||[]).filter(t=>!overlayHidden(t)),resources=new Map(),textBitmaps=new Map();let output,handle,fileHandle,root,path,success=false;const activeInputs=[],sessions=[null,null,null],transitionSessions=[null,null,null];let painter;
+ const cfg=outputSettings(p,preview),hidden=layer=>!!p.videoTracks?.[layer]?.hidden,overlayHidden=item=>!!p.overlayTracks?.[item.layer||0]?.hidden,videoProject={...p,clips:p.clips.filter(c=>!hidden(c.layer||0)),audioClips:[]},rows=visibleSequence(videoProject),sourceAudioRows=sequence(videoProject),effects=orderedEffects((p.effects||[]).filter(e=>!overlayHidden(e))),texts=(p.texts||[]).filter(t=>!overlayHidden(t)),resources=new Map(),textBitmaps=new Map();let output,handle,fileHandle,root,path,success=false;const activeInputs=[],sessions=[null,null,null],transitionSessions=[null,null,null];let painter,audioSource;
  try{
  if(!globalThis.VideoEncoder||!globalThis.AudioEncoder||!globalThis.OffscreenCanvas)throw Error('このブラウザは端末内書き出しに未対応です。最新のiOSのSafariで開いてください。');
  if(!await canEncodeVideo('avc',{width:cfg.width,height:cfg.height,bitrate:cfg.bitrate})||!await canEncodeAudio('aac',{sampleRate:48000,numberOfChannels:2}))throw Error('選択したH.264/AAC設定に端末が対応していません。1080p・30fpsをお試しください。');
@@ -79,10 +82,11 @@ export async function render(p,files,preview,outputPath){const began=performance
  const needsAudio=(p.audioClips||[]).some(c=>c.media===id)||id===p.bgm.media||sourceAudioRows.some(r=>r.clip.media===id&&!r.clip.audio?.mute&&r.clip.audio?.volume);if(audio&&needsAudio&&audio.numberOfChannels>2)throw Error('端末版の音声はモノラル・ステレオのみ対応しています。');if(audio&&needsAudio&&!await audio.canDecode())throw Error(file.name+' の音声をデコードできません。');let decoderPreference='no-preference';if(video&&globalThis.VideoDecoder)try{if((await VideoDecoder.isConfigSupported({...await video.getDecoderConfig(),hardwareAcceleration:'prefer-hardware'})).supported)decoderPreference='prefer-hardware'}catch{}resources.set(id,{input,video,decoderPreference,streamAudio:true,audio:needsAudio?audio:null,duration:await input.computeDuration(),hdr,color});}
  for(const text of texts)if(text.raster?.data)try{textBitmaps.set(text.id,await createImageBitmap(await(await fetch(text.raster.data)).blob()))}catch{}
  check();({root,path,fileHandle,handle}=await openRenderFile(navigator.storage,outputPath));
+ const primingMux=new AacPrimingMux();
  const stream=new WritableStream({write({data,position}){writeRenderChunk(handle,data,position,check)}});
- output=new Output({format:new Mp4OutputFormat({fastStart:'reserve'}),target:new StreamTarget(stream,{chunked:true,chunkSize:1024*1024})});
+ output=new Output({format:new Mp4OutputFormat({fastStart:'reserve',pveAacPriming:primingMux}),target:new StreamTarget(stream,{chunked:true,chunkSize:1024*1024})});
  const zoomScratch=canvas(cfg.width,cfg.height),fixedCaptions=!!texts.length&&effects.some(e=>e.type==='region-zoom'&&e.zoomTexts===false),captionCanvas=fixedCaptions?canvas(cfg.width,cfg.height):null,captionScratch=fixedCaptions?canvas(cfg.width,cfg.height):null;const picture=canvas(cfg.width,cfg.height),processed=canvas(cfg.width,cfg.height),ctx=picture.getContext('2d',{alpha:false,colorSpace:'srgb'});painter=renderer(processed,{width:cfg.width,height:cfg.height,preserve:true});if(!painter)throw Error('映像処理用GPUを利用できません。');
- const directCanvas=directCanvasEligible(videoProject,cfg.duration,{texts,effects});const videoSource=new CanvasSource(directCanvas?processed:picture,{codec:'avc',quality:new Quality({bitrate:cfg.bitrate}),keyFrameInterval:2,hardwareAcceleration});const audioSource=new AudioSampleSource({codec:'aac',quality:new Quality({bitrate:cfg.audioBitrate})});output.addVideoTrack(videoSource,{frameRate:cfg.fps,maximumPacketCount:cfg.frames+8});output.addAudioTrack(audioSource,{maximumPacketCount:Math.ceil(cfg.duration*48000/1024)+100});await output.start();let frameIndex=0,audioTime=0;
+ const directCanvas=directCanvasEligible(videoProject,cfg.duration,{texts,effects});const videoSource=new CanvasSource(directCanvas?processed:picture,{codec:'avc',quality:new Quality({bitrate:cfg.bitrate}),keyFrameInterval:2,...webkitVideoOptions(),hardwareAcceleration});audioSource=new BrowserAudioOutput({bitrate:cfg.audioBitrate,duration:cfg.duration,check});output.addVideoTrack(videoSource,{frameRate:cfg.fps,maximumPacketCount:cfg.frames+8});output.addAudioTrack(audioSource.source,{maximumPacketCount:Math.ceil(cfg.duration*48000/1024)+100});await output.start();let frameIndex=0,audioTime=0;
  const timelineRows=sequence(videoProject),originalLayerRows=[0,1,2].map(layer=>timelineRows.filter(row=>row.layer===layer)),layerRows=[0,1,2].map(layer=>visibleSequence({...videoProject,clips:timelineRows.filter(r=>r.layer===layer).map(r=>({...r.clip,start:r.start}))})),indices=[0,0,0];
  while(frameIndex<cfg.frames){
  check();const t=frameIndex/cfg.fps;ctx.globalAlpha=1;ctx.fillStyle='#000';ctx.fillRect(0,0,cfg.width,cfg.height);
@@ -103,8 +107,8 @@ export async function render(p,files,preview,outputPath){const began=performance
  const target=Math.min(cfg.duration,frameIndex/cfg.fps);while(audioTime<target-1e-8){const end=Math.min(cfg.duration,audioTime+.25),sample=await mixAudio(sourceAudioRows,resources,p,audioTime,end);if(sample){try{await audioSource.add(sample)}finally{sample.close()}}audioTime=end;}
  if(frameIndex%5===0)progress('MP4を書き出し中',frameIndex/cfg.frames*.95);
  }
- check();progress('MP4を確定中',.96);await output.finalize();handle.flush();handle.close();handle=null;const file=await fileHandle.getFile();const verify=open(file);let videoDuration=0,audioDuration=0;try{const v=await verify.getPrimaryVideoTrack(),a=await verify.getPrimaryAudioTrack();videoDuration=await v?.computeDuration()||0;audioDuration=await a?.computeDuration()||0;const videoTolerance=Math.max(.001,1/cfg.fps);if(v?.codec!=='avc'||a?.codec!=='aac'||Math.abs(videoDuration-cfg.duration)>videoTolerance||audioDuration<cfg.duration-1/48000||audioDuration>cfg.duration+.12)throw Error('生成した動画の検証に失敗しました。');let count=0;for await(const packet of new EncodedPacketSink(v).packets(undefined,undefined,{metadataOnly:true})){check();if(!Number.isFinite(packet.timestamp)||packet.timestamp<-.00001||packet.timestamp>=cfg.duration+videoTolerance)throw Error('完成動画の時刻が一致しません。');count++;if(count%300===0)progress('完成動画の構造を検証中',.97)}if(count!==cfg.frames)throw Error('完成動画のフレーム数が一致しません。');const stamps=[0,cfg.duration/2,Math.max(0,cfg.duration-1/cfg.fps)];for await(const sample of new VideoSampleSink(v).samplesAtTimestamps(stamps)){check();if(!sample)throw Error('完成動画を読み込めません。');sample.close()}for await(const sample of new AudioSampleSink(a).samplesAtTimestamps([0,cfg.duration/2,Math.max(0,cfg.duration-.025)])){check();if(!sample)throw Error('完成音声を読み込めません。');sample.close()}}finally{verify.dispose()}
- check();success=true;return{file,path,verified:true,verification:'packet-count-and-sampled-decode',elapsedSeconds:(performance.now()-began)/1000,directCanvas,hardwarePreferred:hardware,videoDuration,audioDuration,...cfg};
- }finally{for(const res of resources.values())for(const reader of res.audioReaders?.values()||[])await reader.close();for(const session of [...sessions,...transitionSessions])await session?.reader.close();if(output&&output.state!=='finalized')await output.cancel().catch(()=>{});try{handle?.close()}catch{}if(!success&&root&&path)await root.removeEntry(path).catch(()=>{});painter?.dispose();for(const bitmap of textBitmaps.values())bitmap.close();for(const input of activeInputs)input.dispose();}
+ check();progress('MP4を確定中',.96);await audioSource.flush();await output.finalize();primingMux.verify(audioSource.packetCount);handle.flush();handle.close();handle=null;const file=await fileHandle.getFile();await verifyAacPrimingFile(file,audioSource.packetCount,{check,firstSample:audioSource.prerollFrames+audioSource.priming});const verify=open(file);let videoDuration=0,audioDuration=0;try{const v=await verify.getPrimaryVideoTrack(),a=await verify.getPrimaryAudioTrack();videoDuration=await v?.computeDuration()||0;audioDuration=await a?.computeDuration()||0;const videoTolerance=Math.max(.001,1/cfg.fps);if(v?.codec!=='avc'||a?.codec!=='aac'||Math.abs(videoDuration-cfg.duration)>videoTolerance||audioDuration<cfg.duration-1/48000||audioDuration>cfg.duration+.12)throw Error('生成した動画の検証に失敗しました。');let count=0;for await(const packet of new EncodedPacketSink(v).packets(undefined,undefined,{metadataOnly:true})){check();if(!Number.isFinite(packet.timestamp)||packet.timestamp<-.00001||packet.timestamp>=cfg.duration+videoTolerance)throw Error('完成動画の時刻が一致しません。');count++;if(count%300===0)progress('完成動画の構造を検証中',.97)}if(count!==cfg.frames)throw Error('完成動画のフレーム数が一致しません。');const stamps=[0,cfg.duration/2,Math.max(0,cfg.duration-1/cfg.fps)];for await(const sample of new VideoSampleSink(v).samplesAtTimestamps(stamps)){check();if(!sample)throw Error('完成動画を読み込めません。');sample.close()}for await(const sample of new AudioSampleSink(a).samplesAtTimestamps([0,cfg.duration/2,Math.max(0,cfg.duration-.025)])){check();if(!sample)throw Error('完成音声を読み込めません。');sample.close()}}finally{verify.dispose()}
+ check();success=true;return{file,path,verified:true,verification:'packet-count-and-sampled-decode',elapsedSeconds:(performance.now()-began)/1000,directCanvas,audioTiming:{primingSamples:audioSource.priming,prerollSamples:audioSource.prerollFrames,inputFrames:audioSource.inputFrames},hardwarePreferred:hardware,videoDuration,audioDuration,...cfg};
+ }finally{audioSource?.close();for(const res of resources.values())for(const reader of res.audioReaders?.values()||[])await reader.close();for(const session of [...sessions,...transitionSessions])await session?.reader.close();if(output&&output.state!=='finalized')await output.cancel().catch(()=>{});try{handle?.close()}catch{}if(!success&&root&&path)await root.removeEntry(path).catch(()=>{});painter?.dispose();for(const bitmap of textBitmaps.values())bitmap.close();for(const input of activeInputs)input.dispose();}
 }
 onmessage=async({data})=>{if(data.type==='cancel'){cancelled=true;return}if(data.type!=='render')return;cancelled=false;try{const result=await render(data.project,data.files,data.preview,data.outputPath);postMessage({type:'done',result})}catch(e){postMessage({type:'error',error:storageFailureMessage(e),cancelled:cancelled||e.name==='AbortError'})}};

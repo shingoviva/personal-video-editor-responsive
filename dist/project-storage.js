@@ -12,8 +12,8 @@ async function permission(handle,write=false,request=false){
  if(await handle.queryPermission(options)==='granted')return true;
  return request&&handle.requestPermission&&await handle.requestPermission(options)==='granted';
 }
-async function writeFile(directory,name,data){
- const handle=await directory.getFileHandle(name,{create:true}),writer=await handle.createWritable();
+async function writeFile(directory,name,data,handle=null){
+ handle??=await directory.getFileHandle(name,{create:true});const writer=await handle.createWritable();
  try{await writer.write(data);await writer.close()}catch(error){try{await writer.abort()}catch{}throw error}
 }
 async function readJson(directory,name=PROJECT_FILE){
@@ -49,13 +49,13 @@ export async function listRecentProjects({strict=false}={}){
 export async function referencedMediaIds(){const records=await listRecentProjects({strict:true});return new Set(records.flatMap(record=>(record.snapshot?.media||[]).map(media=>media.id)))}
 export async function removeRecentProject(id){try{await transaction('readwrite',store=>store.delete(id))}catch{}}
 
-export async function createProjectFolder(project){
+export async function createProjectFolder(project,{save=true}={}){
  if(!supportsProjectFolders())throw Error('このブラウザではローカルフォルダ保存を利用できません。ChromeまたはEdgeを使用してください。');
  const parent=await showDirectoryPicker({id:'pve-projects',mode:'readwrite',startIn:'documents'});
  if(!await permission(parent,true,true))throw new DOMException('フォルダへの書き込みが許可されませんでした。','NotAllowedError');
  const directory=await parent.getDirectoryHandle(projectFolderName(project.name,project.id),{create:true});
  for(const name of ['Originals','Audio','Proxies','Autosave','Cache','Exports'])await directory.getDirectoryHandle(name,{create:true});
- await saveFolderProject(project,directory);return directory;
+ if(save)await saveFolderProject(project,directory);return directory;
 }
 export async function chooseProjectFolder(){
  if(!supportsProjectFolders())throw Error('このブラウザではフォルダを直接開けません。SafariではDEVICE ENGINEまたはブラウザ内プロジェクトを使用してください。');
@@ -82,11 +82,37 @@ export function saveFolderProject(project,directory){
  folderSaves.set(key,task);const clean=()=>{if(folderSaves.get(key)===task)folderSaves.delete(key)};task.then(clean,clean);return task;
 }
 
-export async function copyMediaToProject(directory,media,file){
+// Serialize allocation/cleanup across handles in this realm, and cooperating tabs
+// when Web Locks is available. Existing copies are immutable: a retry gets a new
+// name instead of relying on an atomic replacement API.
+let mediaCopies=Promise.resolve();
+export function copyMediaToProject(directory,media,file){
+ if(!directory)return Promise.resolve(null);
+ const snapshot={id:media.id,name:media.name,kind:media.kind};
+ const run=()=>copyMedia(directory,snapshot,file),task=mediaCopies.then(()=>globalThis.navigator?.locks?.request? navigator.locks.request('pve-project-media-copy',run):run());
+ mediaCopies=task.then(()=>{},()=>{});return task;
+}
+async function copyMedia(directory,media,file){
  if(!directory)return null;if(!await permission(directory,true,false))throw new DOMException('プロジェクトフォルダへのアクセスが必要です。','NotAllowedError');
  const group=media.kind==='audio'?'Audio':'Originals',folder=await directory.getDirectoryHandle(group,{create:true});
- const original=String(file.name||media.name||'media').replace(/[\\/:*?"<>|\u0000-\u001f]/g,'_').slice(-160),name=`${media.id}-${original}`;
- try{await writeFile(folder,name,file)}catch(error){try{await folder.removeEntry(name)}catch{}throw error}
+ const original=String(file.name||media.name||'media').replace(/[\\/:*?"<>|\u0000-\u001f]/g,'_').slice(-160);
+ let name,handle;
+ for(let attempt=0;;attempt++){
+  // A fresh generation also avoids ordinary cross-tab name collisions when
+  // Web Locks is unavailable. Lookups never grant ownership of existing files.
+  name=`${media.id}-${globalThis.crypto.randomUUID()}-${original}`;
+  try{await folder.getFileHandle(name)}catch(error){if(error.name==='NotFoundError')break;throw error}
+  if(attempt>=32)throw Error('素材コピー用のファイル名を確保できませんでした。');
+ }
+ try{
+  // Only a confirmed NotFound is treated as new. Never remove an existing entry
+  // on lookup/creation errors, including ambiguous create:true failures.
+  handle=await folder.getFileHandle(name,{create:true});
+  await writeFile(folder,name,file,handle);
+ }catch(error){
+  if(handle){try{const current=await folder.getFileHandle(name);if(await handle.isSameEntry(current))await folder.removeEntry(name)}catch(cleanupError){if(cleanupError.name!=='NotFoundError')error.mediaCopyCleanupError=cleanupError}}
+  throw error;
+ }
  return`${group}/${name}`;
 }
 export async function restoreProjectMediaFile(directory,path){

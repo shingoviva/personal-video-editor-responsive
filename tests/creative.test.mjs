@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
-import {clip,project,sequence,timing,compileTimeline,splitClip,sanitize} from '../dist/model.js';
-import {clipAlpha,opacityAt,scaleAt,effectAlpha,textPose,frozenClip} from '../dist/creative.js';
-import {sourceTime,held} from '../dist/mobile-model.js';
-import {lookPresets,gradeRGB,adaptiveCinematic} from '../dist/look.js';
+import {clip,project,sequence,timing,compileTimeline,splitClip,sanitize} from '../dist/model.js?v=2.2.84';
+import {clipAlpha,opacityAt,scaleAt,effectAlpha,textPose,frozenClip} from '../dist/creative.js?v=2.2.84';
+import {sourceTime,held} from '../dist/mobile-model.js?v=2.2.84';
+import {lookPresets,gradeRGB,adaptiveCinematic} from '../dist/look.js?v=2.2.84';
 const m={id:'movie',duration:10,kind:'video'},p=project();p.media=[m];p.clips=[{...clip(m),start:0,layer:0}];
 const still=frozenClip(p,p.clips[0].id,3,2);assert.equal(still.freezeAt,3);assert.equal(still.layer,2);assert.equal(still.audio.mute,true);
 let row=sequence(p).find(r=>r.clip===still);assert.equal(row.end,5);assert.equal(sourceTime(row,4.8),3);assert(held(row,3));assert.equal(splitClip(still,3.01),null);

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {CURVE_IDENTITY,normalizeCurve,curveAt,curveColor,curveLUT,MAX_CURVE_POINTS} from '../dist/tone-curve.js';
-import {colors,clip,project,sanitize} from '../dist/model.js';
+import {CURVE_IDENTITY,normalizeCurve,curveAt,curveColor,curveLUT,MAX_CURVE_POINTS} from '../dist/tone-curve.js?v=2.2.84';
+import {colors,clip,project,sanitize} from '../dist/model.js?v=2.2.84';
 
 assert.deepEqual(normalizeCurve(),CURVE_IDENTITY);
 const custom=[[0,0],[.18,.08],[.43,.62],[.71,.79],[1,1]];

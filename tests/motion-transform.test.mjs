@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {motionTransform} from '../dist/motion-transform.js';
+import {motionTransform} from '../dist/motion-transform.js?v=2.2.84';
 
 const base={x:.5,y:.5,scale:1,motionAmount:.2};
 assert.deepEqual(motionTransform({...base,motionPreset:'none'},.5,1),{...base,motionPreset:'none'});

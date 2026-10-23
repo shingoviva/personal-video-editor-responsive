@@ -1,5 +1,5 @@
-import {colors,clamp} from './model.js?v=2.2.83';
-import {curveAt,curveColor} from './tone-curve.js';
+import {colors,clamp} from './model.js?v=2.2.84';
+import {curveAt,curveColor} from './tone-curve.js?v=2.2.84';
 export const lookPresets={
  CLEAN:{...colors()},HARD:{...colors(),contrast:65,blacks:-32,highlights:-16,saturation:-22},
  COLD:{...colors(),temperature:-40,tint:8,contrast:28,saturation:-18},

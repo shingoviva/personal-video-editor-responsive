@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import {phoneLayout,phonePanelTrigger,phoneInteractionScope} from '../dist/iphone-ui.js';
-import {bindTimeline} from '../dist/timeline-gestures.js';
-import {project,clip,sequence} from '../dist/model.js';
+import {phoneLayout,phonePanelTrigger,phoneInteractionScope} from '../dist/iphone-ui.js?v=2.2.84';
+import {bindTimeline} from '../dist/timeline-gestures.js?v=2.2.84';
+import {project,clip,sequence} from '../dist/model.js?v=2.2.84';
 assert.equal(phoneLayout({width:393,height:852,coarse:true,iphone:true}),true);
 assert.equal(phoneLayout({width:852,height:393,coarse:true,iphone:true}),true);
 assert.equal(phoneLayout({width:1440,height:900,coarse:false,iphone:false}),false);

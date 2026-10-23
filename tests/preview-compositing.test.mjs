@@ -1,12 +1,12 @@
-import {orderedEffects} from '../dist/effect-order.js';
+import {orderedEffects} from '../dist/effect-order.js?v=2.2.84';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import fs from 'node:fs';
-import {project,clip,sequence} from '../dist/model.js';
-import {clipAlpha} from '../dist/creative.js';
-import {locatePreviewRow} from '../dist/timeline-time.js';
-import {transitionState,outgoingTransitionRow,applyTransitionStyles} from '../dist/transition.js';
-const app=fs.readFileSync(new URL('../dist/app.js',import.meta.url),'utf8');
+import {project,clip,sequence} from '../dist/model.js?v=2.2.84';
+import {clipAlpha} from '../dist/creative.js?v=2.2.84';
+import {locatePreviewRow} from '../dist/timeline-time.js?v=2.2.84';
+import {transitionState,outgoingTransitionRow,applyTransitionStyles} from '../dist/transition.js?v=2.2.84';
+const app=fs.readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
 const start=app.indexOf('function paintPreview(){'),end=app.indexOf('\nfor(const sourceVideo',start);
 assert.ok(start>=0&&end>start);
 const media={id:'m',kind:'image',width:160,height:90,duration:4};
@@ -64,9 +64,9 @@ s=scene([lower,top],2,[],holdLower);assert.equal(s.zoom,undefined,'Pending lower
 s=scene([lower,top],2);assert.equal(s.zoom,'advanced','Paused editing applies geometry immediately');
 console.log('FX/caption transforms remain on the previous complete composition while video is pending PASS');
 // Exercise actual FX geometry and overlay filtering, including video-free scenes.
-const {regionZoomTransform,normalizeRegionZoom}=await import('../dist/region-zoom.js');
-const {previewZoomStyle,focusOverlayMarkup}=await import('../dist/preview-effects.js');
-const {effectAlpha}=await import('../dist/creative.js');
+const {regionZoomTransform,normalizeRegionZoom}=await import('../dist/region-zoom.js?v=2.2.84');
+const {previewZoomStyle,focusOverlayMarkup}=await import('../dist/preview-effects.js?v=2.2.84');
+const {effectAlpha}=await import('../dist/creative.js?v=2.2.84');
 const zoomStart=app.indexOf('function paintRegionZoom(){'),zoomEnd=app.indexOf('\nbindRegionZoomFrame(',zoomStart);
 assert(zoomStart>=0&&zoomEnd>zoomStart);
 const overlays=scene([],0);const ctx=overlays.state;let captions=[];

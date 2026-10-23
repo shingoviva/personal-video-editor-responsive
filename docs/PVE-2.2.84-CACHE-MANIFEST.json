@@ -1,0 +1,536 @@
+{
+  "version": "2.2.84",
+  "policy": "all local JS/Worker module URLs have one release query, including transitive imports",
+  "runtime": [
+    {
+      "path": "dist/analysis-worker.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "cf137330fd85811961a052c82eb1250a7de5b408f28564985709016e568dd014"
+    },
+    {
+      "path": "dist/app.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "5dccd77541080919a341c4e70de467df13e04709dcd2fc998f339012458a47ea"
+    },
+    {
+      "path": "dist/asset-preview.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "46ead940566eadec5b817c9730e07636769b51721126cc2e79c5ef83d462fd5d"
+    },
+    {
+      "path": "dist/assets.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "586da4875069b773f75dc030f94b14c2f659b8bfe58b4ce2658cc96c8d35a3a7"
+    },
+    {
+      "path": "dist/attributes.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "88656e919b3592b70da6d79af0e64a43ba8cccd28504e6ebba3eede1bf3e42e7"
+    },
+    {
+      "path": "dist/audio-preview-output.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "f0a751ca47b4b76be560fd4fd15ff5a0568423945322c5d1a50cc856c964ef7d"
+    },
+    {
+      "path": "dist/audio-preview.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "f5c8cbe15523c32b008d5b031c6d46271fccdd4b515c7d00eed4da707aa0a99a"
+    },
+    {
+      "path": "dist/audio-timeline.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "a1ff17e71ccaa8368d439efad61b3aba33acee5268bef05fc6722668270d5608"
+    },
+    {
+      "path": "dist/audio-waveform.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "f5e6320eafa1d2e39d64d2284c627b01da27a59a4dd3a6849201227981b7049c"
+    },
+    {
+      "path": "dist/browser-audio-output.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "23532bb824efe1fb4a08f96c62e60c540e90b802b2b298651c1f27a9edc54f12"
+    },
+    {
+      "path": "dist/caption-presets.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "b113f91b22e6d42bd4f016d3a6005b12f7434a7c0fd86182f59455307d114b52"
+    },
+    {
+      "path": "dist/clip-envelope-ui.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "6470739bab40f489b176bb9aee434ac65f2c96f09994ace195d510107bd3a4d0"
+    },
+    {
+      "path": "dist/clip-envelope.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "3524e9897df0bd1b8629d00e5336d683a83ffd9084fc04553886085290c29497"
+    },
+    {
+      "path": "dist/creative.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "ccd45fd5c8a08c5e9b7889c577ad92431f3622562213551e286c5bb7eac4f919"
+    },
+    {
+      "path": "dist/device-save.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "3eada9def8ef5dd34bfc5ef61bc1f2b1f007e0e7355b68ca65dd2f71ac69d558"
+    },
+    {
+      "path": "dist/edit-marker-ui.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "0e98c873d3ca045f7c9ae61bec048f211ed11e939230370a56334a58c23fa4e0"
+    },
+    {
+      "path": "dist/edit-markers.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "c5874f3df86ef68af781c411047df9feb0357606d14fbfe1dd98f32c8b84941d"
+    },
+    {
+      "path": "dist/effect-order.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "df7bdbe01cbb0a645dbf755015fee544bb84e1a910cdd3414e35de32a28fa9cc"
+    },
+    {
+      "path": "dist/export-direct-canvas.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "ef83f0f909bf0d9809abc21fa7f05f2e320e28ddd50a4a7eb1416cb77a1932e3"
+    },
+    {
+      "path": "dist/face-follow.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "e1f4bdc6c19993b7a33cba9d335e0da5e31068f44a04778e8114e3f5488761ef"
+    },
+    {
+      "path": "dist/face-fx-worker.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "26a3b33c98b8eef31575a71d3b2ce5e080e521c9cf77911f1b88fb027037d519"
+    },
+    {
+      "path": "dist/font-library.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "8d917ab609cbb3562e55c549df1d6c7953e963121aa0420199e4e9617001dcbd"
+    },
+    {
+      "path": "dist/frame-source.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "495ebfce6963a2b2ffc42d18ca866cde3c4fb22dc11163fe1d8c442a245b5945"
+    },
+    {
+      "path": "dist/i18n.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "ef3f1d813542e392e769c04df1e10f2385f8b8c7a0cd06a5614a709a8adc4d5e"
+    },
+    {
+      "path": "dist/image-media.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "914aa5130e3e28cec24520211c5adfcf6ad42a2cf039fc45496b29cc0a5604b1"
+    },
+    {
+      "path": "dist/index.html",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "96e202fd90100528280521d61ba79d67dff911a6a3466e897ec877f697b7ce51"
+    },
+    {
+      "path": "dist/iphone-edit.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "b7291ade8a6ffa70bf2d26dfe560c8e2e53f21594dac77bd5b3e1552ff227cea"
+    },
+    {
+      "path": "dist/iphone-ui.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "7b734dd9293b7e673be6232690c06a5aea3a871480cba337498fdd9daca1dee5"
+    },
+    {
+      "path": "dist/layer-preview.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "386c0bc27f8e00d389cf460ed6ecd647d90512184f347660658b824f7a1813c6"
+    },
+    {
+      "path": "dist/linked-audio.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "7ce1e0ff18c885d518e149786476b4797cf2e85f69f619961c56bb38097497be"
+    },
+    {
+      "path": "dist/look-thumbnail-queue.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "003714eb116b928feddac5be19140b7ff6800082c9b7fcf62dbe47db4f807f63"
+    },
+    {
+      "path": "dist/look.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "40e0aacfa864980d6a799358bb427e33f648f5e8acd1772f04517066bad641fe"
+    },
+    {
+      "path": "dist/material-fx-worker.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "79e7c480215b723b000b230aa42c185a85eaf5e89240a449e02acf33adf3b620"
+    },
+    {
+      "path": "dist/material-fx.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "86df9b00783956cc44b8d952e2a717a3d6d0dd7f62fce8870f7b449995cd1757"
+    },
+    {
+      "path": "dist/media-probe.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "e2528df2cee568e89ac4d1c261557bf637dddaecab7d312347939a1300ce3610"
+    },
+    {
+      "path": "dist/media-replacement.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "715b8f2ca1da3a1f203f9ccf0760209661be30186368219f793dadfa6f9f0864"
+    },
+    {
+      "path": "dist/media-resource-cache.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "16b5b671b9f3ccd3dd0e91c4aed46650e7553203d761353014ae3c219715ce04"
+    },
+    {
+      "path": "dist/media-state.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "4537ff36ecd9751bed91bf8edabd69cd9bbb126674b6f06eb8d3f61cad7e0bd2"
+    },
+    {
+      "path": "dist/media-vault.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "58dd9a71a011069bbd520fc0e62c6047d3978fcfd3c0731c5f3efe8e3a11e31e"
+    },
+    {
+      "path": "dist/mobile-export.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "758afd155146b63d2774cd14b54d33a96f4a259c1b768e9889b0cd01adc752e6"
+    },
+    {
+      "path": "dist/mobile-model.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "c557d0827990e49e62cbe2c09d4068e6b7ad1bdb17427d1a73139a6ad87a5725"
+    },
+    {
+      "path": "dist/mobile-render-worker.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "3e5ad133a7d1ba2702654dad43dc601c133413d3aff586355594675968cfaf5d"
+    },
+    {
+      "path": "dist/mobile-stabilize.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "ffb2b1553e238dbac68890fefe690960e9151cf32ee83cd32a0d589b5c1f2862"
+    },
+    {
+      "path": "dist/mobile-storage-output.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "ac441080a505f45ad84cc79cc31d8a39e4c4b18a2783931d7d1346ab03e0be44"
+    },
+    {
+      "path": "dist/model.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "9c857da94d75b38990feb0dc85feeb43d55faacfb78971456a44383fc66618da"
+    },
+    {
+      "path": "dist/motion-transform.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "5a1b5e9052c3e902ce517f60b929bfdaf49331e5bbdf239f33503e170afb0ce5"
+    },
+    {
+      "path": "dist/mp4-aac-roll.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "0d7f4f90926a213de01920ebb397aff91bc509060bd67f6cd4d18a9de50f0b93"
+    },
+    {
+      "path": "dist/native-shell.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "617198893ece9acfceb7537405ce05c9a07e0407f77ffc7e1c8544f63e687862"
+    },
+    {
+      "path": "dist/overlay-timeline.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "da5568fe1851bf3c7f2655fbd496cb032db84405c83890d943de7955fec7efae"
+    },
+    {
+      "path": "dist/panel-splitter.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "0f39da15531ffacfff6745d79e26f28dbe317c12d1844d6fe618320d56598cb9"
+    },
+    {
+      "path": "dist/performance-diagnostics-ui.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "bb3248b74583a0308f8183f473b981d8f6c8eaadc466423aa57f8aee7637ec0a"
+    },
+    {
+      "path": "dist/performance-report.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "25be4461c98389db94285488e82737c9d265d0bf092cc7005b1b45b40ae1c7e4"
+    },
+    {
+      "path": "dist/phone-pane-layout.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "842fe0dd4d61cb2c2dfcf1d66d9baf4738f50c777a8ecd4a1fbce01be874dbfe"
+    },
+    {
+      "path": "dist/phone-preview-budget.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "de90ce986d0a8c1b54277a793d2e9051f7df8ece12d238f7f204c3467cb17b65"
+    },
+    {
+      "path": "dist/phone-touch.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "bf5d0f8dc9c347c3a0dfe4737db1ecf57d74641d1102bf5a24902c9ff65d630b"
+    },
+    {
+      "path": "dist/playback-session.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "67b737448caafd07edbcd3fac47818a7a824e1f9d068cd5067fba7031ebc6df6"
+    },
+    {
+      "path": "dist/playback-shortcuts.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "d7a6f7ca18d031c969244cc0ed5285a3abc64ba4544814d49ab2a733480bd518"
+    },
+    {
+      "path": "dist/playback-sync.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "b4c37a375c116c45886bbf545b8bfaf56a411ba50577cdf243c059224cffc58c"
+    },
+    {
+      "path": "dist/preview-cadence.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "75d86d2a279beef9fc816f98a3c144f148e9f39a0319744b7964eed7d3d96e00"
+    },
+    {
+      "path": "dist/preview-diagnostics.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "28e614bcf66c517185099cb753fcdcd7305ec525dd5fcf9fb6a940a6a4f3ed1a"
+    },
+    {
+      "path": "dist/preview-effects.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "1f6322b024c2503d27267cf046f52fd83982daebe8d74bf4794be649430c50b0"
+    },
+    {
+      "path": "dist/preview-performance.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "59b9abf53e8f3e2a4101a885f0d03ba93d4083fa7e4c0fce505299b826f986e9"
+    },
+    {
+      "path": "dist/preview-plan.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "b4417bd9cbbbd94c1148ef439b89fe9f925097a20adf6209b7dd4945ab625cdd"
+    },
+    {
+      "path": "dist/preview-playback-clock.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "79420331e201bbe4b04f3ace3370e7d027f9c17434d0f0ca0a594126af059b8a"
+    },
+    {
+      "path": "dist/preview-playback-scheduler.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "10381e532fcfdb4b652873a890fe1a9f551b9fb952c13945f83bea52accd0450"
+    },
+    {
+      "path": "dist/preview-preloader.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "93fad3caeb46c503013498bb7f3b43c7ea16ed53ab810da5272b9adbbd0545e6"
+    },
+    {
+      "path": "dist/preview-seek.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "c83a8e673032a430f626ffb6842a67a4eebff1468469cf4014a83b335f9b5ab2"
+    },
+    {
+      "path": "dist/preview-transform-geometry.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "946d718598ac2f80347f90031ba12631e78ec1ab09bbe9198d4254261b65738e"
+    },
+    {
+      "path": "dist/preview.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "2f1b634061b83b7f56e05cc81ec0a0f32d6210f4a9e8ffdea4a7d0eb18d18eed"
+    },
+    {
+      "path": "dist/program-workflow.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "af665f0b4b00e4cdd838571ed7f9f352a5edb2125b5022c9d70d8facd32bed3b"
+    },
+    {
+      "path": "dist/project-storage.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "4bac6a6425ac1e21752f68e3e316688dbdad6a14b9006a6202a4abca31f74ab0"
+    },
+    {
+      "path": "dist/region-zoom-ui.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "4cfbea7b7d2bd3dfad9c4716c67331c8489fd29df7b48a7c0eff85299edf9b5c"
+    },
+    {
+      "path": "dist/region-zoom.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "e5e0981a7e77a1af769b1968f3a87045b8cd37497fa2383feb0839874b59f256"
+    },
+    {
+      "path": "dist/relink.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "58b76da655e5be0caf550fb33885915658609d803a25baa39ce2fdf66ac819cb"
+    },
+    {
+      "path": "dist/setting-resets.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "a781e4e0ff98fa5d483a3317e0ced200cb2d1c02680c07b4a2cfcd9ae38eeb9a"
+    },
+    {
+      "path": "dist/stabilization-presets.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "c62de98abfd2edb3f815225549da98ab0971b39f5832a134cdd11ed2eb55ab3c"
+    },
+    {
+      "path": "dist/stabilization-preview-worker.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "c197f6daa3c23b02ddd63ba3b1222cb455b409fad1e7e750b7af901949c54b51"
+    },
+    {
+      "path": "dist/stabilization-preview.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "e4f0bf2b84de2bc7f98b1276e56b7eae7c7d0a4d059595c61bfebe77f3a2eeff"
+    },
+    {
+      "path": "dist/stage-transform.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "d48224cb90f87084b26ca06f666be8dbd5938b373c8738ede7b0025a78f977d3"
+    },
+    {
+      "path": "dist/streaming-audio.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "9d1e16d9722b8b9eebb524ce5a0d682169e7e1702b82d92f0a33f61374cb00f9"
+    },
+    {
+      "path": "dist/streaming-frames.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "87dae165f9ed28a752164f66d0a12a0f913d0ac77c02067b482dcd811d276ce2"
+    },
+    {
+      "path": "dist/text-render.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "bf169a0a6b71abcf40612764b7f8a10659c83056d433d9c1cb89dc28512cb86b"
+    },
+    {
+      "path": "dist/timeline-context.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "9cc77d566c45ce23fb1065f0a2788614928c537f1de2cfa67bb59337acc27485"
+    },
+    {
+      "path": "dist/timeline-drag-scroll.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "0838dc57e477be074e21a6b0ba6ffc77aaf9e4a3909a6cc16fc4e72b40da749e"
+    },
+    {
+      "path": "dist/timeline-drop-guide.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "6462a3f722cc5b9e575687766410e790782f6ba41796d6f6c0587760395c628f"
+    },
+    {
+      "path": "dist/timeline-gestures.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "f2a492b4667bc1a04d79390c42aff89dc56ca6d5a38a6b76fd71934b178ec364"
+    },
+    {
+      "path": "dist/timeline-lane-size.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "e98009413759979212cf7b88ff1d7d86047782e90a21fa8ad8ea8ce09c4324c5"
+    },
+    {
+      "path": "dist/timeline-paste.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "f4630fce057a6225f3a4347ce74cd07ecc065532425ebde5b32a36940c86b2f4"
+    },
+    {
+      "path": "dist/timeline-scroll.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "05b1be6a01c9ab4515e8aece5a1d6154f0b61febaec2f230a922bfdb159ddfd0"
+    },
+    {
+      "path": "dist/timeline-selection.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "7b16fba8c56800d2fc3b05970346477cb9f98bf93b54badd962e079d3bfbc272"
+    },
+    {
+      "path": "dist/timeline-shortcuts.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "48bb5bcaa1ca3bffdfbd56374de4c30acc1eb5ffaf49a14f869e4c4caef1ae60"
+    },
+    {
+      "path": "dist/timeline-time.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "4ee97caaf495072a57c12b73e1527aae6019c9e8e910a0735cb6e840e60b3324"
+    },
+    {
+      "path": "dist/timeline-zoom.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "0eb8eda0fe543d7be6f411eddb81e4fb1fac88aea1d9fc7c854085a0e34de24c"
+    },
+    {
+      "path": "dist/tone-curve.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "dfce3b3682fb6fce720fe896ec6f7db70c821f26946fdf5d920c0023ca4b01c3"
+    },
+    {
+      "path": "dist/transition.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "254c0afa0510a2125c21ac02fab76e4472c7b19bdce5d5803c231542a71e5af4"
+    },
+    {
+      "path": "dist/ui-icons.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "1c31961a614914f33157401620a8a14c4a0dc13c22f707a30d44ea74f8601973"
+    },
+    {
+      "path": "dist/vendor/face/vision_bundle.mjs",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "a84921e02321e582484c1f8126d344b5f33b791fa09c640a52e20ee8632068f1"
+    },
+    {
+      "path": "dist/vendor/face/wasm/vision_wasm_internal.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "6522286aa32dd93eff17c3da002b0649516f87abfec7a80b5bfe5c9625caa5f8"
+    },
+    {
+      "path": "dist/vendor/face/wasm/vision_wasm_nosimd_internal.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "942654dbdcebce08ea039af23d18e58bebf23c8607d74023d2df7071c8a7b638"
+    },
+    {
+      "path": "dist/vendor/mediabunny.mjs",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "45ca212d32feb93ad51e59ecb099bcd45339269fba5220710a59dfefba350275"
+    },
+    {
+      "path": "dist/waveform-jobs.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "aad55d1b0feafabf9ac4591a3ce10465df66eb385796dedcc1651585296bb4de"
+    },
+    {
+      "path": "dist/webkit-export-compat.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "5cf38f23b7eb4db466738710dc46c1874984963c54b8f215b35c0eecd8973271"
+    },
+    {
+      "path": "dist/workspace-splitter.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "a1cb39a9646048a5a5f60a1291b9cc4a8f248ed00b417c8b0b27d3a6f5c351ea"
+    },
+    {
+      "path": "dist/workspace-ui.js",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "e62c8f8b953ef2af275330b8e7ee202c5294d6e19067382749fe183efe25ed7c"
+    },
+    {
+      "path": "engine/audio_engine.py",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "56cfa738cdf33d7fcf1bbd8629a315990496144b161c26b77ea40390674c3a05"
+    },
+    {
+      "path": "engine/core.py",
+      "onlyCurrentVersionAndCacheDiffer": true,
+      "sha256": "9c57ac7538dd5122239a994ea7a6589444d9a6563216b4823b7039568f2c79d3"
+    }
+  ]
+}

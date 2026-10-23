@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import {textureRevision} from '../dist/preview.js';
+import {textureRevision} from '../dist/preview.js?v=2.2.84';
 import {readFile} from 'node:fs/promises';
 
-const app=await readFile(new URL('../dist/app.js',import.meta.url),'utf8');
+const app=await readFile(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
 assert.match(app,/if\(!duration\(\)\)\{paintStageSelection\(row\);video\.pause\(\);video\.playbackRate=1;/,'empty project stops the source decoder');
 assert.match(app,/if\(!c\|\|c\.gap\)\{video\.pause\(\);video\.playbackRate=1;painter\?\.black\(\)/,'gaps and missing timeline clips cannot leave a moving preview frame');
 assert.match(app,/if\(!c\|\|c\.gap\)\{video\.pause\(\);video\.playbackRate=1;return true\}/,'a pending media load rechecks timeline presence before playback');
