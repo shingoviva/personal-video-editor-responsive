@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import {mediaKind,assetName,fileKind,usage,filterAssets,removeUnused,sourceLimit} from '../dist/assets.js?v=2.2.84';
-import {project,clip,pasteClip,total,sanitize} from '../dist/model.js?v=2.2.84';
-import {StillPreview} from '../dist/image-media.js?v=2.2.84';
+import {mediaKind,assetName,fileKind,usage,filterAssets,removeUnused,sourceLimit} from '../dist/assets.js?v=2.2.85';
+import {project,clip,pasteClip,total,sanitize} from '../dist/model.js?v=2.2.85';
+import {StillPreview} from '../dist/image-media.js?v=2.2.85';
 const p=project(),photo={id:'photo',name:'A.jpg',kind:'image',width:2000,height:3000,duration:5},audio={id:'audio',name:'Music.wav',kind:'audio',duration:20,width:0},unused={id:'unused',name:'Another.mp3',kind:'audio',width:0};
 p.media=[photo,audio,unused];p.clips=[clip(photo)];p.bgm.media=audio.id;
 assert.equal(total(p),5);p.clips[0].out=12;assert.equal(total(p),12);assert.equal(sourceLimit(photo),3600);

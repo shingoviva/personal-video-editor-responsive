@@ -1,4 +1,4 @@
-import {correctionAt} from './mobile-stabilize.js?v=2.2.84';
+import {correctionAt} from './mobile-stabilize.js?v=2.2.85';
 
 const keyFor=(clip,media,file)=>JSON.stringify([clip.id,media?.id,file?.name,file?.size,file?.lastModified,clip.in,clip.out,clip.stabilization]);
 
@@ -23,7 +23,7 @@ export class StabilizationPreview{
   const key=file&&media&&clip.stabilization!=='OFF'&&!clip.freezeDuration?keyFor(clip,media,file):null;
   this.prune(old=>JSON.parse(old)[0]!==clip.id||old===key);
   if(!key||this.cache.has(key)||this.pending.has(key)||this.failed.has(key))return;
-  const worker=new Worker('stabilization-preview-worker.js?v=2.2.84',{type:'module'});this.pending.set(key,worker);this.onChange('analyzing',clip.id,0);
+  const worker=new Worker('stabilization-preview-worker.js?v=2.2.85',{type:'module'});this.pending.set(key,worker);this.onChange('analyzing',clip.id,0);
   worker.onmessage=({data})=>{
    if(this.pending.get(key)!==worker)return;
    if(data.type==='progress'){this.onChange('analyzing',clip.id,data.value);return}

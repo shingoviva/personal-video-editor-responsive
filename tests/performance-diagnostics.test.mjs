@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {validateSchema} from './performance-schema-validator.mjs';
-import {series,add,stats,projectProfile,compareReports,compareRuns,markdown,LIMITS} from '../dist/performance-report.js?v=2.2.84';
-import {previewDiagnostics,activeDiagnostics} from '../dist/preview-diagnostics.js?v=2.2.84';
+import {series,add,stats,projectProfile,compareReports,compareRuns,markdown,LIMITS} from '../dist/performance-report.js?v=2.2.85';
+import {previewDiagnostics,activeDiagnostics} from '../dist/preview-diagnostics.js?v=2.2.85';
 const s=series();for(let i=0;i<10000;i++)add(s,i);assert.equal(s.samples.length,LIMITS.samples);assert.equal(stats(s).sampleCount,10000);assert.equal(stats(s).max,9999);assert.equal(stats(series()).value,null);
 const profile=projectProfile({name:'SECRET NAME',media:[{id:'SECRET ID',name:'SECRET.mov',path:'/Users/private',url:'https://private',codec:'SECRET CODEC',width:100}],clips:[{id:'secret',media:'SECRET ID',color:{exposure:1}}],texts:[{text:'PRIVATE CAPTION',font:'PRIVATE FONT'}]});const data=JSON.stringify(profile);for(const value of ['SECRET','private','PRIVATE','https:'])assert(!data.includes(value));assert.equal(profile.media[0].height,null);
 let appended=0;const doc={createElement:()=>({}),body:{append(){appended++}},querySelectorAll:()=>[],visibilityState:'visible'};
@@ -13,7 +13,7 @@ const d=previewDiagnostics(doc,true);let time=0;d.configure({state:()=>({project
 const b=structuredClone(report);b.playbackMetrics.drawIntervals={...stats(s),p95:10};report.playbackMetrics.drawIntervals={...stats(s),p95:20};const a3=[report,structuredClone(report),structuredClone(report)],b3=[b,structuredClone(b),structuredClone(b)];assert.equal(compareReports(report,b).rows.find(x=>x.path.includes('drawIntervals')).assessment,'判断保留');assert.equal(compareRuns(a3,b3).rows.find(x=>x.path.includes('drawIntervals')).assessment,'改善');for(const r of a3)r.cpuMetrics['audio.automation']={...r.cpuMetrics.nested,value:8,mean:8};for(const r of b3)r.cpuMetrics['audio.automation']={...r.cpuMetrics.nested,value:4,mean:4};assert.equal(compareRuns(a3,b3).rows.find(x=>x.path==='cpuMetrics.audio.automation.mean').assessment,'改善','dotted span names remain a single metric key');b3[1].scenario='F';const mismatch=compareRuns(a3,b3);assert.equal(mismatch.comparable,false);assert(mismatch.rows.every(x=>x.assessment==='判断保留'));assert(mismatch.rows.every(x=>x.changePercent===null));d.clear();assert.equal(d.runs.length,0);
 d.start({start:0,end:1,mode:'off'});assert.equal(activeDiagnostics,null);assert.equal(d.stop().playbackMetrics.drawCompletions.status,'not_measured');
 const schema=JSON.parse(fs.readFileSync(new URL('../docs/schemas/pve-performance-diagnostics-v1.schema.json',import.meta.url)));for(const key of schema.required)assert(key in report,key);validateSchema(report,schema);assert.equal(report.playbackMetrics.drawSubmissionRate.value,null);assert.throws(()=>validateSchema({...report,schemaVersion:'2.0.0'},schema));
-const source=fs.readFileSync(new URL('../dist/preview-diagnostics.js?v=2.2.84',import.meta.url),'utf8');assert(!/gl\.(finish|readPixels)\(/.test(source));assert(!source.includes('console.log'));assert(source.includes('QUERY_RESULT_AVAILABLE_EXT'));
+const source=fs.readFileSync(new URL('../dist/preview-diagnostics.js?v=2.2.85',import.meta.url),'utf8');assert(!/gl\.(finish|readPixels)\(/.test(source));assert(!source.includes('console.log'));assert(source.includes('QUERY_RESULT_AVAILABLE_EXT'));
 console.log('Performance diagnostics: bounded stats, privacy, disabled state, lifecycle, schema, inclusive CPU, asynchronous GPU contract, conservative repeat comparison PASS');
 // Real hook contract with deterministic WebGL1 stubs: asynchronous query polling,
 // uploads/revisions, resource accounting, stop cleanup, and pass-through results.

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {bindOverlayTimeline,snapOverlayStart} from '../dist/overlay-timeline.js?v=2.2.84';
+import {bindOverlayTimeline,snapOverlayStart} from '../dist/overlay-timeline.js?v=2.2.85';
 
 let result=snapOverlayStart(4.94,.5,{duration:10,pixels:1000,targets:[5]});
 assert.equal(result.start,5);assert.equal(result.snapped,true);assert.equal(result.target,5);

@@ -1,4 +1,4 @@
-import {AudioSampleSink,EncodedPacketSink} from './vendor/mediabunny.mjs?v=2.2.84';
+import {AudioSampleSink,EncodedPacketSink} from './vendor/mediabunny.mjs?v=2.2.85';
 // AAC-LC packet "key" status does not include the previous overlap block.
 // Decode its actual predecessor as preroll; keep original sample timestamps.
 export async function audioDecodeStart(track,start){

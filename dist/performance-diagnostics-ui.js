@@ -1,4 +1,4 @@
-import {markdown,compareReports,comparisonMarkdown} from './performance-report.js?v=2.2.84';
+import {markdown,compareReports,comparisonMarkdown} from './performance-report.js?v=2.2.85';
 const save=(name,text,type)=>{const url=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
 export function mountDiagnostics(trace,adapter){
  const host=document.createElement('details');host.id='pvePerformancePanel';host.style.cssText='position:fixed;right:8px;top:8px;z-index:10000;max-width:min(360px,94vw);color:#e4eadb;background:#121a17;border:1px solid #65785a;border-radius:6px;font:12px system-ui;box-shadow:0 3px 16px #0008';

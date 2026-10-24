@@ -1,4 +1,4 @@
-import {project,clip} from '../../dist/model.js?v=2.2.84';
+import {project,clip} from '../../dist/model.js?v=2.2.85';
 // Deterministic synthetic projects; source bytes are supplied separately by the harness.
 export function performanceProject(scenario='A',metadata={}){
  const p=project();p.id='performance-fixture';p.name='Performance fixture';p.aspect='16:9';const m={id:'fixture-media',name:'fixture.mp4',kind:'video',width:1920,height:1080,duration:8,fps:30,codec:'AVC',audio:true,hdr:false,...metadata};p.media=[m];

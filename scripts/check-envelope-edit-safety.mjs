@@ -3,9 +3,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
-import * as current from '../dist/clip-envelope.js?v=2.2.84';
+import * as current from '../dist/clip-envelope.js?v=2.2.85';
 import * as before from '../tests/fixtures/envelope-pre-b2.mjs';
-import * as mixer from '../dist/mobile-model.js?v=2.2.84';
+import * as mixer from '../dist/mobile-model.js?v=2.2.85';
 import {measureEdits,tolerances,longCoordinateResults} from '../tests/envelope-edit-safety.test.mjs';
 import {envelopeEditCases} from '../tests/fixtures/envelope-edit-cases.mjs';
 const output=process.argv[2];if(!output)throw Error('output directory required');await fs.mkdir(output,{recursive:true});
@@ -40,7 +40,7 @@ await fs.writeFile(path.join(output,'pcm.json'),JSON.stringify({rate,channels:2,
 // import in a temporary comparison module; no production source is rewritten.
 const tempPath=path.join(path.resolve(output),'before-mobile-model.mjs'),root=new URL('../dist/',import.meta.url);
 let sourceModule=await fs.readFile(new URL('mobile-model.js',root),'utf8');
-sourceModule=sourceModule.replace("'./model.js?v=2.2.84'",JSON.stringify(new URL('model.js',root).href)).replace("'./clip-envelope.js?v=2.2.84'",JSON.stringify(new URL('../tests/fixtures/envelope-pre-b2.mjs',import.meta.url).href));
+sourceModule=sourceModule.replace("'./model.js?v=2.2.85'",JSON.stringify(new URL('model.js',root).href)).replace("'./clip-envelope.js?v=2.2.85'",JSON.stringify(new URL('../tests/fixtures/envelope-pre-b2.mjs',import.meta.url).href));
 await fs.writeFile(tempPath,sourceModule);const oldMixer=await import(pathToFileURL(tempPath));
 const dense=Array.from({length:256},(_,i)=>({time:i/25.5,valueDb:i%2?-12:0,interpolation:i%3?'linear':'hold'})),keys=mixer.compileGainKeyframes(Array.from({length:32},(_,i)=>({time:i/3.1,value:.25+i/40}))),edited=current.trimEnvelope(points,.992,1.2,2);
 const workloads=[{name:'raw-legacy-256',before:t=>before.envelopeGainAt(t,dense),after:t=>current.envelopeGainAt(t,dense)},

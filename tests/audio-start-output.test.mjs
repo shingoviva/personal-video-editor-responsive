@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {AudioPreview} from '../dist/audio-preview.js?v=2.2.84';
-import {START_RAMP_SECONDS} from '../dist/audio-preview-output.js?v=2.2.84';
+import {AudioPreview} from '../dist/audio-preview.js?v=2.2.85';
+import {START_RAMP_SECONDS} from '../dist/audio-preview-output.js?v=2.2.85';
 const param=()=>({value:1,events:[],cancelScheduledValues(t){this.events.push(['cancel',t])},setValueAtTime(v,t){this.value=v;this.events.push(['set',v,t])},linearRampToValueAtTime(v,t){this.events.push(['ramp',v,t])},setTargetAtTime(){}});
 const node=()=>({gain:param(),delayTime:param(),frequency:{},links:[],connect(to){this.links.push(to);return to},disconnect(to){this.links=to?this.links.filter(n=>n!==to):[]}});
 let resolvePlay;globalThis.document={createElement(){return{dataset:{key:'clip'},paused:true,play(){return new Promise(resolve=>{resolvePlay=()=>{this.paused=false;resolve()}})},pause(){this.paused=true},load(){},removeAttribute(){}}}};

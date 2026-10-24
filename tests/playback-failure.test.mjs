@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {AudioPreview} from '../dist/audio-preview.js?v=2.2.84';
-import {PlaybackSession} from '../dist/playback-session.js?v=2.2.84';
-import {seekMedia} from '../dist/media-state.js?v=2.2.84';
-import {PreviewPlaybackClock} from '../dist/preview-playback-clock.js?v=2.2.84';
+import {AudioPreview} from '../dist/audio-preview.js?v=2.2.85';
+import {PlaybackSession} from '../dist/playback-session.js?v=2.2.85';
+import {seekMedia} from '../dist/media-state.js?v=2.2.85';
+import {PreviewPlaybackClock} from '../dist/preview-playback-clock.js?v=2.2.85';
 const flush=()=>new Promise(resolve=>setTimeout(resolve,0));
 globalThis.document={createElement(){return {dataset:{},readyState:4,currentTime:2,paused:true,seeking:false,ended:false,pause(){this.paused=true},play(){return Promise.reject(Error('play denied'))}}}};
 const audio=new AudioPreview(),v=audio.voices[0];v.dataset.key='a';
@@ -12,7 +12,7 @@ audio.beginPlayback({clips:[],audioClips:[],media:[]});v.play=function(){this.pa
 audio.stopVoice(v);v.play=()=>{throw Error('sync denied')};audio.startVoice(v);assert.throws(()=>audio.clock(2),/sync denied/);
 let reject;v.play=()=>new Promise((_,r)=>reject=r);audio.startVoice(v);audio.stopVoice(v);v.dataset.key='b';reject(Error('old denied'));await flush();assert.equal(audio.clock(2),null,'stale rejection does not poison next run');
 const clock=new PreviewPlaybackClock();clock.start(2,{now:0});assert.equal(audio.clock(2),null);assert.equal(clock.read(100),2.1);
-const app=fs.readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
+const app=fs.readFileSync(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');
 const fragment=app.match(/const started=await syncVideo\(true\);if\(!playbackSession.current\(session\)\)return;if\(!started\)\{pause\(\);return\}/)?.[0];assert(fragment);
 const run=new Function('syncVideo','playbackSession','session','pause',`return (async()=>{${fragment}})()`);
 const sessions=new PlaybackSession();let resolve;const old=sessions.begin(),pending=run(()=>new Promise(r=>resolve=r),sessions,old,()=>sessions.stop());sessions.stop();const next=sessions.begin();resolve(false);await pending;assert(sessions.current(next),'stale preparation must not pause newer run');

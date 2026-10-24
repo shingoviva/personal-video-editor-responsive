@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import * as current from '../dist/clip-envelope.js?v=2.2.84';
+import * as current from '../dist/clip-envelope.js?v=2.2.85';
 import * as oracle from './fixtures/envelope-pre-b2.mjs';
 import {envelopeEditCases} from './fixtures/envelope-edit-cases.mjs';
-import {clip,project,splitClip,trimClip,sanitize,timing,sourceOffset,outputOffset} from '../dist/model.js?v=2.2.84';
+import {clip,project,splitClip,trimClip,sanitize,timing,sourceOffset,outputOffset} from '../dist/model.js?v=2.2.85';
 // Declared before measurement: 1e-8 dB / 5e-9 linear gain, for these <=2s
 // cases, including sub-microsecond boundary distances. Not a PCM/declick budget.
 export const tolerances={db:1e-8,gain:5e-9};
@@ -70,7 +70,7 @@ console.log(JSON.stringify({B2:'PASS',...measured,legacyComparisons,tolerances,m
 // Linked structural trims use remapEnvelope, while speed changes must retain
 // their original source-anchored remapping behavior.
 {
- const {syncLinkedAudio,splitLinkedPair}=await import('../dist/linked-audio.js?v=2.2.84');
+ const {syncLinkedAudio,splitLinkedPair}=await import('../dist/linked-audio.js?v=2.2.85');
  for(const cut of [.992,.996,.998,1.000000001]){
   const p=project(),videoMedia={...media,kind:'video'},video=clip(videoMedia);video.id='linked-video';video.out=2;
   const audio={...clip(media),id:'linked-audio',sourceClip:video.id,linked:true,out:2};audio.audio.gainEnvelope=current.normalizeEnvelope(envelopeEditCases[0].points,2);
@@ -99,7 +99,7 @@ console.log(JSON.stringify({B2LongCoordinates:longCoordinateResults}));
 // Same-source validation for linked trims on all existing speed curve modes;
 // this does not change the speed engine or introduce new curve modes.
 {
- const {syncLinkedAudio}=await import('../dist/linked-audio.js?v=2.2.84');let maxDb=0;
+ const {syncLinkedAudio}=await import('../dist/linked-audio.js?v=2.2.85');let maxDb=0;
  for(const curve of ['linear','ease-in','ease-out','ease-in-out'])for(const cut of [.992,.998,1.001]){
   const p=project(),v={...clip({...media,kind:'video'}),speed:.5,endSpeed:2,curve},original=structuredClone(v),a={...structuredClone(v),id:'ramp-audio',sourceClip:v.id,linked:true};
   a.audio.gainEnvelope=current.normalizeEnvelope(envelopeEditCases[0].points,timing(v).duration);const reference=structuredClone(a.audio.gainEnvelope);

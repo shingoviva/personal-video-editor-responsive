@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {zoomFromPinch,anchoredScroll,bindTimelinePinch} from '../dist/timeline-zoom.js?v=2.2.84';
+import {zoomFromPinch,anchoredScroll,bindTimelinePinch} from '../dist/timeline-zoom.js?v=2.2.85';
 
 assert.equal(zoomFromPinch(2,100,150),3);
 assert.equal(zoomFromPinch(9,100,200),10);
@@ -43,7 +43,7 @@ assert.equal(rangeRoot.scrollLeft,0);
 
 const {readFileSync}=await import('node:fs');
 const {runInNewContext}=await import('node:vm');
-const app=readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
+const app=readFileSync(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');
 const extentSource=app.match(/const timelineExtent=(\(\)=>[^;\n]+);/)[1];
 for(const ui of ['phone','desktop'])for(const zoom of [1,.1,.01,10]){
  const extent=runInNewContext('('+extentSource+')',{Math,zoom,duration:()=>8,document:{body:{dataset:{ui}}}})();

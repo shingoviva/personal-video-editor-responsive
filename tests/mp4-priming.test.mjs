@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {appendAacRollGroups,AacPrimingMux,verifyAacPrimingFile} from '../dist/mp4-aac-roll.js?v=2.2.84';
+import {appendAacRollGroups,AacPrimingMux,verifyAacPrimingFile} from '../dist/mp4-aac-roll.js?v=2.2.85';
 const track=(n=120)=>({type:'audio',muxer:{formatOptions:{pveAacPriming:new AacPrimingMux()}},track:{id:1,source:{_codec:'aac'}},info:{decoderConfig:{codec:'mp4a.40.2'}},samples:{length:n},timeToSampleTable:[{sampleCount:n}]});
 const t=track(),groups=appendAacRollGroups(t,[]);
 assert.deepEqual(groups.map(x=>[x.type,x.contents.length]),[['sgpd',18],['sbgp',20]]);
@@ -23,7 +23,7 @@ const fragment=track();fragment.muxer.isFragmented=true;assert.throws(()=>append
 assert.throws(()=>new AacPrimingMux().verify(1));assert.throws(()=>t.muxer.formatOptions.pveAacPriming.verify(0));
 // The dependency hook must be present; missing/changed vendor requires a reviewed port.
 const hashes=JSON.parse(fs.readFileSync(new URL('../scripts/mediabunny-priming-patch.json',import.meta.url)));
-const {createHash}=await import('node:crypto');assert.equal(createHash('sha256').update(fs.readFileSync(new URL('../dist/vendor/mediabunny.mjs?v=2.2.84',import.meta.url))).digest('hex'),hashes.after);
+const {createHash}=await import('node:crypto');assert.equal(createHash('sha256').update(fs.readFileSync(new URL('../dist/vendor/mediabunny.mjs?v=2.2.85',import.meta.url))).digest('hex'),hashes.after);
 console.log('MP4 priming: exact groups/counts, duplicate/conflict/malformed rejection, non-AAC, reserve/large counts, pinned dependency hook PASS');
 
 const frozen=new Blob([fs.readFileSync(new URL('./fixtures/mp4/formal-chrome-two.mp4',import.meta.url))]);

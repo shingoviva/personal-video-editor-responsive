@@ -1,5 +1,5 @@
-import {aacDecoderConfig} from './webkit-export-compat.js?v=2.2.84';
-import {EncodedAudioPacketSource,EncodedPacket} from './vendor/mediabunny.mjs?v=2.2.84';
+import {aacDecoderConfig} from './webkit-export-compat.js?v=2.2.85';
+import {EncodedAudioPacketSource,EncodedPacket} from './vendor/mediabunny.mjs?v=2.2.85';
 
 // AAC/WebCodecs does not expose encoder priming. Measure this encoder instance
 // with disposable PCM preroll, then express it as negative MP4 packet time.

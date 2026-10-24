@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import {AudioPreview} from '../dist/audio-preview.js?v=2.2.84';
-import {PreviewPlaybackClock} from '../dist/preview-playback-clock.js?v=2.2.84';
-import {previewMediaEnded} from '../dist/playback-sync.js?v=2.2.84';
-import {project,clip} from '../dist/model.js?v=2.2.84';
+import {AudioPreview} from '../dist/audio-preview.js?v=2.2.85';
+import {PreviewPlaybackClock} from '../dist/preview-playback-clock.js?v=2.2.85';
+import {previewMediaEnded} from '../dist/playback-sync.js?v=2.2.85';
+import {project,clip} from '../dist/model.js?v=2.2.85';
 // HTMLMediaElement.play() restarts an ended non-looping element from zero.
 const media=[];globalThis.document={createElement(){let at=0;const el={dataset:{},paused:true,readyState:2,seeking:false,ended:false,duration:2,calls:0,seeks:[],get currentTime(){return at},set currentTime(v){at=v;this.ended=false;this.seeks.push(v)},finish(){at=2;this.ended=true;this.paused=true},load(){},pause(){this.paused=true},play(){this.calls++;if(this.ended){at=0;this.ended=false}this.paused=false;return Promise.resolve()},removeAttribute(){}};media.push(el);return el}};
 for(const continuous of [false,true]){

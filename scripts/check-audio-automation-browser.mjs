@@ -10,7 +10,7 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]]){
  const browser=await type.launch(name==='chromium'?{channel:'chrome',headless:true}:{headless:true});
  try{const page=await browser.newPage();await page.addInitScript(()=>sessionStorage.setItem('pve.iphone.project-launcher-seen','1'));await page.goto(baseURL);
  const report=await page.evaluate(async oracle=>{
-  const {AudioPreview}=await import('./audio-preview.js?v=2.2.84'),{envelopeGainAt}=await import('./clip-envelope.js?v=2.2.84'),{declickGain}=await import('./mobile-model.js?v=2.2.84');
+  const {AudioPreview}=await import('./audio-preview.js?v=2.2.85'),{envelopeGainAt}=await import('./clip-envelope.js?v=2.2.85'),{declickGain}=await import('./mobile-model.js?v=2.2.85');
   const {referenceSchedule}=new Function('envelopeGainAt','declickGain',oracle+';return {referenceSchedule}')(envelopeGainAt,declickGain);
   async function render(schedule,local,separate=false){const rate=48000,length=24000,ctx=new OfflineAudioContext(separate?14:2,length,rate),rows=[];
    const merger=separate?ctx.createChannelMerger(14):null;merger?.connect(ctx.destination);

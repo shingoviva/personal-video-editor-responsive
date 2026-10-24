@@ -8,3 +8,5 @@
 - Safari、実写HDR、長時間編集など未実施の実機検証は、制約として明記する。
 
 - 再生・FX・手ぶれ補正の変更前に `docs/current-architecture.md` の該当項目を確認する。旧リリース記録・ベンチマーク・Labは現行実装の転記元にしない。`COMPATIBILITY ONLY` は保存互換専用で、新規UIへ戻さない。
+
+- 性能変更は同一fixtureのbefore/afterと計算・メモリ・I/O・DOM増分を記録する。機能PASSだけで採用せず、遅い側の値も確認する。

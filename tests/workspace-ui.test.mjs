@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {videoTabs,tabMetadata,tabForSelection,inspectorHeading} from '../dist/workspace-ui.js?v=2.2.84';
+import {videoTabs,tabMetadata,tabForSelection,inspectorHeading} from '../dist/workspace-ui.js?v=2.2.85';
 
 assert.deepEqual(videoTabs,['cut','motion','adjust','look']);
 assert.equal(tabForSelection('video','text'),'cut');

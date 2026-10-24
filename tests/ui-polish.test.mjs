@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
 const css=readFileSync(new URL('../dist/style.css',import.meta.url),'utf8');
-const app=readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
+const app=readFileSync(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');
 const html=readFileSync(new URL('../dist/index.html',import.meta.url),'utf8');
 
 assert.match(css,/--control-standard:34px/);
@@ -16,6 +16,6 @@ assert.match(css,/dialog:has\(\.help-intro\).*820px/);
 assert.match(app,/画面の見方/);
 assert.match(app,/プレビューの直接操作/);
 assert.match(app,/keyboard-sections/);
-assert.match(html,/style\.css\?v=2\.2\.84/);
-assert.match(html,/app\.js\?v=2\.2\.84/);
+assert.match(html,/style\.css\?v=2\.2\.85/);
+assert.match(html,/app\.js\?v=2\.2\.85/);
 console.log('UI polish: aligned lanes, contextual resize affordance and structured help PASS');

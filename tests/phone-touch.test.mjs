@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {bindPhoneTouch} from '../dist/phone-touch.js?v=2.2.84';
+import {bindPhoneTouch} from '../dist/phone-touch.js?v=2.2.85';
 const events={},classes=new Set();let hold,menu=0,drag=0,down=0,up=0,cancel=0,dx=0,zoom=1;
 globalThis.document={body:{classList:{contains:n=>classes.has(n),remove:(...n)=>n.forEach(x=>classes.delete(x))}}};
 globalThis.setTimeout=fn=>(hold=fn,1);globalThis.clearTimeout=()=>{};globalThis.requestAnimationFrame=()=>1;globalThis.cancelAnimationFrame=()=>{};

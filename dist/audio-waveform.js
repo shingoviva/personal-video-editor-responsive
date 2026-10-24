@@ -1,5 +1,5 @@
-import {Input,ALL_FORMATS,BlobSource,UrlSource,AudioSampleSink} from './vendor/mediabunny.mjs?v=2.2.84';
-import {createWaveformJobs} from './waveform-jobs.js?v=2.2.84';
+import {Input,ALL_FORMATS,BlobSource,UrlSource,AudioSampleSink} from './vendor/mediabunny.mjs?v=2.2.85';
+import {createWaveformJobs} from './waveform-jobs.js?v=2.2.85';
 const keys=new WeakMap(),urls=new Map();
 const request=createWaveformJobs(async({file,url},signal,notify)=>{
  const input=new Input({formats:ALL_FORMATS,source:file?new BlobSource(file):new UrlSource(url)}),abort=()=>input.dispose();signal.addEventListener('abort',abort,{once:true});

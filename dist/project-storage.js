@@ -1,6 +1,6 @@
 const DB_NAME='pve.iphone.projects.v1',STORE='projects',PROJECT_FILE='Project.pve';
 
-const clone=value=>globalThis.structuredClone?structuredClone(value):JSON.parse(JSON.stringify(value));
+const clone=value=>{const copy=globalThis.structuredClone?structuredClone(value):JSON.parse(JSON.stringify(value));if(copy?.effects?.length>100)copy.version=2;return copy};
 export const supportsProjectFolders=()=>typeof globalThis.showDirectoryPicker==='function';
 export function projectFolderName(name,id=''){
  const clean=String(name||'Untitled film').normalize('NFKC').replace(/[\\/:*?"<>|\u0000-\u001f]/g,' ').replace(/\s+/g,' ').trim().slice(0,80)||'Untitled film';

@@ -3,7 +3,7 @@ import fs from 'node:fs';
 
 const values=new Map();
 globalThis.localStorage={getItem:key=>values.get(key)||null,setItem:(key,value)=>values.set(key,value)};
-const {currentLanguage,setLanguage,translate}=await import('../dist/i18n.js?v=2.2.84');
+const {currentLanguage,setLanguage,translate}=await import('../dist/i18n.js?v=2.2.85');
 
 assert.equal(currentLanguage(),'ja');
 setLanguage('en');
@@ -40,7 +40,7 @@ assert.equal(translate('V3へ配置しました。','en'),'Placed on V3.');
 assert.equal(translate('A4へ移動','en'),'A4 · Move');
 assert.equal(translate('2件を素材ライブラリへ追加しました。素材を選んで配置してください。','en'),'Added 2 items to the library. Choose media to place it.');
 assert.equal(translate('基本','en'),'Basic');
-const {translateDOM}=await import('../dist/i18n.js?v=2.2.84');
+const {translateDOM}=await import('../dist/i18n.js?v=2.2.85');
 globalThis.NodeFilter={SHOW_TEXT:4};
 const label={nodeType:3,nodeValue:'配置',parentElement:{closest:()=>false}},user={nodeType:3,nodeValue:'配置',parentElement:{closest:()=>true}};
 const element={nodeType:1,closest:()=>false,attrs:new Map([['title','配置']]),hasAttribute(k){return this.attrs.has(k)},getAttribute(k){return this.attrs.get(k)},setAttribute(k,v){this.attrs.set(k,v)},querySelectorAll(){return []}};

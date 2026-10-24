@@ -13,6 +13,8 @@ with tempfile.TemporaryDirectory(prefix='pve-http-') as td:
   assert opener.open(base+'/?token='+token.read_text()).status==200
   assert json.load(opener.open(base+'/api/health'))['ready']
   data={'version':1,'id':'test-project','name':'Save test','clips':[],'media':[]};req=urllib.request.Request(base+'/api/project',data=json.dumps(data).encode(),headers={'Content-Type':'application/json'});assert json.load(opener.open(req))['ok'];assert json.load(opener.open(base+'/api/project/test-project'))['name']=='Save test'
+  guarded={**data,'id':'guarded-project','effects':[{'type':'flash'} for _ in range(101)]}
+  req=urllib.request.Request(base+'/api/project',data=json.dumps(guarded).encode(),headers={'Content-Type':'application/json'});assert json.load(opener.open(req))['ok'];assert json.load(opener.open(base+'/api/project/guarded-project'))['version']==2
   req=urllib.request.Request(base+'/api/project',data=b'{}',headers={'Origin':'https://example.com'})
   try:opener.open(req);raise AssertionError('foreign origin accepted')
   except urllib.error.HTTPError as e:assert e.code==403

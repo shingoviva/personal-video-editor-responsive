@@ -5,9 +5,9 @@ const isWebKit=process.env.PVE_BROWSER==='webkit',browser=isWebKit?null:await ch
 try{for(const fault of(selected.length?selected:['count','missing-hook','write','flush','file-group','file-box','cancel','cancel-final','worker'])){
  const context=isWebKit?await webkit.launchPersistentContext(out+'/profile-'+fault,{headless:true}):await browser.newContext();let inject=true;
  // WebKit caches fulfilled fault responses. Fresh worker/storage URLs keep retry honest.
- await context.route('**/mobile-export.js*',async route=>{const r=await route.fetch();const body=(await r.text()).replace("new URL('./mobile-render-worker.js?v=2.2.84',import.meta.url)","new URL('./mobile-render-worker.js?v=2.2.84&qa='+crypto.randomUUID(),import.meta.url)");await route.fulfill({response:r,body})});
+ await context.route('**/mobile-export.js*',async route=>{const r=await route.fetch();const body=(await r.text()).replace("new URL('./mobile-render-worker.js?v=2.2.85',import.meta.url)","new URL('./mobile-render-worker.js?v=2.2.85&qa='+crypto.randomUUID(),import.meta.url)");await route.fulfill({response:r,body})});
  await context.route('**/mobile-render-worker.js*',async route=>{
-  const r=await route.fetch();let body=(await r.text()).replace("'./mobile-storage-output.js?v=2.2.84'","'./mobile-storage-output.js?qa="+crypto.randomUUID()+"'");
+  const r=await route.fetch();let body=(await r.text()).replace("'./mobile-storage-output.js?v=2.2.85'","'./mobile-storage-output.js?qa="+crypto.randomUUID()+"'");
   if(inject){
    if(fault==='count')body=body.replace('primingMux.verify(audioSource.packetCount)','primingMux.verify(audioSource.packetCount+1)');
    if(fault==='missing-hook')body=body.replace('pveAacPriming:primingMux','pveAacPriming:undefined');

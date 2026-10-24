@@ -1,3 +1,11 @@
+## 2.2.85 公開前候補（2026-10-24）
+
+全JS96/build、38検証command（Python/FFmpeg/HTTP29suite含む）成功。C/W実UI・400FX・群複製・形式2旧版拒否、30s全900frames/PTS誤差0.334µs/36marker lag0sample、全経路PCM一致。WebKit映像は再出力ばらつきあり、完全一致とはしない。Mac ZIP標準展開JS/HTTP成功。詳細は `docs/PVE-2.2.85-RELEASE-REPORT.md`。最終承認前・remote未公開、実iPhoneはユーザー確認。
+
+## Phase 2b 未公開候補（2026-10-24）
+
+全JS96 entrypoint・build・Python/FFmpeg/HTTP29 suite成功。30秒720p/200 flash+TEXT/音楽のChrome・macOS WebKit・Mac出力は全900frame、36マーカー位置差0sample。前後の全デコード映像/PCM一致。詳細・性能の遅い側・実機未確認は `docs/PVE-PHASE-2B-RELEASE-READINESS.md` を参照。アプリversion2.2.84、次版2.2.85は提案のみ。公開なし。
+
 ## 2.2.84 安定化候補（公開承認待ち）
 
 - 隔離release/pve-2.2.84で全93JS/build、Python/FFmpeg/HTTP29本PASS。研究用free fixture testを配布から外し、正式muxの構造／失敗・取消・再試行を維持。

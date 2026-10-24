@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-import {orderedEffects} from '../dist/effect-order.js?v=2.2.84';
-import {materialSourceStamp,materialEffectStamp,invalidateMaterialResults} from '../dist/material-fx.js?v=2.2.84';
-import {bindOverlayTimeline} from '../dist/overlay-timeline.js?v=2.2.84';
-import {regionZoomTransform} from '../dist/region-zoom.js?v=2.2.84';
+import {orderedEffects} from '../dist/effect-order.js?v=2.2.85';
+import {materialSourceStamp,materialEffectStamp,invalidateMaterialResults} from '../dist/material-fx.js?v=2.2.85';
+import {bindOverlayTimeline} from '../dist/overlay-timeline.js?v=2.2.85';
+import {regionZoomTransform} from '../dist/region-zoom.js?v=2.2.85';
 const high={id:'high',layer:2},low={id:'low',layer:0},mid={id:'mid',layer:1};
 for(const input of [[high,low,mid],[low,mid,high]])assert.deepEqual(orderedEffects(input).map(e=>e.id),['low','mid','high']);
 assert.deepEqual(orderedEffects([{id:'zoom',type:'region-zoom',layer:0},{id:'focus',type:'region-zoom',motionKind:'focus',layer:0},{id:'color',type:'flash',layer:2}]).map(e=>e.id),['color','focus','zoom']);
@@ -23,8 +23,8 @@ for(const key of ['strength','layer','zoomReturn','zoomTexts']){const q=structur
 const undo=structuredClone(original);invalidateMaterialResults(undo);assert(undo.effects[0].motionPath,'Undo retains valid stored analysis');
 const bg={clips:[],audioClips:[],bgm:{media:'music'},effects:[{...structuredClone(original.effects[0]),analysisSource:{id:null,media:'music'}}]};invalidateMaterialResults(bg);bg.effects[0].start++;invalidateMaterialResults(bg);assert.equal(bg.effects[0].motionPath,undefined);
 // Use actual save/checkpoint wiring: gestures and inspector share validation.
-const app=fs.readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');assert.match(app,/function checkpoint\(\)\{invalidateMaterialResults\(P\)/);assert.match(app,/function save\(\)\{invalidateMaterialResults\(P\)/);
-assert.match(app,/const visibleFx=orderedEffects\(/);const worker=fs.readFileSync(new URL('../dist/mobile-render-worker.js?v=2.2.84',import.meta.url),'utf8');assert.match(worker,/effects=orderedEffects\(/);
+const app=fs.readFileSync(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');assert.match(app,/function checkpoint\(\)\{invalidateMaterialResults\(P\)/);assert.match(app,/function save\(\)\{invalidateMaterialResults\(P\)/);
+assert.match(app,/const visibleFx=orderedEffects\(/);const worker=fs.readFileSync(new URL('../dist/mobile-render-worker.js?v=2.2.85',import.meta.url),'utf8');assert.match(worker,/effects=orderedEffects\(/);
 console.log('FX consistency: layer order, stable same-layer order, composition, legacy analysis, real timeline move, timing/geometry invalidation, appearance preservation, BGM and Undo PASS');
 const actual={P:structuredClone(original),history:[],future:[],busy:false,saveTimer:null,invalidateMaterialResults,serial(){return JSON.stringify(actual.P)},mediaResourceCache:{remember(){},prune(){}},clearTimeout(){},setTimeout(){return 1},$:()=>({textContent:''})};
 vm.createContext(actual);

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {project,clip,sequence} from '../dist/model.js?v=2.2.84';
-import {compilePreviewPlan} from '../dist/preview-plan.js?v=2.2.84';
+import {project,clip,sequence} from '../dist/model.js?v=2.2.85';
+import {compilePreviewPlan} from '../dist/preview-plan.js?v=2.2.85';
 const p=project(),m={id:'m',kind:'video',duration:6};p.media=[m];p.clips=[0,1,2].map(layer=>({...clip(m),id:'v'+layer,layer,start:layer,in:layer,out:layer===0?6:layer===1?5:4,fadeIn:layer?.1:0,fadeOut:layer?.6:0}));
 const plan=compilePreviewPlan(sequence(p),6);
 assert.equal(plan.next(.1).row.clip.id,'v1');assert.equal(plan.next(.1).at,1,'An upper-layer start precedes the current base clip end');
@@ -12,7 +12,7 @@ assert(!plan.needsLower(1,'wrong',3.1,.35));
 p.clips[2].fadeOut=0;p.clips[2].opacityKeyframes=[{time:0,value:1},{time:.8,value:1},{time:1,value:.5},{time:2,value:1}];
 assert(compilePreviewPlan(sequence(p),6).needsLower(1,'v1',2.5,.35),'Opacity automation also triggers look-ahead');
 console.log('Preview plan: upper-layer starts, short fades, upcoming reveals, coverage release, opacity automation and return to lower layer PASS');
-const {clipAlpha}=await import('../dist/creative.js?v=2.2.84');const {transitionState}=await import('../dist/transition.js?v=2.2.84');
+const {clipAlpha}=await import('../dist/creative.js?v=2.2.85');const {transitionState}=await import('../dist/transition.js?v=2.2.85');
 for(let n=0;n<24;n++){
  const p=project();p.media=[m];p.clips=[0,1,2].map(layer=>({...clip(m),id:`case-${n}-${layer}`,layer,start:layer*.37,in:0,out:2+layer*.4,speed:[.5,1,2][n%3],endSpeed:[.5,1,2][n%3],opacity:n%4===0?.5:1,fadeIn:n%2?.4:0,fadeOut:n%3?.3:0,opacityKeyframes:n%5===0?[{time:0,value:1},{time:.8,value:.6},{time:1.5,value:1}]:[]}));
  const rows=sequence(p),end=Math.max(...rows.map(r=>r.end)),plan=compilePreviewPlan(rows,end);

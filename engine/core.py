@@ -133,7 +133,7 @@ def capabilities():
  f=subprocess.run([FFMPEG,'-hide_banner','-filters'],capture_output=True,text=True).stdout
  e=subprocess.run([FFMPEG,'-hide_banner','-encoders'],capture_output=True,text=True).stdout
  ready='libx264' in e;stabilization='vidstabtransform' in f;hdr='zscale' in f and 'tonemap' in f;drawtext='drawtext' in f;text_raster='overlay' in f;text=drawtext or text_raster;prores='prores_ks' in e;motion='minterpolate' in f
- return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.84','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
+ return {'ready':ready,'complete':ready and stabilization and hdr and text and prores and motion,'stabilization':stabilization,'hdr':hdr,'text':text,'drawtext':drawtext,'textRaster':text_raster,'prores':prores,'motionInterpolation':motion,'videotoolbox':'h264_videotoolbox' in e,'build':'2.2.85','engine':'Native FFmpeg','version':subprocess.run([FFMPEG,'-version'],capture_output=True,text=True).stdout.splitlines()[0]}
 
 def preflight_render(project,clips=None,caps=None):
  """Fail before rendering when the chosen edit needs a missing FFmpeg feature."""
@@ -413,7 +413,7 @@ def timing(c):
  return nodes,pieces
 
 def validate(project):
- if project.get('version')!=1:raise ValueError('対応していないプロジェクト形式です。')
+ if project.get('version') not in (1,2):raise ValueError('対応していないプロジェクト形式です。')
  clips=project.get('clips',[])
  if not clips or len(clips)>200:raise ValueError('クリップ数は1〜200です。')
  for c in clips:
@@ -780,7 +780,7 @@ def render(job,project,preview=False,_token=None,_size=None):
   job['operation']='クリップを結合中';run(job,['-copyts','-f','concat','-safe','0','-i',concat,'-c','copy','-bsf:v',f'setts=pts=PTS:dts=(N-{reorder})/({fps}*TB):duration=1/({fps}*TB)','-video_track_timescale',str(timescale),'-movie_timescale',str(timescale),joined],total,.85,.04)
   if not video_timing_matches(joined,max(1,math.ceil(total*fps-1e-8)),fps):raise ValueError('結合後の映像時刻が不正です。再エンコードせず書き出しを中止しました。')
   overlay_tracks=project.get('overlayTracks',[]);overlay_visible=lambda item:not (len(overlay_tracks)>int(number(item.get('layer'),0,0,2)) and overlay_tracks[int(number(item.get('layer'),0,0,2))].get('hidden'));effects=sorted([e for e in project.get('effects',[]) if overlay_visible(e)],key=lambda e:number(e.get('layer'),0,0,2))
-  if len(effects)>100:raise ValueError('画面効果は最大100個です。')
+  if len(project.get('effects',[]))>400 or sum(e.get('type')!='flash' for e in project.get('effects',[]))>100:raise ValueError('画面効果は合計400個、フラッシュ以外は100個までです。')
   for i,e in enumerate(effects):
    kind=e.get('type')
    if kind not in ('flash','black-in','black-out'):continue

@@ -1,4 +1,6 @@
 const translations=[
+['このprojectは旧2.2.84では開けません。旧版へ戻す場合は更新前の別名バックアップを使用してください。','This project cannot be opened in 2.2.84. To return to the old version, use a separate backup made before updating.'],
+['選択群をドラッグ複製','Drag a copy of the selection'],
 ['編集fps','Editing fps'],
 ['編集グリッドとフレーム送り。素材・書き出しfpsとは独立','Editing grid and frame stepping, independent of source and export fps'],
 ['ON: 編集グリッド・編集点・等間隔へ吸着 / OFF: 自由配置（音声は常にサブフレーム）','ON: snap to editing grid, edit points and equal spacing / OFF: free placement (audio always uses subframes)'],

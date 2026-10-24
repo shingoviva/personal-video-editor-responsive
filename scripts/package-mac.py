@@ -5,7 +5,7 @@ import json
 root = Path(__file__).resolve().parent.parent
 version = json.loads((root / 'package.json').read_text())['version']
 output = root / 'dist/personal-video-editor-mac.zip'
-entries = ['dist', 'engine', 'tests', 'validation', 'scripts', 'docs/schemas', 'docs/PVE-2.2.84-RELEASE-NOTES.md', 'docs/PVE-2.2.84-RELEASE-REPORT.md', 'docs/PVE-2.2.84-SELECTION.json', 'docs/PVE-2.2.84-CACHE-MANIFEST.json', 'docs/PVE-2.2.84-VALIDATION.json', 'docs/PVE-2.2.84-FILES.json', 'README.md', 'VALIDATION.md', 'Launch.command', 'package.json', 'package-lock.json', 'vite.config.mjs']
+entries = ['docs/PVE-2.2.85-RELEASE-NOTES.md', 'docs/PVE-2.2.85-RELEASE-REPORT.md', 'docs/PVE-2.2.85-FILES.json', 'docs/PVE-PHASE-2A-TIMELINE-WORKFLOW.md', 'docs/PVE-PHASE-2B-RELEASE-READINESS.md', 'docs/PVE-NEXT-RELEASE-NOTES.md', 'docs/PVE-NEXT-RELEASE-CANDIDATE.json', 'dist', 'engine', 'tests', 'validation', 'scripts', 'docs/schemas', 'docs/PVE-2.2.84-RELEASE-NOTES.md', 'docs/PVE-2.2.84-RELEASE-REPORT.md', 'docs/PVE-2.2.84-SELECTION.json', 'docs/PVE-2.2.84-CACHE-MANIFEST.json', 'docs/PVE-2.2.84-VALIDATION.json', 'docs/PVE-2.2.84-FILES.json', 'README.md', 'VALIDATION.md', 'Launch.command', 'package.json', 'package-lock.json', 'vite.config.mjs']
 with ZipFile(output, 'w', ZIP_DEFLATED, compresslevel=9) as archive:
     for entry in entries:
         base = root / entry

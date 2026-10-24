@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {StabilizationPreview} from '../dist/stabilization-preview.js?v=2.2.84';
+import {StabilizationPreview} from '../dist/stabilization-preview.js?v=2.2.85';
 
 class WorkerStub{
  constructor(url,options){this.url=url;this.options=options;WorkerStub.instances.push(this)}
@@ -46,7 +46,7 @@ managed.ensure({...other,freezeDuration:2},media,file);assert.equal(managed.pend
 console.log('Stabilization resource lifecycle: OFF/delete/range/relink, stale completion, cache reuse and re-enable PASS');
 
 // New menus are deliberately small; old projects retain their exact setting.
-const {stabilizationOptions,STABILIZATION_MODES,LEGACY_STABILIZATION_MODES}=await import('../dist/stabilization-presets.js?v=2.2.84');
+const {stabilizationOptions,STABILIZATION_MODES,LEGACY_STABILIZATION_MODES}=await import('../dist/stabilization-presets.js?v=2.2.85');
 assert.deepEqual(STABILIZATION_MODES,['OFF','WEAK','MEDIUM','STRONG']);
 for(const mode of [...STABILIZATION_MODES,...LEGACY_STABILIZATION_MODES]){
  const options=stabilizationOptions(mode);assert.deepEqual(options.slice(0,4).map(v=>v[0]),STABILIZATION_MODES);
@@ -54,7 +54,7 @@ for(const mode of [...STABILIZATION_MODES,...LEGACY_STABILIZATION_MODES]){
  if(options.length===5)assert.equal(options.at(-1)[0],mode,'only the saved legacy setting is retained');
 }
 assert.equal(stabilizationOptions('UNKNOWN').length,4);
-const {stabilizationPathFromFrames,smoothPath,motionEstimate}=await import('../dist/mobile-stabilize.js?v=2.2.84');
+const {stabilizationPathFromFrames,smoothPath,motionEstimate}=await import('../dist/mobile-stabilize.js?v=2.2.85');
 const size=72,frames=[],raw=[];
 for(let n=0;n<30;n++){
  const data=new Uint8ClampedArray(size*size*4),gray=new Float32Array(size*size);
@@ -69,7 +69,7 @@ await assert.rejects(stabilizationPathFromFrames([],'WEAK'),/No decodable/);
 let closed=false,checks=0;async function* cancellable(){try{for(const frame of frames)yield frame}finally{closed=true}}
 await assert.rejects(stabilizationPathFromFrames(cancellable(),'WEAK',{check:()=>{if(++checks===3)throw Error('cancelled')}}),/cancelled/);assert.equal(closed,true,'cancellation closes the frame iterator');
 const {readFile}=await import('node:fs/promises');
-const shaderSource=await readFile(new URL('../dist/preview.js?v=2.2.84',import.meta.url),'utf8');
+const shaderSource=await readFile(new URL('../dist/preview.js?v=2.2.85',import.meta.url),'utf8');
 assert.match(shaderSource,/sn\*centered\.y\*\(texel\.x\/texel\.y\)/,'portrait rotation uses physical pixels');
 assert.match(shaderSource,/-sn\*centered\.x\*\(texel\.y\/texel\.x\)/,'landscape rotation uses physical pixels');
 for(const worker of ['stabilization-preview-worker.js','mobile-render-worker.js']){
@@ -77,8 +77,8 @@ for(const worker of ['stabilization-preview-worker.js','mobile-render-worker.js'
 }
 console.log('Stabilization shared analysis: legacy compatibility, cancellation, empty decode and aspect-correct rendering PASS');
 
-const {project,sanitize,clip:makeClip}=await import('../dist/model.js?v=2.2.84');
+const {project,sanitize,clip:makeClip}=await import('../dist/model.js?v=2.2.85');
 const legacyMedia={id:'legacy-media',name:'camera.mov',kind:'video',duration:8,width:1080,height:1920,fps:60};
 for(const mode of LEGACY_STABILIZATION_MODES){const p=project();p.media.push(legacyMedia);p.clips.push({...makeClip(legacyMedia),stabilization:mode});assert.equal(sanitize(JSON.parse(JSON.stringify(p))).clips[0].stabilization,mode,'saved legacy stabilization must not change on reload')}
-const appSource=await readFile(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
+const appSource=await readFile(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');
 assert.match(appSource,/if\(state==='ready'\)\{if\(id===selected\)status\('手ぶれ補正の解析が完了しました。'\);draw\(\)\}/,'successful analysis replaces the last progress percentage');

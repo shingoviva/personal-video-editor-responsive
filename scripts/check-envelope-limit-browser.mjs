@@ -1,6 +1,6 @@
 // Disposable synthetic projects; actual application controls and Web Audio.
 import fs from 'node:fs/promises';import path from 'node:path';import {pathToFileURL} from 'node:url';
-import {project,clip} from '../dist/model.js?v=2.2.84';
+import {project,clip} from '../dist/model.js?v=2.2.85';
 import {denseEnvelope} from '../tests/envelope-limit.test.mjs';
 const [base,output]=process.argv.slice(2);await fs.mkdir(output,{recursive:true});
 const pw=await import(pathToFileURL(process.env.PVE_PLAYWRIGHT_MODULE)),reports=[];
@@ -8,7 +8,7 @@ for(const name of ['chromium','webkit']){
  const browser=await pw[name].launch(name==='chromium'?{channel:'chrome',headless:true}:{headless:true});
  try{
   const context=await browser.newContext(),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  const app=await fs.readFile(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
+  const app=await fs.readFile(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');
   await page.route('**/app.js*',r=>r.fulfill({contentType:'text/javascript',body:app+`\nwindow.__b3={get:()=>structuredClone(P),choose:(id,t,sound=false)=>{selected=id;selectedAudio=null;selectedText=null;selectedEffect=null;time=t;tab=sound?'sound':'cut';render()}};`}));
   const media={id:'b3-fixture',name:'B3 synthetic.mov',kind:'video',audio:true,duration:2,fps:30,width:1920,height:1080};
   const p=project();p.name='B3 test';p.media=[media];const c=clip(media);c.id='b3-clip';c.out=1;c.audio.gainEnvelope=denseEnvelope(256);p.clips=[c];
@@ -37,7 +37,7 @@ for(const name of ['chromium','webkit']){
   await page.locator('[data-envelope-delete="orig:0"]').click();if((await get()).clips[0].audio.gainEnvelope.length!==1023)throw Error('delete');
   await page.locator('#topUndo').click();if((await get()).clips[0].audio.gainEnvelope.length!==1024)throw Error('delete undo');
   const audio=await page.evaluate(async()=>{
-   const {AudioPreview}=await import('./audio-preview.js?v=2.2.84'),e=await import('./clip-envelope.js?v=2.2.84'),{declickGain}=await import('./mobile-model.js?v=2.2.84');const p=window.__b3.get().clips[0].audio.gainEnvelope,rate=48000;
+   const {AudioPreview}=await import('./audio-preview.js?v=2.2.85'),e=await import('./clip-envelope.js?v=2.2.85'),{declickGain}=await import('./mobile-model.js?v=2.2.85');const p=window.__b3.get().clips[0].audio.gainEnvelope,rate=48000;
    async function render(reference){const ctx=new OfflineAudioContext(1,4800,rate),source=ctx.createBufferSource(),gain=ctx.createGain();source.buffer=ctx.createBuffer(1,rate,rate);source.buffer.getChannelData(0).fill(.25);source.connect(gain);gain.connect(ctx.destination);
     if(reference){const length=.15,count=Math.ceil(length*rate),curve=new Float32Array(count);for(let i=0;i<count;i++){const t=.9+length*i/(count-1);curve[i]=e.envelopeGainAt(t,p)*declickGain(t,2)}gain.gain.setValueCurveAtTime(curve,0,length)}
     else AudioPreview.prototype.scheduleGain.call({context:{currentTime:0}},{output:gain},{audio:{volume:1,fadeIn:0,fadeOut:0,gainKeyframes:[],gainEnvelope:p}},.9,2,1,true);

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {bindTimeline,equalSpacingStart,timelineLaneAtY} from '../dist/timeline-gestures.js?v=2.2.84';
-import {project,clip,sequence,anchor,timing} from '../dist/model.js?v=2.2.84';
+import {bindTimeline,equalSpacingStart,timelineLaneAtY} from '../dist/timeline-gestures.js?v=2.2.85';
+import {project,clip,sequence,anchor,timing} from '../dist/model.js?v=2.2.85';
 const m={id:'m',duration:10},p=project();p.media=[m];p.clips=[{...clip(m),in:2,out:6,start:1,layer:0}];
 let checkpoints=0,finishes=0,cancels=0,duplicates=0,ghostVisible=0;
 const ghost={classList:{add(){}},removeAttribute(){},remove(){ghostVisible--}},element={dataset:{clip:p.clips[0].id},style:{},classList:{add(){}},setPointerCapture(){},cloneNode(){return ghost},parentNode:{insertBefore(){ghostVisible++}},getBoundingClientRect(){return{left:100,width:400}},clientWidth:400};
@@ -30,7 +30,7 @@ bindTimeline({root:groupRoot,rows:groupRows,duration:10,select(){},begin(){},fin
 groupElements[0].onpointerdown(event(0));groupElements[0].onpointermove(event(100));groupElements[0].onpointerup(event(100));
 assert.equal(groupClips[0].start,2);assert.equal(groupClips[1].start,5);assert.equal(other.start,7);
 console.log('Shift-selected clip group preserves spacing while moving: PASS');
-const {snapClipPosition}=await import('../dist/timeline-gestures.js?v=2.2.84');
+const {snapClipPosition}=await import('../dist/timeline-gestures.js?v=2.2.85');
 assert.deepEqual(snapClipPosition(2.01,4,{targets:[6],threshold:.12}),{start:2,snapped:true,target:6},'moving tail snaps to marker');
 assert.deepEqual(snapClipPosition(2.98,4,{targets:[3],threshold:.12}),{start:3,snapped:true,target:3},'moving head snaps to marker');
 assert.equal(snapClipPosition(2.01,4,{targets:[6],threshold:.12,enabled:false}).snapped,false);

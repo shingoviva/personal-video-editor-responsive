@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {envelopeXAtTime,envelopeTimeAtX,bindClipEnvelope,dbToY,clipEnvelopeOwnsPointer,clipEnvelopeDoubleTap,videoEnvelopeEnabled,envelopeHandles,envelopeHandleX,snapEnvelopeDrag} from '../dist/clip-envelope-ui.js?v=2.2.84';
+import {envelopeXAtTime,envelopeTimeAtX,bindClipEnvelope,dbToY,clipEnvelopeOwnsPointer,clipEnvelopeDoubleTap,videoEnvelopeEnabled,envelopeHandles,envelopeHandleX,snapEnvelopeDrag} from '../dist/clip-envelope-ui.js?v=2.2.85';
 for(const width of [8,80,400,1200])for(const duration of [.16,3,8])for(const fraction of [0,.125,.5,.875,1]){
  const time=duration*fraction,x=envelopeXAtTime(time,duration,width);
  assert(Math.abs(x-width*fraction)<1e-9);
@@ -50,7 +50,7 @@ points=[];begins=commits=0;element.onpointerdown=e=>{assert.equal(e.timelineEnve
 handlers.get('pointerdown')(empty);handlers.get('pointermove')(event(220,y+1));assert.equal(points.length,0);assert.equal(begins,0);assert.equal(delegated,2,'horizontal line drag transfers to existing clip mover');
 points=Array.from({length:1024},(_,i)=>({id:'full-'+i,time:i/1024,valueDb:0}));const original=JSON.stringify(points);handlers.get('dblclick')(empty);assert.equal(limits,1);assert.equal(JSON.stringify(points),original,'point capacity never drops existing automation');
 assert.equal(snapEnvelopeDrag(12,22,true).valueDb,12,'compact lane can leave the zero snap toward positive gain');
-const {envelopeDbAt}=await import('../dist/clip-envelope.js?v=2.2.84');
+const {envelopeDbAt}=await import('../dist/clip-envelope.js?v=2.2.85');
 points=[{id:'a',time:2,valueDb:-6,interpolation:'hold'},{id:'b',time:5,valueDb:3,interpolation:'linear'},{id:'c',time:6,valueDb:-12,interpolation:'hold'}];
 const reference=Array.from({length:1601},(_,i)=>envelopeDbAt(i/200,points));
 const boundaryPress=event(6,dbToY(-6,18));handlers.get('pointerdown')(boundaryPress);handlers.get('pointerup')(boundaryPress);
@@ -81,7 +81,7 @@ console.log('Video envelope eligibility and no-waveform lightweight binding PASS
 
 // A selection-only refresh must preserve the element between native double clicks.
 const {readFile}=await import('node:fs/promises'),{runInNewContext}=await import('node:vm');
-const app=await readFile(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
+const app=await readFile(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');
 const renderSource=app.split('\n').find(line=>line.startsWith('function render('));let rebuilt=0,selectedPaints=0;
 const nodes=new Map(),noop=()=>{};
 const scope={$:id=>{if(!nodes.has(id))nodes.set(id,{value:'',style:{}});return nodes.get(id)},$$:()=>[],P:{name:'Test',intent:'x'},intentHints:{x:''},time:0,clamp:x=>x,duration:()=>8,invalidateMaterialResults:noop,syncWorkspaceChrome:noop,renderMedia:noop,renderInspector:noop,renderTimeline:()=>rebuilt++,paintTimelineSelection:()=>selectedPaints++,draw:noop,updateClock:noop,history:[],future:[],current:()=>({}),selectedAudio:null,selectedEditMarker:null,selectedItems:()=>[{}],translateDOM:noop,document:{body:{}},syncLanguageButton:noop};

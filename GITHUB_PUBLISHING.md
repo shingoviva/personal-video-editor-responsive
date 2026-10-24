@@ -1,3 +1,7 @@
+## 2.2.85 — 公開前停止
+
+release/pve-2.2.85を独立cloneで準備。ローカルcommit・Mac ZIPまで検証し、remote push・Pages・tag・公開ZIP差し替えは最終承認まで実施しません。公開はremote main再確認→通常fast-forward→Validate→同SHA Pages→実URL/ZIP照合。rollbackはproject/素材退避→承認したrevert→再検証・同手順、force push禁止。
+
 ## 2.2.84 — 安定化リリース候補
 
 release/pve-2.2.84を隔離して検証します。github-responsive相当の確認済みmainへ、承認後のみfast-forwardで反映。Pagesは既存workflow_dispatch、Mac ZIPは既存package-mac.pyで生成します。元のtext02/Labを含む開発ツリーは変更しません。公開前停止点・制約・復旧は[リリース報告](docs/PVE-2.2.84-RELEASE-REPORT.md)を参照。

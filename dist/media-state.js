@@ -1,4 +1,4 @@
-import {activeDiagnostics} from './preview-diagnostics.js?v=2.2.84';
+import {activeDiagnostics} from './preview-diagnostics.js?v=2.2.85';
 // Media lifecycle helpers. Register before changing src / currentTime.
 export function waitForMedia(media,event,{signal,timeout=20000,ready,start}={}){
   if(signal?.aborted)return Promise.reject(new DOMException('処理をキャンセルしました。','AbortError'));

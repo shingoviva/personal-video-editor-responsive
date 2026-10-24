@@ -1,4 +1,4 @@
-import {MAX_TEXT_LAYERS,MAX_EFFECTS,uid} from './model.js?v=2.2.84';
+import {MAX_TEXT_LAYERS,MAX_EFFECTS,canAddEffect,uid} from './model.js?v=2.2.85';
 
 const LIMITS={video:200,audio:200,effect:MAX_EFFECTS,text:MAX_TEXT_LAYERS};
 
@@ -7,7 +7,7 @@ export function pasteTimelineItems(project,source,at,id=uid){
  const base=Math.min(...source.map(value=>value.start)),inserted=[];
  for(const entry of source){
   const collection=entry.kind==='video'?project.clips:entry.kind==='audio'?project.audioClips:entry.kind==='effect'?project.effects:entry.kind==='text'?project.texts:null;
-  if(!collection||collection.length>=LIMITS[entry.kind])continue;
+  if(!collection||collection.length>=LIMITS[entry.kind]||entry.kind==='effect'&&!canAddEffect(collection,entry.data.type))continue;
   const start=Math.max(0,at+(entry.start-base)),copy={...structuredClone(entry.data),id:id(),start};
   if(entry.kind==='video'){
    delete copy.audioDetached;project.clips.push(copy);

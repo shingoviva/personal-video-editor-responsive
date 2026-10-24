@@ -1,6 +1,6 @@
-import {quantizeTimelineTime} from './timeline-time.js?v=2.2.84';
-import {timing,sourceOffset,clamp,trimClip} from './model.js?v=2.2.84';
-import {sourceLimit} from './assets.js?v=2.2.84';
+import {quantizeTimelineTime} from './timeline-time.js?v=2.2.85';
+import {timing,sourceOffset,clamp,trimClip} from './model.js?v=2.2.85';
+import {sourceLimit} from './assets.js?v=2.2.85';
 
 // Match visible lane bounds only; separators keep the last valid destination.
 export function timelineLaneAtY(y,lanes){return lanes.find(({element})=>{const r=element?.getBoundingClientRect();return r&&r.height>0&&y>=r.top&&y<=r.bottom})?.layer}

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {PreviewPlaybackClock} from '../dist/preview-playback-clock.js?v=2.2.84';
+import {PreviewPlaybackClock} from '../dist/preview-playback-clock.js?v=2.2.85';
 const clock=new PreviewPlaybackClock();clock.start(2,{now:1000});assert.equal(clock.read(2500),3.5);
 // A new top clip, lagging decoder and a pending video seek cannot move its anchor.
 for(let ms=2600;ms<=6500;ms+=100)assert(Math.abs(clock.read(ms)-(2+(ms-1000)/1000))<1e-9);

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {centeredTransform,scaleFromWheel,scaleFromDrag,bindStageTransform} from '../dist/stage-transform.js?v=2.2.84';
+import {centeredTransform,scaleFromWheel,scaleFromDrag,bindStageTransform} from '../dist/stage-transform.js?v=2.2.85';
 assert.deepEqual(centeredTransform({x:.45,y:.55},-5,5,100,100),{x:.5,y:.5,snapX:true,snapY:true});
 assert.deepEqual(centeredTransform({x:.5,y:.5},20,-10,100,100,8,1),{x:.7,y:.4,snapX:false,snapY:false});
 assert.equal(scaleFromWheel(1,-100)>1,true);
@@ -22,7 +22,7 @@ handlers.get('pointerup')(event(1));assert.equal(finishes,1);
 handlers.get('pointerdown')(event(3));handlers.get('pointermove')(event(3,-20));handlers.get('pointerup')(event(3));assert.ok(Math.abs(target.x-.5)<1e-9);assert.equal(begins,2);assert.equal(finishes,2);
 console.log('Stage transform ignores concurrent presses and recovers after capture loss PASS');
 
-const {snapScaleToFrame}=await import('../dist/stage-transform.js?v=2.2.84');
+const {snapScaleToFrame}=await import('../dist/stage-transform.js?v=2.2.85');
 const centered={x:.5,y:.5},frame={width:400,height:300};
 assert.deepEqual(snapScaleToFrame(.98,centered,frame,{width:800,height:600}),{scale:1,snapEdges:['left','right','top','bottom']});
 assert.equal(snapScaleToFrame(.85,centered,frame,{width:800,height:600}).scale,.85);
@@ -48,7 +48,7 @@ const single=snapScaleToFrame(1.2,{x:.05,y:.5},{width:400,height:300},{width:800
 for(const [pos,edge,key] of [[{x:.95,y:.5},'right','x'],[{x:.5,y:.05},'top','y'],[{x:.5,y:.95},'bottom','y']]){const snap=snapScaleToFrame(1.2,pos,frame,{width:800,height:600});assert(snap.snapEdges.includes(edge));assert.equal(snap[key],edge==='right'||edge==='bottom'?1:0);}
 console.log('Resize can snap a single nearby edge without forcing the opposite edge or changing scale PASS');
 
-const {clipPreviewBounds,movePreviewClip,resizePreviewClip}=await import('../dist/preview-transform-geometry.js?v=2.2.84');
+const {clipPreviewBounds,movePreviewClip,resizePreviewClip}=await import('../dist/preview-transform-geometry.js?v=2.2.85');
 const frameBox={left:20,top:30,width:400,height:300},image={width:800,height:600},pose={scale:1,x:.5,y:.5};
 const moved=movePreviewClip(pose,50,20,frameBox,image);assert.equal(moved.offsetX,.125);assert.ok(Math.abs(moved.offsetY-20/300)<1e-9);assert.equal(clipPreviewBounds({...pose,...moved},frameBox,image).left,70,'100% image follows cursor');
 const se=resizePreviewClip(pose,'se',80,60,frameBox,image,false,0),sb=clipPreviewBounds({...pose,...se},frameBox,image);assert.equal(sb.left,20);assert.equal(sb.top,30);assert.ok(Math.abs(sb.width-480)<1e-7);assert.ok(Math.abs(sb.height-360)<1e-7);
@@ -63,7 +63,7 @@ for(const dims of [[400,300,800,600],[300,500,1920,1080],[640,360,720,1280]])for
  assert.equal(result.scale,1);assert.deepEqual(result.snapEdges,['left','right','top','bottom']);
  assert.ok(Math.abs(after.left-frame.left)<1e-6);assert.ok(Math.abs(after.top-frame.top)<1e-6);assert.equal(after.width,frame.width);assert.equal(after.height,frame.height);
 }
-const fs=await import('node:fs');const css=fs.readFileSync(new URL('../dist/style.css',import.meta.url),'utf8'),app=fs.readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
+const fs=await import('node:fs');const css=fs.readFileSync(new URL('../dist/style.css',import.meta.url),'utf8'),app=fs.readFileSync(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');
 assert.match(css,/\.stage-transform-box\{[^}]*border:0;outline:/);assert.doesNotMatch(app,/handle\.style\.(?:left|top)=\(clamp/,'Never move corner handles away from actual image bounds');
 console.log('60 aspect/scale/corner combinations retain opposite anchor; all frame-edge corners and handle geometry agree PASS');
 

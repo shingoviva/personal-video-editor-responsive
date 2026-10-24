@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import * as sync from '../dist/playback-sync.js?v=2.2.84';
+import * as sync from '../dist/playback-sync.js?v=2.2.85';
 const running={currentTime:1,seeking:false,paused:false,ended:false};
 assert.equal(sync.needsPreviewSeek(running,1.16,{playing:true,continuous:true}),false,'Small drift during the same clip must not trigger periodic video seeks');
 assert.equal(sync.needsPreviewSeek(running,1.7,{playing:true,continuous:true}),true,'A real discontinuity still requires a seek');
@@ -25,8 +25,8 @@ assert.equal(sync.previewPlaybackRate({...running,paused:true},1.2,1),1);
 assert.equal(sync.previewPlaybackRate({...running,seeking:true},1.2,1),1);
 assert.equal(sync.previewPlaybackRate(running,1.001,1),1,'Tiny drift has a dead band');
 console.log('Continuous preview: smooth bounded rate sync, 30-second skew without seeks, speed normalization, real discontinuity and precise scrub PASS');
-const {LayerPreview}=await import('../dist/layer-preview.js?v=2.2.84');
-const {clip}=await import('../dist/model.js?v=2.2.84');
+const {LayerPreview}=await import('../dist/layer-preview.js?v=2.2.85');
+const {clip}=await import('../dist/model.js?v=2.2.85');
 let seeks=0,draws=0,errors=0;
 const decoder={readyState:4,seeking:false,paused:false,ended:false,get currentTime(){return 1},set currentTime(t){seeks++;throw Error('Unexpected steady-state seek')},getAttribute(){return 'mock'},play:async()=>{},pause(){this.paused=true},removeAttribute(){},load(){}};
 globalThis.document={body:{dataset:{ui:'desktop'}},createElement:()=>decoder};
@@ -39,8 +39,8 @@ assert.equal(layer.ready({...row,clip:{...row.clip,id:'next'}}),false,'A new cli
 layer.pending=null;layer.dispose();delete globalThis.document;
 console.log('Actual lower-layer update: steady skew does not seek or block other layers; first-frame protection retained PASS');
 // Run the actual main-video sync path, rather than only the timing helper.
-const fs=await import('node:fs'),vm=await import('node:vm'),{timing}=await import('../dist/model.js?v=2.2.84');
-const app=fs.readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8'),a=app.indexOf('async function syncVideo('),b=app.indexOf('\nfunction localSpeed(',a);
+const fs=await import('node:fs'),vm=await import('node:vm'),{timing}=await import('../dist/model.js?v=2.2.85');
+const app=fs.readFileSync(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8'),a=app.indexOf('async function syncVideo('),b=app.indexOf('\nfunction localSpeed(',a);
 const main={...decoder,paused:false,playbackRate:1,currentTime:1};let mainSeeks=0;
 const context={previewTrace:null,previewPreloader:{cancel(){},claim:async()=>{}},videoSwitch:null,time:1.16,playing:true,preparingPlayback:false,previewRow:()=>row,mediaOf:()=>media,linkURL:()=> 'mock',stillPreview:{clear(){}},
  activeVideoKey:`${row.clip.id}|mock`,video:main,loadGeneration:1,loadPromise:Promise.resolve(),sourcePosition:()=>1.16,localSpeed:()=>1,timing,

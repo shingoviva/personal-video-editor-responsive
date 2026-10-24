@@ -1,5 +1,5 @@
 import assert from'node:assert/strict';
-import{projectFolderName,saveFolderProject,copyMediaToProject,restoreProjectMediaFile,createProjectFolder}from'../dist/project-storage.js?v=2.2.84';
+import{projectFolderName,saveFolderProject,copyMediaToProject,restoreProjectMediaFile,createProjectFolder}from'../dist/project-storage.js?v=2.2.85';
 
 class FileHandle{constructor(name,file=new File([''],name)){this.name=name;this.file=file}async getFile(){return this.file}async isSameEntry(other){return this===other}async createWritable(){let chunks=[];return{write:async value=>chunks.push(value),close:async()=>{this.file=new File(chunks,this.name)},abort:async()=>{chunks=[]}}}}
 class Directory{constructor(name='root'){this.name=name;this.files=new Map;this.directories=new Map}async queryPermission(){return'granted'}async requestPermission(){return'granted'}async getFileHandle(name,{create=false}={}){if(!this.files.has(name)){if(!create)throw new DOMException('missing','NotFoundError');this.files.set(name,new FileHandle(name))}return this.files.get(name)}async getDirectoryHandle(name,{create=false}={}){if(!this.directories.has(name)){if(!create)throw new DOMException('missing','NotFoundError');this.directories.set(name,new Directory(name))}return this.directories.get(name)}async removeEntry(name){this.files.delete(name)}}
@@ -139,3 +139,10 @@ console.log(`B1 ${injectedCases} existing/new failure cases, retained bytes/refe
  assert.notEqual(media.projectPath,before);assert.deepEqual(await bytes(await restoreProjectMediaFile(root,media.projectPath)),[...newBytes]);
 }
 console.log('B1 no-Web-Locks concurrency, name collisions and publish-after-close PASS');
+
+// Guard every folder manifest, even if a caller supplies a legacy v1 snapshot.
+const large={...project,effects:Array.from({length:101},(_,i)=>({id:'f'+i,type:'flash'}))},guardedDirectory=new Directory('guarded');
+await saveFolderProject(large,guardedDirectory);
+const guarded=JSON.parse(await(await guardedDirectory.getFileHandle('Project.pve')).getFile().then(file=>file.text()));
+assert.equal(guarded.version,2);assert.equal(guarded.effects.length,101);assert.equal(large.version,1);
+console.log('Large FX folder manifest is guarded without mutating caller or media PASS');

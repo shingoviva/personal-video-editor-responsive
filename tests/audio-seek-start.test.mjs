@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import {AudioPreview} from '../dist/audio-preview.js?v=2.2.84';
-import {declickGain} from '../dist/mobile-model.js?v=2.2.84';
-import {project,clip} from '../dist/model.js?v=2.2.84';
+import {AudioPreview} from '../dist/audio-preview.js?v=2.2.85';
+import {declickGain} from '../dist/mobile-model.js?v=2.2.85';
+import {project,clip} from '../dist/model.js?v=2.2.85';
 const voices=[];globalThis.document={createElement(){let at=0;const events=new Map(),v={dataset:{},paused:true,seeking:false,readyState:1,ended:false,duration:8,seeks:[],calls:0,get currentTime(){return at},set currentTime(x){at=x;this.seeking=true;this.readyState=1;this.seeks.push(x)},load(){},pause(){this.paused=true},play(){this.calls++;this.paused=false;return Promise.resolve()},removeAttribute(){},addEventListener(k,fn){const set=events.get(k)||new Set();set.add(fn);events.set(k,set)},removeEventListener(k,fn){events.get(k)?.delete(fn)},emit(k){for(const fn of [...events.get(k)||[]])fn()},seekSettled(){this.seeking=false;this.emit('seeked')},decoded(){this.readyState=2;this.emit('loadeddata')}};voices.push(v);return v}};
 const a=new AudioPreview(),p=project(),m={id:'m',kind:'video',audio:true,duration:8};p.media=[m];p.clips=[{...clip(m),id:'c',start:0}];a.beginPlayback(p);a.sync(p,2,true,()=>'/test.mp4');const v=a.lanes[0].voices[a.lanes[0].active],count=v.seeks.length;
 // Seeked may arrive before enough data to play. UI ticks must not chase it.

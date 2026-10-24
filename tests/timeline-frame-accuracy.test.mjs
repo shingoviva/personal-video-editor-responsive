@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
-import {EDIT_RATES,normalizeTimelineRate,editingFrameTime,quantizeTimelineTime,stepTimelineFrame} from '../dist/timeline-time.js?v=2.2.84';
-import {snapClipPosition,bindTimeline} from '../dist/timeline-gestures.js?v=2.2.84';
-import {snapOverlayStart,bindOverlayTimeline} from '../dist/overlay-timeline.js?v=2.2.84';
-import {project,clip,sequence,sanitize,timing,splitClip,sourceOffset,outputOffset,trimClip} from '../dist/model.js?v=2.2.84';
-import {outputSettings} from '../dist/mobile-model.js?v=2.2.84';
+import {EDIT_RATES,normalizeTimelineRate,editingFrameTime,quantizeTimelineTime,stepTimelineFrame} from '../dist/timeline-time.js?v=2.2.85';
+import {snapClipPosition,bindTimeline} from '../dist/timeline-gestures.js?v=2.2.85';
+import {snapOverlayStart,bindOverlayTimeline} from '../dist/overlay-timeline.js?v=2.2.85';
+import {project,clip,sequence,sanitize,timing,splitClip,sourceOffset,outputOffset,trimClip} from '../dist/model.js?v=2.2.85';
+import {outputSettings} from '../dist/mobile-model.js?v=2.2.85';
 export const frameTimingResults={rows:[],maxSeconds:0,maxFrameError:0,maximum:null};
 function close(actual,expected,rate,operation){const error=Math.abs(actual-expected),r=normalizeTimelineRate(rate),frames=error*r.numerator/r.denominator;if(error>frameTimingResults.maxSeconds){frameTimingResults.maxSeconds=error;frameTimingResults.maximum={rate,operation,actual,expected}}frameTimingResults.maxFrameError=Math.max(frameTimingResults.maxFrameError,frames);assert(error<=5e-10,JSON.stringify({rate,operation,actual,expected,error}))}
 const event=(x,edge,overlay=false)=>({button:0,pointerId:1,clientX:x,clientY:0,target:{closest:()=>edge?{dataset:{[overlay?'overlayEdge':'edge']:edge}}:null},preventDefault(){}});

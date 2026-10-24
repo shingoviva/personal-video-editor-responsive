@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import {openRenderFile,writeRenderChunk,storageFailureMessage} from '../dist/mobile-storage-output.js?v=2.2.84';
-import {clip,project,sequence} from '../dist/model.js?v=2.2.84';
-import {outputSettings,sourceTime} from '../dist/mobile-model.js?v=2.2.84';
+import {openRenderFile,writeRenderChunk,storageFailureMessage} from '../dist/mobile-storage-output.js?v=2.2.85';
+import {clip,project,sequence} from '../dist/model.js?v=2.2.85';
+import {outputSettings,sourceTime} from '../dist/mobile-model.js?v=2.2.85';
 let estimates=0,removed=0;
 const written=new Uint8Array(10),handle={write(bytes,{at}){const count=Math.min(2,bytes.length);written.set(bytes.subarray(0,count),at);return count}};
 const fileHandle={async createSyncAccessHandle(){return handle}};

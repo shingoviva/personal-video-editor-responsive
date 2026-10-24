@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {timelineXAtTime,timelineTimeAtX,timelineLabelShift,locatePreviewRow} from '../dist/timeline-time.js?v=2.2.84';
+import {timelineXAtTime,timelineTimeAtX,timelineLabelShift,locatePreviewRow} from '../dist/timeline-time.js?v=2.2.85';
 
 const duration=9,extent=duration+10,width=1360,clipStart=3,clipEnd=9;
 assert.equal(timelineXAtTime(clipStart,extent,width),width*clipStart/extent);

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {PreviewPlaybackScheduler} from '../dist/preview-playback-scheduler.js?v=2.2.84';
+import {PreviewPlaybackScheduler} from '../dist/preview-playback-scheduler.js?v=2.2.85';
 const scheduler=new PreviewPlaybackScheduler();let audio=0,cancel=0,errors=0,oldReject,newResolve,calls=0;
 const step=(now,key,video)=>scheduler.step(now,{key,audio:()=>audio++,video,cancelVideo:()=>cancel++,onError:()=>errors++});
 step(0,'first',()=>{calls++;return new Promise((_,r)=>oldReject=r)});await Promise.resolve();

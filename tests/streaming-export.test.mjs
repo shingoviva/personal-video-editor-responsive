@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {execFileSync} from 'node:child_process';
-import {streamingFrames} from '../dist/streaming-frames.js?v=2.2.84';import {AudioWindowReader} from '../dist/streaming-audio.js?v=2.2.84';import {Input,ALL_FORMATS,BlobSource} from '../dist/vendor/mediabunny.mjs?v=2.2.84';
-globalThis.onmessage=null;const {audioRange}=await import('../dist/mobile-render-worker.js?v=2.2.84');
+import {streamingFrames} from '../dist/streaming-frames.js?v=2.2.85';import {AudioWindowReader} from '../dist/streaming-audio.js?v=2.2.85';import {Input,ALL_FORMATS,BlobSource} from '../dist/vendor/mediabunny.mjs?v=2.2.85';
+globalThis.onmessage=null;const {audioRange}=await import('../dist/mobile-render-worker.js?v=2.2.85');
 let iterators=0,closed=0,released=0;const sink={samplesAtTimestamps(stamps){iterators++;return(async function*(){try{for(const t of stamps)yield{timestamp:t,close(){closed++}}}finally{released++}})()}};
 const frames=streamingFrames(sink,[0,.033,.066],s=>s.timestamp);assert.equal(await frames.next(),0);assert.equal(await frames.next(),.033);assert.equal(await frames.next(),.066);assert.equal(iterators,1);assert.equal(closed,3);await frames.close();await frames.close();assert.equal(released,1);
 const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'pve-stream-pcm-'));let input,reader;

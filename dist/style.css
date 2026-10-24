@@ -661,3 +661,7 @@ body[data-ui] .video-audio-clip.has-transition>span:not(.trim-handle){left:25px}
 @media(max-width:760px){body[data-ui] .video-audio-clip.clip-block>span:not(.trim-handle){font-size:11px}}
 /* Keep trim grips in the header; boundary gain knobs own the lower curve area. */
 .video-audio-clip .trim-handle::after,.audio-clip .trim-handle::after{top:3px;bottom:auto;height:11px}
+
+/* Copy previews are disposable DOM only; originals retain their positions. */
+.duplicate-preview{opacity:.72;outline:2px dashed var(--accent,#ff817b);z-index:20;filter:brightness(1.12)}
+.duplicate-preview.invalid-drop{outline-color:#f44;opacity:.35}

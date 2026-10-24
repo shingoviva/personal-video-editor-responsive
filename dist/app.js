@@ -1,85 +1,87 @@
-import {createPreviewSeek} from './preview-seek.js?v=2.2.84';
-import {stabilizationOptions} from './stabilization-presets.js?v=2.2.84';
-import {orderedEffects} from './effect-order.js?v=2.2.84';
-import {PreviewPreloader} from './preview-preloader.js?v=2.2.84';
+import {refreshOverlayTrack} from './overlay-track-view.js?v=2.2.85';
+import {bindTimelineDuplicate} from './timeline-duplicate-gesture.js?v=2.2.85';
+import {createPreviewSeek} from './preview-seek.js?v=2.2.85';
+import {stabilizationOptions} from './stabilization-presets.js?v=2.2.85';
+import {orderedEffects} from './effect-order.js?v=2.2.85';
+import {PreviewPreloader} from './preview-preloader.js?v=2.2.85';
 const previewPreloader=new PreviewPreloader();let videoSwitch=null;
-import {PreviewPlaybackClock} from './preview-playback-clock.js?v=2.2.84';
-import {compilePreviewPlan} from './preview-plan.js?v=2.2.84';
-import {previewCadence} from './preview-cadence.js?v=2.2.84';
+import {PreviewPlaybackClock} from './preview-playback-clock.js?v=2.2.85';
+import {compilePreviewPlan} from './preview-plan.js?v=2.2.85';
+import {previewCadence} from './preview-cadence.js?v=2.2.85';
 const playbackClock=new PreviewPlaybackClock();let playbackPlan=null;
-import {activeDiagnostics,previewDiagnostics} from './preview-diagnostics.js?v=2.2.84';
+import {activeDiagnostics,previewDiagnostics} from './preview-diagnostics.js?v=2.2.85';
 const previewTrace=previewDiagnostics(document,new URLSearchParams(location.search).has('previewDiagnostics'));
-import {clipPreviewBounds} from './preview-transform-geometry.js?v=2.2.84';
-import {createLookThumbnailQueue} from './look-thumbnail-queue.js?v=2.2.84';
-import {createMediaResourceCache} from './media-resource-cache.js?v=2.2.84';
-import {previewZoomStyle,focusOverlayMarkup} from './preview-effects.js?v=2.2.84';
-import {accentPath,focusRect,materialSourceStamp,materialEffectStamp,invalidateMaterialResults} from './material-fx.js?v=2.2.84';
-import {normalizeRegionZoom,regionZoomTransform} from './region-zoom.js?v=2.2.84';
-import {bindRegionZoomFrame,regionZoomHandlePosition} from './region-zoom-ui.js?v=2.2.84';
-import {shiftPlaybackShortcut} from './playback-shortcuts.js?v=2.2.84';
-import {previewMediaEnded,needsPreviewSeek,previewPlaybackRate} from './playback-sync.js?v=2.2.84';
-import {bindEditMarker} from './edit-marker-ui.js?v=2.2.84';
-import {addEditMarker,nextEditMarker,moveEditMarker,removeEditMarker,editMarkerTimes} from './edit-markers.js?v=2.2.84';
-import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.84';
-import {uiIcon} from './ui-icons.js?v=2.2.84';
-import {defaultForSetting,resetMotionAppearance,resetAudioAdjustments} from './setting-resets.js?v=2.2.84';
-import {clipEnvelopeOwnsPointer,clipEnvelopeDoubleTap} from './clip-envelope-ui.js?v=2.2.84';
-import {bindPhoneTouch} from './phone-touch.js?v=2.2.84';
-import {PhonePreviewBudget} from './phone-preview-budget.js?v=2.2.84';
-import {PreviewPlaybackScheduler} from './preview-playback-scheduler.js?v=2.2.84';
+import {clipPreviewBounds} from './preview-transform-geometry.js?v=2.2.85';
+import {createLookThumbnailQueue} from './look-thumbnail-queue.js?v=2.2.85';
+import {createMediaResourceCache} from './media-resource-cache.js?v=2.2.85';
+import {previewZoomStyle,focusOverlayMarkup} from './preview-effects.js?v=2.2.85';
+import {accentPath,focusRect,materialSourceStamp,materialEffectStamp,invalidateMaterialResults} from './material-fx.js?v=2.2.85';
+import {normalizeRegionZoom,regionZoomTransform} from './region-zoom.js?v=2.2.85';
+import {bindRegionZoomFrame,regionZoomHandlePosition} from './region-zoom-ui.js?v=2.2.85';
+import {shiftPlaybackShortcut} from './playback-shortcuts.js?v=2.2.85';
+import {previewMediaEnded,needsPreviewSeek,previewPlaybackRate} from './playback-sync.js?v=2.2.85';
+import {bindEditMarker} from './edit-marker-ui.js?v=2.2.85';
+import {addEditMarker,nextEditMarker,moveEditMarker,removeEditMarker,editMarkerTimes} from './edit-markers.js?v=2.2.85';
+import {createTimelineLaneSizing} from './timeline-lane-size.js?v=2.2.85';
+import {uiIcon} from './ui-icons.js?v=2.2.85';
+import {defaultForSetting,resetMotionAppearance,resetAudioAdjustments} from './setting-resets.js?v=2.2.85';
+import {clipEnvelopeOwnsPointer,clipEnvelopeDoubleTap} from './clip-envelope-ui.js?v=2.2.85';
+import {bindPhoneTouch} from './phone-touch.js?v=2.2.85';
+import {PhonePreviewBudget} from './phone-preview-budget.js?v=2.2.85';
+import {PreviewPlaybackScheduler} from './preview-playback-scheduler.js?v=2.2.85';
 const phonePreviewBudget=new PhonePreviewBudget(),previewPlaybackScheduler=new PreviewPlaybackScheduler();
 const previewLongEdge=()=>document.body.dataset.ui==='phone'&&playing?phonePreviewBudget.longEdge:960;
-import {reorderPhoneClip,trimPhoneClip,movePhoneLayer} from './iphone-edit.js?v=2.2.84';
-import {PlaybackSession} from './playback-session.js?v=2.2.84';
-import {bindPhoneUI} from './iphone-ui.js?v=2.2.84';
-import {bindTimelineDropGuide} from './timeline-drop-guide.js?v=2.2.84';
-import {bindTimelineDragScroll} from './timeline-drag-scroll.js?v=2.2.84';
-import {pasteAttributes,pasteTextAttributes,pasteProjectAttributes} from './attributes.js?v=2.2.84';
-import {audioSequence} from './model.js?v=2.2.84';
-import {detachAudio,appendAudio,migrateBgm,audioWindows} from './audio-timeline.js?v=2.2.84';
-import {linkedAudio,linkedVideo,syncLinkedAudio,setAudioLinked,splitLinkedPair,removeLinkedAudio} from './linked-audio.js?v=2.2.84';
-import {AudioPreview} from './audio-preview.js?v=2.2.84';
-import {clipAlpha,opacityAt,scaleAt,effectAlpha,frozenClip,addEffect} from './creative.js?v=2.2.84';
-import {lookPresets,lookDescriptions,adaptiveCinematic} from './look.js?v=2.2.84';
-import {LayerPreview} from './layer-preview.js?v=2.2.84';
-import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.84';
-import {bindTimeline,timelineLaneAtY} from './timeline-gestures.js?v=2.2.84';
-import {bindTimelinePinch} from './timeline-zoom.js?v=2.2.84';
-import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from './timeline-shortcuts.js?v=2.2.84';
-import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js?v=2.2.84';
-import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.84';
-import {pasteTimelineItems} from './timeline-paste.js?v=2.2.84';
-import {currentLanguage,setLanguage,translate,translateDOM,observeTranslations} from './i18n.js?v=2.2.84';
-import {bindNativeShell} from './native-shell.js?v=2.2.84';
-import {bindStageTransform} from './stage-transform.js?v=2.2.84';
-import {motionTransform} from './motion-transform.js?v=2.2.84';
-import {transitionState,applyTransitionStyles,outgoingTransitionRow} from './transition.js?v=2.2.84';
-import {StabilizationPreview} from './stabilization-preview.js?v=2.2.84';
-import {bindToneCurve,CURVE_IDENTITY} from './tone-curve.js?v=2.2.84';
-import {timeAtTimelinePoint,canSplitTimelineRow,contextMenuPosition} from './timeline-context.js?v=2.2.84';
-import {bindTimelineLaneScroll} from './timeline-scroll.js?v=2.2.84';
-import {mediaKind,assetName,fileKind,usage,filterAssets,removeUnused,sourceLimit} from './assets.js?v=2.2.84';
-import {bindAssetVideoPreviews,stopAssetVideoPreviews,releaseAssetAudition} from './asset-preview.js?v=2.2.84';
-import {probeImage,StillPreview} from './image-media.js?v=2.2.84';
-import{renderer}from'./preview.js?v=2.2.84';
-import{TextPreview,withTextRasters}from'./text-render.js?v=2.2.84';
-import{fontChoices,fontRecord,installFont,restoreFonts,discoverLocalFonts}from'./font-library.js?v=2.2.84';
-import{rankRelinkCandidates,relinkScore,planFolderRelink,relativeMediaPath,missingLinkCounts}from'./relink.js?v=2.2.84';
-import{replacementCheck,replaceClipMedia,requiredMediaEnd}from'./media-replacement.js?v=2.2.84';
-import{captionPresets,captionDefaults,applyCaptionPresetStable}from'./caption-presets.js?v=2.2.84';
-import{applyYoutubeProgram,sequentialCaptions}from'./program-workflow.js?v=2.2.84';
-import{bindWorkspaceSplitter}from'./workspace-splitter.js?v=2.2.84';
-import{bindPanelSplitters}from'./panel-splitter.js?v=2.2.84';
-import{performanceModes,performanceMode,setPerformanceMode,previewFrameInterval,scheduleIdleRelease,cancelIdleRelease,memorySnapshot}from'./preview-performance.js?v=2.2.84';
-import{videoTabs,tabMetadata,tabForSelection,inspectorHeading}from'./workspace-ui.js?v=2.2.84';
-import{retainFile,restoreFile,forgetUnused,vaultInfo}from'./media-vault.js?v=2.2.84';
-import{supportsProjectFolders,createProjectFolder,chooseProjectFolder,openRecentProject,saveFolderProject,saveBrowserProject,listRecentProjects,referencedMediaIds,copyMediaToProject,restoreProjectMediaFile}from'./project-storage.js?v=2.2.84';
-import{deviceSupport,renderOnDevice,showDeviceResult,rememberExport,rememberedExport,deleteRender,cleanOldExports,exportStorageInfo}from'./mobile-export.js?v=2.2.84';
-import{outputSettings,gainAt}from'./mobile-model.js?v=2.2.84';
-import{bindClipEnvelope,videoEnvelopeEnabled}from'./clip-envelope-ui.js?v=2.2.84';
-import{normalizeEnvelope,remapEnvelope,envelopeDbAt,addEnvelopePoint,MAX_ENVELOPE_POINTS}from'./clip-envelope.js?v=2.2.84';
-import{shareFile,canShareFile,safeName,movieName,movieURL}from'./device-save.js?v=2.2.84';
-import{probeFile}from'./media-probe.js?v=2.2.84';
+import {reorderPhoneClip,trimPhoneClip,movePhoneLayer} from './iphone-edit.js?v=2.2.85';
+import {PlaybackSession} from './playback-session.js?v=2.2.85';
+import {bindPhoneUI} from './iphone-ui.js?v=2.2.85';
+import {bindTimelineDropGuide} from './timeline-drop-guide.js?v=2.2.85';
+import {bindTimelineDragScroll} from './timeline-drag-scroll.js?v=2.2.85';
+import {pasteAttributes,pasteTextAttributes,pasteProjectAttributes} from './attributes.js?v=2.2.85';
+import {audioSequence} from './model.js?v=2.2.85';
+import {detachAudio,appendAudio,migrateBgm,audioWindows} from './audio-timeline.js?v=2.2.85';
+import {linkedAudio,linkedVideo,syncLinkedAudio,setAudioLinked,splitLinkedPair,removeLinkedAudio} from './linked-audio.js?v=2.2.85';
+import {AudioPreview} from './audio-preview.js?v=2.2.85';
+import {clipAlpha,opacityAt,scaleAt,effectAlpha,frozenClip,addEffect} from './creative.js?v=2.2.85';
+import {lookPresets,lookDescriptions,adaptiveCinematic} from './look.js?v=2.2.85';
+import {LayerPreview} from './layer-preview.js?v=2.2.85';
+import{uid,clamp,colors,project,clip,speedAt,timing,sourceOffset,outputOffset,sequence,locate,total,format,sanitize,anchor,trimClip,pasteClip,deleteClip,compileTimeline,splitClip,visibleSequence,MAX_TEXT_LAYERS,MAX_EFFECTS,canAddEffect,speedToSliderPosition,sliderPositionToSpeed}from'./model.js?v=2.2.85';
+import {bindTimeline,timelineLaneAtY} from './timeline-gestures.js?v=2.2.85';
+import {bindTimelinePinch} from './timeline-zoom.js?v=2.2.85';
+import {timelineEditPoints,adjacentEditPoint,selectionFrameDuration,nudgeTimelineSelection,rippleTrimToPlayhead} from './timeline-shortcuts.js?v=2.2.85';
+import {bindOverlayTimeline,snapOverlayStart} from './overlay-timeline.js?v=2.2.85';
+import {bindTimelineMarquee} from './timeline-selection.js?v=2.2.85';
+import {pasteTimelineItems} from './timeline-paste.js?v=2.2.85';
+import {currentLanguage,setLanguage,translate,translateDOM,observeTranslations} from './i18n.js?v=2.2.85';
+import {bindNativeShell} from './native-shell.js?v=2.2.85';
+import {bindStageTransform} from './stage-transform.js?v=2.2.85';
+import {motionTransform} from './motion-transform.js?v=2.2.85';
+import {transitionState,applyTransitionStyles,outgoingTransitionRow} from './transition.js?v=2.2.85';
+import {StabilizationPreview} from './stabilization-preview.js?v=2.2.85';
+import {bindToneCurve,CURVE_IDENTITY} from './tone-curve.js?v=2.2.85';
+import {timeAtTimelinePoint,canSplitTimelineRow,contextMenuPosition} from './timeline-context.js?v=2.2.85';
+import {bindTimelineLaneScroll} from './timeline-scroll.js?v=2.2.85';
+import {mediaKind,assetName,fileKind,usage,filterAssets,removeUnused,sourceLimit} from './assets.js?v=2.2.85';
+import {bindAssetVideoPreviews,stopAssetVideoPreviews,releaseAssetAudition} from './asset-preview.js?v=2.2.85';
+import {probeImage,StillPreview} from './image-media.js?v=2.2.85';
+import{renderer}from'./preview.js?v=2.2.85';
+import{TextPreview,withTextRasters}from'./text-render.js?v=2.2.85';
+import{fontChoices,fontRecord,installFont,restoreFonts,discoverLocalFonts}from'./font-library.js?v=2.2.85';
+import{rankRelinkCandidates,relinkScore,planFolderRelink,relativeMediaPath,missingLinkCounts}from'./relink.js?v=2.2.85';
+import{replacementCheck,replaceClipMedia,requiredMediaEnd}from'./media-replacement.js?v=2.2.85';
+import{captionPresets,captionDefaults,applyCaptionPresetStable}from'./caption-presets.js?v=2.2.85';
+import{applyYoutubeProgram,sequentialCaptions}from'./program-workflow.js?v=2.2.85';
+import{bindWorkspaceSplitter}from'./workspace-splitter.js?v=2.2.85';
+import{bindPanelSplitters}from'./panel-splitter.js?v=2.2.85';
+import{performanceModes,performanceMode,setPerformanceMode,previewFrameInterval,scheduleIdleRelease,cancelIdleRelease,memorySnapshot}from'./preview-performance.js?v=2.2.85';
+import{videoTabs,tabMetadata,tabForSelection,inspectorHeading}from'./workspace-ui.js?v=2.2.85';
+import{retainFile,restoreFile,forgetUnused,vaultInfo}from'./media-vault.js?v=2.2.85';
+import{supportsProjectFolders,createProjectFolder,chooseProjectFolder,openRecentProject,saveFolderProject,saveBrowserProject,listRecentProjects,referencedMediaIds,copyMediaToProject,restoreProjectMediaFile}from'./project-storage.js?v=2.2.85';
+import{deviceSupport,renderOnDevice,showDeviceResult,rememberExport,rememberedExport,deleteRender,cleanOldExports,exportStorageInfo}from'./mobile-export.js?v=2.2.85';
+import{outputSettings,gainAt}from'./mobile-model.js?v=2.2.85';
+import{bindClipEnvelope,videoEnvelopeEnabled}from'./clip-envelope-ui.js?v=2.2.85';
+import{normalizeEnvelope,remapEnvelope,envelopeDbAt,addEnvelopePoint,MAX_ENVELOPE_POINTS}from'./clip-envelope.js?v=2.2.85';
+import{shareFile,canShareFile,safeName,movieName,movieURL}from'./device-save.js?v=2.2.85';
+import{probeFile}from'./media-probe.js?v=2.2.85';
 setLanguage(currentLanguage());
 const playbackSession=new PlaybackSession();
 const localFiles=new Map();
@@ -90,8 +92,8 @@ const duration=()=>playbackTimeline?.duration??total(P);
 const timelineExtent=()=>Math.min(86400,(document.body.dataset.ui==='phone'?Math.max(5,duration()+Math.min(2,Math.max(.5,duration()*.1))):Math.max(10,duration()+10))/Math.min(1,zoom));
 const visibleVideoRows=rows=>rows.filter(r=>!P.videoTracks?.[r.layer]?.hidden);
 const previewRow=()=>locatePreviewRow(playbackRows||visibleVideoRows(sequence(P)),time,duration());
-import{waitForMedia,seekMedia,seekVideoFrame,videoFrameReady,cancelVideoFrame}from'./media-state.js?v=2.2.84';
-import{timelineXAtTime,timelineTimeAtX,timelineLabelShift,locatePreviewRow,normalizeTimelineRate,stepTimelineFrame}from'./timeline-time.js?v=2.2.84';
+import{waitForMedia,seekMedia,seekVideoFrame,videoFrameReady,cancelVideoFrame}from'./media-state.js?v=2.2.85';
+import{timelineXAtTime,timelineTimeAtX,timelineLabelShift,locatePreviewRow,normalizeTimelineRate,stepTimelineFrame}from'./timeline-time.js?v=2.2.85';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let draggedMediaKinds=new Set();
 let P=project(),selected=null,tab='import',engine=false,caps={},time=0,playing=false,raf=0,urls=new Map(),thumbs=new Map(),history=[],future=[],zoom=1,activeMedia=null,activeVideoKey='',compare=false,busy=false,jobID=null,cancelled=false,saveTimer,toastTimer,scanWorker=null,loading=false,loadedURL='',renderPreview=null,localFontNames=[],relinkTarget=null,projectDirectory=null,pendingProjectRecord=null,projectStorageMode='browser';
@@ -127,7 +129,7 @@ function status(s){$('#statusLine').textContent=translate(s)}
 function serial(){return JSON.stringify(P)}
 function checkpoint(){invalidateMaterialResults(P);const snapshot=serial();mediaResourceCache.remember(snapshot,P,history,future);history.push(snapshot);if(history.length>60)history.shift();if(!busy)mediaResourceCache.prune(P,history,future);future=[]}
 function mutate(fn,redraw=true){pause();checkpoint();fn();invalidateMaterialResults(P);renderPreview=null;save();if(redraw)render();else{renderTimeline();draw()}}
-function save(){invalidateMaterialResults(P);clearTimeout(saveTimer);$('#saveStatus').textContent='SAVING…';saveTimer=setTimeout(async()=>{try{localStorage.setItem('pve.iphone.autosave.v1',serial());if(engine)await api('/api/project',P);else if(projectDirectory)await saveFolderProject(P,projectDirectory);else if(pendingProjectRecord)throw new DOMException('プロジェクトフォルダへのアクセスが必要です。','NotAllowedError');else await saveBrowserProject(P);$('#saveStatus').textContent=projectDirectory?'FOLDER AUTOSAVE':'AUTOSAVED'}catch(e){$('#saveStatus').textContent='SAVE FAILED';toast(e.name==='NotAllowedError'?'プロジェクトフォルダへのアクセスを再許可してください。':'保存に失敗しました。プロジェクトファイルを保存してください。')}},350)}
+function save(){invalidateMaterialResults(P);if(P.effects.length>100)P.version=2;clearTimeout(saveTimer);$('#saveStatus').textContent='SAVING…';saveTimer=setTimeout(async()=>{try{localStorage.setItem('pve.iphone.autosave.v1',serial());if(engine)await api('/api/project',P);else if(projectDirectory)await saveFolderProject(P,projectDirectory);else if(pendingProjectRecord)throw new DOMException('プロジェクトフォルダへのアクセスが必要です。','NotAllowedError');else await saveBrowserProject(P);$('#saveStatus').textContent=projectDirectory?'FOLDER AUTOSAVE':'AUTOSAVED'}catch(e){$('#saveStatus').textContent='SAVE FAILED';toast(e.name==='NotAllowedError'?'プロジェクトフォルダへのアクセスを再許可してください。':'保存に失敗しました。プロジェクトファイルを保存してください。')}},350)}
 async function api(path,data){const r=await fetch(path,{method:data===undefined?'GET':'POST',headers:data===undefined?{}:{'Content-Type':'application/json'},body:data===undefined?undefined:JSON.stringify(data)});if(!r.ok){let d=await r.json().catch(()=>({error:r.statusText}));throw Error(d.error||r.statusText)}return r.json()}
 function stopDialogMedia(){for(const media of $$('#modalContent video,#modalContent audio')){media.pause();media.removeAttribute('src');media.load()}}
 $('#modal').addEventListener('close',()=>{stopDialogMedia();if(!busy){audioPreview.unlock();syncVideo(true).then(draw)}});
@@ -323,13 +325,16 @@ function renderTimeline(){
  }
  for(const layer of [2,1,0]){
   const track=$('#overlayTrack'+layer),head=$(`[data-overlayhead="${layer}"]`),button=$(`[data-overlay-visible="${layer}"]`),hidden=!!P.overlayTracks?.[layer]?.hidden,effects=(P.effects||[]).filter(e=>(e.layer||0)===layer),texts=(P.texts||[]).filter(t=>(t.layer||0)===layer);head?.classList.toggle('is-hidden',hidden);track.classList.toggle('is-hidden',hidden);track.classList.toggle('active-layer',activeOverlayLayer===layer);if(button){button.innerHTML=uiIcon(hidden?'eyeOff':'eye');button.title=`${hidden?'非表示中 · 表示する':'表示中 · 非表示にする'}`;button.setAttribute('aria-pressed',String(!hidden));button.ariaLabel=`F/T${layer+1}を${hidden?'表示':'非表示'}`}
-  track.innerHTML=effects.map(e=>`<button class="fx-chip ${selectedTimeline.has(e.id)||e.id===selectedEffect?'selected':''}" data-fx="${e.id}" title="${effectNames[e.motionKind||e.type]} · ドラッグして移動・両端で長さ調整" style="left:${e.start/Math.max(dur,.001)*100}%;width:${Math.min(e.duration,Math.max(0,dur-e.start))/Math.max(dur,.001)*100}%">${effectNames[e.motionKind||e.type]}<span data-overlay-edge="in" class="fx-trim-handle fx-trim-in"></span><span data-overlay-edge="out" class="fx-trim-handle fx-trim-out"></span></button>`).join('')+texts.map(t=>`<button class="fx-chip text-chip ${selectedTimeline.has(t.id)||t.id===selectedText?'selected':''}" data-text-chip="${t.id}" title="${esc(t.text)} · ドラッグして移動・両端で長さ調整" style="left:${t.start/Math.max(dur,.001)*100}%;width:${Math.max(1/Math.max(width,1)*100,(t.end-t.start)/Math.max(dur,.001)*100)}%">T · ${esc(t.text.split('\n')[0]||'TEXT')}<span data-overlay-edge="in" class="fx-trim-handle fx-trim-in"></span><span data-overlay-edge="out" class="fx-trim-handle fx-trim-out"></span></button>`).join('');
-  track.querySelectorAll('[data-fx]').forEach(el=>el.onclick=e=>{chooseTimeline('effect',el.dataset.fx,e);activeOverlayLayer=layer;render()});track.querySelectorAll('[data-text-chip]').forEach(el=>el.onclick=e=>{chooseTimeline('text',el.dataset.textChip,e);activeOverlayLayer=layer;render()});
+  const overlayMarkup=effects.map(e=>`<button class="fx-chip " data-fx="${e.id}" title="${effectNames[e.motionKind||e.type]} · ドラッグして移動・両端で長さ調整" style="left:${e.start/Math.max(dur,.001)*100}%;width:${Math.min(e.duration,Math.max(0,dur-e.start))/Math.max(dur,.001)*100}%">${effectNames[e.motionKind||e.type]}<span data-overlay-edge="in" class="fx-trim-handle fx-trim-in"></span><span data-overlay-edge="out" class="fx-trim-handle fx-trim-out"></span></button>`).join('')+texts.map(t=>`<button class="fx-chip text-chip " data-text-chip="${t.id}" title="${esc(t.text)} · ドラッグして移動・両端で長さ調整" style="left:${t.start/Math.max(dur,.001)*100}%;width:${Math.max(1/Math.max(width,1)*100,(t.end-t.start)/Math.max(dur,.001)*100)}%">T · ${esc(t.text.split('\n')[0]||'TEXT')}<span data-overlay-edge="in" class="fx-trim-handle fx-trim-in"></span><span data-overlay-edge="out" class="fx-trim-handle fx-trim-out"></span></button>`).join('');
+  const overlayView=refreshOverlayTrack(track,overlayMarkup,[...effects,...texts],`${dur}/${width}/${JSON.stringify(P.timelineRate)}`);
+  for(const node of track.querySelectorAll('[data-fx],[data-text-chip]')){const id=node.dataset.fx||node.dataset.textChip,on=selectedTimeline.has(id)||id===selectedEffect||id===selectedText;node.classList.toggle('selected',on);node.setAttribute('aria-selected',String(on))}
+
+  if(overlayView.replaced){track.querySelectorAll('[data-fx]').forEach(el=>el.onclick=e=>{chooseTimeline('effect',el.dataset.fx,e);activeOverlayLayer=layer;render()});track.querySelectorAll('[data-text-chip]').forEach(el=>el.onclick=e=>{chooseTimeline('text',el.dataset.textChip,e);activeOverlayLayer=layer;render()});}
   track.onpointerdown=e=>{if(!e.target.closest('[data-fx],[data-text-chip]')){activeOverlayLayer=layer;seek((e.clientX-track.getBoundingClientRect().left)/width*(dur||30));renderTimeline()}};
   track.ondragover=e=>{const hasFx=e.dataTransfer.types.includes('application/x-pve-effect'),hasText=e.dataTransfer.types.includes('application/x-pve-text');if(!hasFx&&!hasText)return;e.preventDefault();e.dataTransfer.dropEffect=e.altKey?'copy':'move';let span=.6;if(hasFx){const type=draggedEffectType||e.dataTransfer.getData('application/x-pve-effect');span=Math.min(type==='flash'?.16:.6,Math.max(1/30,dur))}else{const item=P.texts.find(t=>t.id===e.dataTransfer.getData('application/x-pve-text'));span=Math.max(1/30,(item?.end||1)-(item?.start||0))}const rect=track.getBoundingClientRect(),raw=(e.clientX-rect.left)/Math.max(1,rect.width)*Math.max(dur,.001),result=snapTimelinePlacement(raw,span);track.classList.add('drop-target');track.style.setProperty('--drop-x',result.start/Math.max(dur,.001)*100+'%');showTimelineSnap(result)};
   track.ondragleave=e=>{if(!track.contains(e.relatedTarget)){track.classList.remove('drop-target');clearTimelineSnap()}};
-  track.ondrop=e=>{const hasFx=e.dataTransfer.types.includes('application/x-pve-effect'),hasText=e.dataTransfer.types.includes('application/x-pve-text');if(!hasFx&&!hasText)return;e.preventDefault();const rect=track.getBoundingClientRect();track.classList.remove('drop-target');clearTimelineSnap();activeOverlayLayer=layer;if(hasText){const source=P.texts.find(t=>t.id===e.dataTransfer.getData('application/x-pve-text'));if(!source)return;const span=Math.max(1/30,source.end-source.start),start=snapTimelinePlacement((e.clientX-rect.left)/Math.max(1,rect.width)*Math.max(dur,.001),span,source).start;mutate(()=>{const item=e.altKey&&P.texts.length<MAX_TEXT_LAYERS?{...structuredClone(source),id:uid()}:source;item.start=start;item.end=start+span;item.layer=layer;if(item!==source)P.texts.push(item);selectedText=item.id;selectedTimeline.clear();selectedTimeline.add(item.id);tab='text'});seek(start);return}const type=draggedEffectType||e.dataTransfer.getData('application/x-pve-effect'),span=Math.min(type==='flash'?.16:.6,Math.max(1/30,dur)),start=snapTimelinePlacement((e.clientX-rect.left)/Math.max(1,rect.width)*Math.max(dur,.001),span).start;draggedEffectType=null;if((P.effects||[]).length>=MAX_EFFECTS)return toast(`画面効果は${MAX_EFFECTS}個までです。`);mutate(()=>{const item=addEffect(P,type,start);item.duration=span;item.layer=layer;selectedEffect=item.id;tab='fx'});seek(start);toast('FXをタイムラインへ配置しました。')};
-  let overlayTransaction=null,overlayFuture=[];bindOverlayTimeline({root:track,effects,texts,duration:dur,rate:P.timelineRate,targets:item=>timelineSnapTargets(item,selectedTimeline),snap:()=>snapping,select:(kind,id,event)=>chooseTimeline(kind,id,event),getLayer:y=>{const origin=track.getBoundingClientRect();for(const destination of [2,1,0]){const rect=$('#overlayTrack'+destination).getBoundingClientRect();if(y>=rect.top&&y<=rect.bottom)return{layer:destination,offset:rect.top-origin.top}}},groupItems:timelineMoveItems,spacingItems:item=>[...(P.effects||[]).filter(e=>(e.layer||0)===(item.layer||0)).map(item=>({item,kind:'effect',start:item.start,span:item.duration})),...(P.texts||[]).filter(t=>(t.layer||0)===(item.layer||0)).map(item=>({item,kind:'text',start:item.start,span:item.end-item.start}))].filter(value=>!selectedTimeline.has(value.item.id)),begin:()=>{pause();overlayTransaction=serial();overlayFuture=[...future];checkpoint()},duplicate:(item,kind)=>{const collection=kind==='effect'?P.effects:P.texts,limit=kind==='effect'?20:MAX_TEXT_LAYERS;if(collection.length>=limit){toast('複製できる項目数の上限に達しています。');return null}const copy={...structuredClone(item),id:uid(),layer};collection.push(copy);return copy},finish:(item,kind,result)=>{clearTimelineSnap();activeOverlayLayer=item.layer||0;renderPreview=null;save();render();seek(item.start);status(`${kind==='effect'?'FX':'TEXT'} · F/T${(item.layer||0)+1} · ${format(item.start)}${result.snapped?' · 吸着':result.spacing?.spacing?' · 等間隔':''}`)},cancel:()=>{clearTimelineSnap();if(overlayTransaction){P=sanitize(JSON.parse(overlayTransaction));history.pop();future=overlayFuture;if(!P.effects.some(e=>e.id===selectedEffect))selectedEffect=null;if(!P.texts.some(t=>t.id===selectedText))selectedText=null;render()}},preview:(item,kind,result)=>{showTimelineSnap(result);showSpacingGuide(result.spacing,{kind:'overlay',layer:item.layer||0,start:item.start,span:kind==='effect'?item.duration:item.end-item.start});$('#playhead')?.classList.toggle('snap-active',result.snapped&&Math.abs(result.target-time)<1e-6);status(`${kind==='effect'?'FX':'TEXT'} · F/T${(item.layer||0)+1} · ${format(item.start)}${result.snapped?' · 吸着':result.spacing?.spacing?' · 等間隔':''}`)}});
+  track.ondrop=e=>{const hasFx=e.dataTransfer.types.includes('application/x-pve-effect'),hasText=e.dataTransfer.types.includes('application/x-pve-text');if(!hasFx&&!hasText)return;e.preventDefault();const rect=track.getBoundingClientRect();track.classList.remove('drop-target');clearTimelineSnap();activeOverlayLayer=layer;if(hasText){const source=P.texts.find(t=>t.id===e.dataTransfer.getData('application/x-pve-text'));if(!source)return;const span=Math.max(1/30,source.end-source.start),start=snapTimelinePlacement((e.clientX-rect.left)/Math.max(1,rect.width)*Math.max(dur,.001),span,source).start;mutate(()=>{const item=e.altKey&&P.texts.length<MAX_TEXT_LAYERS?{...structuredClone(source),id:uid()}:source;item.start=start;item.end=start+span;item.layer=layer;if(item!==source)P.texts.push(item);selectedText=item.id;selectedTimeline.clear();selectedTimeline.add(item.id);tab='text'});seek(start);return}const type=draggedEffectType||e.dataTransfer.getData('application/x-pve-effect'),span=Math.min(type==='flash'?.16:.6,Math.max(1/30,dur)),start=snapTimelinePlacement((e.clientX-rect.left)/Math.max(1,rect.width)*Math.max(dur,.001),span).start;draggedEffectType=null;if(!canAddEffect(P.effects||[],type))return toast('画面効果は合計400個、フラッシュ以外は100個までです。');mutate(()=>{const item=addEffect(P,type,start);item.duration=span;item.layer=layer;selectedEffect=item.id;tab='fx'});seek(start);toast('FXをタイムラインへ配置しました。')};
+  if(overlayView.rebind){let overlayTransaction=null,overlayFuture=[];bindOverlayTimeline({root:track,effects,texts,duration:dur,rate:P.timelineRate,targets:item=>timelineSnapTargets(item,selectedTimeline),snap:()=>snapping,select:(kind,id,event)=>chooseTimeline(kind,id,event),getLayer:y=>{const origin=track.getBoundingClientRect();for(const destination of [2,1,0]){const rect=$('#overlayTrack'+destination).getBoundingClientRect();if(y>=rect.top&&y<=rect.bottom)return{layer:destination,offset:rect.top-origin.top}}},groupItems:timelineMoveItems,spacingItems:item=>[...(P.effects||[]).filter(e=>(e.layer||0)===(item.layer||0)).map(item=>({item,kind:'effect',start:item.start,span:item.duration})),...(P.texts||[]).filter(t=>(t.layer||0)===(item.layer||0)).map(item=>({item,kind:'text',start:item.start,span:item.end-item.start}))].filter(value=>!selectedTimeline.has(value.item.id)),begin:()=>{pause();overlayTransaction=serial();overlayFuture=[...future];checkpoint()},duplicate:(item,kind)=>{const collection=kind==='effect'?P.effects:P.texts,limit=kind==='effect'?MAX_EFFECTS:MAX_TEXT_LAYERS;if(collection.length>=limit||kind==='effect'&&!canAddEffect(collection,item.type)){toast('複製できる項目数の上限に達しています。');return null}const copy={...structuredClone(item),id:uid(),layer};collection.push(copy);return copy},finish:(item,kind,result)=>{clearTimelineSnap();activeOverlayLayer=item.layer||0;renderPreview=null;save();render();seek(item.start);status(`${kind==='effect'?'FX':'TEXT'} · F/T${(item.layer||0)+1} · ${format(item.start)}${result.snapped?' · 吸着':result.spacing?.spacing?' · 等間隔':''}`)},cancel:()=>{clearTimelineSnap();if(overlayTransaction){P=sanitize(JSON.parse(overlayTransaction));history.pop();future=overlayFuture;if(!P.effects.some(e=>e.id===selectedEffect))selectedEffect=null;if(!P.texts.some(t=>t.id===selectedText))selectedText=null;render()}},preview:(item,kind,result)=>{showTimelineSnap(result);showSpacingGuide(result.spacing,{kind:'overlay',layer:item.layer||0,start:item.start,span:kind==='effect'?item.duration:item.end-item.start});$('#playhead')?.classList.toggle('snap-active',result.snapped&&Math.abs(result.target-time)<1e-6);status(`${kind==='effect'?'FX':'TEXT'} · F/T${(item.layer||0)+1} · ${format(item.start)}${result.snapped?' · 吸着':result.spacing?.spacing?' · 等間隔':''}`)}});}
  }
 
  $('#markerTrack').innerHTML=markersOnTimeline().map((m,i)=>`<button class="marker-point ${m.type}" data-marker="${i}" style="left:${m.time/Math.max(dur,.001)*100}%" title="${esc(m.label)} ${format(m.time)}" aria-label="${esc(m.label)}"></button>`).join('');
@@ -606,7 +611,7 @@ async function exportProject(preview,source=P){
   status(preview?'処理プレビューを生成しました。':`${result.codec||'動画'}を書き出しました。`)
  }catch(e){errorModal(e,()=>exportProject(preview,source))}finally{busy=false;jobID=null}
 }
-function saveFile(){P.name=$('#projectName').value.trim()||'Untitled film';save();const file=new File([JSON.stringify(P,null,2)],safeName(P.name,'project'),{type:'application/json'});const url=URL.createObjectURL(file),folderNote=projectDirectory?'素材を含む専用フォルダへ自動保存中です。下の.projectは編集情報だけの予備コピーです。':'この.projectには動画本体が含まれません。Chromeでは「開く」から専用フォルダへ移行できます。';modal(head('プロジェクトを保存')+`<p>${folderNote}</p><div class="save-actions"><button id="shareProject" class="primary">共有・ファイルへ保存</button><a href="${url}" class="download-link" download="${esc(file.name)}">.project を保存 ↓</a></div><p id="projectShareStatus" class="small-note"></p>`);const b=$('#shareProject');b.disabled=!canShareFile(file);b.onclick=async()=>{try{await shareFile(file)}catch(e){if(e.name!=='AbortError')$('#projectShareStatus').textContent=e.message}};$('#modal').addEventListener('close',()=>URL.revokeObjectURL(url),{once:true})}
+function saveFile(){P.name=$('#projectName').value.trim()||'Untitled film';save();const file=new File([JSON.stringify(P,null,2)],safeName(P.name,'project'),{type:'application/json'});const url=URL.createObjectURL(file),folderNote=projectDirectory?'素材を含む専用フォルダへ自動保存中です。下の.projectは編集情報だけの予備コピーです。':'この.projectには動画本体が含まれません。Chromeでは「開く」から専用フォルダへ移行できます。';modal(head('プロジェクトを保存')+`<p>${folderNote}</p>${P.version===2?'<p class="small-note">このprojectは旧2.2.84では開けません。旧版へ戻す場合は更新前の別名バックアップを使用してください。</p>':''}<div class="save-actions"><button id="shareProject" class="primary">共有・ファイルへ保存</button><a href="${url}" class="download-link" download="${esc(file.name)}">.project を保存 ↓</a></div><p id="projectShareStatus" class="small-note"></p>`);const b=$('#shareProject');b.disabled=!canShareFile(file);b.onclick=async()=>{try{await shareFile(file)}catch(e){if(e.name!=='AbortError')$('#projectShareStatus').textContent=e.message}};$('#modal').addEventListener('close',()=>URL.revokeObjectURL(url),{once:true})}
 function confirmResetAll(){if(busy)return toast('処理中はリセットできません。');P.name=$('#projectName').value.trim()||'Untitled film';save();const file=new File([JSON.stringify(P,null,2)],safeName(P.name,'project'),{type:'application/json'}),url=URL.createObjectURL(file);modal(head('全てをリセット')+`<p>MEDIA一覧とタイムライン上の動画・音声・FX・テロップ、調整と編集履歴を消去します。</p><p class="small-note">元素材、専用フォルダ内の素材コピー、書き出し済み動画は削除しません。現在の編集を残す場合は、先に.projectファイルも保存できます。</p><p id="resetSaveStatus" class="small-note" role="status"></p><div class="modal-actions reset-actions"><button data-close>キャンセル</button><a id="saveBeforeReset" href="${url}" download="${esc(file.name)}">現在の編集を保存</a><button id="confirmResetAll" class="danger-action">全てをリセット</button></div>`);$('#saveBeforeReset').onclick=()=>{$('#resetSaveStatus').textContent='保存を開始しました。保存先で.projectファイルをご確認ください。'};$('#confirmResetAll').onclick=resetAll;$('#modal').addEventListener('close',()=>URL.revokeObjectURL(url),{once:true})}
 async function resetAll(){if(busy)return;const button=$('#confirmResetAll'),currId=P.id,currName=P.name;button.disabled=true;cancelIdleRelease();releasePreviewMemory();stabilizationPreview.clear();audioPreview.dispose();bgmAudio.removeAttribute('src');bgmAudio.load();delete bgmAudio.dataset.media;loadGeneration++;for(const url of urls.values())URL.revokeObjectURL(url);urls.clear();thumbs.clear();localFiles.clear();textPreview.clear();fxMarkup='';$('#fxOverlay').innerHTML='';P=project();P.id=currId;P.name=currName;history=[];future=[];mediaResourceCache.clear();assetPlacementTargets.clear();clipboard=clipboardAudio=null;selected=selectedAudio=selectedEffect=selectedText=selectedAsset=null;selectedAssets.clear();selectedTimeline.clear();activeLayer=activeAudioLayer=activeOverlayLayer=0;assetFilter='all';assetQuery='';assetSort='recent';relinkTarget=null;renderPreview=null;fitKey='';time=0;zoom=1;$('#assetSearch').value='';$('#assetSort').value='recent';$('#timelineZoom').value='1';$('#timelineScroll').scrollLeft=0;$('#filePicker').value='';$('#bgmPicker').value='';$('#modal').close();render();status('新しい編集を開始できます。素材を読み込んでください。');try{localStorage.setItem('pve.iphone.autosave.v1',serial())}catch{}save();toast('編集内容をリセットしました。保管済みの素材コピーは安全のため残しています。')}
 async function restoreProjectMedia(){for(const m of P.media){if(localFiles.has(m.id))continue;try{const file=projectDirectory&&m.projectPath?await restoreProjectMediaFile(projectDirectory,m.projectPath):await restoreFile(m.id);if(file){localFiles.set(m.id,file);urls.set(m.id,URL.createObjectURL(file))}}catch{}}}
@@ -642,13 +647,23 @@ $$('.workflow button').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;if(tab!=='sou
 function timelineKind(id){if(P.clips.some(item=>item.id===id))return'video';if(P.audioClips.some(item=>item.id===id))return'audio';if(P.effects.some(item=>item.id===id))return'effect';if(P.texts.some(item=>item.id===id))return'text'}
 function paintTimelineSelection(ids=selectedTimeline,elements=null){const chosen=ids instanceof Set?ids:new Set(ids);for(const el of elements||$$('#timelineContent [data-clip],#timelineContent [data-fx],#timelineContent [data-text-chip]')){const id=el.dataset.clip||el.dataset.fx||el.dataset.textChip,on=chosen.has(id);el.classList.toggle('selected',on);el.setAttribute('aria-selected',String(on))}}
 function replaceTimelineSelection(ids,focus=true){selectedTimeline.clear();ids.forEach(id=>selectedTimeline.add(id));if(!ids.length){selected=selectedAudio=selectedEffect=selectedText=null;return}if(focus){const id=ids.at(-1),kind=timelineKind(id);if(kind)chooseTimeline(kind,id,{shiftKey:true})}}
+bindTimelineDuplicate({root:$('#timelineContent'),project:()=>P,items:(all=false)=>all?[
+ ...sequence(P).map(r=>({item:r.clip,kind:'video',start:r.start,span:r.duration})),
+ ...audioSequence(P).map(r=>({item:r.clip,kind:'audio',start:r.start,span:r.duration})),
+ ...P.effects.map(item=>({item,kind:'effect',start:item.start,span:item.duration})),
+ ...P.texts.map(item=>({item,kind:'text',start:item.start,span:item.end-item.start}))]:timelineMoveItems(),
+ select:id=>{chooseTimeline(timelineKind(id),id);paintTimelineSelection();renderInspector()},
+ targets:skip=>timelineSnapTargets(null,skip),snap:()=>snapping,rate:()=>P.timelineRate,extent:timelineExtent,
+ preview:result=>{showTimelineSnap(result);if(result)status(`${result.count}項目を複製 · ${result.valid?'ドロップで確定／Escで中止':'配置範囲外'}`)},error:toast,
+ commit:(apply,plan,focus)=>{pause();const before=serial(),oldFuture=[...future];checkpoint();try{apply()}catch(error){P=sanitize(JSON.parse(before));history.pop();future=oldFuture;throw error}replaceTimelineSelection(plan.map(v=>v.item.id));if(focus)chooseTimeline(timelineKind(focus),focus);renderPreview=null;save();render();syncVideo(true);status(`${plan.length}項目を複製しました。`)}
+});
 bindTimelineMarquee({root:$('#timelineContent'),guide:$('#selectionMarquee'),getSelected:()=>selectedTimeline,preview:(ids,elements)=>{replaceTimelineSelection(ids,false);paintTimelineSelection(ids,elements);status(`${ids.length}項目を範囲選択中`)},finish:ids=>{replaceTimelineSelection(ids);render();status(`${ids.length}項目を選択しました。ドラッグでまとめて移動できます。`)},cancel:ids=>{replaceTimelineSelection(ids);paintTimelineSelection()},click:event=>{replaceTimelineSelection([]);const track=event.target.closest('.video-track,.editable-audio,.fx-track');if(track?.classList.contains('video-track'))activeLayer=track.id==='videoTrackTop'?2:track.id==='videoTrackUpper'?1:0;else if(track?.classList.contains('editable-audio')){activeAudioLayer=+track.id.replace('audioTrack','');tab='sound'}else if(track?.classList.contains('fx-track'))activeOverlayLayer=+track.dataset.overlayTrack||0;paintTimelineSelection();renderInspector();const rect=$('#timelineContent').getBoundingClientRect();seek(clamp((event.clientX-rect.left)/Math.max(1,rect.width)*Math.max(timelineExtent(),.001),0,timelineExtent())).then(renderTimeline)}});
 
 function step(direction){seek(Math.min(timelineExtent(),stepTimelineFrame(time,direction,P.timelineRate)));status('編集フレーム送り')}
 function shortcuts(){
  const groups=[
   ['再生・移動',[['編集の目印を打つ（再生中も可）','M'],['次 / 前の目印','Shift M / Option M'],['再生 / 停止','Space / Shift単独'],['ループ再生','Shift Space / Shift＋再生ボタン'],['先頭 / 末尾','Home / End'],['前 / 次の編集点','↑ / ↓'],['後ろへ1秒','J'],['停止','K'],['前へ1秒','L'],['フレーム送り','← / →']]],
-  ['編集',[['IN / OUT','I / O'],['再生ヘッドで分割','S'],['前 / 後を再生ヘッドまで前詰め','Q / W'],['コピー / 切り取り','⌘/Ctrl C · ⌘/Ctrl X'],['貼り付け / 複製','⌘/Ctrl V · ⌘/Ctrl D'],['属性だけをペースト','⌘/Ctrl Shift V'],['選択中の編集点 / クリップを削除','Delete / Backspace'],['詰めて削除','Shift Delete'],['元に戻す','⌘/Ctrl Z'],['やり直し','⌘/Ctrl Shift Z']]],
+  ['編集',[['IN / OUT','I / O'],['再生ヘッドで分割','S'],['前 / 後を再生ヘッドまで前詰め','Q / W'],['コピー / 切り取り','⌘/Ctrl C · ⌘/Ctrl X'],['貼り付け / 複製','⌘/Ctrl V · ⌘/Ctrl D'],['選択群をドラッグ複製','Ctrl / Alt + drag · Esc cancel'],['属性だけをペースト','⌘/Ctrl Shift V'],['選択中の編集点 / クリップを削除','Delete / Backspace'],['詰めて削除','Shift Delete'],['元に戻す','⌘/Ctrl Z'],['やり直し','⌘/Ctrl Shift Z']]],
   ['表示・選択',[[ '編集点の選択 / 移動 / 詳細','クリック / ドラッグ / ダブルクリック'],['レイヤーの高さ / 標準へ戻す','境界を上下にドラッグ / ダブルクリック'],['タイムラインの細かさ','2本指でピンチ'],['タイムライン拡大 / 縮小','+ / −'],['吸着 ON / OFF','N'],['指定位置の操作','Mac／Windows：右クリック'],['レイヤー横断の複数選択','空白部からドラッグして囲む'],['選択項目を1フレーム移動','Option/Alt + ← / →']]],
   ['保存',[['プロジェクト保存','⌘/Ctrl S']]]
  ];
@@ -688,7 +703,7 @@ let materialAnalysis=null,materialRequest=0;
 document.addEventListener('pointerdown',e=>{if(materialAnalysis&&!e.target.closest('#inspectorBody'))cancelMaterialAnalysis()},{capture:true});
 function cancelMaterialAnalysis(){materialRequest++;if(materialAnalysis){const job=materialAnalysis;materialAnalysis=null;job.worker.terminate();clearTimeout(job.timer);job.reject(new DOMException('解析を中止しました。','AbortError'));}}
 function materialFXInspector(e){const pulse=e.motionKind==='audio-pulse',bump=e.motionKind==='camera-bump',face=e.motionKind==='face-follow',audioSources=P.media.filter(m=>m.audio||m.kind==='audio'),activeAudio=audioWindows(P).filter(r=>r.start<=e.start&&r.end>e.start).sort((a,b)=>(b.layer===2)-(a.layer===2)),audioDefault=P.bgm.media||activeAudio[0]?.clip.media||audioSources[0]?.id;return `<div class="control-section"><div class="eyebrow">${face?'FACE FOLLOW':'MATERIAL ANALYSIS'}</div>${face?'<p class="small-note">開始画面で追いたい顔を枠に入れて解析します。複数人では枠の中心に近い顔を追います。顔を見失うと直前の位置を保持します。解析は端末内で行い、再生中は顔認識しません。</p>':''}<p class="small-note">解析は最長30秒。再生を開始すると解析を中止します。結果はこのFXに保存し、再生中は解析しません。</p>${!pulse&&!bump?'<button id="materialSeedFrame" class="wide">FX開始画面で枠を指定</button><p class="small-note">追跡はFX開始画面の枠から始まります。</p>':''}${pulse?`<label>解析する音声<select id="materialAudioSource">${audioSources.map(m=>`<option value="${esc(m.id)}" ${m.id===audioDefault?'selected':''}>${esc(m.label||m.name)}</option>`).join('')}</select></label><p class="small-note">選んだ素材はFX開始位置に配置してください。ループはオフで解析します。</p>`:''}${e.motionKind&&!face?slider('effect.strength',e.motionKind==='focus'?'周囲の暗さ':'効果の強さ',e.strength??.5,0,e.motionKind==='focus'?.85:1,.01):''}<button id="analyzeMaterialFX" class="wide">${face?'顔を認識して追従を解析':pulse?'音のアクセントを解析':bump?'映像の動きを解析してバンプ':'指定枠の対象を追跡'}</button><button id="cancelMaterialFX" class="wide">解析を中止</button>${e.analysisInfo?`<p class="small-note" data-no-i18n>${esc(e.analysisInfo)}</p><button id="clearMaterialFX" class="wide">解析結果を外す</button>`:'<p class="small-note">解析するまでは自動的な動きは付きません。追跡が不確かな箇所は直前の位置を保持します。</p>'}</div>`}
-function runMaterialWorker(data){cancelMaterialAnalysis();return new Promise((resolve,reject)=>{const face=data.region?.motionKind==='face-follow',worker=new Worker(new URL(face?'./face-fx-worker.js?v=2.2.84':'./material-fx-worker.js?v=2.2.84',import.meta.url),face?{}:{type:'module'}),job={worker,reject,timer:setTimeout(()=>{if(materialAnalysis===job)cancelMaterialAnalysis()},90000)};materialAnalysis=job;const finish=(error,result)=>{if(materialAnalysis!==job)return;materialAnalysis=null;clearTimeout(job.timer);worker.terminate();error?reject(error):resolve(result)};worker.onmessage=({data})=>{if(materialAnalysis!==job)return;if(data.type==='progress')status('FX解析 · '+Math.round(data.value*100)+'%');else if(data.type==='done')finish(null,data);else finish(Error(data.error||'解析に失敗しました。'))};worker.onerror=e=>finish(Error(e.message));worker.postMessage(data)})}
+function runMaterialWorker(data){cancelMaterialAnalysis();return new Promise((resolve,reject)=>{const face=data.region?.motionKind==='face-follow',worker=new Worker(new URL(face?'./face-fx-worker.js?v=2.2.85':'./material-fx-worker.js?v=2.2.85',import.meta.url),face?{}:{type:'module'}),job={worker,reject,timer:setTimeout(()=>{if(materialAnalysis===job)cancelMaterialAnalysis()},90000)};materialAnalysis=job;const finish=(error,result)=>{if(materialAnalysis!==job)return;materialAnalysis=null;clearTimeout(job.timer);worker.terminate();error?reject(error):resolve(result)};worker.onmessage=({data})=>{if(materialAnalysis!==job)return;if(data.type==='progress')status('FX解析 · '+Math.round(data.value*100)+'%');else if(data.type==='done')finish(null,data);else finish(Error(data.error||'解析に失敗しました。'))};worker.onerror=e=>finish(Error(e.message));worker.postMessage(data)})}
 async function analyzeMaterialFX(){const effect=selectedRegionZoom();if(!effect)return;pause();const signature=JSON.stringify(effect),projectId=P.id,request=materialRequest;try{
  const end=Math.min(effect.start+effect.duration,duration());if(end<=effect.start)throw Error('解析できる区間がありません。');if(end-effect.start>30)throw Error('FXの長さを30秒以内に調整してください。');let row=visibleVideoRows(sequence(P)).filter(r=>r.start<=effect.start&&r.end>effect.start).sort((a,b)=>b.layer-a.layer)[0],mode='video';
  if(effect.motionKind==='audio-pulse'){mode='audio';const mediaId=$('#materialAudioSource')?.value,source=P.media.find(m=>m.id===mediaId);if(!source)throw Error('音声素材を読み込んでください。');const audioRow=audioWindows(P).find(r=>r.clip.media===mediaId&&r.start<=effect.start&&r.end>effect.start);row=audioRow||sequence(P).find(r=>r.clip.media===mediaId&&r.start<=effect.start&&r.end>effect.start);if(!row&&P.bgm.media===mediaId)row={start:0,end:source.duration,duration:source.duration,clip:{...clip(source),kind:'audio'}};if(!row)throw Error('FX開始位置にある音声クリップを選んでください。');}
@@ -716,7 +731,7 @@ function bindCreative(){
  if($('#previewRegionZoom'))$('#previewRegionZoom').onclick=()=>seek(selectedRegionZoom().start,{resume:true});
  if($('#lookBypass'))$('#lookBypass').onclick=()=>{lookBypass=!lookBypass;renderInspector();draw()};
  if($('#freezeHere'))$('#freezeHere').onclick=()=>{if(P.clips.length>=200)return toast('クリップは200個までです。');const row=sequence(P).find(r=>r.clip.id===selected);if(!row||time<row.start||time>=row.end)return toast('選択クリップ内に再生ヘッドを置いてください。');mutate(()=>{const c=frozenClip(P,selected,time);if(c){selected=c.id;activeLayer=2}});syncVideo(true).then(draw)};
- $$('[data-addfx]').forEach(b=>b.onclick=()=>{if((P.effects||[]).length>=MAX_EFFECTS)return toast(`画面効果は${MAX_EFFECTS}個までです。`);mutate(()=>{const e=addEffect(P,b.dataset.addfx,time);e.layer=activeOverlayLayer;selectedTimeline.clear();chooseTimeline('effect',e.id)})});
+ $$('[data-addfx]').forEach(b=>b.onclick=()=>{if(!canAddEffect(P.effects||[],b.dataset.addfx))return toast('画面効果は合計400個、フラッシュ以外は100個までです。');mutate(()=>{const e=addEffect(P,b.dataset.addfx,time);e.layer=activeOverlayLayer;selectedTimeline.clear();chooseTimeline('effect',e.id)})});
  $$('[data-addfx]').forEach(b=>{b.ondragstart=e=>{draggedEffectType=b.dataset.addfx;e.dataTransfer.effectAllowed='copy';e.dataTransfer.setData('application/x-pve-effect',draggedEffectType);e.dataTransfer.setData('text/plain',effectNames[draggedEffectType]);b.classList.add('dragging')};b.ondragend=()=>{draggedEffectType=null;b.classList.remove('dragging');$$('.overlay-track').forEach(track=>track.classList.remove('drop-target'));clearTimelineSnap()}});
  $$('[data-fx]').forEach(b=>b.onclick=()=>{selectedTimeline.clear();chooseTimeline('effect',b.dataset.fx);render();$('#inspectorBody').scrollTop=0});
  if($('#deleteEffect'))$('#deleteEffect').onclick=()=>mutate(()=>{const id=selectedEffect;P.effects=P.effects.filter(e=>e.id!==id);selectedTimeline.delete(id);selectedEffect=null});
@@ -855,6 +870,6 @@ observeTranslations();
 
 // Developer-only adapter; no panel, observer or fixture injection in normal use.
 if(previewTrace){
- previewTrace.configure({state:()=>({project:P,time,duration:duration(),appVersion:'2.2.84',buildCommit:document.querySelector('meta[name="pve-build-commit"]')?.content||null,previewSettings:{mode:performanceMode(),frameInterval:previewFrameInterval(),ui:document.body.dataset.ui,longEdge:previewLongEdge(),adaptiveTier:phonePreviewBudget.tier}}),pause});
- import('./performance-diagnostics-ui.js?v=2.2.84').then(({mountDiagnostics})=>mountDiagnostics(previewTrace,{state:()=>({time,duration:duration(),playing}),seek:async at=>{pause();time=clamp(at,0,duration());await syncVideo(true);draw();updateClock()},play,pause,unlock:()=>audioPreview.unlock()}));
+ previewTrace.configure({state:()=>({project:P,time,duration:duration(),appVersion:'2.2.85',buildCommit:document.querySelector('meta[name="pve-build-commit"]')?.content||null,previewSettings:{mode:performanceMode(),frameInterval:previewFrameInterval(),ui:document.body.dataset.ui,longEdge:previewLongEdge(),adaptiveTier:phonePreviewBudget.tier}}),pause});
+ import('./performance-diagnostics-ui.js?v=2.2.85').then(({mountDiagnostics})=>mountDiagnostics(previewTrace,{state:()=>({time,duration:duration(),playing}),seek:async at=>{pause();time=clamp(at,0,duration());await syncVideo(true);draw();updateClock()},play,pause,unlock:()=>audioPreview.unlock()}));
 }

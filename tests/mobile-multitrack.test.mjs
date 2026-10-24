@@ -1,7 +1,7 @@
 import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import assert from 'node:assert/strict';import{execFileSync}from'node:child_process';
-import {Input,ALL_FORMATS,BlobSource} from '../dist/vendor/mediabunny.mjs?v=2.2.84';
-import {project,clip,visibleSequence,sequence} from '../dist/model.js?v=2.2.84';
-globalThis.onmessage=null;const {mixAudio}=await import('../dist/mobile-render-worker.js?v=2.2.84');
+import {Input,ALL_FORMATS,BlobSource} from '../dist/vendor/mediabunny.mjs?v=2.2.85';
+import {project,clip,visibleSequence,sequence} from '../dist/model.js?v=2.2.85';
+globalThis.onmessage=null;const {mixAudio}=await import('../dist/mobile-render-worker.js?v=2.2.85');
 const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'pve-four-voices-')),inputs=[];
 try{
  const p=project(),resources=new Map();p.clips=[{gap:2}];

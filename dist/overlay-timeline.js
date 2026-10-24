@@ -1,6 +1,6 @@
-import {quantizeTimelineTime} from './timeline-time.js?v=2.2.84';
-import {clamp} from './model.js?v=2.2.84';
-import {equalSpacingStart} from './timeline-gestures.js?v=2.2.84';
+import {quantizeTimelineTime} from './timeline-time.js?v=2.2.85';
+import {clamp} from './model.js?v=2.2.85';
+import {equalSpacingStart} from './timeline-gestures.js?v=2.2.85';
 
 // With snapping enabled, quantize on the editing grid, then magnetize to the playhead
 // or an edit boundary. Twelve screen pixels is forgiving without feeling sticky.

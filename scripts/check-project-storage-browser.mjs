@@ -67,12 +67,12 @@ try{
  await other.close();
  // Exercise the real migration caller with only its picker redirected to OPFS.
  // The test-only hooks are injected into the HTTP response, not production code.
- const app=await fs.readFile(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
+ const app=await fs.readFile(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');
  await page.route('**/app.js*',r=>r.fulfill({contentType:'text/javascript',body:app+`\nwindow.__b1={migrateCurrentToFolder,get:()=>({project:P,directory:projectDirectory,mode:projectStorageMode}),setup:(p,d,files)=>{P=p;projectDirectory=d;projectStorageMode='folder';localFiles.clear();for(const [id,file]of files)localFiles.set(id,file)}};`}));
  await page.addInitScript(()=>sessionStorage.setItem('pve.iphone.project-launcher-seen','1'));
  await page.goto(new URL('dist/',base).href,{waitUntil:'networkidle'});await page.waitForFunction(()=>!!window.__b1);
  report.migration=await page.evaluate(async()=>{
-  const {project}=await import('./model.js?v=2.2.84'),{saveFolderProject,listRecentProjects,removeRecentProject}=await import('./project-storage.js?v=2.2.84');
+  const {project}=await import('./model.js?v=2.2.85'),{saveFolderProject,listRecentProjects,removeRecentProject}=await import('./project-storage.js?v=2.2.85');
   const root=await navigator.storage.getDirectory(),name='pve-b1-migrate-'+crypto.randomUUID(),temp=await root.getDirectoryHandle(name,{create:true});
   const source=await temp.getDirectoryHandle('old',{create:true}),target=await temp.getDirectoryHandle('new',{create:true}),orig=await source.getDirectoryHandle('Originals',{create:true});
   const p=project();p.id=crypto.randomUUID();p.name='B1 migration';p.media=[{id:'one',kind:'video',name:'one.mov',projectPath:'Originals/one.mov',retained:true},{id:'two',kind:'video',name:'two.mov',projectPath:'Originals/two.mov',retained:true}];

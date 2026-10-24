@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-import {sanitize,project} from '../dist/model.js?v=2.2.84';
-const source=fs.readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
+import {sanitize,project} from '../dist/model.js?v=2.2.85';
+const source=fs.readFileSync(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');
 const fn=source.split('\n').find(line=>line.startsWith('async function loadProject('));
 for(const invalid of [{version:999,media:[],clips:[]},{...project(),media:[],clips:[{media:'missing',in:0,out:1}]}]){
  const current=project(),files=new Map([['m',{name:'original.mov'}]]),urls=new Map([['m','blob:current']]);let paused=0,revoked=0;

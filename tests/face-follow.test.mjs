@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import {followFace} from '../dist/face-follow.js?v=2.2.84';
-import {project,sanitize} from '../dist/model.js?v=2.2.84';
-import {addEffect} from '../dist/creative.js?v=2.2.84';
-import {regionZoomPose} from '../dist/region-zoom.js?v=2.2.84';
+import {followFace} from '../dist/face-follow.js?v=2.2.85';
+import {project,sanitize} from '../dist/model.js?v=2.2.85';
+import {addEffect} from '../dist/creative.js?v=2.2.85';
+import {regionZoomPose} from '../dist/region-zoom.js?v=2.2.85';
 const face=(x,y=.4)=>({x,y,width:.2,height:.25,score:.9});
 const first=followFace([face(.25),face(.7)],null,{x:.3,y:.4},0,.3);assert.equal(first.point.x,.25);
 const next=followFace([face(.3),face(.7)],first.previous,{},.125,.3);assert(next.point.x>.25&&next.point.x<.3);
@@ -12,8 +12,8 @@ const p=project(),e=addEffect(p,'face-follow',0);assert.equal(e.motionKind,'face
 e.trackPath=[first.point,{...next.point,time:2}];assert.equal(sanitize(JSON.parse(JSON.stringify(p))).effects[0].motionKind,'face-follow');assert(regionZoomPose(e,.5).scale>1);
 console.log('Face follow: closest seed, continuous subject, lost hold, confidence, project roundtrip and saved-path zoom PASS');
 const {readFileSync}=await import('node:fs');
-const worker=readFileSync(new URL('../dist/face-fx-worker.js?v=2.2.84',import.meta.url),'utf8');
+const worker=readFileSync(new URL('../dist/face-fx-worker.js?v=2.2.85',import.meta.url),'utf8');
 assert.match(worker,/poolSize:1,fit:'fill'/);assert.match(worker,/finally\{detector\?\.close\(\);input\?\.dispose\(\)\}/);
 assert(!worker.includes('https://'),'model and runtime requests stay on the app origin');
-const app=readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');assert.match(app,/face\?\{\}:\{type:'module'\}/);assert.match(app,/job\.worker\.terminate\(\)/);
+const app=readFileSync(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');assert.match(app,/face\?\{\}:\{type:'module'\}/);assert.match(app,/job\.worker\.terminate\(\)/);
 console.log('Face analysis runs only in disposable classic worker with explicit canvas fit and local assets PASS');

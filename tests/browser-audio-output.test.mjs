@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {BrowserAudioOutput,calibrationPCM,measurePriming} from '../dist/browser-audio-output.js?v=2.2.84';
+import {BrowserAudioOutput,calibrationPCM,measurePriming} from '../dist/browser-audio-output.js?v=2.2.85';
 const reference=calibrationPCM();
 for(const delay of [0,321,1024,2048,2112,4096,7200]){
  const decoded=new Float32Array(32000);decoded.set(reference.subarray(0,24000),delay);

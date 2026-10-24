@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {speedToSliderPosition,sliderPositionToSpeed} from '../dist/model.js?v=2.2.84';
-const app=await readFile(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
+import {speedToSliderPosition,sliderPositionToSpeed} from '../dist/model.js?v=2.2.85';
+const app=await readFile(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');
 assert.match(app,/id="speedRange" type="range" min="0" max="2000" step="1"/);
 assert.match(app,/aria-valuetext="\$\{c\.speed\}倍"/);
 assert.match(app,/id="speedReset"[^>]*>速度を1×に戻す/);

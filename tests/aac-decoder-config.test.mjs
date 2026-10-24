@@ -1,4 +1,4 @@
-import assert from 'node:assert/strict';import{aacDecoderConfig,webkitVideoOptions}from'../dist/webkit-export-compat.js?v=2.2.84';
+import assert from 'node:assert/strict';import{aacDecoderConfig,webkitVideoOptions}from'../dist/webkit-export-compat.js?v=2.2.85';
 const asc={codec:'mp4a.40.2',description:new Uint8Array([0x11,0x90]),sampleRate:48000,numberOfChannels:2};assert.equal(aacDecoderConfig(asc),asc);
 const data=Uint8Array.from(Buffer.from('038080802200000004808080144014001800000000000000000005808080021190068080800102','hex'));const before=Array.from(data);const config=aacDecoderConfig({...asc,description:data.buffer});assert.deepEqual([...config.description],[0x11,0x90]);assert.deepEqual([...data],before);assert.equal(config.sampleRate,48000);
 const view=new Uint8Array(data.length+8);view.set(data,4);assert.deepEqual([...aacDecoderConfig({...asc,description:view.subarray(4,-4)}).description],[0x11,0x90]);

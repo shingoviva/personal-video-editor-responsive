@@ -1,7 +1,7 @@
 // No encoders: remux frozen AAC/AVC packets through the actual box writer/StreamTarget.
 import fs from 'node:fs';import path from 'node:path';import {createHash} from 'node:crypto';
-import {Input,ALL_FORMATS,BlobSource,EncodedPacketSink,Output,Mp4OutputFormat,StreamTarget,EncodedAudioPacketSource,EncodedVideoPacketSource} from '../dist/vendor/mediabunny.mjs?v=2.2.84';
-import {AacPrimingMux} from '../dist/mp4-aac-roll.js?v=2.2.84';
+import {Input,ALL_FORMATS,BlobSource,EncodedPacketSink,Output,Mp4OutputFormat,StreamTarget,EncodedAudioPacketSource,EncodedVideoPacketSource} from '../dist/vendor/mediabunny.mjs?v=2.2.85';
+import {AacPrimingMux} from '../dist/mp4-aac-roll.js?v=2.2.85';
 const[out,...sources]=process.argv.slice(2);if(!sources.length)throw Error('Usage: node scripts/check-mp4-priming-stream.mjs OUTPUT SOURCE.mp4 ...');fs.mkdirSync(out,{recursive:true});const rows=[];
 const open=file=>new Input({formats:ALL_FORMATS,source:new BlobSource(new Blob([fs.readFileSync(file)]))});
 async function signature(track){const hash=createHash('sha256'),clock=[];for await(const p of new EncodedPacketSink(track).packets()){hash.update(p.data);clock.push([p.timestamp,p.duration,p.type])}return{hash:hash.digest('hex'),clock}}

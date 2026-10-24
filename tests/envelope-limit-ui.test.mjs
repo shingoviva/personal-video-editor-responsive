@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {bindClipEnvelope,dbToY,envelopeHandleX} from '../dist/clip-envelope-ui.js?v=2.2.84';
+import {bindClipEnvelope,dbToY,envelopeHandleX} from '../dist/clip-envelope-ui.js?v=2.2.85';
 import {denseEnvelope} from './envelope-limit.test.mjs';
 const old={};for(const key of ['document','MutationObserver','ResizeObserver','requestAnimationFrame'])old[key]=Object.getOwnPropertyDescriptor(globalThis,key);
 try{

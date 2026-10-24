@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import {project,clip,sequence} from '../dist/model.js?v=2.2.84';
-import {movePhoneLayer} from '../dist/iphone-edit.js?v=2.2.84';
-import {detachAudio} from '../dist/audio-timeline.js?v=2.2.84';
+import {project,clip,sequence} from '../dist/model.js?v=2.2.85';
+import {movePhoneLayer} from '../dist/iphone-edit.js?v=2.2.85';
+import {detachAudio} from '../dist/audio-timeline.js?v=2.2.85';
 const p=project(),m={id:'v',duration:4,kind:'video',audio:true};p.media=[m];p.clips=[{...clip(m),id:'base',out:2},{...clip(m),id:'top',in:1,out:3}];
 const linked=detachAudio(p,'top',0),original=sequence(p).find(r=>r.clip.id==='top');movePhoneLayer(p,'video','top',2);
 assert.equal(p.clips[1].start,original.start);assert.equal(p.clips[1].layer,2);assert.equal(linked.start,original.start);assert.equal(linked.layer,0);

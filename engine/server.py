@@ -107,7 +107,8 @@ class Handler(http.server.BaseHTTPRequestHandler):
    if p=='/api/project':
     id=d.get('id','')
     if not re.fullmatch(r'[a-zA-Z0-9-]{1,80}',id):raise ValueError('Invalid project id')
-    if d.get('version')!=1:raise ValueError('Invalid project')
+    if d.get('version') not in (1,2):raise ValueError('Invalid project')
+    if len(d.get('effects',[]))>100:d['version']=2
     f=core.ROOT/'projects'/f'{id}.json';temp=f.with_name(f.stem+'-'+uuid.uuid4().hex+'.tmp');temp.write_text(json.dumps(d,ensure_ascii=False));temp.replace(f);return self.send_json({'ok':True})
    return self.send_json({'error':'Unknown route'},404)
   except (BrokenPipeError,ConnectionResetError):pass

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {project,clip} from '../dist/model.js?v=2.2.84';
-import {directCanvasEligible} from '../dist/export-direct-canvas.js?v=2.2.84';
+import {project,clip} from '../dist/model.js?v=2.2.85';
+import {directCanvasEligible} from '../dist/export-direct-canvas.js?v=2.2.85';
 const p=project(),m={id:'m',duration:4};p.media=[m];p.clips=[{...clip(m),start:0,layer:0}];
 assert.equal(directCanvasEligible(p,4),true);p.clips[0].color.exposure=1;assert.equal(directCanvasEligible(p,4),true,'GPU color processing is retained');
 for(const change of [{opacity:.5},{fadeIn:.1},{layer:1},{start:1},{transition:{type:'dissolve'}}])assert.equal(directCanvasEligible({...p,clips:[{...p.clips[0],...change}]},4),false);

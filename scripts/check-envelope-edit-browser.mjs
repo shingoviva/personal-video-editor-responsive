@@ -1,7 +1,7 @@
 // Isolated B2 actual Web Audio PCM and actual app Undo/Redo/save-load controls.
 // PVE_PLAYWRIGHT_MODULE=... node scripts/check-envelope-edit-browser.mjs http://127.0.0.1:8876/ output-dir
 import fs from 'node:fs/promises';import path from 'node:path';import {pathToFileURL} from 'node:url';
-import {project,clip} from '../dist/model.js?v=2.2.84';
+import {project,clip} from '../dist/model.js?v=2.2.85';
 import {envelopeEditCases} from '../tests/fixtures/envelope-edit-cases.mjs';
 const [base,output]=process.argv.slice(2);if(!base||!output)throw Error('base URL and output-dir required');await fs.mkdir(output,{recursive:true});
 const pw=await import(pathToFileURL(process.env.PVE_PLAYWRIGHT_MODULE)),reports=[];
@@ -34,7 +34,7 @@ for(const name of ['chromium','webkit']){
    }
    return{rate,channels:2,tolerance:1e-7,rows};
   });
-  const app=await fs.readFile(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
+  const app=await fs.readFile(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');
   await page.route('**/app.js*',r=>r.fulfill({contentType:'text/javascript',body:app+`\nwindow.__b2={get:()=>structuredClone(P),choose:(id,t)=>{selected=id;selectedAudio=null;selectedText=null;selectedEffect=null;time=t;tab='cut';render()}};`}));
   const media={id:'b2-fixture',name:'B2 synthetic.mov',kind:'video',audio:true,duration:2,fps:30,width:1920,height:1080};
   const p=project();p.name='B2 test';p.media=[media];const c=clip(media);c.id='b2-clip';c.audio.gainEnvelope=envelopeEditCases[0].points;p.clips=[c];
@@ -56,7 +56,7 @@ for(const name of ['chromium','webkit']){
   const trimState=JSON.stringify(envelopes(await page.evaluate(()=>window.__b2.get())));
   await page.locator('#topUndo').click();if((await page.evaluate(()=>window.__b2.get())).clips[0].in!==0)throw Error('trim Undo');
   await page.locator('#topRedo').click();if(JSON.stringify(envelopes(await page.evaluate(()=>window.__b2.get())))!==trimState)throw Error('trim Redo');
-  const evaluated=await page.evaluate(async()=>{const e=await import('./clip-envelope.js?v=2.2.84'),p=window.__b2.get();return e.envelopeDbAt(0,p.clips[0].audio.gainEnvelope)});
+  const evaluated=await page.evaluate(async()=>{const e=await import('./clip-envelope.js?v=2.2.85'),p=window.__b2.get();return e.envelopeDbAt(0,p.clips[0].audio.gainEnvelope)});
   if(Math.abs(evaluated+4.8)>1e-8)throw Error('trim start value');
   if(errors.length)throw Error('page errors '+errors.join(';'));
   reports.push({browser:name,version:browser.version(),audio,app:{split:true,splitUndoRedo:true,trim:true,trimUndoRedo:true,downloadSave:true,fileInputLoad:true,preservedOptionalFields:true,trimStartDb:evaluated},errors});

@@ -1,6 +1,6 @@
-import {frameRateValue} from './timeline-time.js?v=2.2.84';
-import {sequence,total,timing,sourceOffset,clamp} from './model.js?v=2.2.84';
-import {envelopeGainAt} from './clip-envelope.js?v=2.2.84';
+import {frameRateValue} from './timeline-time.js?v=2.2.85';
+import {sequence,total,timing,sourceOffset,clamp} from './model.js?v=2.2.85';
+import {envelopeGainAt} from './clip-envelope.js?v=2.2.85';
 export function outputSettings(p,preview=false){
  const m=p.media.find(m=>m.id===p.clips.find(c=>!c.gap)?.media)||{width:1920,height:1080,fps:30};
  const ar=p.aspect==='Original'?m.width/m.height:p.aspect.split(':').map(Number).reduce((a,b)=>a/b);

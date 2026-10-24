@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
-import {gainAt,gainAtCompiled,compileGainKeyframes,declickGain} from '../dist/mobile-model.js?v=2.2.84';
-import {AudioPreview} from '../dist/audio-preview.js?v=2.2.84';
+import {gainAt,gainAtCompiled,compileGainKeyframes,declickGain} from '../dist/mobile-model.js?v=2.2.85';
+import {AudioPreview} from '../dist/audio-preview.js?v=2.2.85';
 import {referenceGainAt,referenceSchedule} from './fixtures/audio-automation-reference.mjs';
 let samples=0,maxError=0;
 function same(actual,expected){samples++;if(Number.isFinite(actual)&&Number.isFinite(expected))maxError=Math.max(maxError,Math.abs(actual-expected));assert(Object.is(actual,expected),`${actual} !== ${expected}`)}

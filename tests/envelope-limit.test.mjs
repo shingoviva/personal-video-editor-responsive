@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import * as e from '../dist/clip-envelope.js?v=2.2.84';
+import * as e from '../dist/clip-envelope.js?v=2.2.85';
 import * as before from './fixtures/envelope-pre-b3.mjs';
-import {project,clip,trimClip,splitClip,sanitize,timing} from '../dist/model.js?v=2.2.84';
-import {splitLinkedPair,syncLinkedAudio} from '../dist/linked-audio.js?v=2.2.84';
+import {project,clip,trimClip,splitClip,sanitize,timing} from '../dist/model.js?v=2.2.85';
+import {splitLinkedPair,syncLinkedAudio} from '../dist/linked-audio.js?v=2.2.85';
 export function denseEnvelope(count,duration=1){return Array.from({length:count},(_,i)=>({id:'dense-'+i,time:duration*(i+1)/(count+1),valueDb:-6+6*Math.sin(i*.3),interpolation:i%4?'linear':'hold'}))}
 export const b3Results={boundaries:[],samples:0,maxDb:0,maxPosition:null};
 function compare(points,from,to,actual,name){

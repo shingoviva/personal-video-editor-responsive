@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import {project,clip,sequence,visibleSequence,total,locate,sanitize,splitClip,audioSequence} from '../dist/model.js?v=2.2.84';
-import {detachAudio,appendAudio,audioWindows,trackGain,migrateBgm} from '../dist/audio-timeline.js?v=2.2.84';
-import {usage,removeUnused} from '../dist/assets.js?v=2.2.84';
+import {project,clip,sequence,visibleSequence,total,locate,sanitize,splitClip,audioSequence} from '../dist/model.js?v=2.2.85';
+import {detachAudio,appendAudio,audioWindows,trackGain,migrateBgm} from '../dist/audio-timeline.js?v=2.2.85';
+import {usage,removeUnused} from '../dist/assets.js?v=2.2.85';
 const m={id:'m',duration:10,width:160,height:90,kind:'video',audio:true},p=project();p.media=[m];
 p.clips=[{...clip(m),layer:0,start:0},{...clip(m),layer:1,start:1,out:2},{...clip(m),layer:2,start:2,out:1}];
 assert.equal(locate(p,2.5).layer,2);assert.equal(locate(p,1.5).layer,1);assert.equal(locate(p,4).layer,0);

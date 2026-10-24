@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
-import {createPreviewSeek} from '../dist/preview-seek.js?v=2.2.84';
+import {createPreviewSeek} from '../dist/preview-seek.js?v=2.2.85';
 let playing=true,at=0,starts=0,errors=0,stops=0,pending=[];
 const s=createPreviewSeek({isPlaying:()=>playing,stop:()=>{playing=false;stops++},position:t=>{at=t},prepare:()=>new Promise((resolve,reject)=>pending.push({resolve,reject})),ready(){},start:async()=>{starts++;playing=true;s.cancel()},error(){errors++}});
 const a=s.seek(1),b=s.seek(2);assert.equal(at,2);assert(s.resuming);pending[0].reject(new Error('old seek aborted'));await a;assert.equal(starts,0);pending[1].resolve();await b;assert.equal(starts,1);assert(playing);
@@ -13,7 +13,7 @@ playing=false;const h=s.seek(8);s.cancel();playing=true;pending[7].reject(new Er
 assert.equal(stops,8);console.log('Latest-seek resume: rapid scrub, stale success/error, manual stop/start, paused seek and current failure PASS');
 
 // Closing save/load/export dialogs restores the preview without scrub-local state.
-const app=fs.readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8'),line=app.split('\n').find(line=>line.startsWith("$('#modal').addEventListener('close'"));let close,restored=0,painted=0;
+const app=fs.readFileSync(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8'),line=app.split('\n').find(line=>line.startsWith("$('#modal').addEventListener('close'"));let close,restored=0,painted=0;
 const ctx={$:()=>({addEventListener(type,handler){close=handler}}),stopDialogMedia(){},busy:false,audioPreview:{unlock(){}},syncVideo:()=>{restored++;return Promise.resolve()},draw:()=>painted++};vm.createContext(ctx);vm.runInContext(line,ctx);close();await Promise.resolve();assert.equal(restored,1);assert.equal(painted,1);
 
 playing=false;const forced=s.seek(9,{resume:true});pending[8].resolve();await forced;assert.equal(starts,3,'FX preview requests one guarded start, not seek then toggle');

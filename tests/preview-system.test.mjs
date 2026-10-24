@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-import {PreviewPlaybackClock} from '../dist/preview-playback-clock.js?v=2.2.84';
-import {PreviewPlaybackScheduler} from '../dist/preview-playback-scheduler.js?v=2.2.84';
-const source=fs.readFileSync(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');
+import {PreviewPlaybackClock} from '../dist/preview-playback-clock.js?v=2.2.85';
+import {PreviewPlaybackScheduler} from '../dist/preview-playback-scheduler.js?v=2.2.85';
+const source=fs.readFileSync(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');
 const start=source.indexOf('function tickPlayback('),end=source.indexOf('\nlet drawnAt=',start);assert(start>=0&&end>start);
 const clock=new PreviewPlaybackClock(),audioDevice={state:'running',currentTime:100};clock.start(2,{now:0,context:audioDevice});
 let frames=0,audioSync=0,pendingVideo=0,finishVideo;

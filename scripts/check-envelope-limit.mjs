@@ -1,8 +1,8 @@
 // B3 evidence only; historical failure reproduction is separate from assertions.
 // node scripts/check-envelope-limit.mjs output-directory
 import fs from 'node:fs/promises';import path from 'node:path';
-import * as e from '../dist/clip-envelope.js?v=2.2.84';import * as before from '../tests/fixtures/envelope-pre-b3.mjs';
-import {mixWindow,gainAtCompiled} from '../dist/mobile-model.js?v=2.2.84';
+import * as e from '../dist/clip-envelope.js?v=2.2.85';import * as before from '../tests/fixtures/envelope-pre-b3.mjs';
+import {mixWindow,gainAtCompiled} from '../dist/mobile-model.js?v=2.2.85';
 import {b3Results,denseEnvelope} from '../tests/envelope-limit.test.mjs';
 const out=process.argv[2];if(!out)throw Error('output directory required');await fs.mkdir(out,{recursive:true});
 await fs.writeFile(path.join(out,'numeric.json'),JSON.stringify(b3Results,null,2)+'\n');

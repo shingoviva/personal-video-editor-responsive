@@ -1,12 +1,12 @@
 // Synthetic projects in isolated browser contexts; actual controls and pointer events.
 import fs from 'node:fs/promises';import path from 'node:path';import {pathToFileURL} from 'node:url';
-import {project,clip} from '../dist/model.js?v=2.2.84';import {EDIT_RATES,normalizeTimelineRate,editingFrameTime,quantizeTimelineTime} from '../dist/timeline-time.js?v=2.2.84';
+import {project,clip} from '../dist/model.js?v=2.2.85';import {EDIT_RATES,normalizeTimelineRate,editingFrameTime,quantizeTimelineTime} from '../dist/timeline-time.js?v=2.2.85';
 const[base,out]=process.argv.slice(2);await fs.mkdir(out,{recursive:true});const pw=await import(pathToFileURL(process.env.PVE_PLAYWRIGHT_MODULE)),reports=[];
 for(const name of ['chromium','webkit']){
  const browser=await pw[name].launch(name==='chromium'?{channel:'chrome',headless:true}:{headless:true});
  try{
   const context=await browser.newContext({viewport:{width:1600,height:1100}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  const app=await fs.readFile(new URL('../dist/app.js?v=2.2.84',import.meta.url),'utf8');await page.route('**/app.js*',r=>r.fulfill({contentType:'text/javascript',body:app+`\nwindow.__b4={get:()=>structuredClone(P),clock:()=>time,seek:t=>seek(t),extent:()=>timelineExtent(),choose:(id,t)=>{selected=id;selectedAudio=null;selectedText=null;selectedEffect=null;time=t;tab='cut';render()}};`}));
+  const app=await fs.readFile(new URL('../dist/app.js?v=2.2.85',import.meta.url),'utf8');await page.route('**/app.js*',r=>r.fulfill({contentType:'text/javascript',body:app+`\nwindow.__b4={get:()=>structuredClone(P),clock:()=>time,seek:t=>seek(t),extent:()=>timelineExtent(),choose:(id,t)=>{selected=id;selectedAudio=null;selectedText=null;selectedEffect=null;time=t;tab='cut';render()}};`}));
   const m={id:'b4-media',kind:'video',name:'B4 synthetic.mov',duration:12,width:1920,height:1080,fps:25,audio:true},p=project(),c={...clip(m),id:'b4-clip',in:2,out:5,start:1};p.media=[m];p.clips=[c];p.audioClips=[{...clip(m),id:'b4-audio',kind:'audio',in:0,out:2,start:6,layer:0}];p.texts=[{id:'b4-text',start:2,end:3,text:'B4',layer:0}];p.effects=[{id:'b4-fx',type:'flash',start:4,duration:.5,strength:.5,layer:1}];p.export.fps='50';
   await page.addInitScript(p=>{sessionStorage.setItem('pve.iphone.project-launcher-seen','1');localStorage.setItem('pve.iphone.autosave.v1',JSON.stringify(p))},p);
   await page.goto(new URL('dist/',base).href,{waitUntil:'networkidle'});await page.waitForFunction(()=>!!window.__b4);
